@@ -4,6 +4,7 @@
 - `src/index.html`
 - `src/css/style.css`
 - `src/js/main.js`
+- `src/data/content.json`
 - `src/assets/`
 
 ## Run locally
@@ -28,3 +29,4 @@ This repo includes a `docs/` folder for GitHub Pages.
 - Responsive layout with mobile nav.
 - Scroll animations via IntersectionObserver.
 - All assets are local SVGs.
+- Content is data-driven via `src/data/content.json` to make Strapi integration straightforward.

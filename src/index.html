@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panasa | Fintech Engineering Studio</title>
+    <meta name="description" content="Panasa helps fintechs launch and scale with AI-native engineering, ops, and compliance." />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -11,20 +12,14 @@
       <header class="site-header" id="top">
         <nav class="nav">
           <div class="brand">
-            <img src="assets/logo.svg" alt="Panasa" />
+            <img src="assets/logo.svg" alt="Panasa" data-bind="logo" />
           </div>
           <button class="nav-toggle" aria-label="Open navigation">
             <span></span>
             <span></span>
             <span></span>
           </button>
-          <ul class="nav-links">
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#resources">Resources</a></li>
-            <li><a href="#careers">Careers</a></li>
-            <li><a class="btn btn-light" href="#contact">Contact Us</a></li>
-          </ul>
+          <ul class="nav-links" data-nav-links></ul>
         </nav>
       </header>
 
@@ -32,465 +27,97 @@
         <section class="hero" id="about">
           <div class="hero-grid">
             <div class="hero-copy" data-animate>
-              <span class="pill">Trusted by fintechs across EU, UK &amp; US</span>
-              <h1>Ship your fintech in weeks &amp; run 24/7 <em>Scale without surprises</em></h1>
-              <p>
-                Your AI-native partner for day-0 ops &amp; scale. No handoffs, no
-                surprises. A full-stack team covering launch, compliance and optimization.
-              </p>
+              <span class="pill" data-hero-pill></span>
+              <h1>
+                <span data-hero-title></span>
+                <em data-hero-title-emphasis></em>
+              </h1>
+              <p data-hero-subtitle></p>
               <div class="hero-actions">
-                <a class="btn btn-dark" href="#contact">Talk to a specialist</a>
-                <a class="btn btn-ghost" href="#services">View solutions</a>
+                <a class="btn btn-dark" data-hero-cta-primary></a>
+                <a class="btn btn-ghost" data-hero-cta-secondary></a>
               </div>
               <div class="trusted-row">
-                <span>Trusted by high-growth fintechs</span>
-                <div class="trusted-logos">
-                  <img src="assets/logo-sisyphus.svg" alt="Sisyphus" />
-                  <img src="assets/logo-globalbank.svg" alt="GlobalBank" />
-                  <img src="assets/logo-capsule.svg" alt="Capsule" />
-                  <img src="assets/logo-commandr.svg" alt="Command+R" />
-                  <img src="assets/logo-segment.svg" alt="Segment" />
-                  <img src="assets/logo-interlock.svg" alt="Interlock" />
-                </div>
+                <span data-hero-trusted-label></span>
+                <div class="trusted-logos" data-hero-trusted-logos></div>
               </div>
             </div>
           </div>
-          <div class="cert-row">
-            <img src="assets/badge-gdpr.svg" alt="GDPR" />
-            <img src="assets/badge-iso.svg" alt="ISO 27001" />
-            <img src="assets/badge-gptw.svg" alt="Great Place to Work" />
-            <img src="assets/badge-pci.svg" alt="PCI DSS" />
-            <img src="assets/badge-aicpa.svg" alt="AICPA SOC" />
-          </div>
+          <div class="cert-row" data-hero-cert-badges></div>
         </section>
 
         <section class="services" id="services">
           <div class="section-title" data-animate>
-            <span class="pill">Services</span>
-            <h2><span>Complete</span> fintech services stack</h2>
-            <p>From development to operations, we cover every aspect of fintech delivery.</p>
+            <span class="pill" data-services-pill></span>
+            <h2 data-services-title></h2>
+            <p data-services-subtitle></p>
           </div>
-          <div class="service-grid">
-            <article class="service-card" data-animate>
-              <img src="assets/icon-ai.svg" alt="AI engineering" />
-              <h3>AI accelerated fintech engineering</h3>
-              <p>Rapid platform MVPs, risk models, and card issuing pipelines with AI copilots.</p>
-              <ul>
-                <li>Embedded compliance</li>
-                <li>Payments orchestration</li>
-                <li>API-first delivery</li>
-              </ul>
-            </article>
-            <article class="service-card" data-animate>
-              <img src="assets/icon-backoffice.svg" alt="Backoffice" />
-              <h3>AI powered fintech backoffice</h3>
-              <p>Smart reconciliations, fraud monitoring, and automated exception handling.</p>
-              <ul>
-                <li>Chargeback flows</li>
-                <li>Ledger accuracy</li>
-                <li>Audit trails</li>
-              </ul>
-            </article>
-            <article class="service-card" data-animate>
-              <img src="assets/icon-cyber.svg" alt="Security" />
-              <h3>Cyber resilience for fintech platforms</h3>
-              <p>Threat modeling, monitoring, and high-availability incident response plans.</p>
-              <ul>
-                <li>24/7 SOC coverage</li>
-                <li>Zero trust networks</li>
-                <li>Regulatory alignment</li>
-              </ul>
-            </article>
-            <article class="service-card" data-animate>
-              <img src="assets/icon-global.svg" alt="Global ops" />
-              <h3>Global capability center as a service</h3>
-              <p>Dedicated pods in multiple regions with unified delivery playbooks.</p>
-              <ul>
-                <li>Follow-the-sun</li>
-                <li>Operational SLAs</li>
-                <li>Cost optimization</li>
-              </ul>
-            </article>
-            <article class="service-card" data-animate>
-              <img src="assets/icon-consulting.svg" alt="Consulting" />
-              <h3>Fintech AI consulting</h3>
-              <p>Strategic AI roadmaps, partner selection, and scale-up advisory.</p>
-              <ul>
-                <li>Architecture reviews</li>
-                <li>Vendor vetting</li>
-                <li>Launch readiness</li>
-              </ul>
-            </article>
-            <article class="service-card" data-animate>
-              <img src="assets/icon-data.svg" alt="Data" />
-              <h3>Data &amp; compliance as a service</h3>
-              <p>Privacy-by-design pipelines, observability dashboards, and governance.</p>
-              <ul>
-                <li>Real-time telemetry</li>
-                <li>PCI automation</li>
-                <li>Risk analytics</li>
-              </ul>
-            </article>
-          </div>
+          <div class="service-grid" data-services-grid></div>
         </section>
 
         <section class="dark-section" id="resources">
           <div class="section-title" data-animate>
-            <span class="pill">Work with us</span>
-            <h2>Why fintechs choose <span>Panasa</span></h2>
-            <p>What sets us apart in the fintech delivery landscape.</p>
+            <span class="pill" data-why-pill></span>
+            <h2 data-why-title></h2>
+            <p data-why-subtitle></p>
           </div>
-          <div class="feature-grid">
-            <article class="feature-card light" data-animate>
-              <div class="card-image soft">
-                <div class="chip-tags">
-                  <span>Card platforms</span>
-                  <span>Scheme integrations</span>
-                  <span>Authorization flows</span>
-                </div>
-              </div>
-              <div>
-                <h3>Payment experts, not generalists</h3>
-                <p>20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently.</p>
-              </div>
-            </article>
-            <article class="feature-card dark" data-animate>
-              <img class="card-image" src="assets/placeholder-night.svg" alt="Proven at scale" />
-              <div>
-                <h3>Proven at scale</h3>
-                <p>Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that.</p>
-              </div>
-            </article>
-            <article class="feature-card photo" data-animate>
-              <img class="card-image" src="assets/placeholder-team.svg" alt="Full-stack team" />
-              <div>
-                <h3>Full-stack team</h3>
-                <p>From strategy to 24/7 ops — no vendor juggling needed. One team, end-to-end ownership.</p>
-              </div>
-            </article>
-            <article class="feature-card light" data-animate>
-              <img class="card-image" src="assets/placeholder-compliance.svg" alt="Compliance first" />
-              <div>
-                <h3>Compliance-first approach</h3>
-                <p>ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.</p>
-              </div>
-            </article>
-          </div>
+          <div class="feature-grid" data-why-cards></div>
         </section>
 
         <section class="results" id="careers">
           <div class="section-title" data-animate>
-            <span class="pill">Case studies</span>
-            <h2><span>Proven results</span> for leading platforms</h2>
-            <p>Real outcomes from real projects with issuer processors and neobanks.</p>
+            <span class="pill" data-case-pill></span>
+            <h2 data-case-title></h2>
+            <p data-case-subtitle></p>
           </div>
           <div class="carousel" data-carousel>
-            <div class="slides">
-              <article class="slide active">
-                <div class="results-card">
-                  <div>
-                    <span class="eyebrow">Confidential issuer processor</span>
-                    <h3>Built and now operating card issuing platform processing 10M+ transactions monthly</h3>
-                    <p>
-                      Leading issuer processor needed to rapidly scale their card platform while
-                      maintaining 99.95%+ uptime and reducing operational costs.
-                    </p>
-                    <img class="case-image" src="assets/placeholder-case-1.svg" alt="Case study preview" />
-                    <a class="btn btn-dark" href="#contact">Read full case study</a>
-                  </div>
-                  <div class="results-metrics">
-                    <div>
-                      <h4>6</h4>
-                      <span>Months to live</span>
-                    </div>
-                    <div>
-                      <h4>10M+</h4>
-                      <span>Transactions / month</span>
-                    </div>
-                    <div>
-                      <h4>40%</h4>
-                      <span>Cost reduction</span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <article class="slide">
-                <div class="results-card">
-                  <div>
-                    <span class="eyebrow">Neobank expansion</span>
-                    <h3>Scaled multi-region ledger for 4M+ users with automated reconciliation</h3>
-                    <p>
-                      Delivered a resilient ledger and reconciliations stack, reducing manual ops
-                      while enabling new market launches.
-                    </p>
-                    <img class="case-image" src="assets/placeholder-case-2.svg" alt="Case study preview" />
-                    <a class="btn btn-dark" href="#contact">Read full case study</a>
-                  </div>
-                  <div class="results-metrics">
-                    <div>
-                      <h4>3</h4>
-                      <span>Regions launched</span>
-                    </div>
-                    <div>
-                      <h4>4M+</h4>
-                      <span>Active users</span>
-                    </div>
-                    <div>
-                      <h4>55%</h4>
-                      <span>Ops time saved</span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <article class="slide">
-                <div class="results-card">
-                  <div>
-                    <span class="eyebrow">Card issuing rollout</span>
-                    <h3>Launched new BIN program with automated risk controls in 10 weeks</h3>
-                    <p>
-                      Partnered with compliance and engineering teams to deliver a high-velocity
-                      launch with built-in controls.
-                    </p>
-                    <img class="case-image" src="assets/placeholder-case-3.svg" alt="Case study preview" />
-                    <a class="btn btn-dark" href="#contact">Read full case study</a>
-                  </div>
-                  <div class="results-metrics">
-                    <div>
-                      <h4>10</h4>
-                      <span>Weeks to launch</span>
-                    </div>
-                    <div>
-                      <h4>98%</h4>
-                      <span>Auto approvals</span>
-                    </div>
-                    <div>
-                      <h4>0</h4>
-                      <span>Critical incidents</span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <article class="slide">
-                <div class="results-card">
-                  <div>
-                    <span class="eyebrow">Ops modernization</span>
-                    <h3>Rebuilt backoffice ops for a global wallet provider</h3>
-                    <p>
-                      Consolidated fraud tooling, reconciliation, and reporting into a unified ops
-                      command center.
-                    </p>
-                    <img class="case-image" src="assets/placeholder-case-4.svg" alt="Case study preview" />
-                    <a class="btn btn-dark" href="#contact">Read full case study</a>
-                  </div>
-                  <div class="results-metrics">
-                    <div>
-                      <h4>24/7</h4>
-                      <span>Monitoring coverage</span>
-                    </div>
-                    <div>
-                      <h4>32%</h4>
-                      <span>Fraud reduction</span>
-                    </div>
-                    <div>
-                      <h4>4x</h4>
-                      <span>Ops efficiency</span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <article class="slide">
-                <div class="results-card">
-                  <div>
-                    <span class="eyebrow">Issuer migration</span>
-                    <h3>Seamless processor migration with zero downtime</h3>
-                    <p>
-                      Executed a multi-processor migration with automated testing and
-                      real-time telemetry dashboards.
-                    </p>
-                    <img class="case-image" src="assets/placeholder-case-5.svg" alt="Case study preview" />
-                    <a class="btn btn-dark" href="#contact">Read full case study</a>
-                  </div>
-                  <div class="results-metrics">
-                    <div>
-                      <h4>0</h4>
-                      <span>Minutes downtime</span>
-                    </div>
-                    <div>
-                      <h4>120</h4>
-                      <span>Tests automated</span>
-                    </div>
-                    <div>
-                      <h4>18</h4>
-                      <span>Integrations</span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="slider-dots" role="tablist" aria-label="Case study slides">
-              <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
-              <button class="dot" data-slide="1" aria-label="Slide 2"></button>
-              <button class="dot" data-slide="2" aria-label="Slide 3"></button>
-              <button class="dot" data-slide="3" aria-label="Slide 4"></button>
-              <button class="dot" data-slide="4" aria-label="Slide 5"></button>
-            </div>
+            <div class="slides" data-case-slides></div>
+            <div class="slider-dots" role="tablist" aria-label="Case study slides" data-case-dots></div>
           </div>
         </section>
 
         <section class="testimonials">
           <div class="section-title" data-animate>
-            <span class="pill">Platform trust</span>
-            <h2>Trusted by <span class="accent-warm">Fintech Leaders</span></h2>
-            <p>What our partners say about scaling with Panasa.</p>
+            <span class="pill" data-testimonials-pill></span>
+            <h2>Trusted by <span class="accent-warm" data-testimonials-title></span></h2>
+            <p data-testimonials-subtitle></p>
           </div>
-          <div class="trust-grid">
-            <article class="trust-card" data-animate>
-              <p>
-                “Panasa handled our entire ops launch. We moved faster than any prior vendor
-                and hit compliance on day one.”
-              </p>
-              <div class="person">
-                <img src="assets/avatar-1.svg" alt="John Doe" />
-                <div>
-                  <strong>John Doe</strong>
-                  <span>VP Engineering, Capsule</span>
-                </div>
-              </div>
-            </article>
-            <article class="trust-card" data-animate>
-              <p>
-                “The team operates like an extension of ours, with visibility on every risk
-                and automation opportunity.”
-              </p>
-              <div class="person">
-                <img src="assets/avatar-2.svg" alt="Sarah Miller" />
-                <div>
-                  <strong>Sarah Miller</strong>
-                  <span>COO, Segment</span>
-                </div>
-              </div>
-            </article>
-          </div>
-          <div class="logo-row">
-            <span>John Doe</span>
-            <span>GlobalBank</span>
-            <span>Segment</span>
-          </div>
+          <div class="trust-grid" data-testimonials-cards></div>
+          <div class="logo-row" data-testimonials-logos></div>
         </section>
 
         <section class="engagement" id="contact">
           <div class="section-title" data-animate>
-            <span class="pill">Working model</span>
-            <h2><span>Flexible</span> engagement models</h2>
-            <p>Choose the model that fits your needs — from team augmentation to full managed services.</p>
+            <span class="pill" data-engagement-pill></span>
+            <h2 data-engagement-title></h2>
+            <p data-engagement-subtitle></p>
           </div>
-          <div class="engagement-grid">
-            <article class="engagement-card" data-animate>
-              <img class="engagement-image" src="assets/model-squads.svg" alt="Engineering squads" />
-              <h3>Engineering squads</h3>
-              <p>Dedicated cross-functional squads for product build and integrations.</p>
-              <ul>
-                <li>Weekly reporting</li>
-                <li>Dedicated PM</li>
-                <li>Velocity targets</li>
-              </ul>
-              <button class="btn btn-dark">Talk to us</button>
-            </article>
-            <article class="engagement-card featured" data-animate>
-              <img class="engagement-image" src="assets/model-managed.svg" alt="Managed services" />
-              <h3>Managed services</h3>
-              <p>Operate and scale your platform with SLAs, audits, and automation.</p>
-              <ul>
-                <li>24/7 monitoring</li>
-                <li>Compliance support</li>
-                <li>Quarterly reviews</li>
-              </ul>
-              <button class="btn btn-dark">Talk to us</button>
-            </article>
-            <article class="engagement-card" data-animate>
-              <img class="engagement-image" src="assets/model-project.svg" alt="Project-based" />
-              <h3>Project-based</h3>
-              <p>Fixed scope engagements for launches, migrations, or audits.</p>
-              <ul>
-                <li>Fixed timelines</li>
-                <li>Clear deliverables</li>
-                <li>Milestone billing</li>
-              </ul>
-              <button class="btn btn-dark">Talk to us</button>
-            </article>
-            <article class="engagement-card" data-animate>
-              <img class="engagement-image" src="assets/model-gdc.svg" alt="GDC delivery model" />
-              <h3>GDC delivery model</h3>
-              <p>Global delivery pods with clear ownership and cross-timezone coverage.</p>
-              <ul>
-                <li>Dedicated leads</li>
-                <li>Standardized playbooks</li>
-                <li>Cost efficiency</li>
-              </ul>
-              <button class="btn btn-dark">Talk to us</button>
-            </article>
-          </div>
-          <p class="engagement-note">*Start with a pilot, scale with continuous engagement.</p>
+          <div class="engagement-grid" data-engagement-grid></div>
+          <p class="engagement-note" data-engagement-note></p>
         </section>
       </main>
 
       <footer class="site-footer">
         <div class="footer-cta" data-animate>
           <div>
-            <h2>Ready to build your card platform</h2>
-            <p>
-              Let’s discuss your requirements. Our team will show you exactly how we
-              can help — from custom development to 24/7 operations.
-            </p>
+            <h2 data-footer-cta-title></h2>
+            <p data-footer-cta-text></p>
           </div>
-          <button class="btn btn-light">Talk to our team</button>
+          <button class="btn btn-light" data-footer-cta-button></button>
         </div>
 
         <div class="footer-card" data-animate>
           <div class="footer-brand">
-            <img src="assets/logo.svg" alt="Panasa" />
-            <p>
-              From technical leaders to operations teams, we deliver value across your
-              entire organization.
-            </p>
-            <span>sales@panasa.tech</span>
-            <span>+44 (0) 20 XXXX XXXX</span>
+            <img src="assets/logo.svg" alt="Panasa" data-bind="logo" />
+            <p data-footer-brand-text></p>
+            <span data-footer-email></span>
+            <span data-footer-phone></span>
           </div>
-          <div class="footer-links">
-            <div>
-              <h4>Company</h4>
-              <a href="#about">About us</a>
-              <a href="#careers">Careers</a>
-              <a href="#contact">Contact</a>
-              <a href="#services">Services</a>
-              <a href="#resources">Resources</a>
-            </div>
-            <div>
-              <h4>Resources</h4>
-              <a href="#careers">Case studies</a>
-              <a href="#resources">Whitepapers</a>
-              <a href="#resources">Guides</a>
-              <a href="#resources">Documentation</a>
-              <a href="#resources">Support</a>
-            </div>
-            <div>
-              <h4>Services</h4>
-              <a href="#services">AI Accelerated Fintech Eng.</a>
-              <a href="#services">AI Powered Fintech Backoffice</a>
-              <a href="#services">Cyber Resilience</a>
-              <a href="#services">GCC as a Service</a>
-              <a href="#services">Fintech AI Consulting</a>
-              <a href="#services">Data as a Service</a>
-            </div>
-          </div>
+          <div class="footer-links" data-footer-columns></div>
         </div>
         <div class="footer-bottom">
-          <span>© 2026 Panasa Technology. All rights reserved.</span>
-          <div class="footer-meta">
-            <a href="#top">Privacy Policy</a>
-            <a href="#top">Terms of Service</a>
-            <a href="#top">Cookies</a>
-          </div>
+          <span data-footer-copyright></span>
+          <div class="footer-meta" data-footer-legal-links></div>
         </div>
       </footer>
     </div>
