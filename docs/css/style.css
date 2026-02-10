@@ -274,13 +274,11 @@ ul {
   aspect-ratio: 1328 / 168;
 }
 
-.cert-row.single::after {
-  content: '';
-  display: block;
-  width: 100%;
+.cert-separator {
   height: 1px;
   background: #d4d4d4;
-  margin-top: 16px;
+  width: min(1328px, 100%);
+  margin: 16px auto 0;
 }
 
 section {
