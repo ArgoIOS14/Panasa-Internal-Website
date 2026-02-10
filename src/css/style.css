@@ -363,7 +363,7 @@ section {
   max-width: 1060px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.25fr 0.85fr;
+  grid-template-columns: 1.2fr 1fr;
   gap: 24px;
   align-items: stretch;
 }
@@ -380,12 +380,12 @@ section {
 
 .feature-card:nth-child(1),
 .feature-card:nth-child(4) {
-  min-height: 260px;
+  min-height: 280px;
 }
 
 .feature-card:nth-child(2),
 .feature-card:nth-child(3) {
-  min-height: 220px;
+  min-height: 240px;
 }
 
 .feature-card.light {
@@ -412,12 +412,12 @@ section {
 
 .feature-card:nth-child(1) .card-image,
 .feature-card:nth-child(4) .card-image {
-  height: 160px;
+  height: 170px;
 }
 
 .feature-card:nth-child(2) .card-image,
 .feature-card:nth-child(3) .card-image {
-  height: 140px;
+  height: 150px;
 }
 
 .feature-card .card-image.soft {
