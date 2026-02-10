@@ -28,6 +28,7 @@ if (carousel) {
   const slides = Array.from(carousel.querySelectorAll('.slide'));
   const dots = Array.from(carousel.querySelectorAll('.dot'));
   let index = 0;
+  let timerId = null;
 
   const showSlide = (nextIndex) => {
     slides[index].classList.remove('active');
@@ -40,4 +41,22 @@ if (carousel) {
   dots.forEach((dot, dotIndex) => {
     dot.addEventListener('click', () => showSlide(dotIndex));
   });
+
+  const startAuto = () => {
+    timerId = setInterval(() => {
+      const nextIndex = (index + 1) % slides.length;
+      showSlide(nextIndex);
+    }, 5000);
+  };
+
+  const stopAuto = () => {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  };
+
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', startAuto);
+  startAuto();
 }
