@@ -360,10 +360,11 @@ section {
 }
 
 .feature-grid {
-  max-width: 1060px;
+  max-width: 1320px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 756px 540px;
+  grid-auto-rows: 406px;
   gap: 24px;
   align-items: stretch;
 }
@@ -375,18 +376,9 @@ section {
   display: grid;
   gap: 14px;
   overflow: hidden;
-  min-height: 220px;
+  height: 406px;
 }
 
-.feature-card:nth-child(1),
-.feature-card:nth-child(4) {
-  min-height: 280px;
-}
-
-.feature-card:nth-child(2),
-.feature-card:nth-child(3) {
-  min-height: 240px;
-}
 
 .feature-card.light {
   background: #dff5ea;
@@ -407,25 +399,16 @@ section {
   width: 100%;
   border-radius: 14px;
   object-fit: cover;
-  height: 140px;
+  height: 180px;
 }
 
-.feature-card:nth-child(1) .card-image,
-.feature-card:nth-child(4) .card-image {
-  height: 170px;
-}
-
-.feature-card:nth-child(2) .card-image,
-.feature-card:nth-child(3) .card-image {
-  height: 150px;
-}
 
 .feature-card .card-image.soft {
   background: #dff5ea;
   border: 1px solid rgba(11, 61, 46, 0.15);
   display: grid;
   place-items: center;
-  height: 140px;
+  height: 180px;
 }
 
 .chip-tags {
@@ -793,6 +776,11 @@ section {
 
   .feature-grid {
     grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .feature-card {
+    height: auto;
   }
 }
 
