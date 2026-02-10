@@ -367,7 +367,7 @@ section {
   --card-height: clamp(220px, 25vw, 366px);
   grid-auto-rows: var(--card-height);
   grid-auto-flow: row;
-  gap: 24px;
+  gap: 8px 24px;
   align-items: stretch;
   justify-content: center;
 }
