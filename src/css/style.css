@@ -22,7 +22,7 @@
 
 body {
   font-family: 'Manrope', sans-serif;
-  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 10%, #f7fff9 18%, #ffffff 28%);
+  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 16%, #f7fff9 26%, #ffffff 34%);
   color: var(--text-dark);
 }
 
@@ -31,7 +31,7 @@ body {
 }
 
 img {
-  max-width: 100%;
+  max-width: min(1360px, 100%);
   display: block;
 }
 
@@ -252,7 +252,7 @@ ul {
 
 .cert-row.single img {
   height: auto;
-  width: 100%;
+  width: min(1360px, 100%);
   opacity: 1;
   aspect-ratio: 1328 / 168;
 }
@@ -367,7 +367,7 @@ section {
 }
 
 .feature-card .card-image {
-  width: 100%;
+  width: min(1360px, 100%);
   border-radius: 14px;
   object-fit: cover;
   height: 150px;
@@ -431,7 +431,7 @@ section {
 }
 
 .slide {
-  min-width: 100%;
+  min-width: min(1360px, 100%);
   padding: 0 12px;
 }
 
@@ -449,7 +449,7 @@ section {
 }
 
 .case-image {
-  width: 100%;
+  width: min(1360px, 100%);
   border-radius: 14px;
   margin: 16px 0 10px;
   background: #efefef;
@@ -572,7 +572,7 @@ section {
 }
 
 .engagement-image {
-  width: 100%;
+  width: min(1360px, 100%);
   border-radius: 12px;
   height: 120px;
   object-fit: cover;
