@@ -369,6 +369,16 @@ section {
   align-items: stretch;
 }
 
+.feature-card:nth-child(1),
+.feature-card:nth-child(3) {
+  width: 756px;
+}
+
+.feature-card:nth-child(2),
+.feature-card:nth-child(4) {
+  width: 540px;
+}
+
 .feature-card {
   background: rgba(255, 255, 255, 0.08);
   border-radius: 18px;
@@ -780,6 +790,7 @@ section {
   }
 
   .feature-card {
+    width: 100%;
     height: auto;
   }
 }
