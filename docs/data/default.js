@@ -1,0 +1,504 @@
+window.DEFAULT_CONTENT = {
+  "meta": {
+    "title": "Panasa | Fintech Engineering Studio",
+    "description": "Panasa helps fintechs launch and scale with AI-native engineering, ops, and compliance."
+  },
+  "nav": {
+    "links": [
+      {
+        "label": "About Us",
+        "href": "#about"
+      },
+      {
+        "label": "Services",
+        "href": "#services"
+      },
+      {
+        "label": "Resources",
+        "href": "#resources"
+      },
+      {
+        "label": "Careers",
+        "href": "#careers"
+      }
+    ],
+    "cta": {
+      "label": "Contact Us",
+      "href": "#contact"
+    }
+  },
+  "hero": {
+    "pill": "Trusted by fintechs across EU, UK & APAC",
+    "title": "Ship your fintech in weeks & run 24/7",
+    "titleEmphasis": "Scale Without Surprises",
+    "subtitle": "Your AI-native partner for Dev, Ops & Scale. No handoffs. No surprises.",
+    "primaryCta": {
+      "label": "Talk to our team",
+      "href": "#contact"
+    },
+    "secondaryCta": {
+      "label": "View Solutions",
+      "href": "#services"
+    },
+    "trustedLabel": "Trusted by high-growth fintechs",
+    "trustedLogos": [
+      {
+        "src": "assets/logo-sisyphus.svg",
+        "alt": "Sisyphus"
+      },
+      {
+        "src": "assets/logo-globalbank.svg",
+        "alt": "GlobalBank"
+      },
+      {
+        "src": "assets/logo-capsule.svg",
+        "alt": "Capsule"
+      },
+      {
+        "src": "assets/logo-commandr.svg",
+        "alt": "Command+R"
+      },
+      {
+        "src": "assets/logo-segment.svg",
+        "alt": "Segment"
+      },
+      {
+        "src": "assets/logo-interlock.svg",
+        "alt": "Interlock"
+      }
+    ],
+    "certBadges": [
+      {
+        "src": "assets/badge-gdpr.svg",
+        "alt": "GDPR"
+      },
+      {
+        "src": "assets/badge-iso.svg",
+        "alt": "ISO 27001"
+      },
+      {
+        "src": "assets/badge-gptw.svg",
+        "alt": "Great Place to Work"
+      },
+      {
+        "src": "assets/badge-pci.svg",
+        "alt": "PCI DSS"
+      },
+      {
+        "src": "assets/badge-aicpa.svg",
+        "alt": "AICPA SOC"
+      }
+    ]
+  },
+  "services": {
+    "pill": "Services",
+    "title": "Complete fintech services stack",
+    "subtitle": "From development to operations, we cover every aspect of fintech delivery.",
+    "items": [
+      {
+        "icon": "assets/icon-ai.svg",
+        "title": "AI accelerated fintech engineering",
+        "text": "Rapid platform MVPs, risk models, and card issuing pipelines with AI copilots.",
+        "bullets": [
+          "Embedded compliance",
+          "Payments orchestration",
+          "API-first delivery"
+        ]
+      },
+      {
+        "icon": "assets/icon-backoffice.svg",
+        "title": "AI powered fintech backoffice",
+        "text": "Smart reconciliations, fraud monitoring, and automated exception handling.",
+        "bullets": [
+          "Chargeback flows",
+          "Ledger accuracy",
+          "Audit trails"
+        ]
+      },
+      {
+        "icon": "assets/icon-cyber.svg",
+        "title": "Cyber resilience for fintech platforms",
+        "text": "Threat modeling, monitoring, and high-availability incident response plans.",
+        "bullets": [
+          "24/7 SOC coverage",
+          "Zero trust networks",
+          "Regulatory alignment"
+        ]
+      },
+      {
+        "icon": "assets/icon-global.svg",
+        "title": "Global capability center as a service",
+        "text": "Dedicated pods in multiple regions with unified delivery playbooks.",
+        "bullets": [
+          "Follow-the-sun",
+          "Operational SLAs",
+          "Cost optimization"
+        ]
+      },
+      {
+        "icon": "assets/icon-consulting.svg",
+        "title": "Fintech AI consulting",
+        "text": "Strategic AI roadmaps, partner selection, and scale-up advisory.",
+        "bullets": [
+          "Architecture reviews",
+          "Vendor vetting",
+          "Launch readiness"
+        ]
+      },
+      {
+        "icon": "assets/icon-data.svg",
+        "title": "Data & compliance as a service",
+        "text": "Privacy-by-design pipelines, observability dashboards, and governance.",
+        "bullets": [
+          "Real-time telemetry",
+          "PCI automation",
+          "Risk analytics"
+        ]
+      }
+    ]
+  },
+  "why": {
+    "pill": "Work with us",
+    "title": "Why fintechs choose Panasa",
+    "subtitle": "What sets us apart in the fintech delivery landscape.",
+    "cards": [
+      {
+        "style": "light",
+        "imageType": "tags",
+        "tags": [
+          "Card platforms",
+          "Scheme integrations",
+          "Authorization flows"
+        ],
+        "title": "Payment experts, not generalists",
+        "text": "20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently."
+      },
+      {
+        "style": "dark",
+        "image": "assets/placeholder-night.svg",
+        "title": "Proven at scale",
+        "text": "Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that."
+      },
+      {
+        "style": "photo",
+        "image": "assets/placeholder-team.svg",
+        "title": "Full-stack team",
+        "text": "From strategy to 24/7 ops — no vendor juggling needed. One team, end-to-end ownership."
+      },
+      {
+        "style": "light",
+        "image": "assets/placeholder-compliance.svg",
+        "title": "Compliance-first approach",
+        "text": "ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one."
+      }
+    ]
+  },
+  "caseStudies": {
+    "pill": "Case studies",
+    "title": "Proven results for leading platforms",
+    "subtitle": "Real outcomes from real projects with issuer processors and neobanks.",
+    "slides": [
+      {
+        "eyebrow": "Confidential issuer processor",
+        "title": "Built and now operating card issuing platform processing 10M+ transactions monthly",
+        "text": "Leading issuer processor needed to rapidly scale their card platform while maintaining 99.95%+ uptime and reducing operational costs.",
+        "image": "assets/placeholder-case-1.svg",
+        "cta": {
+          "label": "Read full case study",
+          "href": "#contact"
+        },
+        "metrics": [
+          {
+            "value": "6",
+            "label": "Months to live"
+          },
+          {
+            "value": "10M+",
+            "label": "Transactions / month"
+          },
+          {
+            "value": "40%",
+            "label": "Cost reduction"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Neobank expansion",
+        "title": "Scaled multi-region ledger for 4M+ users with automated reconciliation",
+        "text": "Delivered a resilient ledger and reconciliations stack, reducing manual ops while enabling new market launches.",
+        "image": "assets/placeholder-case-2.svg",
+        "cta": {
+          "label": "Read full case study",
+          "href": "#contact"
+        },
+        "metrics": [
+          {
+            "value": "3",
+            "label": "Regions launched"
+          },
+          {
+            "value": "4M+",
+            "label": "Active users"
+          },
+          {
+            "value": "55%",
+            "label": "Ops time saved"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Card issuing rollout",
+        "title": "Launched new BIN program with automated risk controls in 10 weeks",
+        "text": "Partnered with compliance and engineering teams to deliver a high-velocity launch with built-in controls.",
+        "image": "assets/placeholder-case-3.svg",
+        "cta": {
+          "label": "Read full case study",
+          "href": "#contact"
+        },
+        "metrics": [
+          {
+            "value": "10",
+            "label": "Weeks to launch"
+          },
+          {
+            "value": "98%",
+            "label": "Auto approvals"
+          },
+          {
+            "value": "0",
+            "label": "Critical incidents"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Ops modernization",
+        "title": "Rebuilt backoffice ops for a global wallet provider",
+        "text": "Consolidated fraud tooling, reconciliation, and reporting into a unified ops command center.",
+        "image": "assets/placeholder-case-4.svg",
+        "cta": {
+          "label": "Read full case study",
+          "href": "#contact"
+        },
+        "metrics": [
+          {
+            "value": "24/7",
+            "label": "Monitoring coverage"
+          },
+          {
+            "value": "32%",
+            "label": "Fraud reduction"
+          },
+          {
+            "value": "4x",
+            "label": "Ops efficiency"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Issuer migration",
+        "title": "Seamless processor migration with zero downtime",
+        "text": "Executed a multi-processor migration with automated testing and real-time telemetry dashboards.",
+        "image": "assets/placeholder-case-5.svg",
+        "cta": {
+          "label": "Read full case study",
+          "href": "#contact"
+        },
+        "metrics": [
+          {
+            "value": "0",
+            "label": "Minutes downtime"
+          },
+          {
+            "value": "120",
+            "label": "Tests automated"
+          },
+          {
+            "value": "18",
+            "label": "Integrations"
+          }
+        ]
+      }
+    ]
+  },
+  "testimonials": {
+    "pill": "Platform trust",
+    "title": "Trusted by Fintech Leaders",
+    "subtitle": "What our partners say about scaling with Panasa.",
+    "cards": [
+      {
+        "text": "Panasa became our extended fintech engineering team. They understand authorization flows, 3DS authentication, and scheme integrations better than most in-house teams we’ve seen.",
+        "name": "John Doe",
+        "role": "VP Engineering",
+        "logo": "assets/logo-globalbank.svg"
+      },
+      {
+        "text": "We eliminated multiple vendor relationships by consolidating with Panasa. From development to 24/7 operations, they handle everything with true payment domain expertise.",
+        "name": "Sarah Miller",
+        "role": "Head of Operations",
+        "logo": "assets/logo-segment.svg"
+      }
+    ]
+  },
+  "engagement": {
+    "pill": "Working model",
+    "title": "Flexible engagement models",
+    "subtitle": "Choose the model that fits your needs — from team augmentation to full managed services.",
+    "items": [
+      {
+        "image": "assets/model-squads.svg",
+        "title": "Engineering squads",
+        "text": "Dedicated cross-functional squads for product build and integrations.",
+        "bullets": [
+          "Weekly reporting",
+          "Dedicated PM",
+          "Velocity targets"
+        ],
+        "cta": "Talk to us",
+        "variant": "light"
+      },
+      {
+        "image": "assets/model-managed.svg",
+        "title": "Managed services",
+        "text": "Operate and scale your platform with SLAs, audits, and automation.",
+        "bullets": [
+          "24/7 monitoring",
+          "Compliance support",
+          "Quarterly reviews"
+        ],
+        "cta": "Talk to us",
+        "variant": "featured"
+      },
+      {
+        "image": "assets/model-project.svg",
+        "title": "Project-based",
+        "text": "Fixed scope engagements for launches, migrations, or audits.",
+        "bullets": [
+          "Fixed timelines",
+          "Clear deliverables",
+          "Milestone billing"
+        ],
+        "cta": "Talk to us",
+        "variant": "light"
+      },
+      {
+        "image": "assets/model-gdc.svg",
+        "title": "GDC delivery model",
+        "text": "Global delivery pods with clear ownership and cross-timezone coverage.",
+        "bullets": [
+          "Dedicated leads",
+          "Standardized playbooks",
+          "Cost efficiency"
+        ],
+        "cta": "Talk to us",
+        "variant": "light"
+      }
+    ],
+    "note": "Most clients start with a project and graduate to managed services as they scale."
+  },
+  "footer": {
+    "ctaTitle": "Ready to build your card platform",
+    "ctaText": "Let’s discuss your requirements. Our team will show you exactly how we can help — from custom development to 24/7 operations.",
+    "ctaButton": "Talk to our team",
+    "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
+    "email": "sales@panasa.tech",
+    "phone": "+44 (0) 20 XXXX XXXX",
+    "columns": [
+      {
+        "title": "Company",
+        "links": [
+          {
+            "label": "About us",
+            "href": "#about"
+          },
+          {
+            "label": "Careers",
+            "href": "#careers"
+          },
+          {
+            "label": "Contact",
+            "href": "#contact"
+          },
+          {
+            "label": "Services",
+            "href": "#services"
+          },
+          {
+            "label": "Resources",
+            "href": "#resources"
+          }
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          {
+            "label": "Case studies",
+            "href": "#careers"
+          },
+          {
+            "label": "Whitepapers",
+            "href": "#resources"
+          },
+          {
+            "label": "Guides",
+            "href": "#resources"
+          },
+          {
+            "label": "Documentation",
+            "href": "#resources"
+          },
+          {
+            "label": "Support",
+            "href": "#resources"
+          }
+        ]
+      },
+      {
+        "title": "Services",
+        "links": [
+          {
+            "label": "AI Accelerated Fintech Eng.",
+            "href": "#services"
+          },
+          {
+            "label": "AI Powered Fintech Backoffice",
+            "href": "#services"
+          },
+          {
+            "label": "Cyber Resilience",
+            "href": "#services"
+          },
+          {
+            "label": "GCC as a Service",
+            "href": "#services"
+          },
+          {
+            "label": "Fintech AI Consulting",
+            "href": "#services"
+          },
+          {
+            "label": "Data as a Service",
+            "href": "#services"
+          }
+        ]
+      }
+    ],
+    "legal": {
+      "copyright": "© 2026 Panasa Technology. All rights reserved.",
+      "links": [
+        {
+          "label": "Privacy Policy",
+          "href": "#top"
+        },
+        {
+          "label": "Terms of Service",
+          "href": "#top"
+        },
+        {
+          "label": "Cookies",
+          "href": "#top"
+        }
+      ]
+    }
+  }
+};

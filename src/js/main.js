@@ -376,7 +376,12 @@ const renderPage = (content) => {
   initCarousel();
 };
 
-fetch('data/content.json')
+const DATA_URL = window.STRAPI_URL || 'data/content.json';
+
+fetch(DATA_URL)
   .then((res) => res.json())
   .then((content) => renderPage(content))
-  .catch((err) => console.error('Failed to load content.json', err));
+  .catch((err) => {
+    console.error('Failed to load content.json', err);
+    if (window.DEFAULT_CONTENT) renderPage(window.DEFAULT_CONTENT);
+  });

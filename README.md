@@ -30,3 +30,4 @@ This repo includes a `docs/` folder for GitHub Pages.
 - Scroll animations via IntersectionObserver.
 - All assets are local SVGs.
 - Content is data-driven via `src/data/content.json` to make Strapi integration straightforward.
+- `src/data/default.js` provides a built-in fallback if a CMS endpoint is unavailable.
