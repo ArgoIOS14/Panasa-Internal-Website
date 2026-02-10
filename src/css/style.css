@@ -22,7 +22,7 @@
 
 body {
   font-family: 'Manrope', sans-serif;
-  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 12%, #f7fff9 28%, #ffffff 55%);
+  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 10%, #f7fff9 18%, #ffffff 28%);
   color: var(--text-dark);
 }
 
@@ -240,11 +240,14 @@ ul {
 }
 
 .cert-row.single {
-  padding: 12px 16px;
+  padding: 0;
   display: flex;
   justify-content: center;
-  width: min(1328px, 100vw);
+  align-items: center;
+  width: min(1328px, 100%);
   margin: 50px auto 0;
+  background: #ffffff;
+  border-color: #e8eeea;
 }
 
 .cert-row.single img {
