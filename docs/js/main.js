@@ -90,12 +90,21 @@ const renderHero = (data) => {
   const badges = document.querySelector('[data-hero-cert-badges]');
   if (badges) {
     badges.innerHTML = '';
-    data.certBadges.forEach((badge) => {
+    if (data.certImage) {
       const img = createEl('img');
-      img.src = badge.src;
-      img.alt = badge.alt;
+      img.src = data.certImage.src;
+      img.alt = data.certImage.alt;
       badges.appendChild(img);
-    });
+      badges.classList.add('single');
+    } else if (data.certBadges) {
+      data.certBadges.forEach((badge) => {
+        const img = createEl('img');
+        img.src = badge.src;
+        img.alt = badge.alt;
+        badges.appendChild(img);
+      });
+      badges.classList.remove('single');
+    }
   }
 };
 

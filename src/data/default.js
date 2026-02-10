@@ -67,28 +67,10 @@ window.DEFAULT_CONTENT = {
         "alt": "Interlock"
       }
     ],
-    "certBadges": [
-      {
-        "src": "assets/badge-gdpr.svg",
-        "alt": "GDPR"
-      },
-      {
-        "src": "assets/badge-iso.svg",
-        "alt": "ISO 27001"
-      },
-      {
-        "src": "assets/badge-gptw.svg",
-        "alt": "Great Place to Work"
-      },
-      {
-        "src": "assets/badge-pci.svg",
-        "alt": "PCI DSS"
-      },
-      {
-        "src": "assets/badge-aicpa.svg",
-        "alt": "AICPA SOC"
-      }
-    ]
+    "certImage": {
+      "src": "assets/certifications.svg",
+      "alt": "Certifications"
+    }
   },
   "services": {
     "pill": "Services",
