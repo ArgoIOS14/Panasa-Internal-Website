@@ -277,8 +277,8 @@ ul {
 .cert-separator {
   height: 1px;
   background: #d4d4d4;
-  width: min(1328px, 100%);
-  margin: 16px auto 0;
+  width: 100%;
+  margin: 16px 0 0;
 }
 
 section {
