@@ -364,7 +364,8 @@ section {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-auto-rows: clamp(220px, 25vw, 366px);
+  --card-height: clamp(220px, 25vw, 366px);
+  grid-auto-rows: var(--card-height);
   grid-auto-flow: row;
   gap: 24px;
   align-items: stretch;
@@ -380,15 +381,18 @@ section {
 }
 
 .feature-card:nth-child(2) {
-  grid-column: 7 / 13;
+  grid-column: 7 / 11;
+  justify-self: end;
+  width: var(--card-height);
 }
 
 .feature-card:nth-child(3) {
   grid-column: 1 / 6;
+  width: var(--card-height);
 }
 
 .feature-card:nth-child(4) {
-  grid-column: 6 / 12;
+  grid-column: 6 / 13;
 }
 
 .feature-card {
@@ -406,6 +410,24 @@ section {
 .feature-card > *:not(.card-image) {
   position: relative;
   z-index: 1;
+}
+
+.feature-card > div {
+  align-self: end;
+  text-align: left;
+}
+
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  z-index: 0;
+}
+
+.feature-card.dark::after,
+.feature-card.photo::after {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.65));
 }
 
 

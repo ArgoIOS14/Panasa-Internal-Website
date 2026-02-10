@@ -154,25 +154,28 @@ window.DEFAULT_CONTENT = {
         ],
         "title": "Payment experts, not generalists",
         "text": "20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently.",
-        "image": "assets/why-card-1.svg"
+        "image": "assets/why-card-2.svg"
       },
       {
         "style": "dark",
-        "image": "assets/why-card-2.svg",
+        "image": "assets/why-card-1.svg",
         "title": "Proven at scale",
-        "text": "Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that."
+        "text": "Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that.",
+        "imageType": "image"
       },
       {
         "style": "photo",
-        "image": "assets/why-card-3.svg",
+        "image": "assets/why-card-4.svg",
         "title": "Full-stack team",
-        "text": "From strategy to 24/7 ops — no vendor juggling needed. One team, end-to-end ownership."
+        "text": "From strategy to 24/7 ops — no vendor juggling needed. One team, end-to-end ownership.",
+        "imageType": "image"
       },
       {
         "style": "light",
-        "image": "assets/why-card-4.svg",
+        "image": "assets/why-card-3.svg",
         "title": "Compliance-first approach",
-        "text": "ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one."
+        "text": "ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.",
+        "imageType": "image"
       }
     ]
   },
