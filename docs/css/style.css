@@ -239,6 +239,17 @@ ul {
   opacity: 0.9;
 }
 
+.cert-row.single {
+  padding: 16px;
+  grid-template-columns: 1fr;
+}
+
+.cert-row.single img {
+  height: auto;
+  width: min(640px, 100%);
+  opacity: 1;
+}
+
 section {
   padding: 70px 24px;
 }
