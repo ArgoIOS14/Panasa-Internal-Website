@@ -354,6 +354,11 @@ const initCarousel = () => {
   const goPrev = () => goTo((index - 1 + slides.length) % slides.length);
 
   const startAuto = () => {
+    const delay = pauseUntil - Date.now();
+    if (delay > 0) {
+      resumeTimer = setTimeout(startAuto, delay);
+      return;
+    }
     timerId = setInterval(goNext, 1000);
   };
 
@@ -362,10 +367,23 @@ const initCarousel = () => {
       clearInterval(timerId);
       timerId = null;
     }
+    if (resumeTimer) {
+      clearTimeout(resumeTimer);
+      resumeTimer = null;
+    }
+  };
+
+  const pauseAuto = (ms = 3000) => {
+    pauseUntil = Date.now() + ms;
+    stopAuto();
+    startAuto();
   };
 
   dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => goTo(i));
+    dot.addEventListener('click', () => {
+      goTo(i);
+      pauseAuto();
+    });
   });
 
   const onPointerDown = (event) => {
@@ -373,7 +391,7 @@ const initCarousel = () => {
     startX = event.clientX;
     currentX = startX;
     deltaX = 0;
-    stopAuto();
+    pauseAuto();
     track.setPointerCapture?.(event.pointerId);
     setTranslate(-index * getWidth(), false);
   };
@@ -400,7 +418,7 @@ const initCarousel = () => {
     } else {
       goTo(index);
     }
-    startAuto();
+    pauseAuto();
   };
 
   carousel.addEventListener('pointerdown', onPointerDown);
