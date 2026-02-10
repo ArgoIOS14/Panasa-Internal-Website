@@ -364,7 +364,7 @@ section {
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  grid-auto-rows: auto;
+  grid-auto-rows: clamp(260px, 28vw, 406px);
   grid-auto-flow: row;
   gap: 24px;
   align-items: stretch;
@@ -382,15 +382,6 @@ section {
   position: relative;
 }
 
-.feature-card:nth-child(1),
-.feature-card:nth-child(4) {
-  aspect-ratio: 1.86;
-}
-
-.feature-card:nth-child(2),
-.feature-card:nth-child(3) {
-  aspect-ratio: 1.33;
-}
 
 .feature-card > *:not(.card-image) {
   position: relative;
