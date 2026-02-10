@@ -269,7 +269,7 @@ ul {
 
 .cert-row.single img {
   height: auto;
-  width: min(1328px, 100%);
+  width: min(1500px, 100%);
   opacity: 1;
   aspect-ratio: 1328 / 168;
 }
