@@ -374,6 +374,7 @@ section {
 }
 
 .feature-card:nth-child(1) {
+  width: 100%;
   height: var(--card-height);
 }
 
@@ -390,6 +391,7 @@ section {
 }
 
 .feature-card:nth-child(4) {
+  width: 100%;
   height: var(--card-height);
 }
 
@@ -401,6 +403,7 @@ section {
   gap: 10px;
   overflow: hidden;
   width: 100%;
+  max-width: 100%;
   position: relative;
 }
 
