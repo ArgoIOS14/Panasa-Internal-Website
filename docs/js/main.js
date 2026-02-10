@@ -359,7 +359,7 @@ const initCarousel = () => {
       resumeTimer = setTimeout(startAuto, delay);
       return;
     }
-    timerId = setInterval(goNext, 1000);
+    timerId = setInterval(goNext, 2500);
   };
 
   const stopAuto = () => {
