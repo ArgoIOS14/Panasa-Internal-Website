@@ -46,7 +46,7 @@ ul {
 
 .site-header {
   position: sticky;
-  top: 0;
+  top: calc(-1 * (var(--hero-top, 0px)));
   z-index: 20;
   padding: 16px 0;
   backdrop-filter: blur(8px);
@@ -97,6 +97,7 @@ ul {
 
 .hero {
   position: relative;
+  --hero-top: 120px;
   max-width: 1060px;
   margin: 0 auto;
   padding: 64px 24px 40px;
@@ -109,7 +110,7 @@ ul {
   content: '';
   position: absolute;
   left: 50%;
-  top: 0;
+  top: calc(-1 * var(--hero-top));
   transform: translateX(-50%);
   width: 100vw;
   height: 100%;
