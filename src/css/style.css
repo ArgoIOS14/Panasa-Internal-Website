@@ -256,11 +256,12 @@ ul {
 }
 
 .cert-row.single {
-  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: min(1328px, 100%);
+  width: 100%;
   margin: 50px auto 0;
   background: #ffffff;
   border: none;
@@ -268,7 +269,7 @@ ul {
 
 .cert-row.single img {
   height: auto;
-  width: min(1360px, 100%);
+  width: min(1328px, 100%);
   opacity: 1;
   aspect-ratio: 1328 / 168;
 }
