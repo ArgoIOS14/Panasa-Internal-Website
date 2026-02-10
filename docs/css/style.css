@@ -387,8 +387,9 @@ section {
 }
 
 .feature-card:nth-child(3) {
-  grid-column: 3 / 7;
+  grid-column: 1 / 6;
   width: var(--card-height);
+  justify-self: start;
 }
 
 .feature-card:nth-child(4) {
