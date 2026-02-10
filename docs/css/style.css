@@ -379,13 +379,13 @@ section {
 }
 
 .feature-card:nth-child(2) {
-  width: var(--card-height);
+  width: min(100%, calc(var(--card-height) + 80px));
   justify-self: end;
   height: var(--card-height);
 }
 
 .feature-card:nth-child(3) {
-  width: var(--card-height);
+  width: min(100%, calc(var(--card-height) + 80px));
   justify-self: start;
   height: var(--card-height);
 }
