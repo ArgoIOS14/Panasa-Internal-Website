@@ -22,7 +22,7 @@
 
 body {
   font-family: 'Manrope', sans-serif;
-  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 16%, #f7fff9 26%, #ffffff 34%);
+  background: #ffffff;
   color: var(--text-dark);
 }
 
@@ -100,6 +100,8 @@ ul {
   margin: 0 auto;
   padding: 64px 24px 40px;
   text-align: center;
+  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 45%, #f7fff9 70%, #ffffff 100%);
+  border-radius: 28px;
 }
 
 .hero-grid {
