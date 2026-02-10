@@ -376,19 +376,19 @@ section {
 }
 
 .feature-card:nth-child(1) {
-  grid-column: 1 / 9;
+  grid-column: 1 / 8;
 }
 
 .feature-card:nth-child(2) {
-  grid-column: 9 / 13;
+  grid-column: 8 / 13;
 }
 
 .feature-card:nth-child(3) {
-  grid-column: 1 / 5;
+  grid-column: 1 / 6;
 }
 
 .feature-card:nth-child(4) {
-  grid-column: 5 / 13;
+  grid-column: 6 / 13;
 }
 
 .feature-card {
