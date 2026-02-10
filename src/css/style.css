@@ -378,6 +378,7 @@ section {
 
 .feature-card:nth-child(1) {
   grid-column: 1 / 7;
+  height: calc(var(--card-height) - 8px);
 }
 
 .feature-card:nth-child(2) {
@@ -394,6 +395,7 @@ section {
 
 .feature-card:nth-child(4) {
   grid-column: 6 / 13;
+  height: calc(var(--card-height) - 8px);
 }
 
 .feature-card {
