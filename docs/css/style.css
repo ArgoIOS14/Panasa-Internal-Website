@@ -363,9 +363,10 @@ section {
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1fr);
-  --card-height: clamp(220px, 25vw, 366px);
-  grid-auto-rows: var(--card-height);
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  --rect-ratio: 756 / 406;
+  --square-ratio: 540 / 406;
+  grid-auto-rows: auto;
   grid-auto-flow: row;
   column-gap: 0;
   row-gap: 0;
@@ -375,24 +376,24 @@ section {
 
 .feature-card:nth-child(1) {
   width: 100%;
-  height: var(--card-height);
+  aspect-ratio: var(--rect-ratio);
 }
 
 .feature-card:nth-child(2) {
   width: 100%;
   justify-self: end;
-  height: var(--card-height);
+  aspect-ratio: var(--square-ratio);
 }
 
 .feature-card:nth-child(3) {
   width: 100%;
   justify-self: start;
-  height: var(--card-height);
+  aspect-ratio: var(--square-ratio);
 }
 
 .feature-card:nth-child(4) {
   width: 100%;
-  height: var(--card-height);
+  aspect-ratio: var(--rect-ratio);
 }
 
 .feature-card {
