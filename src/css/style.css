@@ -363,7 +363,7 @@ section {
   max-width: 1320px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 756px 540px;
   grid-auto-rows: 406px;
   grid-auto-flow: row;
   gap: 24px;
@@ -394,9 +394,9 @@ section {
 .feature-card {
   background: rgba(255, 255, 255, 0.08);
   border-radius: 18px;
-  padding: 16px 18px 20px;
+  padding: 18px 20px;
   display: grid;
-  gap: 14px;
+  gap: 10px;
   overflow: hidden;
   height: 406px;
   position: relative;
