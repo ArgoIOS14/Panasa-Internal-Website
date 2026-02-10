@@ -429,6 +429,7 @@ section {
   object-fit: cover;
   border-radius: 18px;
   z-index: 0;
+  pointer-events: none;
 }
 
 
