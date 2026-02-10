@@ -240,13 +240,14 @@ ul {
 }
 
 .cert-row.single {
-  padding: 16px;
-  grid-template-columns: 1fr;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: center;
 }
 
 .cert-row.single img {
   height: auto;
-  width: min(640px, 100%);
+  width: min(680px, 100%);
   opacity: 1;
 }
 
