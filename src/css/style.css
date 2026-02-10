@@ -367,8 +367,8 @@ section {
   --card-height: clamp(220px, 25vw, 366px);
   grid-auto-rows: var(--card-height);
   grid-auto-flow: row;
-  column-gap: 8px;
-  row-gap: 8px;
+  column-gap: 0;
+  row-gap: 0;
   align-items: stretch;
   justify-content: center;
 }
@@ -379,13 +379,13 @@ section {
 }
 
 .feature-card:nth-child(2) {
-  width: min(100%, calc(var(--card-height) + 80px));
+  width: 100%;
   justify-self: end;
   height: var(--card-height);
 }
 
 .feature-card:nth-child(3) {
-  width: min(100%, calc(var(--card-height) + 80px));
+  width: 100%;
   justify-self: start;
   height: var(--card-height);
 }
