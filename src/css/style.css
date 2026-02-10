@@ -22,7 +22,7 @@
 
 body {
   font-family: 'Manrope', sans-serif;
-  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 18%, #f7fff9 38%, #ffffff 70%);
+  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 12%, #f7fff9 28%, #ffffff 55%);
   color: var(--text-dark);
 }
 
@@ -215,7 +215,7 @@ ul {
 }
 
 .trusted-logos img {
-  height: 18px;
+  height: 24px;
   opacity: 0.6;
 }
 
