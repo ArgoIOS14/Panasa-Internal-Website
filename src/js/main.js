@@ -178,7 +178,7 @@ const renderCaseStudies = (data) => {
   dotsContainer.innerHTML = '';
 
   data.slides.forEach((slide, index) => {
-    const article = createEl('article', `slide${index === 0 ? ' active' : ''}`);
+    const article = createEl('article', 'slide');
     const card = createEl('div', 'results-card');
     const left = createEl('div');
     const eyebrow = createEl('span', 'eyebrow');
@@ -210,7 +210,7 @@ const renderCaseStudies = (data) => {
     article.appendChild(card);
     slidesContainer.appendChild(article);
 
-    const dot = createEl('button', `dot${index === 0 ? ' active' : ''}`);
+    const dot = createEl('button', index === 0 ? 'dot active' : 'dot');
     dot.setAttribute('data-slide', index.toString());
     dot.setAttribute('aria-label', `Slide ${index + 1}`);
     dotsContainer.appendChild(dot);
@@ -323,30 +323,35 @@ const renderFooter = (data) => {
 
 const initCarousel = () => {
   const carousel = document.querySelector('[data-carousel]');
-  if (!carousel) return;
-  const slides = Array.from(carousel.querySelectorAll('.slide'));
+  const track = carousel?.querySelector('.slides');
+  if (!carousel || !track) return;
+  const slides = Array.from(track.children);
   const dots = Array.from(carousel.querySelectorAll('.dot'));
   if (!slides.length) return;
+
   let index = 0;
-  let timerId = null;
   let startX = 0;
+  let currentX = 0;
   let deltaX = 0;
   let isDragging = false;
+  let timerId = null;
 
-  const showSlide = (nextIndex) => {
-    slides[index].classList.remove('active');
-    dots[index].classList.remove('active');
-    index = nextIndex;
-    slides[index].classList.add('active');
-    dots[index].classList.add('active');
+  const getWidth = () => carousel.getBoundingClientRect().width;
+
+  const setTranslate = (value, animate = true) => {
+    track.style.transition = animate ? 'transform 0.5s ease' : 'none';
+    track.style.transform = `translateX(${value}px)`;
   };
 
-  const goNext = () => showSlide((index + 1) % slides.length);
-  const goPrev = () => showSlide((index - 1 + slides.length) % slides.length);
+  const goTo = (nextIndex, animate = true) => {
+    index = Math.max(0, Math.min(nextIndex, slides.length - 1));
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    const offset = -index * getWidth();
+    setTranslate(offset, animate);
+  };
 
-  dots.forEach((dot, dotIndex) => {
-    dot.addEventListener('click', () => showSlide(dotIndex));
-  });
+  const goNext = () => goTo((index + 1) % slides.length);
+  const goPrev = () => goTo((index - 1 + slides.length) % slides.length);
 
   const startAuto = () => {
     timerId = setInterval(goNext, 5000);
@@ -359,27 +364,41 @@ const initCarousel = () => {
     }
   };
 
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+  });
+
   const onPointerDown = (event) => {
     isDragging = true;
     startX = event.clientX;
+    currentX = startX;
     deltaX = 0;
     stopAuto();
+    track.setPointerCapture?.(event.pointerId);
+    setTranslate(-index * getWidth(), false);
   };
 
   const onPointerMove = (event) => {
     if (!isDragging) return;
-    deltaX = event.clientX - startX;
+    currentX = event.clientX;
+    deltaX = currentX - startX;
+    const offset = -index * getWidth() + deltaX;
+    setTranslate(offset, false);
   };
 
-  const onPointerUp = () => {
+  const onPointerUp = (event) => {
     if (!isDragging) return;
     isDragging = false;
-    if (Math.abs(deltaX) > 60) {
+    track.releasePointerCapture?.(event.pointerId);
+    const threshold = getWidth() * 0.2;
+    if (Math.abs(deltaX) > threshold) {
       if (deltaX < 0) {
         goNext();
       } else {
         goPrev();
       }
+    } else {
+      goTo(index);
     }
     startAuto();
   };
@@ -391,6 +410,9 @@ const initCarousel = () => {
 
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
+  window.addEventListener('resize', () => goTo(index, false));
+
+  goTo(0, false);
   startAuto();
 };
 
