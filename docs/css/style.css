@@ -368,8 +368,8 @@ section {
   --square-ratio: 540 / 406;
   grid-auto-rows: auto;
   grid-auto-flow: row;
-  column-gap: 0;
-  row-gap: 0;
+  column-gap: 10px;
+  row-gap: 10px;
   align-items: stretch;
   justify-content: center;
 }
