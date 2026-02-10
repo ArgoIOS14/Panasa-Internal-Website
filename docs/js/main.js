@@ -329,6 +329,9 @@ const initCarousel = () => {
   if (!slides.length) return;
   let index = 0;
   let timerId = null;
+  let startX = 0;
+  let deltaX = 0;
+  let isDragging = false;
 
   const showSlide = (nextIndex) => {
     slides[index].classList.remove('active');
@@ -338,15 +341,15 @@ const initCarousel = () => {
     dots[index].classList.add('active');
   };
 
+  const goNext = () => showSlide((index + 1) % slides.length);
+  const goPrev = () => showSlide((index - 1 + slides.length) % slides.length);
+
   dots.forEach((dot, dotIndex) => {
     dot.addEventListener('click', () => showSlide(dotIndex));
   });
 
   const startAuto = () => {
-    timerId = setInterval(() => {
-      const nextIndex = (index + 1) % slides.length;
-      showSlide(nextIndex);
-    }, 5000);
+    timerId = setInterval(goNext, 5000);
   };
 
   const stopAuto = () => {
@@ -355,6 +358,36 @@ const initCarousel = () => {
       timerId = null;
     }
   };
+
+  const onPointerDown = (event) => {
+    isDragging = true;
+    startX = event.clientX;
+    deltaX = 0;
+    stopAuto();
+  };
+
+  const onPointerMove = (event) => {
+    if (!isDragging) return;
+    deltaX = event.clientX - startX;
+  };
+
+  const onPointerUp = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    if (Math.abs(deltaX) > 60) {
+      if (deltaX < 0) {
+        goNext();
+      } else {
+        goPrev();
+      }
+    }
+    startAuto();
+  };
+
+  carousel.addEventListener('pointerdown', onPointerDown);
+  carousel.addEventListener('pointermove', onPointerMove);
+  carousel.addEventListener('pointerup', onPointerUp);
+  carousel.addEventListener('pointerleave', onPointerUp);
 
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
