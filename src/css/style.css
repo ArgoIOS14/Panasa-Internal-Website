@@ -377,7 +377,7 @@ section {
 }
 
 .feature-card:nth-child(1) {
-  grid-column: 1 / 7;
+  grid-column: 1 / 6;
   height: calc(var(--card-height) - 8px);
 }
 
@@ -394,7 +394,7 @@ section {
 }
 
 .feature-card:nth-child(4) {
-  grid-column: 6 / 13;
+  grid-column: 6 / 12;
   height: calc(var(--card-height) - 8px);
 }
 
