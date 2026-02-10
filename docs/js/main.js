@@ -354,7 +354,7 @@ const initCarousel = () => {
   const goPrev = () => goTo((index - 1 + slides.length) % slides.length);
 
   const startAuto = () => {
-    timerId = setInterval(goNext, 5000);
+    timerId = setInterval(goNext, 1000);
   };
 
   const stopAuto = () => {
