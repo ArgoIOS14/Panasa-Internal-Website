@@ -360,7 +360,8 @@ section {
 }
 
 .feature-grid {
-  max-width: 1280px;
+  max-width: 1306px;
+  width: 100%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
