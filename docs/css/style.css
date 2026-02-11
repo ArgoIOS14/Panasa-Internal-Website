@@ -363,37 +363,34 @@ section {
   max-width: 1306px;
   width: 100%;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   --rect-ratio: 756 / 406;
   --square-ratio: 540 / 406;
-  grid-auto-rows: auto;
-  grid-auto-flow: row;
-  column-gap: 10px;
-  row-gap: 10px;
+  --pair-gap: 10px;
+  --pair-total: 1296;
+  gap: var(--pair-gap);
   align-items: stretch;
   justify-content: center;
 }
 
 .feature-card:nth-child(1) {
-  width: 100%;
+  width: calc((100% - var(--pair-gap)) * 756 / var(--pair-total));
   aspect-ratio: var(--rect-ratio);
 }
 
 .feature-card:nth-child(2) {
-  width: 100%;
-  justify-self: end;
+  width: calc((100% - var(--pair-gap)) * 540 / var(--pair-total));
   aspect-ratio: var(--square-ratio);
 }
 
 .feature-card:nth-child(3) {
-  width: 100%;
-  justify-self: start;
+  width: calc((100% - var(--pair-gap)) * 540 / var(--pair-total));
   aspect-ratio: var(--square-ratio);
 }
 
 .feature-card:nth-child(4) {
-  width: 100%;
+  width: calc((100% - var(--pair-gap)) * 756 / var(--pair-total));
   aspect-ratio: var(--rect-ratio);
 }
 
@@ -836,15 +833,14 @@ section {
   }
 
   .feature-grid {
+    display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: auto;
+    gap: 10px;
   }
 
   .feature-card {
     width: 100%;
-    height: auto;
-    aspect-ratio: auto;
-    grid-column: auto;
+    aspect-ratio: var(--rect-ratio);
   }
 }
 
