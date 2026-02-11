@@ -251,7 +251,7 @@ const renderTestimonials = (data) => {
     logo.className = 'testimonial-logo';
     logo.src = item.logo;
     logo.alt = item.name;
-    person.append(logo, avatar);
+    person.append(avatar, logo);
     card.append(p, person);
     cards.appendChild(card);
 
