@@ -593,52 +593,91 @@ section {
 }
 
 .testimonials {
-  background: #0a0a0a;
+  background: #101010;
   color: #fff;
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+.testimonials .section-title {
+  margin-bottom: 54px;
+}
+
+.testimonials .section-title .pill {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.testimonials .section-title h2 {
+  color: #ffffff;
+}
+
+.testimonials .section-title p {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 1rem;
 }
 
 .trust-grid {
-  max-width: 1060px;
+  max-width: 1268px;
   margin: 0 auto 24px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .trust-card {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 22px;
-  border-radius: 16px;
+  background: transparent;
+  padding: 26px 24px 22px;
+  border-radius: 0;
+  min-height: 284px;
   display: grid;
-  gap: 16px;
+  grid-template-rows: 1fr auto;
+  gap: 28px;
+}
+
+.trust-card + .trust-card {
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .trust-card p {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1rem;
+  line-height: 1.62;
 }
 
 .person {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
 }
 
 .person span {
   display: block;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.56);
   font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.person strong {
+  font-size: 1.4rem;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.testimonial-logo {
+  width: auto;
+  height: 56px;
+  max-width: 200px;
+  object-fit: contain;
+  opacity: 1;
 }
 
 .logo-row {
-  max-width: 700px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  display: none;
 }
 
 .engagement-grid {
@@ -801,8 +840,43 @@ section {
 }
 
 @media (max-width: 900px) {
+  .testimonials {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
   .results-card {
     grid-template-columns: 1fr;
+  }
+
+  .trust-grid {
+    grid-template-columns: 1fr;
+    border-left: none;
+    border-right: none;
+  }
+
+  .trust-card {
+    min-height: 0;
+    padding: 20px 0;
+    border-left: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .trust-card:last-child {
+    border-bottom: none;
+  }
+
+  .trust-card + .trust-card {
+    border-left: none;
+  }
+
+  .person strong {
+    font-size: 1.2rem;
+  }
+
+  .testimonial-logo {
+    height: 44px;
+    max-width: 170px;
   }
 
   .footer-bottom {

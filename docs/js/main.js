@@ -248,6 +248,7 @@ const renderTestimonials = (data) => {
     role.textContent = item.role;
     avatar.append(name, role);
     const logo = createEl('img');
+    logo.className = 'testimonial-logo';
     logo.src = item.logo;
     logo.alt = item.name;
     person.append(logo, avatar);

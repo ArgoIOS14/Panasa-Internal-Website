@@ -307,21 +307,21 @@
     ]
   },
   "testimonials": {
-    "pill": "Platform trust",
+    "pill": "Testimonials",
     "title": "Trusted by Fintech Leaders",
-    "subtitle": "What our partners say about scaling with Panasa.",
+    "subtitle": "What our clients say about working with Panasa",
     "cards": [
       {
         "text": "Panasa became our extended fintech engineering team. They understand authorization flows, 3DS authentication, and scheme integrations better than most in-house teams we\u2019ve seen.",
         "name": "John Doe",
         "role": "VP Engineering",
-        "logo": "assets/logo-globalbank.svg"
+        "logo": "assets/testimonial-logo-1.svg"
       },
       {
         "text": "We eliminated multiple vendor relationships by consolidating with Panasa. From development to 24/7 operations, they handle everything with true payment domain expertise.",
         "name": "Sarah Miller",
         "role": "Head of Operations",
-        "logo": "assets/logo-segment.svg"
+        "logo": "assets/testimonial-logo-2.svg"
       }
     ]
   },
