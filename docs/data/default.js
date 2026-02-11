@@ -78,7 +78,7 @@ window.DEFAULT_CONTENT = {
     "subtitle": "From development to operations, we cover every aspect of fintech delivery.",
     "items": [
       {
-        "icon": "assets/icon-ai.svg",
+        "icon": "assets/service-frame-1.svg",
         "title": "AI accelerated fintech engineering",
         "text": "Rapid platform MVPs, risk models, and card issuing pipelines with AI copilots.",
         "bullets": [
@@ -88,7 +88,7 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "icon": "assets/icon-backoffice.svg",
+        "icon": "assets/service-frame-2.svg",
         "title": "AI powered fintech backoffice",
         "text": "Smart reconciliations, fraud monitoring, and automated exception handling.",
         "bullets": [
@@ -98,7 +98,7 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "icon": "assets/icon-cyber.svg",
+        "icon": "assets/service-frame-3.svg",
         "title": "Cyber resilience for fintech platforms",
         "text": "Threat modeling, monitoring, and high-availability incident response plans.",
         "bullets": [
@@ -108,7 +108,7 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "icon": "assets/icon-global.svg",
+        "icon": "assets/service-frame-4.svg",
         "title": "Global capability center as a service",
         "text": "Dedicated pods in multiple regions with unified delivery playbooks.",
         "bullets": [
@@ -118,7 +118,7 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "icon": "assets/icon-consulting.svg",
+        "icon": "assets/service-frame-5.svg",
         "title": "Fintech AI consulting",
         "text": "Strategic AI roadmaps, partner selection, and scale-up advisory.",
         "bullets": [
@@ -128,7 +128,7 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "icon": "assets/icon-data.svg",
+        "icon": "assets/service-frame-6.svg",
         "title": "Data & compliance as a service",
         "text": "Privacy-by-design pipelines, observability dashboards, and governance.",
         "bullets": [
