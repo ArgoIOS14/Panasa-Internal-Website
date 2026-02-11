@@ -369,7 +369,7 @@ section {
   --square-ratio: 540 / 406;
   --pair-gap: 10px;
   --pair-total: 1296;
-  --row-height: calc((100% - var(--pair-gap)) * 406 / var(--pair-total));
+  --row-height: clamp(260px, 22vw, 406px);
   gap: var(--pair-gap);
   align-items: stretch;
   justify-content: center;
