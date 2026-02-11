@@ -369,29 +369,26 @@ section {
   --square-ratio: 540 / 406;
   --pair-gap: 10px;
   --pair-total: 1296;
+  --row-height: calc((100% - var(--pair-gap)) * 406 / var(--pair-total));
   gap: var(--pair-gap);
   align-items: stretch;
   justify-content: center;
 }
 
 .feature-card:nth-child(1) {
-  width: calc((100% - var(--pair-gap)) * 756 / var(--pair-total));
-  aspect-ratio: var(--rect-ratio);
+  flex: 0 0 calc((100% - var(--pair-gap)) * 756 / var(--pair-total));
 }
 
 .feature-card:nth-child(2) {
-  width: calc((100% - var(--pair-gap)) * 540 / var(--pair-total));
-  aspect-ratio: var(--square-ratio);
+  flex: 0 0 calc((100% - var(--pair-gap)) * 540 / var(--pair-total));
 }
 
 .feature-card:nth-child(3) {
-  width: calc((100% - var(--pair-gap)) * 540 / var(--pair-total));
-  aspect-ratio: var(--square-ratio);
+  flex: 0 0 calc((100% - var(--pair-gap)) * 540 / var(--pair-total));
 }
 
 .feature-card:nth-child(4) {
-  width: calc((100% - var(--pair-gap)) * 756 / var(--pair-total));
-  aspect-ratio: var(--rect-ratio);
+  flex: 0 0 calc((100% - var(--pair-gap)) * 756 / var(--pair-total));
 }
 
 .feature-card {
@@ -404,6 +401,8 @@ section {
   width: 100%;
   max-width: 100%;
   position: relative;
+  height: var(--row-height);
+  min-height: var(--row-height);
 }
 
 
@@ -840,6 +839,8 @@ section {
 
   .feature-card {
     width: 100%;
+    min-height: 0;
+    height: auto;
     aspect-ratio: var(--rect-ratio);
   }
 }
