@@ -1,14 +1,14 @@
-import { initScrollAnimations } from './components/animations.js';
-import { initCarousel } from './components/carousel.js';
-import { loadContent } from './data/loadContent.js';
-import { renderCaseStudies } from './sections/caseStudies.js';
-import { renderEngagement } from './sections/engagement.js';
-import { renderFooter } from './sections/footer.js';
-import { renderHero } from './sections/hero.js';
-import { initNavToggle, renderNav } from './sections/nav.js';
-import { renderServices } from './sections/services.js';
-import { renderTestimonials } from './sections/testimonials.js';
-import { renderWhy } from './sections/why.js';
+import { initScrollAnimations } from './Home scenes/components/animations.js';
+import { initCarousel } from './Home scenes/components/carousel.js';
+import { loadContent } from './Home scenes/data/loadContent.js';
+import { renderCaseStudies } from './Home scenes/sections/caseStudies.js';
+import { renderEngagement } from './Home scenes/sections/engagement.js';
+import { renderFooter } from './Home scenes/sections/footer.js';
+import { renderHero } from './Home scenes/sections/hero.js';
+import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
+import { renderServices } from './Home scenes/sections/services.js';
+import { renderTestimonials } from './Home scenes/sections/testimonials.js';
+import { renderWhy } from './Home scenes/sections/why.js';
 
 const renderPage = (content) => {
   document.title = content.meta.title;

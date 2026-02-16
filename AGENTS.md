@@ -10,14 +10,15 @@
 ## Current Architecture
 - `src/index.html`: section structure and semantic layout
 - `src/css/style.css`: all section styling, responsiveness, animations
-- `src/js/main.js`: rendering logic, carousel behavior, interactions
-- `src/data/content.json`: primary content source
-- `src/data/default.js`: fallback content if JSON fetch fails
+- `src/js/main.js`: lightweight bootstrap/orchestrator
+- `src/js/Home scenes/`: all split JS modules (sections/components/utils/data)
+- `src/content/Home page/content.json`: primary content source
+- `src/content/Home page/default.js`: fallback content if JSON fetch fails
 - `src/assets/`: all icons, logos, placeholders, SVG design assets
 
 ## Data Flow
-1. App tries to load `data/content.json`
-2. If loading fails, app falls back to `window.DEFAULT_CONTENT` from `data/default.js`
+1. App tries to load `content/Home page/content.json`
+2. If loading fails, app falls back to `window.DEFAULT_CONTENT` from `content/Home page/default.js`
 3. For design/content consistency, update both `content.json` and `default.js` when content-sensitive changes are made
 
 ## Build/Sync Rule
@@ -44,6 +45,13 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Testimonial author logos:
   - `src/assets/testimonial-logo-1.svg`
   - `src/assets/testimonial-logo-2.svg`
+
+## Module Layout
+- Scenes/components/utils/data modules are grouped under:
+  - `src/js/Home scenes/components/`
+  - `src/js/Home scenes/sections/`
+  - `src/js/Home scenes/utils/`
+  - `src/js/Home scenes/data/`
 
 ## Collaboration Notes
 - User expects close visual parity with provided Figma/PDF/screenshots
