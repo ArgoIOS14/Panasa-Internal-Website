@@ -15,6 +15,7 @@
 - `src/content/Home page/content.json`: primary content source
 - `src/content/Home page/default.js`: fallback content if JSON fetch fails
 - `src/assets/`: all icons, logos, placeholders, SVG design assets
+- `AGENTS.md`: handoff and project operating context for new chats/accounts
 
 ## Data Flow
 1. App tries to load `content/Home page/content.json`
@@ -26,6 +27,7 @@
 ```bash
 rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ```
+- `docs/` should mirror `src/` folder structure (including `content/Home page/` and `js/Home scenes/`)
 
 ## Known Design Decisions
 - Hero gradient transitions to white before certifications area
@@ -52,11 +54,17 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - `src/js/Home scenes/sections/`
   - `src/js/Home scenes/utils/`
   - `src/js/Home scenes/data/`
+- Bootstrap imports are centralized in `src/js/main.js`
 
 ## Collaboration Notes
 - User expects close visual parity with provided Figma/PDF/screenshots
 - Prefer exact spacing, color, and card geometry replication over generic approximations
 - User requested commit + push after updates unless explicitly told not to
+- If a change affects runtime content, update both:
+  - `src/content/Home page/content.json`
+  - `src/content/Home page/default.js`
+- Keep the static share zip out of git:
+  - `panasa-static-site.zip` is gitignored
 
 ## Git/Delivery Workflow
 1. Edit in `src/`
@@ -67,6 +75,11 @@ git add -A
 git commit -m "<clear message>"
 git push
 ```
+
+## Runtime Script Paths
+- In `src/index.html`:
+  - Fallback content script: `content/Home page/default.js`
+  - App script: `js/main.js` loaded with `type="module"`
 
 ## Local Preview
 - Recommended:
@@ -82,3 +95,4 @@ python3 -m http.server 8080
 cd /Users/arjun.g/Documents/New\ project
 zip -r panasa-static-site.zip docs
 ```
+- For local handoff only; do not commit this zip to repository.
