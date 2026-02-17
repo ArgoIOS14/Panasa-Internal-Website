@@ -32,6 +32,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ## Known Design Decisions
 - Hero gradient transitions to white before certifications area
 - Certifications row is centered with a full-width light separator (`#D4D4D4`)
+- Home certifications strip must visually match the design width/scale, with oversized SVG whitespace cropped via CSS rendering (`object-fit: cover`, centered) so badge logos appear at the intended size.
 - Work With Us section uses asymmetric cards on desktop, single-column on tablet/mobile
 - Case Studies is implemented as a functional carousel with autoplay and smooth swipe/drag behavior
 - Testimonials section uses dark theme (`#101010`) and custom author logos from provided SVGs
