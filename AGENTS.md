@@ -41,6 +41,14 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Desktop: section-specific asymmetric layouts where requested
 - Tablet/Mobile: simplified single-column stack for complex card sections
 - Avoid fixed widths that break on narrower viewports; prefer proportional sizing and aspect-ratio controls
+- All pages (existing and future) must be responsive across desktop, tablet, and mobile breakpoints.
+
+## Global UI/UX Rules (All Pages)
+- Apply smooth scrolling and fade in/out section animations on every page, consistent with Home page behavior.
+- Use `Lufga` for all header/title text across all pages.
+- Use `DM Sans` for all body/description text across all pages.
+- Use a common pill-shaped navigation bar component on all pages that require navigation.
+- The common navigation bar must retain the same brand image assets and visual treatment already established in the project.
 
 ## Asset Mapping Notes
 - Service card custom icons: `src/assets/service-frame-1.svg` ... `service-frame-6.svg`

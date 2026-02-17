@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   --bg-light: #f7fff9;
@@ -21,9 +22,22 @@
 }
 
 body {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background: #ffffff;
   color: var(--text-dark);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lufga', 'DM Sans', sans-serif;
 }
 
 .page {
@@ -132,7 +146,6 @@ ul {
 }
 
 .hero-copy h1 {
-  font-family: 'Fraunces', serif;
   font-size: clamp(2.4rem, 3.5vw, 3.8rem);
   line-height: 1.1;
   margin: 20px 0;
@@ -294,7 +307,6 @@ section {
 
 .section-title h2 {
   font-size: clamp(1.8rem, 2.8vw, 2.6rem);
-  font-family: 'Fraunces', serif;
   margin: 14px 0;
 }
 
@@ -669,7 +681,6 @@ section {
 
 .person strong {
   font-size: 1.4rem;
-  font-family: 'Fraunces', serif;
   font-weight: 600;
   color: #ffffff;
 }
@@ -765,7 +776,6 @@ section {
 }
 
 .footer-cta h2 {
-  font-family: 'Fraunces', serif;
   font-size: 1.8rem;
   margin-bottom: 10px;
 }

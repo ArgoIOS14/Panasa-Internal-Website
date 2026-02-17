@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="careers-page">
-      <header class="site-header" id="top">
+      <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="index.html" aria-label="Panasa home">
             <img src="assets/logo.svg" alt="Panasa" />
@@ -30,8 +30,8 @@
       </header>
 
       <main>
-        <section class="hero">
-          <div class="hero-copy">
+        <section class="hero" data-animate>
+          <div class="hero-copy" data-animate>
             <h1>
               Build the Future of Fintech
               <em>with Panasa</em>
@@ -43,12 +43,12 @@
             </p>
           </div>
 
-          <div class="team-photo">
+          <div class="team-photo" data-animate>
             <img src="assets/why-card-1.svg" alt="Panasa team" />
           </div>
         </section>
 
-        <section class="open-roles" id="open-roles">
+        <section class="open-roles" id="open-roles" data-animate>
           <div class="roles-header">
             <h2>Careers at Panasa Technology</h2>
             <div class="search-wrap">
@@ -78,35 +78,35 @@
           </div>
 
           <div class="role-list">
-            <article class="role-card">
+            <article class="role-card" data-animate>
               <h3>Marketing Manager <span>Job ID: 304330</span></h3>
               <p>Marketing · In-Office · Kochi, Kerala, India · 4 - 9 years</p>
             </article>
-            <article class="role-card">
+            <article class="role-card" data-animate>
               <h3>Workforce Planner <span>Job ID: 794330</span></h3>
               <p>Remote · India · 5 - 8 years</p>
             </article>
-            <article class="role-card">
+            <article class="role-card" data-animate>
               <h3>Senior AI Artist / AI Generative Production Specialist <span>Job ID: 234557</span></h3>
               <p>Marketing · In-Office · Kochi, Kerala, India · 3 - 8 years</p>
             </article>
-            <article class="role-card">
+            <article class="role-card" data-animate>
               <h3>Marketing Intern <span>Job ID: 123558</span></h3>
               <p>Marketing · Kochi, Kerala, India · 0 - 1 years</p>
             </article>
-            <article class="role-card">
+            <article class="role-card" data-animate>
               <h3>Jr. Marketing Manager <span>Job ID: 245108</span></h3>
               <p>Marketing · Remote · India · 1 - 3 years</p>
             </article>
-            <article class="role-card">
+            <article class="role-card" data-animate>
               <h3>Creative Producer <span>Job ID: 129901</span></h3>
               <p>Marketing · In-Office · Kochi, Kerala, India · 3 - 8 years</p>
             </article>
           </div>
         </section>
 
-        <section class="why-join">
-          <div class="why-copy">
+        <section class="why-join" data-animate>
+          <div class="why-copy" data-animate>
             <h2>Why Join <span>Panasa?</span></h2>
             <p>
               Join a team that builds at scale, values responsibility, and invests in long-term growth.
@@ -114,19 +114,19 @@
           </div>
 
           <div class="why-grid">
-            <article class="why-card">
+            <article class="why-card" data-animate>
               <h3><img src="assets/icon-backoffice.svg" alt="" /> Grow Your Skills</h3>
               <p>Hands-on exposure to payments, security, compliance, and large-scale systems.</p>
             </article>
-            <article class="why-card">
+            <article class="why-card" data-animate>
               <h3><img src="assets/icon-ai.svg" alt="" /> Ownership Culture</h3>
               <p>We trust our people to make decisions and take responsibility.</p>
             </article>
-            <article class="why-card">
+            <article class="why-card" data-animate>
               <h3><img src="assets/icon-consulting.svg" alt="" /> Supportive Team</h3>
               <p>Collaborative environment with strong engineering practices.</p>
             </article>
-            <article class="why-card">
+            <article class="why-card" data-animate>
               <h3><img src="assets/icon-global.svg" alt="" /> Stable &amp; Scalable</h3>
               <p>Work with enterprise clients and long-term projects.</p>
             </article>
@@ -134,8 +134,8 @@
         </section>
       </main>
 
-      <footer class="site-footer" id="contact">
-        <div class="footer-cta">
+      <footer class="site-footer" id="contact" data-animate>
+        <div class="footer-cta" data-animate>
           <div>
             <h2><em>Ready</em> to Build Your Card Platform</h2>
             <p>
@@ -146,7 +146,7 @@
           <a class="btn btn-light" href="index.html#contact">Talk to our team</a>
         </div>
 
-        <div class="footer-card">
+        <div class="footer-card" data-animate>
           <div class="footer-brand">
             <img src="assets/logo.svg" alt="Panasa" />
             <p>From technical leaders to operations teams, we deliver value across your entire organization.</p>
@@ -183,7 +183,7 @@
           </div>
         </div>
 
-        <div class="footer-bottom">
+        <div class="footer-bottom" data-animate>
           <span>© 2026 Panasa Technology. All rights reserved.</span>
           <div class="footer-meta">
             <a href="#">Privacy Policy</a>
@@ -194,15 +194,6 @@
       </footer>
     </div>
 
-    <script>
-      const navToggle = document.querySelector('.nav-toggle');
-      const navLinks = document.querySelector('[data-nav-links]');
-      if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-          const isOpen = navLinks.classList.toggle('open');
-          navToggle.setAttribute('aria-expanded', String(isOpen));
-        });
-      }
-    </script>
+    <script type="module" src="js/careers.js"></script>
   </body>
 </html>
