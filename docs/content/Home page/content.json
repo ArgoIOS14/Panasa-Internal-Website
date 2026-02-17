@@ -19,7 +19,7 @@
       },
       {
         "label": "Careers",
-        "href": "#careers"
+        "href": "careers.html"
       }
     ],
     "cta": {
@@ -398,7 +398,7 @@
           },
           {
             "label": "Careers",
-            "href": "#careers"
+            "href": "careers.html"
           },
           {
             "label": "Contact",
@@ -419,7 +419,7 @@
         "links": [
           {
             "label": "Case studies",
-            "href": "#careers"
+            "href": "careers.html"
           },
           {
             "label": "Whitepapers",
