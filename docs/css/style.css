@@ -1142,7 +1142,7 @@ section {
 .engagement-card {
   background: #ffffff;
   border-radius: 18px;
-  padding: 18px 20px 16px;
+  padding: 18px 20px 12px;
   border: none;
   display: grid;
   gap: 14px;
@@ -1234,6 +1234,7 @@ section {
   border-radius: 6px;
   font-size: 0.82rem;
   box-shadow: none;
+  align-self: end;
 }
 
 .engagement-card.featured .btn {

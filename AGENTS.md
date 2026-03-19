@@ -92,6 +92,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - desktop engagement cards have been reduced in size and density to better match the screenshot reference
   - latest desktop pass restores taller card proportions and a framed outer card container based on the PNG reference
   - latest precision pass adjusts heading scale, tab size, icon size, frame padding, and card proportions toward the 320x487-style reference
+  - CTA button should sit visually near the bottom edge of each engagement card with minimal space below it
 
 ## Responsive Rules
 - Desktop: section-specific asymmetric layouts where requested
