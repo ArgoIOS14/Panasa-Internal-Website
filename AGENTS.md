@@ -103,6 +103,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - tighter hero/nav/certifications proportions
   - Services, Why Panasa, Case Studies, Testimonials, and Engagement all have smaller-screen-specific spacing and sizing adjustments
   - Engagement cards move to 2-column on tablet and 1-column on mobile
+- Final whole-page polish pass has also tightened:
+  - shared desktop section widths
+  - hero/trusted spacing
+  - split heading rhythm
+  - testimonials/footer vertical density
 
 ## Global UI/UX Rules (All Pages)
 - Apply smooth scrolling and fade in/out section animations on every page, consistent with Home page behavior.
