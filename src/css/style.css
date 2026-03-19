@@ -1087,11 +1087,15 @@ section {
 }
 
 .engagement-grid {
-  max-width: 980px;
+  max-width: 1320px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
+  padding: 20px;
+  border: 1px solid #d9e0db;
+  border-radius: 18px;
+  background: #ffffff;
 }
 
 .engagement .section-title-split {
@@ -1133,18 +1137,19 @@ section {
 
 .engagement-card {
   background: #ffffff;
-  border-radius: 8px;
-  padding: 8px 8px 8px;
-  border: 1px solid #d9e0db;
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  border: none;
   display: grid;
-  gap: 6px;
+  gap: 12px;
   align-content: start;
+  min-height: 487px;
 }
 
 .engagement-image {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
   object-fit: cover;
   background: #d9d9d9;
 }
@@ -1165,13 +1170,13 @@ section {
 }
 
 .engagement-card h3 {
-  font-size: 0.82rem;
-  line-height: 1.1;
+  font-size: 1.1rem;
+  line-height: 1.12;
 }
 
 .engagement-card p {
-  font-size: 0.58rem;
-  line-height: 1.38;
+  font-size: 0.82rem;
+  line-height: 1.5;
   color: #536b61;
 }
 
@@ -1187,29 +1192,29 @@ section {
 .engagement-card ul {
   color: var(--text-muted);
   display: grid;
-  gap: 3px;
-  font-size: 0.56rem;
-  line-height: 1.28;
+  gap: 8px;
+  font-size: 0.76rem;
+  line-height: 1.36;
 }
 
 .engagement-includes {
-  font-size: 0.56rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #233f36;
 }
 
 .engagement-card li {
   position: relative;
-  padding-left: 12px;
+  padding-left: 22px;
 }
 
 .engagement-card li::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.43rem;
-  width: 5px;
-  height: 5px;
+  top: 0.34rem;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   background: #10b36a;
   box-shadow: 0 0 0 3px rgba(16, 179, 106, 0.12);
@@ -1219,11 +1224,11 @@ section {
   width: 100%;
   justify-content: center;
   text-align: center;
-  padding: 7px 10px;
-  margin-top: 4px;
+  padding: 11px 16px;
+  margin-top: auto;
   min-height: 0;
-  border-radius: 4px;
-  font-size: 0.58rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
   box-shadow: none;
 }
 

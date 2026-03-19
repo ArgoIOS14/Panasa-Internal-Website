@@ -88,6 +88,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - tabs are interactive: `Engagement Models` and `Growth Packages`
   - `Growth Packages` currently shows dummy cards in the same visual style until final content is provided
   - desktop engagement cards have been reduced in size and density to better match the screenshot reference
+  - latest desktop pass restores taller card proportions and a framed outer card container based on the PNG reference
 
 ## Responsive Rules
 - Desktop: section-specific asymmetric layouts where requested
