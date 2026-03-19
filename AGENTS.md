@@ -97,6 +97,8 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - User expects close visual parity with provided Figma/PDF/screenshots
 - Prefer exact spacing, color, and card geometry replication over generic approximations
 - When a user says a section is misaligned or broken, prioritize matching the screenshot over preserving prior implementation details
+- Current architectural decision: continue building additional pages in the existing plain static HTML/CSS/JS setup
+- Astro/framework migration is explicitly deferred until the user decides the project has grown enough to justify it
 - User requested commit + push after updates unless explicitly told not to
 - If a change affects runtime content, update both:
   - `src/content/Home page/content.json`
