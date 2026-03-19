@@ -120,10 +120,16 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Current Services section title is:
   - `AI-Driven Fintech Services Stack`
 - Current Services subtitle is:
-  - `From AI accelerated engineering to operational resilience, we cover scalable fintech outcomes for modern payment platforms.`
+  - `End-to-end AI-powered engineering, governance, and operational services for secure, scalable fintech platforms.`
 - Services content state:
-  - first slide is being tuned to match supplied design more closely
+  - first slide uses screenshot-aligned copy with `Core Build` eyebrow and `AI Accelerated Fintech Engineering` title
   - remaining slides may still use placeholder/dummy text until final content is provided
+- Current Testimonials subtitle is:
+  - `Feedback from fintech partners delivering secure, scalable, compliant card platforms.`
+- Current Engagement subtitle is:
+  - `Flexible operating models designed to match your fintech's stage, scale, and regulatory complexity.`
+- Current Footer CTA title is:
+  - `Ready to Build Your Card Platform`
 - If Services copy/points change, update both:
   - `src/content/Home page/content.json`
   - `src/content/Home page/default.js`
