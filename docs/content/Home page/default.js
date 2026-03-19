@@ -81,62 +81,76 @@ window.DEFAULT_CONTENT = {
     "items": [
       {
         "icon": "assets/service-frame-1.svg",
+        "eyebrow": "AI Accelerated Fintech Engineering",
         "title": "AI accelerated fintech engineering",
-        "text": "Rapid platform MVPs, risk models, and card issuing pipelines with AI copilots.",
+        "text": "Rapid prototyping · AI accelerated spec driven development · card issuing platforms · neobanks & digital wallets · open banking integration · microservices & API development",
         "bullets": [
-          "Embedded compliance",
-          "Payments orchestration",
-          "API-first delivery"
+          "AI driven, spec driven legacy app",
+          "AI alert + error engineering",
+          "AI driven 24/7 implementation",
+          "Agentic AI & automation",
+          "New product and platform",
+          "Business intelligence & advanced analytics"
         ]
       },
       {
         "icon": "assets/service-frame-2.svg",
+        "eyebrow": "AI Powered Fintech Backoffice",
         "title": "AI powered fintech backoffice",
-        "text": "Smart reconciliations, fraud monitoring, and automated exception handling.",
+        "text": "Dummy content for backoffice operations and application support.",
         "bullets": [
-          "Chargeback flows",
-          "Ledger accuracy",
-          "Audit trails"
+          "Dummy point one",
+          "Dummy point two",
+          "Dummy point three",
+          "Dummy point four"
         ]
       },
       {
         "icon": "assets/service-frame-3.svg",
+        "eyebrow": "Cyber Resilience For Fintech Platforms",
         "title": "Cyber resilience for fintech platforms",
-        "text": "Threat modeling, monitoring, and high-availability incident response plans.",
+        "text": "Dummy content for resilience, monitoring, and protection layers.",
         "bullets": [
-          "24/7 SOC coverage",
-          "Zero trust networks",
-          "Regulatory alignment"
+          "Dummy point one",
+          "Dummy point two",
+          "Dummy point three",
+          "Dummy point four"
         ]
       },
       {
         "icon": "assets/service-frame-4.svg",
+        "eyebrow": "Global Capability Center As A Service",
         "title": "Global capability center as a service",
-        "text": "Dedicated pods in multiple regions with unified delivery playbooks.",
+        "text": "Dummy content for global teams and operational support models.",
         "bullets": [
-          "Follow-the-sun",
-          "Operational SLAs",
-          "Cost optimization"
+          "Dummy point one",
+          "Dummy point two",
+          "Dummy point three",
+          "Dummy point four"
         ]
       },
       {
         "icon": "assets/service-frame-5.svg",
+        "eyebrow": "Fintech AI Consulting",
         "title": "Fintech AI consulting",
-        "text": "Strategic AI roadmaps, partner selection, and scale-up advisory.",
+        "text": "Dummy content for advisory, strategy, and AI transformation work.",
         "bullets": [
-          "Architecture reviews",
-          "Vendor vetting",
-          "Launch readiness"
+          "Dummy point one",
+          "Dummy point two",
+          "Dummy point three",
+          "Dummy point four"
         ]
       },
       {
         "icon": "assets/service-frame-6.svg",
-        "title": "Data & compliance as a service",
-        "text": "Privacy-by-design pipelines, observability dashboards, and governance.",
+        "eyebrow": "Data As A Service",
+        "title": "Data as a service",
+        "text": "Dummy content for data modernization, governance, and analytics.",
         "bullets": [
-          "Real-time telemetry",
-          "PCI automation",
-          "Risk analytics"
+          "Dummy point one",
+          "Dummy point two",
+          "Dummy point three",
+          "Dummy point four"
         ]
       }
     ]

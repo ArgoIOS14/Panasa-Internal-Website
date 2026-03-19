@@ -6,7 +6,7 @@ const createFeatureSlide = (item, ctaLabel, visualLabel) => {
 
   const copy = createEl('div', 'services-feature-copy');
   const pill = createEl('span', 'services-feature-pill');
-  pill.textContent = item.title;
+  pill.textContent = item.eyebrow || item.title;
 
   const title = createEl('h3');
   title.textContent = item.title;
