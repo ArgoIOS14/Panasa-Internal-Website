@@ -372,6 +372,8 @@ section {
 }
 
 .services-carousel {
+  grid-column: 1 / -1;
+  width: 100%;
   overflow: hidden;
   touch-action: pan-y;
   cursor: grab;
@@ -383,6 +385,7 @@ section {
 
 .services-slides {
   display: flex;
+  width: 100%;
   transition: transform 0.55s ease;
   will-change: transform;
 }
