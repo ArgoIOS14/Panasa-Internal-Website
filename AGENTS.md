@@ -68,6 +68,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - heading remains `AI-Driven Fintech Services Stack`
   - right summary copy currently uses the end-to-end AI-powered engineering wording from the latest screenshot
   - first slide eyebrow is `Core Build`
+  - latest precision pass reduces heading/summary scale, bullet density, visual panel size, and dot sizing to better match the compact reference
 - Services carousel behavior should match Case Studies as closely as possible
 - Shared autoplay timing for Services and Case Studies is currently `4500ms` per slide
 - Why Panasa, Case Studies, Testimonials, and Engagement sections now use a split heading layout on desktop:

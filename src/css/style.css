@@ -441,16 +441,16 @@ section {
 }
 
 .services-shell {
-  max-width: 1060px;
+  max-width: 980px;
   margin: 0 auto;
 }
 
 .services-head {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-  gap: 40px;
-  align-items: end;
-  margin-bottom: 28px;
+  grid-template-columns: minmax(0, 1.06fr) minmax(220px, 0.72fr);
+  gap: 26px;
+  align-items: start;
+  margin-bottom: 18px;
 }
 
 .services-heading .pill {
@@ -458,9 +458,9 @@ section {
 }
 
 .services-heading h2 {
-  max-width: 360px;
-  font-size: clamp(2rem, 2.7vw, 2.8rem);
-  line-height: 1.01;
+  max-width: 300px;
+  font-size: clamp(1.72rem, 2.2vw, 2.2rem);
+  line-height: 0.98;
   letter-spacing: -0.045em;
 }
 
@@ -469,18 +469,19 @@ section {
 }
 
 .services-summary {
-  max-width: 328px;
+  max-width: 250px;
   justify-self: end;
   color: var(--text-muted);
-  font-size: 0.92rem;
-  line-height: 1.62;
+  font-size: 0.72rem;
+  line-height: 1.48;
+  margin-top: 4px;
 }
 
 .services-feature {
   display: grid;
-  grid-template-columns: minmax(300px, 0.88fr) minmax(340px, 1.12fr);
-  column-gap: 32px;
-  row-gap: 10px;
+  grid-template-columns: minmax(240px, 0.9fr) minmax(300px, 1.1fr);
+  column-gap: 24px;
+  row-gap: 8px;
   align-items: start;
 }
 
@@ -506,8 +507,8 @@ section {
 .services-slide {
   min-width: 100%;
   display: grid;
-  grid-template-columns: minmax(300px, 0.88fr) minmax(340px, 1.12fr);
-  column-gap: 32px;
+  grid-template-columns: minmax(240px, 0.9fr) minmax(300px, 1.1fr);
+  column-gap: 24px;
   align-items: start;
 }
 
@@ -518,11 +519,11 @@ section {
 .services-feature-pill {
   display: inline-flex;
   align-items: center;
-  padding: 5px 12px;
-  margin-bottom: 16px;
+  padding: 4px 10px;
+  margin-bottom: 12px;
   border-radius: 999px;
   background: rgba(11, 61, 46, 0.08);
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -530,44 +531,44 @@ section {
 }
 
 .services-feature-copy h3 {
-  max-width: 270px;
-  margin-bottom: 12px;
-  font-size: 1.72rem;
-  line-height: 1.02;
+  max-width: 220px;
+  margin-bottom: 10px;
+  font-size: 1.02rem;
+  line-height: 1.08;
   letter-spacing: -0.04em;
 }
 
 .services-feature-list {
   display: grid;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 9px;
+  margin-bottom: 14px;
 }
 
 .services-feature-list li {
   position: relative;
-  padding-left: 22px;
+  padding-left: 16px;
   color: var(--text-muted);
-  font-size: 0.91rem;
-  line-height: 1.32;
+  font-size: 0.63rem;
+  line-height: 1.25;
 }
 
 .services-feature-list li::before {
   content: '';
   position: absolute;
-  top: 0.42rem;
+  top: 0.24rem;
   left: 0;
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #10b36a;
-  box-shadow: 0 0 0 3px rgba(16, 179, 106, 0.12);
+  box-shadow: 0 0 0 2px rgba(16, 179, 106, 0.12);
 }
 
 .services-feature-link {
   display: inline-flex;
   align-items: center;
   color: var(--text-dark);
-  font-size: 0.85rem;
+  font-size: 0.58rem;
   font-weight: 700;
 }
 
@@ -580,8 +581,9 @@ section {
 .services-feature-visual {
   position: relative;
   width: 100%;
-  min-height: 336px;
-  border-radius: 18px;
+  max-width: 398px;
+  min-height: 274px;
+  border-radius: 10px;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.18), transparent 0 22%),
@@ -589,7 +591,7 @@ section {
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
     linear-gradient(135deg, #2f2f2f 0%, #5d5d5d 48%, #cfcfcf 100%);
   background-size: auto, auto, 12px 12px, auto;
-  box-shadow: 0 20px 38px rgba(25, 34, 30, 0.14);
+  box-shadow: 0 12px 28px rgba(25, 34, 30, 0.1);
 }
 
 .services-visual-glow {
@@ -601,11 +603,11 @@ section {
 
 .services-visual-icon {
   position: absolute;
-  top: 28px;
-  left: 28px;
-  width: 40px;
-  height: 40px;
-  opacity: 0.2;
+  top: 20px;
+  left: 20px;
+  width: 28px;
+  height: 28px;
+  opacity: 0.1;
 }
 
 .services-visual-label {
@@ -614,21 +616,21 @@ section {
   display: grid;
   place-items: center;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 500;
 }
 
 .services-dots {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 8px;
   grid-column: 2;
 }
 
 .services-dot {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   border: none;
   border-radius: 999px;
   background: rgba(11, 61, 46, 0.18);
@@ -636,7 +638,7 @@ section {
 }
 
 .services-dot.active {
-  width: 26px;
+  width: 18px;
   background: var(--bg-dark);
 }
 
