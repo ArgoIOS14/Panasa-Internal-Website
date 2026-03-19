@@ -148,24 +148,25 @@ ul {
 
 .hero-copy h1 {
   max-width: 560px;
-  font-size: clamp(2.35rem, 3.5vw, 3.95rem);
-  line-height: 1.02;
+  font-size: clamp(2.25rem, 3.2vw, 3.55rem);
+  line-height: 1.04;
   letter-spacing: -0.04em;
-  margin: 20px auto 16px;
+  margin: 18px auto 12px;
 }
 
 .hero-copy h1 em {
   color: #16ab6d;
   font-style: normal;
   display: block;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .hero-copy p {
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   color: var(--text-muted);
-  margin-bottom: 24px;
-  max-width: 460px;
+  margin-bottom: 18px;
+  max-width: 430px;
+  line-height: 1.45;
 }
 
 .pill {
@@ -184,15 +185,16 @@ ul {
 
 .hero-actions {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 12px;
+  margin-bottom: 22px;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
 }
 
 .btn {
-  border-radius: 999px;
-  padding: 12px 22px;
+  border-radius: 10px;
+  padding: 11px 18px;
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
@@ -225,8 +227,25 @@ ul {
 
 .btn-ghost {
   background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
+  border: none;
+  color: #304f44;
+  padding: 10px 6px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.hero-actions .btn-dark {
+  min-height: 40px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  border-radius: 7px;
+  box-shadow: none;
+}
+
+.hero-actions .btn-ghost {
+  min-height: 40px;
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
 .trusted-row {
@@ -1548,6 +1567,12 @@ section {
   .btn {
     padding: 10px 16px;
     font-size: 0.82rem;
+  }
+
+  .hero-actions .btn-dark,
+  .hero-actions .btn-ghost {
+    min-height: 36px;
+    font-size: 0.78rem;
   }
 
   .trusted-row {

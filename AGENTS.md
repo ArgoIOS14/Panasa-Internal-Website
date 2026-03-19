@@ -34,6 +34,10 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 
 ## Known Design Decisions
 - Hero gradient transitions to white before certifications area
+- Hero CTA styling is being tuned toward the screenshot-driven reference:
+  - primary CTA uses a small rounded-rectangle treatment
+  - secondary CTA is lighter and less button-like
+  - headline/subtitle/action spacing should stay compact and centered
 - Hero trusted-fintech logo strip is a horizontally looping marquee with soft fade masks on both edges
 - Trusted-fintech marquee is intentionally larger than before and horizontally constrained so its left/right padding visually aligns with the certifications row below
 - Certifications row is centered with a full-width light separator (`#D4D4D4`)
