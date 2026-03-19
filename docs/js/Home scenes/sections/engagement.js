@@ -47,8 +47,9 @@ export const renderEngagement = (data) => {
         ul.appendChild(li);
       });
 
-      const btn = createEl('button', 'btn btn-dark');
+      const btn = createEl('a', 'btn btn-dark');
       btn.textContent = item.cta;
+      btn.href = 'contact.html';
 
       card.append(img, h3, p, includes, ul, btn);
       grid.appendChild(card);

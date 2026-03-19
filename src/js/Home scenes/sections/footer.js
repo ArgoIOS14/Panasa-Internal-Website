@@ -5,7 +5,16 @@ export const renderFooter = (data) => {
   setText('[data-footer-cta-text]', data.ctaText);
 
   const ctaBtn = document.querySelector('[data-footer-cta-button]');
-  if (ctaBtn) ctaBtn.textContent = data.ctaButton;
+  if (ctaBtn) {
+    ctaBtn.textContent = data.ctaButton;
+    if ('href' in ctaBtn) {
+      ctaBtn.href = data.ctaHref || 'contact.html';
+    } else {
+      ctaBtn.onclick = () => {
+        window.location.href = data.ctaHref || 'contact.html';
+      };
+    }
+  }
 
   setText('[data-footer-brand-text]', data.brandText);
   setText('[data-footer-email]', data.email);

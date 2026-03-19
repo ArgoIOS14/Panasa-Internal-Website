@@ -24,7 +24,7 @@ window.DEFAULT_CONTENT = {
     ],
     "cta": {
       "label": "Contact Us",
-      "href": "#contact"
+      "href": "contact.html"
     }
   },
   "hero": {
@@ -34,7 +34,7 @@ window.DEFAULT_CONTENT = {
     "subtitle": "Your AI-native partner for Dev, Ops & Scale. No handoffs.",
     "primaryCta": {
       "label": "Talk to our team",
-      "href": "#contact"
+      "href": "contact.html"
     },
     "secondaryCta": {
       "label": "View Solutions",
@@ -207,7 +207,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-1.svg",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "#contact"
+          "href": "contact.html"
         },
         "metrics": [
           {
@@ -231,7 +231,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-2.svg",
         "cta": {
           "label": "Read full case study",
-          "href": "#contact"
+          "href": "contact.html"
         },
         "metrics": [
           {
@@ -255,7 +255,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-3.svg",
         "cta": {
           "label": "Read full case study",
-          "href": "#contact"
+          "href": "contact.html"
         },
         "metrics": [
           {
@@ -279,7 +279,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-4.svg",
         "cta": {
           "label": "Read full case study",
-          "href": "#contact"
+          "href": "contact.html"
         },
         "metrics": [
           {
@@ -303,7 +303,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-5.svg",
         "cta": {
           "label": "Read full case study",
-          "href": "#contact"
+          "href": "contact.html"
         },
         "metrics": [
           {
@@ -472,6 +472,7 @@ window.DEFAULT_CONTENT = {
     "ctaTitle": "Ready to Build Your Card Platform",
     "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24-7 operations.",
     "ctaButton": "Talk to our team",
+    "ctaHref": "contact.html",
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "sales@panasatech.com",
     "phone": "+44 (0) 20 XXXX XXXX",
@@ -489,7 +490,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Contact",
-            "href": "#contact"
+            "href": "contact.html"
           },
           {
             "label": "Services",

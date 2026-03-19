@@ -19,7 +19,7 @@ const createFeatureSlide = (item, ctaLabel, visualLabel) => {
   });
 
   const cta = createEl('a', 'services-feature-link');
-  cta.href = '#contact';
+  cta.href = 'contact.html';
   cta.textContent = ctaLabel;
 
   copy.append(pill, title, list, cta);
