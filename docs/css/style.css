@@ -1087,11 +1087,11 @@ section {
 }
 
 .engagement-grid {
-  max-width: 1060px;
+  max-width: 980px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .engagement .section-title-split {
@@ -1134,16 +1134,16 @@ section {
 .engagement-card {
   background: #ffffff;
   border-radius: 8px;
-  padding: 10px 10px 10px;
+  padding: 8px 8px 8px;
   border: 1px solid #d9e0db;
   display: grid;
-  gap: 8px;
+  gap: 6px;
   align-content: start;
 }
 
 .engagement-image {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 6px;
   object-fit: cover;
   background: #d9d9d9;
@@ -1165,13 +1165,13 @@ section {
 }
 
 .engagement-card h3 {
-  font-size: 0.95rem;
-  line-height: 1.15;
+  font-size: 0.82rem;
+  line-height: 1.1;
 }
 
 .engagement-card p {
-  font-size: 0.67rem;
-  line-height: 1.45;
+  font-size: 0.58rem;
+  line-height: 1.38;
   color: #536b61;
 }
 
@@ -1187,20 +1187,20 @@ section {
 .engagement-card ul {
   color: var(--text-muted);
   display: grid;
-  gap: 4px;
-  font-size: 0.62rem;
-  line-height: 1.35;
+  gap: 3px;
+  font-size: 0.56rem;
+  line-height: 1.28;
 }
 
 .engagement-includes {
-  font-size: 0.63rem;
+  font-size: 0.56rem;
   font-weight: 700;
   color: #233f36;
 }
 
 .engagement-card li {
   position: relative;
-  padding-left: 14px;
+  padding-left: 12px;
 }
 
 .engagement-card li::before {
@@ -1208,8 +1208,8 @@ section {
   position: absolute;
   left: 0;
   top: 0.43rem;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 999px;
   background: #10b36a;
   box-shadow: 0 0 0 3px rgba(16, 179, 106, 0.12);
@@ -1219,11 +1219,11 @@ section {
   width: 100%;
   justify-content: center;
   text-align: center;
-  padding: 8px 12px;
+  padding: 7px 10px;
   margin-top: 4px;
   min-height: 0;
   border-radius: 4px;
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   box-shadow: none;
 }
 

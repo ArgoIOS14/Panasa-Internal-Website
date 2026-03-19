@@ -87,6 +87,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - title is `Engagement Models` with `Built for Your Growth` highlighted on the next line
   - tabs are interactive: `Engagement Models` and `Growth Packages`
   - `Growth Packages` currently shows dummy cards in the same visual style until final content is provided
+  - desktop engagement cards have been reduced in size and density to better match the screenshot reference
 
 ## Responsive Rules
 - Desktop: section-specific asymmetric layouts where requested
