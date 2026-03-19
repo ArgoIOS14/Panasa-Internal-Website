@@ -1240,65 +1240,92 @@ section {
 }
 
 .site-footer {
-  padding: 80px 24px 30px;
-  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 40%),
-    radial-gradient(circle at top right, rgba(255, 255, 255, 0.08), transparent 45%),
-    linear-gradient(135deg, #0b3d2e 0%, #0e4b39 50%, #2bbd8b 100%);
+  padding: 62px 24px 28px;
+  background:
+    radial-gradient(circle at left center, rgba(255, 255, 255, 0.08), transparent 28%),
+    radial-gradient(circle at right center, rgba(255, 255, 255, 0.08), transparent 28%),
+    linear-gradient(90deg, #1e6f4e 0%, #2f9c68 52%, #56c28c 100%);
   color: #fff;
 }
 
 .footer-cta {
   max-width: 1060px;
-  margin: 0 auto 32px;
+  margin: 0 auto 24px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 24px;
 }
 
 .footer-cta h2 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
+  font-size: 1.95rem;
+  line-height: 1.02;
+  margin-bottom: 8px;
 }
 
 .footer-cta p {
-  color: rgba(255, 255, 255, 0.7);
-  max-width: 520px;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 500px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.footer-cta .btn-light {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  box-shadow: none;
 }
 
 .footer-card {
   max-width: 1060px;
   margin: 0 auto;
-  background: rgba(6, 32, 25, 0.7);
-  border-radius: 18px;
-  padding: 30px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0, transparent 35%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.04) 0, transparent 34%),
+    rgba(12, 48, 36, 0.88);
+  border-radius: 16px;
+  padding: 24px 26px 16px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1.35fr 2fr;
+  gap: 34px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-brand img {
+  width: 118px;
+  height: auto;
 }
 
 .footer-brand span {
   display: block;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 6px;
-  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.74);
+  margin-top: 5px;
+  font-size: 0.78rem;
 }
 
 .footer-card p {
-  color: rgba(255, 255, 255, 0.7);
-  margin: 14px 0 20px;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 12px 0 16px;
+  max-width: 250px;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 .footer-links {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 28px;
 }
 
 .footer-links h4 {
-  margin-bottom: 10px;
-  color: #ffae9b;
-  font-size: 0.85rem;
+  margin-bottom: 12px;
+  color: #63cf98;
+  font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -1306,23 +1333,27 @@ section {
 .footer-links a,
 .footer-links span {
   display: block;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 7px;
+  font-size: 0.74rem;
+  line-height: 1.4;
 }
 
 .footer-bottom {
-  max-width: 1160px;
-  margin: 24px auto 0;
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.68rem;
 }
 
 .footer-meta {
   display: flex;
-  gap: 16px;
+  gap: 14px;
 }
 
 [data-animate] {

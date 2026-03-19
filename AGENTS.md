@@ -148,6 +148,10 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - `src/content/Home page/default.js`
 - Keep the static share zip out of git:
   - `panasa-static-site.zip` is gitignored
+- Footer screenshot-matching notes:
+  - CTA heading uses `Ready to Build Your Card Platform`
+  - footer legal row sits inside the dark footer card under a divider
+  - outer footer uses a green horizontal gradient and inner card uses a darker translucent panel
 
 ## Git/Delivery Workflow
 1. Edit in `src/`
