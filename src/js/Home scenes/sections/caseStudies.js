@@ -1,11 +1,10 @@
 import { createEl, setText } from '../utils/dom.js';
-import { highlightWords } from '../utils/text.js';
 
 export const renderCaseStudies = (data) => {
   setText('[data-case-pill]', data.pill);
 
   const titleEl = document.querySelector('[data-case-title]');
-  if (titleEl) titleEl.innerHTML = highlightWords(data.title, 2);
+  if (titleEl) titleEl.innerHTML = 'Proven Results <span>for Leading Platforms</span>';
   setText('[data-case-subtitle]', data.subtitle);
 
   const slidesContainer = document.querySelector('[data-case-slides]');

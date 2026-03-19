@@ -158,7 +158,7 @@
   "why": {
     "pill": "Work with us",
     "title": "Why fintechs choose Panasa",
-    "subtitle": "What sets us apart in the fintech delivery landscape.",
+    "subtitle": "What sets us apart in the fintech development landscape.",
     "cards": [
       {
         "style": "light",
@@ -176,14 +176,14 @@
         "style": "dark",
         "image": "assets/why-card-1.svg",
         "title": "Proven at scale",
-        "text": "Supporting platforms processing 10M+ transactions monthly. We\u2019ve been there, scaled that.",
+        "text": "Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that.",
         "imageType": "image"
       },
       {
         "style": "photo",
         "image": "assets/why-card-4.svg",
         "title": "Full-stack team",
-        "text": "From strategy to 24/7 ops \u2014 no vendor juggling needed. One team, end-to-end ownership.",
+        "text": "From strategy to 24/7 ops — no vendor juggling needed. One team, end-to-end ownership.",
         "imageType": "image"
       },
       {
@@ -325,10 +325,10 @@
   "testimonials": {
     "pill": "Testimonials",
     "title": "Trusted by Fintech Leaders",
-    "subtitle": "What our clients say about working with Panasa",
+    "subtitle": "What our clients say about working with Panasa across build, compliance, and platform operations.",
     "cards": [
       {
-        "text": "Panasa became our extended fintech engineering team. They understand authorization flows, 3DS authentication, and scheme integrations better than most in-house teams we\u2019ve seen.",
+        "text": "Panasa became our extended fintech engineering team. They understand authorization flows, 3DS authentication, and scheme integrations better than most in-house teams we’ve seen.",
         "name": "John Doe",
         "role": "VP Engineering",
         "logo": "assets/testimonial-logo-1.svg"
@@ -343,8 +343,8 @@
   },
   "engagement": {
     "pill": "Working model",
-    "title": "Flexible engagement models",
-    "subtitle": "Choose the model that fits your needs \u2014 from team augmentation to full managed services.",
+    "title": "Engagement Models Built for Your Growth",
+    "subtitle": "The right delivery model depends on your product stage, team structure, and regulatory complexity.",
     "items": [
       {
         "image": "assets/model-squads.svg",
@@ -395,11 +395,15 @@
         "variant": "light"
       }
     ],
-    "note": "Most clients start with a project and graduate to managed services as they scale."
+    "note": "Most clients start with a project and graduate to managed services as they scale.",
+    "filters": [
+      "Engagement models",
+      "Growth focused"
+    ]
   },
   "footer": {
     "ctaTitle": "Ready to build your card platform",
-    "ctaText": "Let\u2019s discuss your requirements. Our team will show you exactly how we can help \u2014 from custom development to 24/7 operations.",
+    "ctaText": "Let’s discuss your requirements. Our team will show you exactly how we can help — from custom development to 24/7 operations.",
     "ctaButton": "Talk to our team",
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "sales@panasa.tech",
@@ -486,7 +490,7 @@
       }
     ],
     "legal": {
-      "copyright": "\u00a9 2026 Panasa Technology. All rights reserved.",
+      "copyright": "© 2026 Panasa Technology. All rights reserved.",
       "links": [
         {
           "label": "Privacy Policy",

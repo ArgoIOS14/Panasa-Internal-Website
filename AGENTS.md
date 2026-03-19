@@ -47,8 +47,14 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - centered dot navigation below the visual area
 - Services carousel behavior should match Case Studies as closely as possible
 - Shared autoplay timing for Services and Case Studies is currently `4500ms` per slide
+- Why Panasa, Case Studies, Testimonials, and Engagement sections now use a split heading layout on desktop:
+  - left side: pill + title
+  - right side: supporting summary copy
+  - collapses back to centered single-column on tablet/mobile
 - Testimonials section uses dark theme (`#101010`) and custom author logos from provided SVGs
+- Testimonials heading currently renders as `Trusted by` with `Fintech Leaders` highlighted on a new line
 - Services section icons use custom `Frame*.svg` assets mapped into service cards
+- Engagement section now includes top filter pills for visual parity with the current design direction
 
 ## Responsive Rules
 - Desktop: section-specific asymmetric layouts where requested

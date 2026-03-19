@@ -158,7 +158,7 @@ window.DEFAULT_CONTENT = {
   "why": {
     "pill": "Work with us",
     "title": "Why fintechs choose Panasa",
-    "subtitle": "What sets us apart in the fintech delivery landscape.",
+    "subtitle": "What sets us apart in the fintech development landscape.",
     "cards": [
       {
         "style": "light",
@@ -325,7 +325,7 @@ window.DEFAULT_CONTENT = {
   "testimonials": {
     "pill": "Platform trust",
     "title": "Trusted by Fintech Leaders",
-    "subtitle": "What our partners say about scaling with Panasa.",
+    "subtitle": "What our clients say about working with Panasa across build, compliance, and platform operations.",
     "cards": [
       {
         "text": "Panasa became our extended fintech engineering team. They understand authorization flows, 3DS authentication, and scheme integrations better than most in-house teams we’ve seen.",
@@ -343,8 +343,8 @@ window.DEFAULT_CONTENT = {
   },
   "engagement": {
     "pill": "Working model",
-    "title": "Flexible engagement models",
-    "subtitle": "Choose the model that fits your needs — from team augmentation to full managed services.",
+    "title": "Engagement Models Built for Your Growth",
+    "subtitle": "The right delivery model depends on your product stage, team structure, and regulatory complexity.",
     "items": [
       {
         "image": "assets/model-squads.svg",
@@ -395,7 +395,11 @@ window.DEFAULT_CONTENT = {
         "variant": "light"
       }
     ],
-    "note": "Most clients start with a project and graduate to managed services as they scale."
+    "note": "Most clients start with a project and graduate to managed services as they scale.",
+    "filters": [
+      "Engagement models",
+      "Growth focused"
+    ]
   },
   "footer": {
     "ctaTitle": "Ready to build your card platform",

@@ -1,14 +1,24 @@
 import { createEl, setText } from '../utils/dom.js';
-import { highlightWords } from '../utils/text.js';
 
 export const renderEngagement = (data) => {
   setText('[data-engagement-pill]', data.pill);
 
   const titleEl = document.querySelector('[data-engagement-title]');
-  if (titleEl) titleEl.innerHTML = highlightWords(data.title, 1);
+  if (titleEl) titleEl.innerHTML = 'Engagement Models <span>Built for Your Growth</span>';
 
   setText('[data-engagement-subtitle]', data.subtitle);
   setText('[data-engagement-note]', data.note);
+
+  const filters = document.querySelector('[data-engagement-filters]');
+  if (filters) {
+    filters.innerHTML = '';
+    (data.filters || []).forEach((filter, index) => {
+      const button = createEl(`button`, `engagement-filter${index === 0 ? ' active' : ''}`);
+      button.type = 'button';
+      button.textContent = filter;
+      filters.appendChild(button);
+    });
+  }
 
   const grid = document.querySelector('[data-engagement-grid]');
   if (!grid) return;

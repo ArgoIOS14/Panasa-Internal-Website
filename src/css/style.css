@@ -360,6 +360,49 @@ section {
   margin: 0 auto 40px;
 }
 
+.section-title-split {
+  max-width: 1060px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 36px;
+  align-items: start;
+  text-align: left;
+}
+
+.section-title-split .section-heading-copy {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+
+.section-title-split .section-heading-copy .pill {
+  margin-bottom: 0;
+}
+
+.section-title-split h2 {
+  margin: 0;
+  max-width: 480px;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.section-title-split h2 span {
+  color: #10b36a;
+}
+
+.section-title-split p {
+  align-self: start;
+  justify-self: end;
+  max-width: 340px;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  margin-top: 42px;
+}
+
+.section-title-split-dark p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .section-title h2 {
   font-size: clamp(1.8rem, 2.8vw, 2.6rem);
   margin: 14px 0;
@@ -607,6 +650,14 @@ section {
   justify-content: center;
 }
 
+.dark-section .section-title-split {
+  margin-bottom: 32px;
+}
+
+.dark-section .section-title-split h2 {
+  max-width: 520px;
+}
+
 .feature-card:nth-child(1) {
   flex: 0 0 calc((100% - var(--pair-gap)) * 756 / var(--pair-total));
 }
@@ -730,6 +781,20 @@ section {
   background: #fff;
 }
 
+.results .section-title-split {
+  margin-bottom: 34px;
+}
+
+.results .section-title-split h2 {
+  max-width: 440px;
+}
+
+.results .section-title-split h2 span,
+.testimonials .section-title-split h2 span,
+.engagement .section-title-split h2 span {
+  display: block;
+}
+
 .carousel {
   max-width: 980px;
   margin: 0 auto;
@@ -844,6 +909,10 @@ section {
   color: #ffffff;
 }
 
+.testimonials .section-title h2 span {
+  color: #10b36a;
+}
+
 .testimonials .section-title p {
   color: rgba(255, 255, 255, 0.56);
   font-size: 1rem;
@@ -861,12 +930,12 @@ section {
 
 .trust-card {
   background: transparent;
-  padding: 26px 24px 22px;
+  padding: 24px 26px 20px;
   border-radius: 0;
-  min-height: 284px;
+  min-height: 244px;
   display: grid;
   grid-template-rows: 1fr auto;
-  gap: 28px;
+  gap: 22px;
 }
 
 .trust-card + .trust-card {
@@ -875,8 +944,8 @@ section {
 
 .trust-card p {
   color: rgba(255, 255, 255, 0.78);
-  font-size: 1rem;
-  line-height: 1.62;
+  font-size: 0.98rem;
+  line-height: 1.58;
 }
 
 .person {
@@ -894,14 +963,14 @@ section {
 }
 
 .person strong {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #ffffff;
 }
 
 .testimonial-logo {
   width: auto;
-  height: 56px;
+  height: 28px;
   max-width: 200px;
   object-fit: contain;
   opacity: 1;
@@ -916,32 +985,66 @@ section {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 20px;
+  gap: 18px;
+}
+
+.engagement .section-title-split {
+  margin-bottom: 26px;
+}
+
+.engagement .section-title-split h2 {
+  max-width: 420px;
+}
+
+.engagement-filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 24px;
+  max-width: 1060px;
+}
+
+.engagement-filter {
+  border: 1px solid rgba(11, 61, 46, 0.14);
+  background: #ffffff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: default;
+}
+
+.engagement-filter.active {
+  background: var(--bg-dark);
+  color: #ffffff;
+  border-color: var(--bg-dark);
 }
 
 .engagement-card {
-  background: #fff;
+  background: #eef9f2;
   border-radius: 18px;
-  padding: 24px;
+  padding: 16px 16px 14px;
   border: 1px solid var(--border);
   display: grid;
-  gap: 12px;
+  gap: 10px;
+  align-content: start;
 }
 
 .engagement-image {
   width: 100%;
   border-radius: 12px;
-  height: 120px;
+  height: 110px;
   object-fit: cover;
 }
 
 .engagement-card:nth-child(1) {
-  background: #dff5ea;
+  background: #def6e8;
 }
 
 .engagement-card:nth-child(3),
 .engagement-card:nth-child(4) {
-  background: #e7fbf1;
+  background: #ebfbf2;
 }
 
 .engagement-card.featured {
@@ -950,19 +1053,56 @@ section {
   box-shadow: var(--shadow);
 }
 
-.engagement-card.featured ul {
-  color: rgba(255, 255, 255, 0.7);
+.engagement-card h3 {
+  font-size: 1.05rem;
+  line-height: 1.15;
 }
 
-.engagement-card.featured .btn {
-  background: #fff;
-  color: var(--bg-dark);
+.engagement-card p {
+  font-size: 0.88rem;
+  line-height: 1.48;
+}
+
+.engagement-card.featured ul {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .engagement-card ul {
   color: var(--text-muted);
   display: grid;
   gap: 6px;
+  font-size: 0.83rem;
+  line-height: 1.4;
+}
+
+.engagement-card li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.engagement-card li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.43rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #10b36a;
+  box-shadow: 0 0 0 3px rgba(16, 179, 106, 0.12);
+}
+
+.engagement-card .btn {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 11px 18px;
+  margin-top: 4px;
+}
+
+.engagement-card.featured .btn {
+  background: #fff;
+  color: var(--bg-dark);
 }
 
 .engagement-note {
@@ -1070,6 +1210,22 @@ section {
 }
 
 @media (max-width: 900px) {
+  .section-title-split {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .section-title-split .section-heading-copy {
+    justify-items: center;
+  }
+
+  .section-title-split p {
+    justify-self: center;
+    max-width: 100%;
+    margin-top: 0;
+  }
+
   .services-head,
   .services-feature,
   .services-slide {
@@ -1130,8 +1286,12 @@ section {
   }
 
   .testimonial-logo {
-    height: 44px;
+    height: 34px;
     max-width: 170px;
+  }
+
+  .engagement-filters {
+    flex-wrap: wrap;
   }
 
   .footer-bottom {

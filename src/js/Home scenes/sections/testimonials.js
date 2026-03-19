@@ -2,7 +2,8 @@ import { createEl, setText } from '../utils/dom.js';
 
 export const renderTestimonials = (data) => {
   setText('[data-testimonials-pill]', data.pill);
-  setText('[data-testimonials-title]', data.title.replace('Trusted by ', ''));
+  const titleEl = document.querySelector('[data-testimonials-title]');
+  if (titleEl) titleEl.innerHTML = 'Trusted by <span>Fintech Leaders</span>';
   setText('[data-testimonials-subtitle]', data.subtitle);
 
   const cards = document.querySelector('[data-testimonials-cards]');
