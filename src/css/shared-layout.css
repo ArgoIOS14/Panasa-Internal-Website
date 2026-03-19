@@ -160,6 +160,11 @@
     width: 100%;
   }
 
+  .nav-links li:last-child {
+    display: flex;
+    justify-content: center;
+  }
+
   .nav-links a {
     color: rgba(255, 255, 255, 0.92);
     opacity: 1;
