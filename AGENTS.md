@@ -66,6 +66,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Tablet/Mobile: simplified single-column stack for complex card sections
 - Avoid fixed widths that break on narrower viewports; prefer proportional sizing and aspect-ratio controls
 - All pages (existing and future) must be responsive across desktop, tablet, and mobile breakpoints.
+- Responsive tightening pass has been applied to Home:
+  - denser section spacing on tablet/mobile
+  - tighter hero/nav/certifications proportions
+  - Services, Why Panasa, Case Studies, Testimonials, and Engagement all have smaller-screen-specific spacing and sizing adjustments
+  - Engagement cards move to 2-column on tablet and 1-column on mobile
 
 ## Global UI/UX Rules (All Pages)
 - Apply smooth scrolling and fade in/out section animations on every page, consistent with Home page behavior.
