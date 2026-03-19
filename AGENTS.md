@@ -115,7 +115,10 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ## Global UI/UX Rules (All Pages)
 - Apply smooth scrolling and fade in/out section animations on every page, consistent with Home page behavior.
 - Use `Lufga` for all header/title text across all pages.
-- Use `DM Sans` for all body/description text across all pages.
+- Use `Inter Variable` for all body/description/supporting text across all pages.
+- Treat this typography mapping as a standing rule for all future pages and sections unless the user explicitly requests an exception:
+  - titles/headings/navigation labels/buttons: `Lufga`
+  - descriptions/body copy/supporting text/list text/legal/footer text: `Inter Variable`
 - Use a common pill-shaped navigation bar component on all pages that require navigation.
 - The common navigation bar must retain the same brand image assets and visual treatment already established in the project.
 
