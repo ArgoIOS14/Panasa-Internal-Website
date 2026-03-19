@@ -1,10 +1,18 @@
-export const initCarousel = () => {
-  const carousel = document.querySelector('[data-carousel]');
-  const track = carousel?.querySelector('.slides');
+const initSwipeCarousel = ({
+  rootSelector,
+  trackSelector,
+  slideSelector,
+  dotSelector,
+  activeClass = 'active',
+  autoplayDelay = 4500,
+  pauseDelay = 3200,
+}) => {
+  const carousel = document.querySelector(rootSelector);
+  const track = carousel?.querySelector(trackSelector);
   if (!carousel || !track) return;
 
-  const slides = Array.from(track.children);
-  const dots = Array.from(carousel.querySelectorAll('.dot'));
+  const slides = Array.from(track.querySelectorAll(slideSelector));
+  const dots = Array.from(carousel.parentElement?.querySelectorAll(dotSelector) || carousel.querySelectorAll(dotSelector));
   if (!slides.length) return;
 
   let index = 0;
@@ -19,15 +27,14 @@ export const initCarousel = () => {
   const getWidth = () => carousel.getBoundingClientRect().width;
 
   const setTranslate = (value, animate = true) => {
-    track.style.transition = animate ? 'transform 0.5s ease' : 'none';
+    track.style.transition = animate ? 'transform 0.55s ease' : 'none';
     track.style.transform = `translateX(${value}px)`;
   };
 
   const goTo = (nextIndex, animate = true) => {
     index = Math.max(0, Math.min(nextIndex, slides.length - 1));
-    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-    const offset = -index * getWidth();
-    setTranslate(offset, animate);
+    dots.forEach((dot, i) => dot.classList.toggle(activeClass, i === index));
+    setTranslate(-index * getWidth(), animate);
   };
 
   const goNext = () => goTo((index + 1) % slides.length);
@@ -39,7 +46,7 @@ export const initCarousel = () => {
       resumeTimer = setTimeout(startAuto, delay);
       return;
     }
-    timerId = setInterval(goNext, 3500);
+    timerId = setInterval(goNext, autoplayDelay);
   };
 
   const stopAuto = () => {
@@ -53,7 +60,7 @@ export const initCarousel = () => {
     }
   };
 
-  const pauseAuto = (ms = 3000) => {
+  const pauseAuto = (ms = pauseDelay) => {
     pauseUntil = Date.now() + ms;
     stopAuto();
     startAuto();
@@ -80,8 +87,7 @@ export const initCarousel = () => {
     if (!isDragging) return;
     currentX = event.clientX;
     deltaX = currentX - startX;
-    const offset = -index * getWidth() + deltaX;
-    setTranslate(offset, false);
+    setTranslate(-index * getWidth() + deltaX, false);
   };
 
   const onPointerUp = (event) => {
@@ -90,11 +96,8 @@ export const initCarousel = () => {
     track.releasePointerCapture?.(event.pointerId);
     const threshold = getWidth() * 0.2;
     if (Math.abs(deltaX) > threshold) {
-      if (deltaX < 0) {
-        goNext();
-      } else {
-        goPrev();
-      }
+      if (deltaX < 0) goNext();
+      else goPrev();
     } else {
       goTo(index);
     }
@@ -111,4 +114,22 @@ export const initCarousel = () => {
 
   goTo(0, false);
   startAuto();
+};
+
+export const initCarousel = () => {
+  initSwipeCarousel({
+    rootSelector: '[data-carousel]',
+    trackSelector: '.slides',
+    slideSelector: '.slide',
+    dotSelector: '.dot',
+    autoplayDelay: 4500,
+  });
+
+  initSwipeCarousel({
+    rootSelector: '[data-services-carousel]',
+    trackSelector: '.services-slides',
+    slideSelector: '.services-slide',
+    dotSelector: '.services-dot',
+    autoplayDelay: 4500,
+  });
 };

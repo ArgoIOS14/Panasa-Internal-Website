@@ -365,6 +365,28 @@ section {
 
 .services-feature {
   display: grid;
+  gap: 14px;
+}
+
+.services-carousel {
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.services-carousel:active {
+  cursor: grabbing;
+}
+
+.services-slides {
+  display: flex;
+  transition: transform 0.55s ease;
+  will-change: transform;
+}
+
+.services-slide {
+  min-width: 100%;
+  display: grid;
   grid-template-columns: minmax(300px, 0.88fr) minmax(340px, 1.12fr);
   gap: 32px;
   align-items: start;
@@ -991,7 +1013,7 @@ section {
 
 @media (max-width: 900px) {
   .services-head,
-  .services-feature {
+  .services-slide {
     grid-template-columns: 1fr;
     gap: 24px;
   }

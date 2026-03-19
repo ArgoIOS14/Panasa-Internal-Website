@@ -1,9 +1,10 @@
 import { createEl, setText } from '../utils/dom.js';
 import { highlightWords } from '../utils/text.js';
 
-const renderFeatureCopy = (container, item, ctaLabel) => {
-  container.innerHTML = '';
+const createFeatureSlide = (item, ctaLabel, visualLabel) => {
+  const slide = createEl('article', 'services-slide');
 
+  const copy = createEl('div', 'services-feature-copy');
   const pill = createEl('span', 'services-feature-pill');
   pill.textContent = item.title;
 
@@ -21,12 +22,10 @@ const renderFeatureCopy = (container, item, ctaLabel) => {
   cta.href = '#contact';
   cta.textContent = ctaLabel;
 
-  container.append(pill, title, list, cta);
-};
+  copy.append(pill, title, list, cta);
 
-const renderFeatureVisual = (container, item, visualLabel) => {
-  container.innerHTML = '';
-
+  const visualWrap = createEl('div', 'services-feature-visual-wrap');
+  const visual = createEl('div', 'services-feature-visual');
   const glow = createEl('div', 'services-visual-glow');
   const label = createEl('span', 'services-visual-label');
   label.textContent = visualLabel || item.title;
@@ -34,7 +33,11 @@ const renderFeatureVisual = (container, item, visualLabel) => {
   icon.src = item.icon;
   icon.alt = item.title;
 
-  container.append(glow, icon, label);
+  visual.append(glow, icon, label);
+  visualWrap.appendChild(visual);
+
+  slide.append(copy, visualWrap);
+  return slide;
 };
 
 export const renderServices = (data) => {
@@ -44,34 +47,22 @@ export const renderServices = (data) => {
   if (titleEl) titleEl.innerHTML = highlightWords(data.title, 1);
   setText('[data-services-subtitle]', data.subtitle);
 
-  const copy = document.querySelector('[data-services-feature-copy]');
-  const visual = document.querySelector('[data-services-feature-visual]');
+  const slides = document.querySelector('[data-services-slides]');
   const dots = document.querySelector('[data-services-dots]');
-  if (!copy || !visual || !dots || !data.items?.length) return;
+  if (!slides || !dots || !data.items?.length) return;
 
-  let activeIndex = 0;
-
-  const updateActiveState = () => {
-    const activeItem = data.items[activeIndex];
-    renderFeatureCopy(copy, activeItem, data.learnMoreLabel || 'Learn More +');
-    renderFeatureVisual(visual, activeItem, data.visualLabel || activeItem.title);
-
-    Array.from(dots.children).forEach((dot, index) => {
-      dot.classList.toggle('active', index === activeIndex);
-    });
-  };
-
+  slides.innerHTML = '';
   dots.innerHTML = '';
+
   data.items.forEach((item, index) => {
+    slides.appendChild(
+      createFeatureSlide(item, data.learnMoreLabel || 'Learn More +', data.visualLabel || item.title)
+    );
+
     const dot = createEl('button', index === 0 ? 'services-dot active' : 'services-dot');
     dot.type = 'button';
     dot.setAttribute('aria-label', `Show ${item.title}`);
-    dot.addEventListener('click', () => {
-      activeIndex = index;
-      updateActiveState();
-    });
+    dot.setAttribute('data-services-slide', index.toString());
     dots.appendChild(dot);
   });
-
-  updateActiveState();
 };
