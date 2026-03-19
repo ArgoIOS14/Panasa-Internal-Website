@@ -126,6 +126,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - do not restyle, override, resize, recolor, or locally redefine `.site-header`, `.nav`, `.nav-links`, `.brand`, or the nav CTA on page-specific stylesheets
   - if navigation spacing or styling ever needs to change, make that change in the shared navigation source so all pages stay identical
   - page-specific CSS may position content below the nav, but must not change the nav's color, button layout, border radius, sizing, spacing, or visual treatment
+- Form field focus styling is now a strict shared behavior rule:
+  - text inputs, textarea fields, and composite text-entry controls must use a neutral grey border by default
+  - green borders are reserved for the active selected/focused state only
+  - selected/focused text fields must switch to the project green focus treatment consistently across all pages
+  - do not leave textboxes with a permanent green border unless the user explicitly requests a non-standard state
 
 ## Asset Mapping Notes
 - Service card custom icons: `src/assets/service-frame-1.svg` ... `service-frame-6.svg`
