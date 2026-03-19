@@ -411,62 +411,54 @@
     "growthPackages": [
       {
         "image": "assets/model-squads.svg",
-        "title": "Launch Package",
-        "text": "Dummy package for early-stage fintechs launching MVP products with compliance-ready foundations.",
+        "title": "Startup Package",
+        "text": "For newly funded fintechs and early-stage issuers launching or validating product-market fit.",
+        "bestSuitedFor": "Seed to Series A",
         "bullets": [
-          "MVP delivery plan",
-          "Core workflows setup",
-          "Compliance-first architecture",
-          "Rapid launch support",
-          "Launch-readiness checklist"
+          "Engineering squad extension",
+          "Product roadmap acceleration",
+          "Scheme or API integrations",
+          "Light operational support setup",
+          "Advisory on compliance-aligned architecture"
         ],
+        "outcome": "Launch faster without building heavy internal infrastructure",
         "cta": "Talk to us",
         "variant": "light"
       },
       {
         "image": "assets/model-managed.svg",
-        "title": "Scale Package",
-        "text": "Dummy package for growth-stage fintechs that need platform reliability, ops coverage, and governance.",
+        "title": "Growth Package",
+        "text": "For fintechs scaling programmes, expanding into new geographies or increasing compliance complexity.",
+        "bestSuitedFor": "Series A to Series C",
         "bullets": [
-          "24/7 monitoring layer",
-          "Ops automation",
-          "Platform governance",
-          "SLA reporting",
-          "Continuous optimisation"
+          "AI Accelerated Fintech Engineering",
+          "24/7 managed services",
+          "Fraud monitoring and reconciliation support",
+          "AI Governance framework implementation",
+          "Operational KPI dashboards"
         ],
+        "outcome": "Scale programmes without scaling operational chaos",
         "cta": "Talk to us",
         "variant": "featured"
       },
       {
         "image": "assets/model-project.svg",
-        "title": "Expansion Package",
-        "text": "Dummy package for multi-market rollout, new integrations, and delivery acceleration.",
+        "title": "Scaleup Package",
+        "text": "For mature fintechs, issuer processors and PSPs operating at high transaction volumes.",
+        "bestSuitedFor": "High-growth or mid-market",
         "bullets": [
-          "Market rollout planning",
-          "Partner integrations",
-          "Delivery governance",
-          "Launch milestones",
-          "Risk controls"
+          "Full AI Modernisation or platform re-architecture",
+          "Enterprise-grade AI Governance controls",
+          "Managed back-office operations",
+          "GCC as a Service implementation",
+          "Continuous assurance and audit readiness"
         ],
-        "cta": "Talk to us",
-        "variant": "light"
-      },
-      {
-        "image": "assets/model-gdc.svg",
-        "title": "Enterprise Package",
-        "text": "Dummy package for enterprise-scale fintech teams building long-term delivery capability and global support.",
-        "bullets": [
-          "Operating model design",
-          "Talent pod setup",
-          "Performance management",
-          "Governance structure",
-          "Long-term scale support"
-        ],
+        "outcome": "Run a 24/7, regulator-ready fintech platform with measurable operational control",
         "cta": "Talk to us",
         "variant": "light"
       }
     ],
-    "note": "*Most clients start with a project and graduate to managed services as they scale"
+    "note": "*Most clients start with a Growth Package and graduate to Scaleup Package as they scale"
   },
   "footer": {
     "ctaTitle": "Ready to Build Your Card Platform",

@@ -37,6 +37,12 @@ export const renderEngagement = (data) => {
       const p = createEl('p');
       p.textContent = item.text;
 
+      let suited;
+      if (item.bestSuitedFor) {
+        suited = createEl('p', 'engagement-best-fit');
+        suited.innerHTML = `Best suited for -> <span>${item.bestSuitedFor}</span>`;
+      }
+
       const includes = createEl('div', 'engagement-includes');
       includes.textContent = 'Includes:';
 
@@ -47,11 +53,21 @@ export const renderEngagement = (data) => {
         ul.appendChild(li);
       });
 
+      let outcome;
+      if (item.outcome) {
+        outcome = createEl('p', 'engagement-outcome');
+        outcome.innerHTML = `<strong>Outcome:</strong> ${item.outcome}`;
+      }
+
       const btn = createEl('a', 'btn btn-dark');
       btn.textContent = item.cta;
       btn.href = 'contact.html';
 
-      card.append(img, h3, p, includes, ul, btn);
+      card.append(img, h3, p);
+      if (suited) card.appendChild(suited);
+      card.append(includes, ul);
+      if (outcome) card.appendChild(outcome);
+      card.appendChild(btn);
       grid.appendChild(card);
     });
   };
@@ -65,6 +81,7 @@ export const renderEngagement = (data) => {
     filters.querySelectorAll('.engagement-filter').forEach((button) => {
       button.classList.toggle('active', button.textContent === label);
     });
+    grid.classList.toggle('growth-packages-active', label === 'Growth Packages');
     renderCards(filterMap[label] || data.items || []);
   };
 
