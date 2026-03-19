@@ -54,6 +54,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - left side: active service eyebrow, title, bullet list, CTA
   - right side: large visual panel
   - centered dot navigation below the visual area
+- Current Services screenshot-matching notes:
+  - top section pill/header is intentionally hidden if empty
+  - heading remains `AI-Driven Fintech Services Stack`
+  - right summary copy currently uses the end-to-end AI-powered engineering wording from the latest screenshot
+  - first slide eyebrow is `Core Build`
 - Services carousel behavior should match Case Studies as closely as possible
 - Shared autoplay timing for Services and Case Studies is currently `4500ms` per slide
 - Why Panasa, Case Studies, Testimonials, and Engagement sections now use a split heading layout on desktop:

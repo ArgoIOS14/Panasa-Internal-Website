@@ -41,7 +41,16 @@ const createFeatureSlide = (item, ctaLabel, visualLabel) => {
 };
 
 export const renderServices = (data) => {
-  setText('[data-services-pill]', data.pill);
+  const topPill = document.querySelector('[data-services-pill]');
+  if (topPill) {
+    if (data.pill) {
+      topPill.textContent = data.pill;
+      topPill.style.display = '';
+    } else {
+      topPill.textContent = '';
+      topPill.style.display = 'none';
+    }
+  }
 
   const titleEl = document.querySelector('[data-services-title]');
   if (titleEl) titleEl.innerHTML = highlightWords(data.title, 1);

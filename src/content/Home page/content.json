@@ -73,30 +73,30 @@
     }
   },
   "services": {
-    "pill": "Services",
+    "pill": "",
     "title": "AI-Driven Fintech Services Stack",
-    "subtitle": "From AI accelerated engineering to operational resilience, we cover scalable fintech outcomes for modern payment platforms.",
-    "learnMoreLabel": "Learn More +",
+    "subtitle": "End-to-end AI-powered engineering, governance, and operational services for secure, scalable fintech platforms.",
+    "learnMoreLabel": "Learn More  ›",
     "visualLabel": "Visual Graphics",
     "items": [
       {
         "icon": "assets/service-frame-1.svg",
-        "eyebrow": "AI Accelerated Fintech Engineering",
-        "title": "AI accelerated fintech engineering",
-        "text": "Rapid prototyping · AI accelerated spec driven development · card issuing platforms · neobanks & digital wallets · open banking integration · microservices & API development",
+        "eyebrow": "Core Build",
+        "title": "AI Accelerated Fintech Engineering",
+        "text": "",
         "bullets": [
-          "AI driven, spec driven legacy app",
-          "AI alert + error engineering",
-          "AI driven 24/7 implementation",
-          "Agentic AI & automation",
-          "New product and platform",
-          "Business intelligence & advanced analytics"
+          "AI Agent Swarm Powered Legacy App",
+          "AI-Led Fintech Engineering",
+          "AI Strategy & Implementation",
+          "Agentic AI & Automation",
+          "New Product and Platform",
+          "Business Intelligence & Advanced Analytics"
         ]
       },
       {
         "icon": "assets/service-frame-2.svg",
-        "eyebrow": "AI Powered Fintech Backoffice",
-        "title": "AI powered fintech backoffice",
+        "eyebrow": "Core Build",
+        "title": "AI Powered Fintech Backoffice",
         "text": "Dummy content for backoffice operations and application support.",
         "bullets": [
           "Dummy point one",
@@ -107,8 +107,8 @@
       },
       {
         "icon": "assets/service-frame-3.svg",
-        "eyebrow": "Cyber Resilience For Fintech Platforms",
-        "title": "Cyber resilience for fintech platforms",
+        "eyebrow": "Core Build",
+        "title": "Cyber Resilience For Fintech Platforms",
         "text": "Dummy content for resilience, monitoring, and protection layers.",
         "bullets": [
           "Dummy point one",
@@ -119,8 +119,8 @@
       },
       {
         "icon": "assets/service-frame-4.svg",
-        "eyebrow": "Global Capability Center As A Service",
-        "title": "Global capability center as a service",
+        "eyebrow": "Core Build",
+        "title": "Global Capability Center As A Service",
         "text": "Dummy content for global teams and operational support models.",
         "bullets": [
           "Dummy point one",
@@ -131,8 +131,8 @@
       },
       {
         "icon": "assets/service-frame-5.svg",
-        "eyebrow": "Fintech AI Consulting",
-        "title": "Fintech AI consulting",
+        "eyebrow": "Core Build",
+        "title": "Fintech AI Consulting",
         "text": "Dummy content for advisory, strategy, and AI transformation work.",
         "bullets": [
           "Dummy point one",
@@ -143,8 +143,8 @@
       },
       {
         "icon": "assets/service-frame-6.svg",
-        "eyebrow": "Data As A Service",
-        "title": "Data as a service",
+        "eyebrow": "Core Build",
+        "title": "Data As A Service",
         "text": "Dummy content for data modernization, governance, and analytics.",
         "bullets": [
           "Dummy point one",

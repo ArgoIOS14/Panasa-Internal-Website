@@ -450,7 +450,7 @@ section {
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
   gap: 40px;
   align-items: end;
-  margin-bottom: 34px;
+  margin-bottom: 28px;
 }
 
 .services-heading .pill {
@@ -458,9 +458,9 @@ section {
 }
 
 .services-heading h2 {
-  max-width: 420px;
-  font-size: clamp(2.2rem, 3vw, 3rem);
-  line-height: 0.98;
+  max-width: 360px;
+  font-size: clamp(2rem, 2.7vw, 2.8rem);
+  line-height: 1.01;
   letter-spacing: -0.045em;
 }
 
@@ -469,18 +469,18 @@ section {
 }
 
 .services-summary {
-  max-width: 360px;
+  max-width: 328px;
   justify-self: end;
   color: var(--text-muted);
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-size: 0.92rem;
+  line-height: 1.62;
 }
 
 .services-feature {
   display: grid;
   grid-template-columns: minmax(300px, 0.88fr) minmax(340px, 1.12fr);
   column-gap: 32px;
-  row-gap: 14px;
+  row-gap: 10px;
   align-items: start;
 }
 
@@ -512,14 +512,14 @@ section {
 }
 
 .services-feature-copy {
-  padding-top: 8px;
+  padding-top: 0;
 }
 
 .services-feature-pill {
   display: inline-flex;
   align-items: center;
   padding: 5px 12px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   border-radius: 999px;
   background: rgba(11, 61, 46, 0.08);
   font-size: 11px;
@@ -530,25 +530,25 @@ section {
 }
 
 .services-feature-copy h3 {
-  max-width: 260px;
-  margin-bottom: 14px;
-  font-size: 1.9rem;
+  max-width: 270px;
+  margin-bottom: 12px;
+  font-size: 1.72rem;
   line-height: 1.02;
   letter-spacing: -0.04em;
 }
 
 .services-feature-list {
   display: grid;
-  gap: 10px;
-  margin-bottom: 22px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .services-feature-list li {
   position: relative;
   padding-left: 22px;
   color: var(--text-muted);
-  font-size: 0.94rem;
-  line-height: 1.45;
+  font-size: 0.91rem;
+  line-height: 1.32;
 }
 
 .services-feature-list li::before {
@@ -567,7 +567,7 @@ section {
   display: inline-flex;
   align-items: center;
   color: var(--text-dark);
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   font-weight: 700;
 }
 
@@ -580,7 +580,7 @@ section {
 .services-feature-visual {
   position: relative;
   width: 100%;
-  min-height: 360px;
+  min-height: 336px;
   border-radius: 18px;
   overflow: hidden;
   background:
@@ -622,7 +622,7 @@ section {
   display: flex;
   gap: 8px;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 10px;
   grid-column: 2;
 }
 
@@ -1619,7 +1619,7 @@ section {
 
   .services-head {
     gap: 14px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
 
   .services-heading h2,
@@ -1636,6 +1636,10 @@ section {
   .section-title-split p {
     font-size: 0.88rem;
     line-height: 1.5;
+  }
+
+  .services-summary {
+    max-width: 250px;
   }
 
   .services-slide {
