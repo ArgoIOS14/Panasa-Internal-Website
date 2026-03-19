@@ -121,6 +121,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - descriptions/body copy/supporting text/list text/legal/footer text: `Inter Variable`
 - Use a common pill-shaped navigation bar component on all pages that require navigation.
 - The common navigation bar must retain the same brand image assets and visual treatment already established in the project.
+- Navigation is now a strict shared-component rule for all future pages:
+  - every new page must reuse the same shared navigation pill used on Home
+  - do not restyle, override, resize, recolor, or locally redefine `.site-header`, `.nav`, `.nav-links`, `.brand`, or the nav CTA on page-specific stylesheets
+  - if navigation spacing or styling ever needs to change, make that change in the shared navigation source so all pages stay identical
+  - page-specific CSS may position content below the nav, but must not change the nav's color, button layout, border radius, sizing, spacing, or visual treatment
 
 ## Asset Mapping Notes
 - Service card custom icons: `src/assets/service-frame-1.svg` ... `service-frame-6.svg`
