@@ -43,6 +43,10 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Certifications row is centered with a full-width light separator (`#D4D4D4`)
 - Home certifications strip must visually match the design width/scale, with oversized SVG whitespace cropped via CSS rendering (`object-fit: cover`, centered) so badge logos appear at the intended size.
 - Work With Us section uses asymmetric cards on desktop, single-column on tablet/mobile
+- Why Panasa / Work With Us current desktop direction:
+  - compact split heading with short right-side summary copy
+  - tighter 2x2 asymmetric card grid with small gaps
+  - heading currently renders as `Why Fintech’s` with `Choose Panasa` highlighted
 - Case Studies is implemented as a functional carousel with autoplay and smooth swipe/drag behavior
 - Case Studies current visual direction:
   - split desktop heading with left title and right summary
