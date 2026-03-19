@@ -121,6 +121,13 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - descriptions/body copy/supporting text/list text/legal/footer text: `Inter Variable`
 - Use a common pill-shaped navigation bar component on all pages that require navigation.
 - The common navigation bar must retain the same brand image assets and visual treatment already established in the project.
+- Use the shared Panasa footer treatment on all current and future pages unless the user explicitly requests a different footer:
+  - outer footer uses the green gradient field with `src/assets/footer-background-paths-container.svg` as the background graphic
+  - inner footer uses the dark translucent card treatment with divider legal row
+  - footer visual language, spacing, and typography should stay consistent across Home, Careers, Contact, and future pages
+- Footer implementation rule:
+  - new pages must load and reuse the shared footer styling rather than redefining page-specific footer card looks
+  - if the footer visual treatment changes, update the shared footer source so all pages inherit the same result
 - Navigation is now a strict shared-component rule for all future pages:
   - every new page must reuse the same shared navigation pill used on Home
   - do not restyle, override, resize, recolor, or locally redefine `.site-header`, `.nav`, `.nav-links`, `.brand`, or the nav CTA on page-specific stylesheets
@@ -131,12 +138,19 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - green borders are reserved for the active selected/focused state only
   - selected/focused text fields must switch to the project green focus treatment consistently across all pages
   - do not leave textboxes with a permanent green border unless the user explicitly requests a non-standard state
+- Footer inner-card styling is now a strict shared design rule for all pages:
+  - all page footers must use the same dark green inner footer card treatment established by the approved screenshot direction
+  - the inner footer card must retain the subtle textured/noise look, dark translucent green panel, soft border, and understated divider row
+  - do not create page-specific footer card colors, textures, or typography styles that diverge from the shared approved footer treatment
+  - if footer styling needs to evolve, update the shared footer treatment across all pages together so Home, Contact, Careers, and future pages remain visually identical
 
 ## Asset Mapping Notes
 - Service card custom icons: `src/assets/service-frame-1.svg` ... `service-frame-6.svg`
 - Testimonial author logos:
   - `src/assets/testimonial-logo-1.svg`
   - `src/assets/testimonial-logo-2.svg`
+- Shared footer background graphic:
+  - `src/assets/footer-background-paths-container.svg`
 
 ## Home Page Content Notes
 - Current hero copy has been updated to:

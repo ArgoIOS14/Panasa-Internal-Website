@@ -1,0 +1,109 @@
+@import url('https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap');
+@import url('https://rsms.me/inter/inter.css');
+
+.site-footer,
+.contact-footer {
+  background:
+    url('../assets/footer-background-paths-container.svg') center/cover no-repeat,
+    linear-gradient(130deg, #1d6f4c 0%, #247a56 48%, #59c591 100%);
+}
+
+.footer-card {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.04), transparent 32%),
+    radial-gradient(circle at 82% 76%, rgba(63, 208, 137, 0.08), transparent 30%),
+    radial-gradient(rgba(255, 255, 255, 0.055) 0.75px, transparent 0.95px),
+    linear-gradient(180deg, rgba(13, 52, 39, 0.94), rgba(13, 52, 39, 0.91));
+  background-size:
+    auto,
+    auto,
+    12px 12px,
+    auto;
+  background-position:
+    center,
+    center,
+    center,
+    center;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(8px);
+}
+
+.site-footer .footer-card {
+  border-radius: 18px;
+  padding: 30px 30px 18px;
+  gap: 32px;
+}
+
+.contact-footer .footer-card {
+  border-radius: 20px;
+  padding: 42px 54px 24px;
+  gap: 36px;
+}
+
+.footer-brand img {
+  width: 122px;
+  height: auto;
+}
+
+.footer-brand p {
+  max-width: 330px;
+  margin: 18px 0 18px;
+  font-size: 15px;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.footer-brand span {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-links {
+  gap: 26px;
+}
+
+.footer-links h4 {
+  margin-bottom: 14px;
+  color: #39d17f;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+
+.footer-links a,
+.footer-links span {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  .contact-footer .footer-card {
+    padding: 40px 36px 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-footer .footer-card,
+  .contact-footer .footer-card {
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-footer .footer-card {
+    padding: 30px 18px 20px;
+  }
+}
