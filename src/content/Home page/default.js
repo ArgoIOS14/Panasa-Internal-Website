@@ -323,9 +323,9 @@ window.DEFAULT_CONTENT = {
     ]
   },
   "testimonials": {
-    "pill": "Platform trust",
+    "pill": "",
     "title": "Trusted by Fintech Leaders",
-    "subtitle": "What our clients say about working with Panasa across build, compliance, and platform operations.",
+    "subtitle": "Feedback from fintech partners delivering secure, scalable, compliant card platforms.",
     "cards": [
       {
         "text": "Panasa became our extended fintech engineering team. They understand authorization flows, 3DS authentication, and scheme integrations better than most in-house teams we’ve seen.",

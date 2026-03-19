@@ -1,7 +1,16 @@
 import { createEl, setText } from '../utils/dom.js';
 
 export const renderTestimonials = (data) => {
-  setText('[data-testimonials-pill]', data.pill);
+  const pillEl = document.querySelector('[data-testimonials-pill]');
+  if (pillEl) {
+    if (data.pill) {
+      pillEl.textContent = data.pill;
+      pillEl.style.display = '';
+    } else {
+      pillEl.textContent = '';
+      pillEl.style.display = 'none';
+    }
+  }
   const titleEl = document.querySelector('[data-testimonials-title]');
   if (titleEl) titleEl.innerHTML = 'Trusted by <span>Fintech Leaders</span>';
   setText('[data-testimonials-subtitle]', data.subtitle);
@@ -16,7 +25,7 @@ export const renderTestimonials = (data) => {
   data.cards.forEach((item) => {
     const card = createEl('article', 'trust-card');
     const p = createEl('p');
-    p.textContent = `“${item.text}”`;
+    p.textContent = item.text;
 
     const person = createEl('div', 'person');
     const avatar = createEl('div');

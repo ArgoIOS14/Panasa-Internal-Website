@@ -75,7 +75,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - right side: supporting summary copy
   - collapses back to centered single-column on tablet/mobile
 - Testimonials section uses dark theme (`#101010`) and custom author logos from provided SVGs
-- Testimonials heading currently renders as `Trusted by` with `Fintech Leaders` highlighted on a new line
+- Testimonials screenshot-matching notes:
+  - top pill is hidden when empty
+  - heading renders as `Trusted by` with `Fintech Leaders` highlighted on the next line
+  - right-side summary copy uses the shorter partner feedback wording from the latest screenshot
+  - body copy is compact and unquoted
 - Services section icons use custom `Frame*.svg` assets mapped into service cards
 - Engagement section now includes top filter pills for visual parity with the current design direction
 
