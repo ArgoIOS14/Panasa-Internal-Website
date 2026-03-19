@@ -6,7 +6,7 @@
   --text-soft: #4d5b58;
   --panel-line: rgba(19, 37, 31, 0.08);
   --panel-soft: rgba(223, 228, 225, 0.85);
-  --page-shell: 950px;
+  --page-shell: 980px;
   --green: #16ab6d;
   --footer-a: #1b6e4b;
   --footer-b: #59c591;
@@ -72,44 +72,6 @@ textarea {
     center top,
     center top,
     center top;
-}
-
-.site-header {
-  background: transparent;
-  backdrop-filter: none;
-  position: relative;
-  top: 0;
-  padding-top: 28px;
-}
-
-.nav {
-  max-width: 943px;
-  min-height: 62px;
-  padding: 10px 15px 10px 24px;
-  background: #1f312b;
-  box-shadow: none;
-}
-
-.brand img {
-  max-height: 30px;
-}
-
-.nav-links {
-  gap: 18px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.nav .btn-light {
-  min-width: 113px;
-  min-height: 43px;
-  padding: 11px 22px;
-  border-radius: 12px;
-  box-shadow: none;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .contact-hero {
@@ -610,20 +572,6 @@ textarea {
 }
 
 @media (max-width: 900px) {
-  .site-header {
-    padding-top: 14px;
-  }
-
-  .nav {
-    padding: 10px 14px;
-    min-height: 58px;
-    border-radius: 20px;
-  }
-
-  .nav-links {
-    color: var(--text-dark);
-  }
-
   .contact-hero {
     margin-top: 48px;
   }
@@ -653,11 +601,6 @@ textarea {
       48px 48px,
       100% 100%,
       100% 100%;
-  }
-
-  .nav .btn-light {
-    min-width: auto;
-    padding: 10px 14px;
   }
 
   .contact-hero,
