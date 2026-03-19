@@ -12,6 +12,9 @@
 - `src/css/style.css`: all section styling, responsiveness, animations
 - `src/js/main.js`: lightweight bootstrap/orchestrator
 - `src/js/Home scenes/`: all split JS modules (sections/components/utils/data)
+- `src/js/Home scenes/sections/hero.js`: hero section renderer, including trusted fintech marquee
+- `src/js/Home scenes/sections/services.js`: featured services carousel renderer
+- `src/js/Home scenes/components/carousel.js`: shared carousel logic for Services and Case Studies
 - `src/content/Home page/content.json`: primary content source
 - `src/content/Home page/default.js`: fallback content if JSON fetch fails
 - `src/assets/`: all icons, logos, placeholders, SVG design assets
@@ -31,10 +34,19 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 
 ## Known Design Decisions
 - Hero gradient transitions to white before certifications area
+- Hero trusted-fintech logo strip is a horizontally looping marquee with soft fade masks on both edges
+- Trusted-fintech marquee is intentionally larger than before and horizontally constrained so its left/right padding visually aligns with the certifications row below
 - Certifications row is centered with a full-width light separator (`#D4D4D4`)
 - Home certifications strip must visually match the design width/scale, with oversized SVG whitespace cropped via CSS rendering (`object-fit: cover`, centered) so badge logos appear at the intended size.
 - Work With Us section uses asymmetric cards on desktop, single-column on tablet/mobile
 - Case Studies is implemented as a functional carousel with autoplay and smooth swipe/drag behavior
+- Services section has been redesigned from a simple grid into a featured two-column carousel layout:
+  - section heading/copy row at top
+  - left side: active service eyebrow, title, bullet list, CTA
+  - right side: large visual panel
+  - centered dot navigation below the visual area
+- Services carousel behavior should match Case Studies as closely as possible
+- Shared autoplay timing for Services and Case Studies is currently `4500ms` per slide
 - Testimonials section uses dark theme (`#101010`) and custom author logos from provided SVGs
 - Services section icons use custom `Frame*.svg` assets mapped into service cards
 
@@ -57,6 +69,22 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - `src/assets/testimonial-logo-1.svg`
   - `src/assets/testimonial-logo-2.svg`
 
+## Home Page Content Notes
+- Current hero copy has been updated to:
+  - title: `Ship & modernise your fintech in weeks`
+  - emphasis: `Scale Without Surprises`
+  - subtitle: `Your AI-native partner for Dev, Ops & Scale. No handoffs.`
+- Current Services section title is:
+  - `AI-Driven Fintech Services Stack`
+- Current Services subtitle is:
+  - `From AI accelerated engineering to operational resilience, we cover scalable fintech outcomes for modern payment platforms.`
+- Services content state:
+  - first slide is being tuned to match supplied design more closely
+  - remaining slides may still use placeholder/dummy text until final content is provided
+- If Services copy/points change, update both:
+  - `src/content/Home page/content.json`
+  - `src/content/Home page/default.js`
+
 ## Module Layout
 - Scenes/components/utils/data modules are grouped under:
   - `src/js/Home scenes/components/`
@@ -68,6 +96,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ## Collaboration Notes
 - User expects close visual parity with provided Figma/PDF/screenshots
 - Prefer exact spacing, color, and card geometry replication over generic approximations
+- When a user says a section is misaligned or broken, prioritize matching the screenshot over preserving prior implementation details
 - User requested commit + push after updates unless explicitly told not to
 - If a change affects runtime content, update both:
   - `src/content/Home page/content.json`
