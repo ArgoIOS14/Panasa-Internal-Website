@@ -1,7 +1,16 @@
 import { createEl, setText } from '../utils/dom.js';
 
 export const renderCaseStudies = (data) => {
-  setText('[data-case-pill]', data.pill);
+  const pillEl = document.querySelector('[data-case-pill]');
+  if (pillEl) {
+    if (data.pill) {
+      pillEl.textContent = data.pill;
+      pillEl.style.display = '';
+    } else {
+      pillEl.textContent = '';
+      pillEl.style.display = 'none';
+    }
+  }
 
   const titleEl = document.querySelector('[data-case-title]');
   if (titleEl) titleEl.innerHTML = 'Proven Results <span>for Leading Platforms</span>';

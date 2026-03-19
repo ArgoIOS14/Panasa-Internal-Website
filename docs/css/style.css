@@ -7,7 +7,7 @@
   --bg-dark: #0b3d2e;
   --bg-dark-2: #052d22;
   --accent: #2dd4bf;
-  --accent-2: #ff9f6e;
+  --accent-2: #16ab6d;
   --text-dark: #0f2c25;
   --text-muted: #5c7a6e;
   --card: #e9fff4;
@@ -429,11 +429,11 @@ section {
 }
 
 .section-title h2 span {
-  color: #ff7e50;
+  color: #16ab6d;
 }
 
 .accent-warm {
-  color: #ffae9b;
+  color: #16ab6d;
 }
 
 .section-title p {
@@ -450,7 +450,7 @@ section {
   grid-template-columns: minmax(0, 1.06fr) minmax(220px, 0.72fr);
   gap: 26px;
   align-items: start;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 .services-heading .pill {
@@ -674,7 +674,7 @@ section {
 
 .dark-section .section-title-split {
   max-width: 980px;
-  margin-bottom: 22px;
+  margin-bottom: 16px;
   gap: 24px;
 }
 
@@ -841,7 +841,7 @@ section {
 }
 
 .results .section-title-split {
-  margin-bottom: 26px;
+  margin-bottom: 14px;
   max-width: 900px;
   gap: 18px;
 }
@@ -1102,7 +1102,7 @@ section {
 }
 
 .engagement .section-title-split {
-  margin-bottom: 22px;
+  margin-bottom: 12px;
   max-width: 1320px;
   gap: 34px;
 }

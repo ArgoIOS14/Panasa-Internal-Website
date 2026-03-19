@@ -47,12 +47,14 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - compact split heading with short right-side summary copy
   - tighter 2x2 asymmetric card grid with small gaps
   - heading currently renders as `Why Fintech’s` with `Choose Panasa` highlighted
+  - top pill is intentionally removed in the latest design direction
 - Case Studies is implemented as a functional carousel with autoplay and smooth swipe/drag behavior
 - Case Studies current visual direction:
   - split desktop heading with left title and right summary
   - centered soft card shell with stronger metrics column
   - dot navigation centered below the card
   - desktop styling is being tuned toward the latest screenshot-driven design
+  - top pill is intentionally removed in the latest design direction
   - latest screenshot-matching pass uses:
     - smaller compact heading scale
     - green uppercase eyebrow
@@ -156,6 +158,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ## Collaboration Notes
 - User expects close visual parity with provided Figma/PDF/screenshots
 - Prefer exact spacing, color, and card geometry replication over generic approximations
+- Secondary accent/highlight color should be green `#16AB6D` rather than orange wherever the latest screenshots indicate green emphasis
 - When a user says a section is misaligned or broken, prioritize matching the screenshot over preserving prior implementation details
 - Current architectural decision: continue building additional pages in the existing plain static HTML/CSS/JS setup
 - Astro/framework migration is explicitly deferred until the user decides the project has grown enough to justify it

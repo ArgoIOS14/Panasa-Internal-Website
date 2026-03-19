@@ -156,7 +156,7 @@ window.DEFAULT_CONTENT = {
     ]
   },
   "why": {
-    "pill": "Work with us",
+    "pill": "",
     "title": "Why fintechs choose Panasa",
     "subtitle": "What sets us apart in the fintech development landscape.",
     "cards": [
@@ -196,7 +196,7 @@ window.DEFAULT_CONTENT = {
     ]
   },
   "caseStudies": {
-    "pill": "Case studies",
+    "pill": "",
     "title": "Proven results for leading platforms",
     "subtitle": "Real outcomes from real projects with issuer processors and neobanks",
     "slides": [

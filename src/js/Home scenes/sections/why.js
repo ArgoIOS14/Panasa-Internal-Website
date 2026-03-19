@@ -1,7 +1,16 @@
 import { createEl, setText } from '../utils/dom.js';
 
 export const renderWhy = (data) => {
-  setText('[data-why-pill]', data.pill);
+  const pillEl = document.querySelector('[data-why-pill]');
+  if (pillEl) {
+    if (data.pill) {
+      pillEl.textContent = data.pill;
+      pillEl.style.display = '';
+    } else {
+      pillEl.textContent = '';
+      pillEl.style.display = 'none';
+    }
+  }
 
   const titleEl = document.querySelector('[data-why-title]');
   if (titleEl) {
