@@ -6,9 +6,25 @@ export const initNavToggle = () => {
 
   if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
     });
   }
+};
+
+const getCurrentPage = () => {
+  const current = window.location.pathname.split('/').pop();
+  return current || 'index.html';
+};
+
+const resolveHref = (href) => {
+  if (!href.startsWith('#')) return href;
+  return getCurrentPage() === 'index.html' ? href : `index.html${href}`;
+};
+
+const isActiveLink = (href) => {
+  if (href.startsWith('#')) return false;
+  return href === getCurrentPage();
 };
 
 export const renderNav = (data) => {
@@ -20,7 +36,8 @@ export const renderNav = (data) => {
     const li = createEl('li');
     const a = createEl('a');
     a.textContent = link.label;
-    a.href = link.href;
+    a.href = resolveHref(link.href);
+    if (isActiveLink(link.href)) a.classList.add('active');
     li.appendChild(a);
     container.appendChild(li);
   });
@@ -28,7 +45,7 @@ export const renderNav = (data) => {
   const ctaLi = createEl('li');
   const cta = createEl('a', 'btn btn-light');
   cta.textContent = data.cta.label;
-  cta.href = data.cta.href;
+  cta.href = resolveHref(data.cta.href);
   ctaLi.appendChild(cta);
   container.appendChild(ctaLi);
 };
