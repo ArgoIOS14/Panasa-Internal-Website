@@ -29,9 +29,9 @@
   },
   "hero": {
     "pill": "Trusted by fintechs across EU, UK & APAC",
-    "title": "Ship your fintech in weeks & run 24/7",
+    "title": "Ship & modernise your fintech in weeks",
     "titleEmphasis": "Scale Without Surprises",
-    "subtitle": "Your AI-native partner for Dev, Ops & Scale. No handoffs. No surprises.",
+    "subtitle": "Your AI-native partner for Dev, Ops & Scale. No handoffs.",
     "primaryCta": {
       "label": "Talk to our team",
       "href": "#contact"
@@ -74,8 +74,10 @@
   },
   "services": {
     "pill": "Services",
-    "title": "Complete fintech services stack",
-    "subtitle": "From development to operations, we cover every aspect of fintech delivery.",
+    "title": "AI-Driven Fintech Services Stack",
+    "subtitle": "From AI accelerated engineering to operational resilience, we cover scalable fintech outcomes for modern payment platforms.",
+    "learnMoreLabel": "Learn More +",
+    "visualLabel": "Visual Graphics",
     "items": [
       {
         "icon": "assets/service-frame-1.svg",
