@@ -23,12 +23,22 @@ export const renderHero = (data) => {
   const logos = document.querySelector('[data-hero-trusted-logos]');
   if (logos) {
     logos.innerHTML = '';
-    data.trustedLogos.forEach((logo) => {
+    const track = createEl('div', 'trusted-logos-track');
+    const marqueeLogos = [...data.trustedLogos, ...data.trustedLogos];
+
+    marqueeLogos.forEach((logo, index) => {
+      const item = createEl('div', 'trusted-logo-item');
       const img = createEl('img');
       img.src = logo.src;
       img.alt = logo.alt;
-      logos.appendChild(img);
+      if (index >= data.trustedLogos.length) {
+        img.setAttribute('aria-hidden', 'true');
+      }
+      item.appendChild(img);
+      track.appendChild(item);
     });
+
+    logos.appendChild(track);
   }
 
   const badges = document.querySelector('[data-hero-cert-badges]');
