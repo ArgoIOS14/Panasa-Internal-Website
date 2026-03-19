@@ -82,6 +82,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - body copy is compact and unquoted
 - Services section icons use custom `Frame*.svg` assets mapped into service cards
 - Engagement section now includes top filter pills for visual parity with the current design direction
+- Engagement screenshot-matching notes:
+  - top pill is hidden when empty
+  - title is `Engagement Models` with `Built for Your Growth` highlighted on the next line
+  - tabs are interactive: `Engagement Models` and `Growth Packages`
+  - `Growth Packages` currently shows dummy cards in the same visual style until final content is provided
 
 ## Responsive Rules
 - Desktop: section-specific asymmetric layouts where requested

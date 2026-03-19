@@ -1095,95 +1095,112 @@ section {
 }
 
 .engagement .section-title-split {
-  margin-bottom: 26px;
+  margin-bottom: 18px;
+  max-width: 980px;
 }
 
 .engagement .section-title-split h2 {
-  max-width: 420px;
+  max-width: 350px;
+  font-size: clamp(2rem, 2.6vw, 2.55rem);
+  line-height: 1;
 }
 
 .engagement-filters {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin: 0 auto 24px;
-  max-width: 1060px;
+  gap: 8px;
+  margin: 0 auto 20px;
+  max-width: 980px;
 }
 
 .engagement-filter {
-  border: 1px solid rgba(11, 61, 46, 0.14);
-  background: #ffffff;
-  color: var(--text-muted);
-  border-radius: 999px;
-  padding: 10px 18px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: default;
+  border: 1px solid #e0e6e2;
+  background: #f6f7f5;
+  color: #687c73;
+  border-radius: 7px;
+  padding: 9px 14px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .engagement-filter.active {
-  background: var(--bg-dark);
+  background: #232323;
   color: #ffffff;
-  border-color: var(--bg-dark);
+  border-color: #232323;
 }
 
 .engagement-card {
-  background: #eef9f2;
-  border-radius: 18px;
-  padding: 16px 16px 14px;
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 10px 10px 10px;
+  border: 1px solid #d9e0db;
   display: grid;
-  gap: 10px;
+  gap: 8px;
   align-content: start;
 }
 
 .engagement-image {
-  width: 100%;
-  border-radius: 12px;
-  height: 110px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
   object-fit: cover;
+  background: #d9d9d9;
 }
 
 .engagement-card:nth-child(1) {
-  background: #def6e8;
+  background: #ffffff;
 }
 
 .engagement-card:nth-child(3),
 .engagement-card:nth-child(4) {
-  background: #ebfbf2;
+  background: #ffffff;
 }
 
 .engagement-card.featured {
   background: var(--bg-dark);
   color: #fff;
-  box-shadow: var(--shadow);
+  box-shadow: 0 12px 24px rgba(10, 40, 30, 0.18);
 }
 
 .engagement-card h3 {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   line-height: 1.15;
 }
 
 .engagement-card p {
-  font-size: 0.88rem;
-  line-height: 1.48;
+  font-size: 0.67rem;
+  line-height: 1.45;
+  color: #536b61;
 }
 
 .engagement-card.featured ul {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.engagement-card.featured p,
+.engagement-card.featured .engagement-includes {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .engagement-card ul {
   color: var(--text-muted);
   display: grid;
-  gap: 6px;
-  font-size: 0.83rem;
-  line-height: 1.4;
+  gap: 4px;
+  font-size: 0.62rem;
+  line-height: 1.35;
+}
+
+.engagement-includes {
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: #233f36;
 }
 
 .engagement-card li {
   position: relative;
-  padding-left: 18px;
+  padding-left: 14px;
 }
 
 .engagement-card li::before {
@@ -1191,8 +1208,8 @@ section {
   position: absolute;
   left: 0;
   top: 0.43rem;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 999px;
   background: #10b36a;
   box-shadow: 0 0 0 3px rgba(16, 179, 106, 0.12);
@@ -1202,8 +1219,12 @@ section {
   width: 100%;
   justify-content: center;
   text-align: center;
-  padding: 11px 18px;
+  padding: 8px 12px;
   margin-top: 4px;
+  min-height: 0;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  box-shadow: none;
 }
 
 .engagement-card.featured .btn {
@@ -1213,9 +1234,9 @@ section {
 
 .engagement-note {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 12px;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.72rem;
 }
 
 .site-footer {

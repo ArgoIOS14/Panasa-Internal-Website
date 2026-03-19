@@ -342,64 +342,131 @@ window.DEFAULT_CONTENT = {
     ]
   },
   "engagement": {
-    "pill": "Working model",
+    "pill": "",
     "title": "Engagement Models Built for Your Growth",
-    "subtitle": "The right delivery model depends on your product stage, team structure, and regulatory complexity.",
+    "subtitle": "Flexible operating models designed to match your fintech's stage, scale, and regulatory complexity.",
+    "filters": [
+      "Engagement Models",
+      "Growth Packages"
+    ],
+    "activeFilter": "Engagement Models",
     "items": [
       {
         "image": "assets/model-squads.svg",
-        "title": "Engineering squads",
-        "text": "Dedicated cross-functional squads for product build and integrations.",
+        "title": "Engineering Squads",
+        "text": "Extend your team with our payment specialists. Flex capacity up or down based on project needs.",
         "bullets": [
-          "Weekly reporting",
-          "Dedicated PM",
-          "Velocity targets"
+          "Month-to-month flexibility",
+          "Defined timeline",
+          "Milestone payments",
+          "End-to-end ownership",
+          "Predictable costs"
         ],
         "cta": "Talk to us",
         "variant": "light"
       },
       {
         "image": "assets/model-managed.svg",
-        "title": "Managed services",
-        "text": "Operate and scale your platform with SLAs, audits, and automation.",
+        "title": "Managed Services",
+        "text": "Full operational ownership with SLA-backed performance. From build to 24/7 operations.",
         "bullets": [
-          "24/7 monitoring",
-          "Compliance support",
-          "Quarterly reviews"
+          "24/7 coverage",
+          "SLA guarantees",
+          "Outcome-based pricing",
+          "Complete ownership",
+          "Continuous optimisation"
         ],
         "cta": "Talk to us",
         "variant": "featured"
       },
       {
         "image": "assets/model-project.svg",
-        "title": "Project-based",
-        "text": "Fixed scope engagements for launches, migrations, or audits.",
+        "title": "Project-Based",
+        "text": "Fixed scope, fixed budget, clear deliverables. Perfect for well-defined projects with set timelines.",
         "bullets": [
-          "Fixed timelines",
           "Clear deliverables",
-          "Milestone billing"
+          "Defined timeline",
+          "Milestone payments",
+          "End-to-end ownership",
+          "Predictable costs"
         ],
         "cta": "Talk to us",
         "variant": "light"
       },
       {
         "image": "assets/model-gdc.svg",
-        "title": "GDC delivery model",
-        "text": "Global delivery pods with clear ownership and cross-timezone coverage.",
+        "title": "GCC Delivery Model",
+        "text": "Build and scale your global delivery hub with structured talent, operations, and performance frameworks.",
         "bullets": [
-          "Dedicated leads",
-          "Standardized playbooks",
-          "Cost efficiency"
+          "Talent Advisory Workspaces",
+          "AI-Powered Business Operations",
+          "Market Intelligence & Benchmarking",
+          "Workforce Planning",
+          "Build-Operate-Transfer (BOT)"
         ],
         "cta": "Talk to us",
         "variant": "light"
       }
     ],
-    "note": "Most clients start with a project and graduate to managed services as they scale.",
-    "filters": [
-      "Engagement models",
-      "Growth focused"
-    ]
+    "growthPackages": [
+      {
+        "image": "assets/model-squads.svg",
+        "title": "Launch Package",
+        "text": "Dummy package for early-stage fintechs launching MVP products with compliance-ready foundations.",
+        "bullets": [
+          "MVP delivery plan",
+          "Core workflows setup",
+          "Compliance-first architecture",
+          "Rapid launch support",
+          "Launch-readiness checklist"
+        ],
+        "cta": "Talk to us",
+        "variant": "light"
+      },
+      {
+        "image": "assets/model-managed.svg",
+        "title": "Scale Package",
+        "text": "Dummy package for growth-stage fintechs that need platform reliability, ops coverage, and governance.",
+        "bullets": [
+          "24/7 monitoring layer",
+          "Ops automation",
+          "Platform governance",
+          "SLA reporting",
+          "Continuous optimisation"
+        ],
+        "cta": "Talk to us",
+        "variant": "featured"
+      },
+      {
+        "image": "assets/model-project.svg",
+        "title": "Expansion Package",
+        "text": "Dummy package for multi-market rollout, new integrations, and delivery acceleration.",
+        "bullets": [
+          "Market rollout planning",
+          "Partner integrations",
+          "Delivery governance",
+          "Launch milestones",
+          "Risk controls"
+        ],
+        "cta": "Talk to us",
+        "variant": "light"
+      },
+      {
+        "image": "assets/model-gdc.svg",
+        "title": "Enterprise Package",
+        "text": "Dummy package for enterprise-scale fintech teams building long-term delivery capability and global support.",
+        "bullets": [
+          "Operating model design",
+          "Talent pod setup",
+          "Performance management",
+          "Governance structure",
+          "Long-term scale support"
+        ],
+        "cta": "Talk to us",
+        "variant": "light"
+      }
+    ],
+    "note": "*Most clients start with a project and graduate to managed services as they scale"
   },
   "footer": {
     "ctaTitle": "Ready to build your card platform",
