@@ -198,29 +198,29 @@
   "caseStudies": {
     "pill": "Case studies",
     "title": "Proven results for leading platforms",
-    "subtitle": "Real outcomes from real projects with issuer processors and neobanks.",
+    "subtitle": "Real outcomes from real projects with issuer processors and neobanks",
     "slides": [
       {
-        "eyebrow": "Confidential issuer processor",
-        "title": "Built and now operating card issuing platform processing 10M+ transactions monthly",
+        "eyebrow": "CONFIDENTIAL ISSUER PROCESSOR",
+        "title": "Built and Now Operating Card Issuing Platform Processing 10M+ Transactions Monthly",
         "text": "Leading issuer processor needed to rapidly scale their card platform while maintaining 99.95%+ uptime and reducing operational costs.",
         "image": "assets/placeholder-case-1.svg",
         "cta": {
-          "label": "Read full case study",
+          "label": "Read Full Case Study",
           "href": "#contact"
         },
         "metrics": [
           {
             "value": "6",
-            "label": "Months to live"
+            "label": "Months to Live"
           },
           {
             "value": "10M+",
-            "label": "Transactions / month"
+            "label": "Transactions/Month"
           },
           {
             "value": "40%",
-            "label": "Cost reduction"
+            "label": "Cost Reduction"
           }
         ]
       },

@@ -53,6 +53,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - centered soft card shell with stronger metrics column
   - dot navigation centered below the card
   - desktop styling is being tuned toward the latest screenshot-driven design
+  - latest screenshot-matching pass uses:
+    - smaller compact heading scale
+    - green uppercase eyebrow
+    - compact black CTA
+    - tighter rounded metric cards
 - Services section has been redesigned from a simple grid into a featured two-column carousel layout:
   - section heading/copy row at top
   - left side: active service eyebrow, title, bullet list, CTA
