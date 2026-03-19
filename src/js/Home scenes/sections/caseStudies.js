@@ -17,7 +17,7 @@ export const renderCaseStudies = (data) => {
   data.slides.forEach((slide, index) => {
     const article = createEl('article', 'slide');
     const card = createEl('div', 'results-card');
-    const left = createEl('div');
+    const left = createEl('div', 'results-copy');
 
     const eyebrow = createEl('span', 'eyebrow');
     eyebrow.textContent = slide.eyebrow;
@@ -32,7 +32,7 @@ export const renderCaseStudies = (data) => {
     img.src = slide.image;
     img.alt = slide.title;
 
-    const cta = createEl('a', 'btn btn-dark');
+    const cta = createEl('a', 'btn btn-dark results-cta');
     cta.textContent = slide.cta.label;
     cta.href = slide.cta.href;
 
@@ -40,7 +40,7 @@ export const renderCaseStudies = (data) => {
 
     const metrics = createEl('div', 'results-metrics');
     slide.metrics.forEach((metric) => {
-      const box = createEl('div');
+      const box = createEl('div', 'results-metric');
       const value = createEl('h4');
       value.textContent = metric.value;
       const label = createEl('span');

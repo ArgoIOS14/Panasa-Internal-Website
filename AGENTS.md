@@ -40,6 +40,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Home certifications strip must visually match the design width/scale, with oversized SVG whitespace cropped via CSS rendering (`object-fit: cover`, centered) so badge logos appear at the intended size.
 - Work With Us section uses asymmetric cards on desktop, single-column on tablet/mobile
 - Case Studies is implemented as a functional carousel with autoplay and smooth swipe/drag behavior
+- Case Studies current visual direction:
+  - split desktop heading with left title and right summary
+  - centered soft card shell with stronger metrics column
+  - dot navigation centered below the card
+  - desktop styling is being tuned toward the latest screenshot-driven design
 - Services section has been redesigned from a simple grid into a featured two-column carousel layout:
   - section heading/copy row at top
   - left side: active service eyebrow, title, bullet list, CTA
