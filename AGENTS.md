@@ -58,6 +58,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
     - green uppercase eyebrow
     - compact black CTA
     - tighter rounded metric cards
+  - latest precision pass further compacts the header, card shell, metric stack, CTA, and dots toward the smaller screenshot reference
 - Services section has been redesigned from a simple grid into a featured two-column carousel layout:
   - section heading/copy row at top
   - left side: active service eyebrow, title, bullet list, CTA
