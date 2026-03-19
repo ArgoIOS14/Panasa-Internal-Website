@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panasa | Contact Us</title>
+    <meta
+      name="description"
+      content="Talk to Panasa about engineering, operations, and scaling your fintech platform."
+    />
+    <link rel="stylesheet" href="css/shared-layout.css" />
+    <link rel="stylesheet" href="css/contact.css" />
+  </head>
+  <body>
+    <div class="contact-page">
+      <header class="site-header" id="top" data-animate>
+        <nav class="nav">
+          <a class="brand" href="index.html" aria-label="Panasa home">
+            <img src="assets/logo.svg" alt="Panasa" />
+          </a>
+          <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="nav-links" data-nav-links></ul>
+        </nav>
+      </header>
+
+      <main>
+        <section class="contact-hero" data-animate>
+          <div class="contact-hero-copy" data-animate>
+            <h1>
+              <span>Let's Build Your</span>
+              <em>Fintech Platform</em>
+            </h1>
+            <p>
+              Talk to our team about engineering, operations, or scaling your payment
+              infrastructure.
+            </p>
+          </div>
+        </section>
+
+        <section class="contact-panel" data-animate>
+          <div class="contact-card" data-animate>
+            <form class="contact-form" data-contact-form>
+              <div class="contact-grid">
+                <label class="field">
+                  <span>First Name</span>
+                  <input type="text" name="firstName" placeholder="First Name" />
+                </label>
+                <label class="field">
+                  <span>Last Name</span>
+                  <input type="text" name="lastName" placeholder="Last Name" />
+                </label>
+                <label class="field">
+                  <span>Email</span>
+                  <input type="email" name="email" placeholder="firstname@acme.inc" />
+                </label>
+                <label class="field">
+                  <span>Phone Number</span>
+                  <div class="phone-field">
+                    <span class="phone-prefix">+91</span>
+                    <input type="tel" name="phone" placeholder="98765 43210" />
+                  </div>
+                </label>
+              </div>
+
+              <label class="field field-wide">
+                <span>How can we help?</span>
+                <textarea
+                  name="requirements"
+                  rows="5"
+                  placeholder="Tell us about your requirements"
+                ></textarea>
+              </label>
+
+              <button class="btn btn-submit" type="submit">Send Message</button>
+            </form>
+
+            <aside class="contact-info">
+              <h2>You can reach us anytime via</h2>
+
+              <div class="info-block">
+                <h3>Email</h3>
+                <a href="mailto:info@panasatech.com">info@panasatech.com</a>
+              </div>
+
+              <div class="info-block">
+                <h3>Contact</h3>
+                <a href="tel:+917594052401">+91 75940 52401</a>
+                <a href="tel:+4401273977101">+44 (0) 1273 977101</a>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="locations" data-animate>
+          <div class="locations-header" data-animate>
+            <div class="locations-title">
+              <h2>
+                <span>Our Offices</span>
+                <em>Locations</em>
+              </h2>
+            </div>
+            <p>
+              Serving global fintech teams across key regions with reliable delivery and support.
+            </p>
+          </div>
+
+          <div class="office-grid">
+            <article class="office-card" data-animate>
+              <img src="assets/contact-office-kochi.svg" alt="Panasa Kochi office building" />
+              <div class="office-overlay">
+                <div class="office-flag office-flag-india" aria-hidden="true"></div>
+                <div>
+                  <h3>Smart City Kochi, India</h3>
+                  <p>9th Floor, Phase 2 Carnival Building,</p>
+                  <p>Infopark, Kochi, Kerala, India - 682042</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="office-card" data-animate>
+              <img src="assets/contact-office-uk.svg" alt="Panasa UK office waterfront view" />
+              <div class="office-overlay">
+                <div class="office-flag office-flag-uk" aria-hidden="true"></div>
+                <div>
+                  <h3>UK Office</h3>
+                  <p>Maritime House, Basin Rd North</p>
+                  <p>Brighton &amp; Hove, United Kingdom</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="contact-footer" data-animate>
+        <div class="footer-card" data-animate>
+          <div class="footer-brand">
+            <img src="assets/logo.svg" alt="Panasa" />
+            <p data-footer-brand-text></p>
+            <span data-footer-email></span>
+            <span data-footer-phone></span>
+          </div>
+          <div class="footer-links" data-footer-columns></div>
+          <div class="footer-bottom">
+            <span data-footer-copyright></span>
+            <div class="footer-meta" data-footer-legal-links></div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="content/Home page/default.js"></script>
+    <script type="module" src="js/contact.js"></script>
+  </body>
+</html>
