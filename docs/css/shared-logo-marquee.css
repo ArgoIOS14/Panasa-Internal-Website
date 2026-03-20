@@ -1,0 +1,99 @@
+@import url('https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap');
+@import url('https://rsms.me/inter/inter.css');
+
+.logo-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.logo-marquee::before,
+.logo-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.logo-marquee::before {
+  left: 0;
+}
+
+.logo-marquee::after {
+  right: 0;
+}
+
+.logo-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  width: max-content;
+  animation: logo-marquee-loop 20s linear infinite;
+}
+
+.logo-marquee-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 118px;
+}
+
+.logo-marquee img {
+  height: 25px;
+  width: auto;
+  opacity: 0.76;
+}
+
+.logo-marquee-light::before {
+  background: linear-gradient(90deg, #f7fff9 0%, rgba(247, 255, 249, 0) 100%);
+}
+
+.logo-marquee-light::after {
+  background: linear-gradient(270deg, #f7fff9 0%, rgba(247, 255, 249, 0) 100%);
+}
+
+.logo-marquee-mint::before {
+  background: linear-gradient(90deg, #dbf4e4 0%, rgba(219, 244, 228, 0) 100%);
+}
+
+.logo-marquee-mint::after {
+  background: linear-gradient(270deg, #dbf4e4 0%, rgba(219, 244, 228, 0) 100%);
+}
+
+@keyframes logo-marquee-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 18px));
+  }
+}
+
+@media (max-width: 900px) {
+  .logo-marquee {
+    max-width: 100%;
+    padding: 6px 0;
+  }
+
+  .logo-marquee::before,
+  .logo-marquee::after {
+    width: 30px;
+  }
+
+  .logo-marquee-track {
+    gap: 26px;
+  }
+
+  .logo-marquee-item {
+    min-width: 88px;
+  }
+
+  .logo-marquee img {
+    height: 18px;
+  }
+}

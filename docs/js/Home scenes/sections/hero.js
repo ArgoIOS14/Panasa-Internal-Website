@@ -1,4 +1,5 @@
 import { createEl, setText } from '../utils/dom.js';
+import { renderLogoMarquee } from './logoMarquee.js';
 
 export const renderHero = (data) => {
   setText('[data-hero-pill]', data.pill);
@@ -20,26 +21,9 @@ export const renderHero = (data) => {
 
   setText('[data-hero-trusted-label]', data.trustedLabel);
 
-  const logos = document.querySelector('[data-hero-trusted-logos]');
-  if (logos) {
-    logos.innerHTML = '';
-    const track = createEl('div', 'trusted-logos-track');
-    const marqueeLogos = [...data.trustedLogos, ...data.trustedLogos];
-
-    marqueeLogos.forEach((logo, index) => {
-      const item = createEl('div', 'trusted-logo-item');
-      const img = createEl('img');
-      img.src = logo.src;
-      img.alt = logo.alt;
-      if (index >= data.trustedLogos.length) {
-        img.setAttribute('aria-hidden', 'true');
-      }
-      item.appendChild(img);
-      track.appendChild(item);
-    });
-
-    logos.appendChild(track);
-  }
+  const logosContainer = document.querySelector('[data-hero-trusted-logos]');
+  logosContainer?.classList.add('logo-marquee', 'logo-marquee-light');
+  renderLogoMarquee('[data-hero-trusted-logos]', data.trustedLogos || []);
 
   const badges = document.querySelector('[data-hero-cert-badges]');
   if (badges) {
@@ -52,10 +36,14 @@ export const renderHero = (data) => {
       badges.classList.add('single');
     } else if (data.certBadges) {
       data.certBadges.forEach((badge) => {
+        const item = createEl('div', 'cert-badge-item');
+        const frame = createEl('div', 'cert-badge-frame');
         const img = createEl('img');
         img.src = badge.src;
         img.alt = badge.alt;
-        badges.appendChild(img);
+        frame.appendChild(img);
+        item.appendChild(frame);
+        badges.appendChild(item);
       });
       badges.classList.remove('single');
     }

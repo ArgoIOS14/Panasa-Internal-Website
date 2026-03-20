@@ -7,7 +7,7 @@ window.DEFAULT_CONTENT = {
     "links": [
       {
         "label": "About Us",
-        "href": "#about"
+        "href": "about.html"
       },
       {
         "label": "Services",
@@ -43,34 +43,64 @@ window.DEFAULT_CONTENT = {
     "trustedLabel": "Trusted by high-growth fintechs",
     "trustedLogos": [
       {
-        "src": "assets/logo-sisyphus.svg",
-        "alt": "Sisyphus"
+        "src": "assets/logo-accelovate.svg",
+        "alt": "Accelovate"
       },
       {
-        "src": "assets/logo-globalbank.svg",
-        "alt": "GlobalBank"
+        "src": "assets/logo-paymentology.svg",
+        "alt": "Paymentology"
       },
       {
-        "src": "assets/logo-capsule.svg",
-        "alt": "Capsule"
+        "src": "assets/logo-crunch.svg",
+        "alt": "Crunch"
       },
       {
-        "src": "assets/logo-commandr.svg",
-        "alt": "Command+R"
+        "src": "assets/logo-ribbon-gi.svg",
+        "alt": "Ribbon GI"
       },
       {
-        "src": "assets/logo-segment.svg",
-        "alt": "Segment"
+        "src": "assets/logo-kani.svg",
+        "alt": "Kani"
       },
       {
-        "src": "assets/logo-interlock.svg",
-        "alt": "Interlock"
+        "src": "assets/logo-88-eu.svg",
+        "alt": "88 EU"
+      },
+      {
+        "src": "assets/logo-osper.svg",
+        "alt": "Osper"
+      },
+      {
+        "src": "assets/logo-paci.svg",
+        "alt": "Paci"
+      },
+      {
+        "src": "assets/logo-prosper.svg",
+        "alt": "Prosper"
+      },
+      {
+        "src": "assets/logo-dialect.svg",
+        "alt": "Dialect"
       }
     ],
-    "certImage": {
-      "src": "assets/certifications.svg",
-      "alt": "Certifications"
-    }
+    "certBadges": [
+      {
+        "src": "assets/badge-gdpr.svg",
+        "alt": "GDPR"
+      },
+      {
+        "src": "assets/badge-iso.svg",
+        "alt": "ISO 27001"
+      },
+      {
+        "src": "assets/badge-gptw.svg",
+        "alt": "Great Place to Work"
+      },
+      {
+        "src": "assets/badge-pci.svg",
+        "alt": "PCI"
+      }
+    ]
   },
   "services": {
     "pill": "",
@@ -325,19 +355,31 @@ window.DEFAULT_CONTENT = {
   "testimonials": {
     "pill": "",
     "title": "Trusted by Fintech Leaders",
-    "subtitle": "Feedback from fintech partners delivering secure, scalable, compliant card platforms.",
+    "subtitle": "What our clients say about working with Panasa",
     "cards": [
       {
-        "text": "Panasa became our extended fintech engineering team. They understand authorization flows, 3DS authentication, and scheme integrations better than most in-house teams we’ve seen.",
-        "name": "John Doe",
-        "role": "VP Engineering",
+        "text": "Panasa allows us to focus on growing our brands. With their FinTech expertise, dedication, ability to scale, and meticulous attention to detail, we're able to position ourselves as one of the most cutting-edge groups in payment solutions.",
+        "name": "Tom Bishop",
+        "role": "Chief Commercial Officer",
         "logo": "assets/logo-globalbank.svg"
       },
       {
-        "text": "We eliminated multiple vendor relationships by consolidating with Panasa. From development to 24/7 operations, they handle everything with true payment domain expertise.",
+        "text": "We eliminated multiple vendor relationships by consolidating with Panasa. From development to 24x7 operations, they handle everything with true payment domain expertise.",
         "name": "Sarah Miller",
         "role": "Head of Operations",
         "logo": "assets/logo-segment.svg"
+      },
+      {
+        "text": "Panasa gave our team a dependable operating partner that could move from launch planning into live delivery without losing speed or quality.",
+        "name": "Priya Menon",
+        "role": "Chief Operating Officer",
+        "logo": "assets/logo-capsule.svg"
+      },
+      {
+        "text": "Their engineering and operations rhythm reduced handoffs, tightened compliance coordination, and gave us a stronger delivery backbone as we scaled.",
+        "name": "James Carter",
+        "role": "VP Engineering",
+        "logo": "assets/logo-commandr.svg"
       }
     ]
   },
@@ -474,7 +516,7 @@ window.DEFAULT_CONTENT = {
         "links": [
           {
             "label": "About us",
-            "href": "#about"
+            "href": "about.html"
           },
           {
             "label": "Careers",

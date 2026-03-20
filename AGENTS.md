@@ -111,6 +111,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - hero/trusted spacing
   - split heading rhythm
   - testimonials/footer vertical density
+- New page layout consistency rule:
+  - every new page must match the provided reference as closely as possible, not just section-by-section but in whole-page rhythm
+  - maintain consistent horizontal gutters and shared content widths across sections unless the reference clearly shows an intentional breakout
+  - maintain consistent vertical rhythm between sections, headings, content blocks, and footer transitions so spacing does not drift looser or tighter from one section to another
+  - when a screenshot or PNG reference is provided, use it as the source of truth for typography scale, line lengths, spacing density, and alignment before introducing page-specific interpretation
 
 ## Global UI/UX Rules (All Pages)
 - Apply smooth scrolling and fade in/out section animations on every page, consistent with Home page behavior.
@@ -187,6 +192,9 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Prefer exact spacing, color, and card geometry replication over generic approximations
 - Secondary accent/highlight color should be green `#16AB6D` rather than orange wherever the latest screenshots indicate green emphasis
 - When a user says a section is misaligned or broken, prioritize matching the screenshot over preserving prior implementation details
+- Treat reference files as the governing layout system for new pages:
+  - preserve consistent gutters, section widths, and vertical spacing cadence across the page unless the reference explicitly breaks that pattern
+  - avoid letting individual sections grow larger, looser, or denser than the supplied design without a direct reference-based reason
 - Current architectural decision: continue building additional pages in the existing plain static HTML/CSS/JS setup
 - Astro/framework migration is explicitly deferred until the user decides the project has grown enough to justify it
 - User requested commit + push after updates unless explicitly told not to

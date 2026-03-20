@@ -7,6 +7,8 @@
     <meta name="description" content="Panasa helps fintechs launch and scale with AI-native engineering, ops, and compliance." />
     <link rel="stylesheet" href="css/shared-layout.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/shared-logo-marquee.css" />
+    <link rel="stylesheet" href="css/shared-testimonials.css" />
     <link rel="stylesheet" href="css/shared-footer.css" />
   </head>
   <body>
@@ -94,7 +96,7 @@
           </div>
         </section>
 
-        <section class="testimonials" data-animate>
+        <section class="testimonials shared-testimonials" data-animate>
           <div class="section-title section-title-split section-title-split-dark" data-animate>
             <div class="section-heading-copy">
               <span class="pill" data-testimonials-pill></span>
@@ -102,8 +104,17 @@
             </div>
             <p data-testimonials-subtitle></p>
           </div>
-          <div class="trust-grid" data-testimonials-cards></div>
-          <div class="logo-row" data-testimonials-logos></div>
+          <div class="split-testimonial-shell" data-animate>
+            <button class="split-testimonial-arrow prev" type="button" aria-label="Previous testimonial" data-testimonials-prev>
+              <
+            </button>
+            <div class="split-testimonial-viewport">
+              <div class="split-testimonial-track" data-testimonials-track></div>
+            </div>
+            <button class="split-testimonial-arrow next" type="button" aria-label="Next testimonial" data-testimonials-next>
+              >
+            </button>
+          </div>
         </section>
 
         <section class="engagement" id="contact" data-animate>

@@ -63,10 +63,16 @@
 }
 
 .footer-links {
+  display: grid;
   gap: 26px;
 }
 
+.footer-links > div {
+  min-width: 0;
+}
+
 .footer-links h4 {
+  display: block;
   margin-bottom: 14px;
   color: #39d17f;
   font-size: 11px;
@@ -77,6 +83,7 @@
 
 .footer-links a,
 .footer-links span {
+  display: block;
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 10px;
   font-size: 13px;
