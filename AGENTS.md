@@ -18,6 +18,7 @@
 - `src/content/Home page/content.json`: primary content source
 - `src/content/Home page/default.js`: fallback content if JSON fetch fails
 - `src/assets/`: all icons, logos, placeholders, SVG design assets
+- `HOSTING.md`: static hosting and publishing note for GitHub Pages / static platforms
 - `AGENTS.md`: handoff and project operating context for new chats/accounts
 
 ## Data Flow
@@ -35,8 +36,8 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ## Known Design Decisions
 - Hero gradient transitions to white before certifications area
 - Hero CTA styling is being tuned toward the screenshot-driven reference:
-  - primary CTA uses a small rounded-rectangle treatment
-  - secondary CTA is lighter and less button-like
+  - primary CTA uses a compact dark rounded-rectangle treatment with the provided headset icon
+  - secondary CTA is lighter, less button-like, and uses the provided 4-square icon
   - headline/subtitle/action spacing should stay compact and centered
 - Hero trusted-fintech logo strip is a horizontally looping marquee with soft fade masks on both edges
 - Trusted-fintech marquee is intentionally larger than before and horizontally constrained so its left/right padding visually aligns with the certifications row below
@@ -51,7 +52,7 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Case Studies is implemented as a functional carousel with autoplay and smooth swipe/drag behavior
 - Case Studies current visual direction:
   - split desktop heading with left title and right summary
-  - centered soft card shell with stronger metrics column
+  - centered screenshot-led card shell using the provided SVG background as the full card field
   - dot navigation centered below the card
   - desktop styling is being tuned toward the latest screenshot-driven design
   - top pill is intentionally removed in the latest design direction
@@ -59,8 +60,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
     - smaller compact heading scale
     - green uppercase eyebrow
     - compact black CTA
-    - tighter rounded metric cards
-  - latest precision pass further compacts the header, card shell, metric stack, CTA, and dots toward the smaller screenshot reference
+    - CTA anchored near the bottom-left of the card
+  - current implementation notes:
+    - card metrics are part of the background artwork rather than rendered as a separate DOM column
+    - carousel links/buttons must remain clickable inside the swipe carousel
+    - current Home case studies count is `3` slides only
 - Services section has been redesigned from a simple grid into a featured two-column carousel layout:
   - section heading/copy row at top
   - left side: active service eyebrow, title, bullet list, CTA
@@ -70,7 +74,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - top section pill/header is intentionally hidden if empty
   - heading remains `AI-Driven Fintech Services Stack`
   - right summary copy currently uses the end-to-end AI-powered engineering wording from the latest screenshot
-  - first slide eyebrow is `Core Build`
+  - services now use 4 screenshot-aligned slides:
+    - `Core Build`
+    - `Core Govern`
+    - `Core Operate`
+    - `Core Modernise`
   - latest precision pass reduces heading/summary scale, bullet density, visual panel size, and dot sizing to better match the compact reference
 - Services carousel behavior should match Case Studies as closely as possible
 - Shared autoplay timing for Services and Case Studies is currently `4500ms` per slide
@@ -111,6 +119,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - hero/trusted spacing
   - split heading rhythm
   - testimonials/footer vertical density
+- About page mobile direction now follows the supplied mobile screenshot:
+  - tighter hero proportions
+  - 2-column stat cards
+  - compact map/process spacing
+  - 2-column leadership cards on mobile
 - New page layout consistency rule:
   - every new page must match the provided reference as closely as possible, not just section-by-section but in whole-page rhythm
   - maintain consistent horizontal gutters and shared content widths across sections unless the reference clearly shows an intentional breakout
@@ -151,6 +164,16 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 
 ## Asset Mapping Notes
 - Service card custom icons: `src/assets/service-frame-1.svg` ... `service-frame-6.svg`
+- Hero CTA icons:
+  - `src/assets/hero-cta-talk-icon.svg`
+  - `src/assets/hero-cta-view-icon.svg`
+- About stat icons:
+  - `src/assets/about-stat-experience.svg`
+  - `src/assets/about-stat-team.svg`
+  - `src/assets/about-stat-transactions.svg`
+  - `src/assets/about-stat-uptime.svg`
+- Home case study background card graphic:
+  - `src/assets/case-results-visual.svg`
 - Testimonial author logos:
   - `src/assets/testimonial-logo-1.svg`
   - `src/assets/testimonial-logo-2.svg`
@@ -167,8 +190,19 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Current Services subtitle is:
   - `End-to-end AI-powered engineering, governance, and operational services for secure, scalable fintech platforms.`
 - Services content state:
-  - first slide uses screenshot-aligned copy with `Core Build` eyebrow and `AI Accelerated Fintech Engineering` title
-  - remaining slides may still use placeholder/dummy text until final content is provided
+  - all four slides now use screenshot-aligned content:
+    - `AI Accelerated Fintech Engineering`
+    - `AI Governance`
+    - `Intelligent Operations`
+    - `AI-Led Legacy Modernisation`
+- Current Case Studies subtitle is:
+  - `Real outcomes from real projects with issuer processors and neobanks`
+- Case studies content state:
+  - Home currently keeps only 3 slides:
+    - `NEOBANK & ISSUER`
+    - `PAYMENT SERVICE PROVIDER`
+    - `OPS MODERNIZATION`
+  - `Read Full Case Study` CTA should route to `contact.html`
 - Current Testimonials subtitle is:
   - `Feedback from fintech partners delivering secure, scalable, compliant card platforms.`
 - Current Engagement subtitle is:
@@ -192,9 +226,12 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Prefer exact spacing, color, and card geometry replication over generic approximations
 - Secondary accent/highlight color should be green `#16AB6D` rather than orange wherever the latest screenshots indicate green emphasis
 - When a user says a section is misaligned or broken, prioritize matching the screenshot over preserving prior implementation details
+- When a screenshot provides iconography or SVG artwork for a section, prefer using the supplied SVGs directly rather than approximating them with CSS boxes, generated icons, or placeholder UI.
 - Treat reference files as the governing layout system for new pages:
   - preserve consistent gutters, section widths, and vertical spacing cadence across the page unless the reference explicitly breaks that pattern
   - avoid letting individual sections grow larger, looser, or denser than the supplied design without a direct reference-based reason
+- Careers page note:
+  - the `Why Join Panasa?` section has been removed per the latest design direction and should not be reintroduced unless explicitly requested
 - Current architectural decision: continue building additional pages in the existing plain static HTML/CSS/JS setup
 - Astro/framework migration is explicitly deferred until the user decides the project has grown enough to justify it
 - User requested commit + push after updates unless explicitly told not to
