@@ -9,6 +9,9 @@
   --text-soft: #4f5557;
   --line-soft: rgba(15, 31, 25, 0.08);
   --card-line: rgba(20, 29, 28, 0.08);
+  --type-micro: 12px;
+  --type-support: 14px;
+  --type-body: 15px;
 }
 
 * {
@@ -140,7 +143,7 @@ textarea {
   border-radius: 999px;
   border: 1px solid rgba(15, 26, 22, 0.1);
   background: rgba(255, 255, 255, 0.92);
-  font-size: 10px;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -168,7 +171,7 @@ textarea {
 .about-hero p {
   max-width: 474px;
   margin: 18px auto 0;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
   letter-spacing: -0.02em;
   color: #3b4544;
@@ -202,14 +205,19 @@ textarea {
 }
 
 .stat-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
-  background: rgba(22, 171, 109, 0.12);
-  color: var(--green);
-  font-size: 13px;
+  flex: 0 0 auto;
+}
+
+.stat-icon img {
+  width: 26px;
+  height: 26px;
+  display: block;
+  object-fit: contain;
+  object-position: center;
 }
 
 .stat-card strong {
@@ -222,7 +230,7 @@ textarea {
 .stat-card span {
   display: block;
   margin-top: 5px;
-  font-size: 11px;
+  font-size: 12px;
   color: #5d6364;
 }
 
@@ -239,8 +247,8 @@ textarea {
 
 .section-head p {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 15px;
+  line-height: 1.55;
   letter-spacing: -0.02em;
   color: inherit;
   opacity: 0.86;
@@ -317,7 +325,7 @@ textarea {
 
 .process-step-trigger strong {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -334,8 +342,8 @@ textarea {
 
 .process-step-panel p {
   margin: 0;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
   color: #666d6d;
 }
 
@@ -371,7 +379,7 @@ textarea {
 
 .partner-kicker {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -441,7 +449,7 @@ textarea {
 .leader-detail > span:nth-of-type(2) {
   display: block;
   margin-top: 4px;
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -468,15 +476,15 @@ textarea {
   border-radius: 4px;
   background: #ffffff;
   color: #111111;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   margin-bottom: 14px;
 }
 
 .leader-detail p {
   margin: 16px 0 0;
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.62;
   color: rgba(255, 255, 255, 0.84);
 }
 
@@ -646,8 +654,8 @@ textarea {
   color: #111111;
   cursor: pointer;
   text-align: left;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.55;
   letter-spacing: -0.015em;
 }
 
@@ -670,8 +678,8 @@ textarea {
 .faq-answer p {
   margin: 0;
   max-width: 840px;
-  font-size: 11px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.68;
   color: #535b5b;
 }
 
@@ -703,7 +711,7 @@ textarea {
 .footer-cta .btn-light {
   padding: 10px 14px;
   border-radius: 6px;
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   font-weight: 700;
   box-shadow: none;
 }
@@ -841,7 +849,7 @@ textarea {
   .pill {
     min-height: 24px;
     padding: 0 12px;
-    font-size: 8px;
+    font-size: 11px;
     letter-spacing: 0.06em;
   }
 
@@ -854,8 +862,8 @@ textarea {
   .about-hero p {
     max-width: 288px;
     margin-top: 14px;
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.58;
   }
 
   .hero-actions {
@@ -868,7 +876,7 @@ textarea {
   .btn-dark,
   .btn-ghost {
     min-height: 34px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .btn-dark {
@@ -910,8 +918,8 @@ textarea {
 
   .stat-card span {
     margin-top: 3px;
-    font-size: 9px;
-    line-height: 1.2;
+    font-size: 11px;
+    line-height: 1.35;
   }
 
   .section-head {
@@ -927,8 +935,8 @@ textarea {
   .section-head p {
     max-width: 300px;
     margin: 0 auto;
-    font-size: 11px;
-    line-height: 1.45;
+    font-size: 13px;
+    line-height: 1.55;
   }
 
   .presence-section {
@@ -958,7 +966,7 @@ textarea {
   }
 
   .process-step-trigger strong {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .process-step-panel-inner {
@@ -966,8 +974,8 @@ textarea {
   }
 
   .process-step-panel p {
-    font-size: 10px;
-    line-height: 1.45;
+    font-size: 12px;
+    line-height: 1.55;
   }
 
   .process-visual-card {
@@ -983,7 +991,7 @@ textarea {
   }
 
   .partner-kicker {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .partner-logos {
@@ -1012,14 +1020,14 @@ textarea {
 
   .leader-summary h3,
   .leader-detail h3 {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .leader-summary span,
   .leader-detail > span:nth-of-type(2) {
     margin-top: 3px;
-    font-size: 8px;
-    line-height: 1.25;
+    font-size: 10px;
+    line-height: 1.35;
   }
 
   .leader-detail {
@@ -1030,13 +1038,13 @@ textarea {
     width: 14px;
     height: 14px;
     margin-bottom: 10px;
-    font-size: 7px;
+    font-size: 9px;
   }
 
   .leader-detail p {
     margin-top: 10px;
-    font-size: 9px;
-    line-height: 1.4;
+    font-size: 11px;
+    line-height: 1.5;
   }
 
   .about-testimonials {
@@ -1050,7 +1058,7 @@ textarea {
 
   .about-testimonials .section-head p {
     max-width: 250px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .testimonial-shell {
@@ -1066,8 +1074,8 @@ textarea {
   }
 
   .testimonial-column p {
-    font-size: 11px;
-    line-height: 1.65;
+    font-size: 13px;
+    line-height: 1.72;
   }
 
   .testimonial-person {
@@ -1076,12 +1084,12 @@ textarea {
   }
 
   .testimonial-person strong {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .testimonial-person span {
     margin-top: 3px;
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .testimonial-person img {
@@ -1101,8 +1109,8 @@ textarea {
 
   .faq-question {
     padding: 12px 12px;
-    font-size: 10px;
-    line-height: 1.35;
+    font-size: 12px;
+    line-height: 1.48;
   }
 
   .faq-icon {
@@ -1114,8 +1122,8 @@ textarea {
   }
 
   .faq-answer p {
-    font-size: 9px;
-    line-height: 1.5;
+    font-size: 11px;
+    line-height: 1.58;
   }
 
   .footer-cta {
@@ -1132,14 +1140,14 @@ textarea {
 
   .footer-cta p {
     max-width: 260px;
-    font-size: 10px;
-    line-height: 1.45;
+    font-size: 12px;
+    line-height: 1.55;
   }
 
   .footer-cta .btn-light {
     min-height: 28px;
     padding: 0 10px;
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .site-footer .footer-card {
@@ -1159,21 +1167,21 @@ textarea {
   .footer-brand p {
     max-width: 180px;
     margin: 10px 0 12px;
-    font-size: 10px;
-    line-height: 1.45;
+    font-size: 12px;
+    line-height: 1.55;
   }
 
   .footer-brand span,
   .footer-links a,
   .footer-links span,
   .footer-bottom {
-    font-size: 9px;
-    line-height: 1.35;
+    font-size: 11px;
+    line-height: 1.45;
   }
 
   .footer-links h4 {
     margin-bottom: 8px;
-    font-size: 8px;
+    font-size: 10px;
     letter-spacing: 0.09em;
   }
 

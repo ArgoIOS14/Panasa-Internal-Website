@@ -37,28 +37,17 @@ export const renderCaseStudies = (data) => {
     const p = createEl('p');
     p.textContent = slide.text;
 
-    const img = createEl('img', 'case-image');
-    img.src = slide.image;
-    img.alt = slide.title;
-
     const cta = createEl('a', 'btn btn-dark results-cta');
     cta.textContent = slide.cta.label;
-    cta.href = slide.cta.href;
-
-    left.append(eyebrow, h3, p, img, cta);
-
-    const metrics = createEl('div', 'results-metrics');
-    slide.metrics.forEach((metric) => {
-      const box = createEl('div', 'results-metric');
-      const value = createEl('h4');
-      value.textContent = metric.value;
-      const label = createEl('span');
-      label.textContent = metric.label;
-      box.append(value, label);
-      metrics.appendChild(box);
+    cta.href = 'contact.html';
+    cta.addEventListener('click', (event) => {
+      event.preventDefault();
+      window.location.assign('contact.html');
     });
 
-    card.append(left, metrics);
+    left.append(eyebrow, h3, p, cta);
+
+    card.append(left);
     article.appendChild(card);
     slidesContainer.appendChild(article);
 

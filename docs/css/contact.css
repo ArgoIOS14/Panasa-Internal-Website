@@ -10,6 +10,9 @@
   --green: #16ab6d;
   --footer-a: #1b6e4b;
   --footer-b: #59c591;
+  --type-micro: 12px;
+  --type-support: 14px;
+  --type-body: 15px;
 }
 
 * {
@@ -167,7 +170,7 @@ textarea {
 }
 
 .field span {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: -0.01em;
   color: #262f2d;
@@ -188,7 +191,7 @@ textarea {
 .phone-field input,
 .field textarea {
   color: #202626;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: -0.01em;
 }
 
@@ -219,7 +222,7 @@ textarea {
 
 .phone-prefix {
   padding: 0 12px;
-  font-size: 12px;
+  font-size: 13px;
   color: #314442;
   position: relative;
 }
@@ -415,7 +418,7 @@ textarea {
 
 .office-overlay h3 {
   margin: 0 0 10px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.08;
   letter-spacing: -0.02em;
   font-weight: 600;
@@ -423,8 +426,8 @@ textarea {
 
 .office-overlay p {
   margin: 0;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 13px;
+  line-height: 1.55;
   letter-spacing: -0.01em;
   color: rgba(255, 255, 255, 0.92);
 }
@@ -547,7 +550,7 @@ textarea {
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.74);
 }

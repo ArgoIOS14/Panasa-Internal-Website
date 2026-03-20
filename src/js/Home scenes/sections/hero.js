@@ -1,6 +1,23 @@
 import { createEl, setText } from '../utils/dom.js';
 import { renderLogoMarquee } from './logoMarquee.js';
 
+const setHeroAction = (element, cta, iconSrc, iconAlt = '') => {
+  if (!element || !cta) return;
+
+  element.href = cta.href;
+  element.innerHTML = '';
+
+  const icon = createEl('img', 'hero-action-icon');
+  icon.src = iconSrc;
+  icon.alt = iconAlt;
+  icon.setAttribute('aria-hidden', 'true');
+
+  const label = createEl('span', 'hero-action-label');
+  label.textContent = cta.label;
+
+  element.append(icon, label);
+};
+
 export const renderHero = (data) => {
   setText('[data-hero-pill]', data.pill);
   setText('[data-hero-title]', data.title);
@@ -8,16 +25,10 @@ export const renderHero = (data) => {
   setText('[data-hero-subtitle]', data.subtitle);
 
   const primary = document.querySelector('[data-hero-cta-primary]');
-  if (primary) {
-    primary.textContent = data.primaryCta.label;
-    primary.href = data.primaryCta.href;
-  }
+  setHeroAction(primary, data.primaryCta, 'assets/hero-cta-talk-icon.svg');
 
   const secondary = document.querySelector('[data-hero-cta-secondary]');
-  if (secondary) {
-    secondary.textContent = data.secondaryCta.label;
-    secondary.href = data.secondaryCta.href;
-  }
+  setHeroAction(secondary, data.secondaryCta, 'assets/hero-cta-view-icon.svg');
 
   setText('[data-hero-trusted-label]', data.trustedLabel);
 

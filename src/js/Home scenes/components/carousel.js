@@ -74,6 +74,7 @@ const initSwipeCarousel = ({
   });
 
   const onPointerDown = (event) => {
+    if (event.target.closest('a, button, input, textarea, select, label')) return;
     isDragging = true;
     startX = event.clientX;
     currentX = startX;

@@ -17,6 +17,9 @@
   --page-shell: 980px;
   --split-summary-col: 360px;
   --services-visual-col: 398px;
+  --type-micro: 12px;
+  --type-support: 14px;
+  --type-body: 15px;
 }
 
 * {
@@ -115,7 +118,7 @@ ul {
 }
 
 .hero-copy p {
-  font-size: 0.9rem;
+  font-size: 0.97rem;
   color: var(--text-muted);
   margin-bottom: 18px;
   max-width: 430px;
@@ -129,7 +132,7 @@ ul {
   padding: 6px 14px;
   border-radius: 999px;
   background: rgba(11, 61, 46, 0.12);
-  font-size: 12px;
+  font-size: var(--type-micro);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
@@ -138,7 +141,7 @@ ul {
 
 .hero-actions {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 22px;
   flex-wrap: wrap;
   justify-content: center;
@@ -181,24 +184,52 @@ ul {
 }
 
 .hero-actions .btn-dark {
-  min-height: 40px;
-  padding: 10px 14px;
-  font-size: 0.82rem;
+  min-height: 34px;
+  padding: 8px 12px;
+  font-size: 0.74rem;
+  line-height: 1;
   border-radius: 7px;
   box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .hero-actions .btn-ghost {
-  min-height: 40px;
-  font-size: 0.82rem;
+  min-height: 34px;
+  font-size: 0.74rem;
+  line-height: 1;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #171717;
+}
+
+.hero-action-icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.btn-dark .hero-action-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.btn-ghost .hero-action-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.hero-action-label {
+  display: inline-block;
 }
 
 .trusted-row {
   width: 100%;
   max-width: var(--page-shell);
-  margin-top: 24px;
-  font-size: 11px;
+  margin-top: 28px;
+  font-size: var(--type-micro);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-muted);
@@ -209,7 +240,7 @@ ul {
   position: relative;
   width: 100%;
   max-width: 820px;
-  margin-top: 10px;
+  margin-top: 14px;
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
@@ -269,7 +300,7 @@ ul {
 }
 
 .cert-row {
-  margin-top: 50px;
+  margin-top: 36px;
   position: relative;
   max-width: 642px;
   margin-left: auto;
@@ -393,7 +424,7 @@ ul {
   height: 1px;
   background: #d4d4d4;
   width: 100vw;
-  margin: 16px 0 0;
+  margin: 28px 0 0;
   margin-left: calc(50% - 50vw);
 }
 
@@ -442,8 +473,8 @@ section {
   justify-self: end;
   width: min(100%, var(--split-summary-col));
   max-width: var(--split-summary-col);
-  font-size: 0.92rem;
-  line-height: 1.58;
+  font-size: 0.98rem;
+  line-height: 1.62;
   margin-top: 0;
 }
 
@@ -501,8 +532,8 @@ section {
   width: min(100%, var(--services-visual-col));
   max-width: var(--services-visual-col);
   color: var(--text-muted);
-  font-size: 0.84rem;
-  line-height: 1.52;
+  font-size: 0.92rem;
+  line-height: 1.58;
   margin-top: 0;
 }
 
@@ -552,7 +583,7 @@ section {
   margin-bottom: 12px;
   border-radius: 999px;
   background: rgba(11, 61, 46, 0.08);
-  font-size: 10px;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -577,8 +608,8 @@ section {
   position: relative;
   padding-left: 16px;
   color: var(--text-muted);
-  font-size: 0.76rem;
-  line-height: 1.34;
+  font-size: 0.88rem;
+  line-height: 1.48;
 }
 
 .services-feature-list li::before {
@@ -597,7 +628,7 @@ section {
   display: inline-flex;
   align-items: center;
   color: var(--text-dark);
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   font-weight: 700;
 }
 
@@ -720,8 +751,8 @@ section {
 
 .dark-section .section-title-split p {
   margin-top: 0;
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: 0.98rem;
+  line-height: 1.55;
 }
 
 .feature-card:nth-child(1) {
@@ -831,7 +862,7 @@ section {
   color: var(--text-muted);
   padding: 6px 10px;
   border-radius: 999px;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -839,8 +870,8 @@ section {
 
 .feature-card p {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.76rem;
-  line-height: 1.42;
+  font-size: 0.86rem;
+  line-height: 1.5;
 }
 
 .feature-card.light p {
@@ -911,91 +942,92 @@ section {
 }
 
 .results-card {
-  max-width: 100%;
+  position: relative;
+  max-width: 884px;
   margin: 0 auto;
-  background: linear-gradient(180deg, #f9fbf9 0%, #f7faf7 100%);
-  border-radius: 12px;
-  padding: 18px 22px 12px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.9fr) 188px;
-  gap: 14px;
-  border: 1px solid #e4ebe6;
-  box-shadow: 0 18px 34px rgba(10, 40, 30, 0.05);
+  display: flex;
+  align-items: stretch;
+  min-height: 372px;
+  height: 372px;
+  padding: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.results-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/case-results-visual.svg') 54% center / cover no-repeat;
+  z-index: 0;
+  transform: scale(1.03);
+  transform-origin: center;
+}
+
+.results-copy {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 410px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 38px 0 26px 30px;
+  box-sizing: border-box;
 }
 
 .results-copy h3 {
-  max-width: 430px;
+  max-width: 392px;
   font-size: clamp(1.2rem, 1.55vw, 1.58rem);
   line-height: 1.16;
   letter-spacing: -0.04em;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .results-copy p {
-  max-width: 390px;
-  font-size: 0.72rem;
-  line-height: 1.38;
+  max-width: 334px;
+  font-size: 0.86rem;
+  line-height: 1.48;
   color: #516d61;
-}
-
-.case-image {
-  width: 100%;
-  height: 110px;
-  border-radius: 12px;
-  margin: 14px 0 12px;
-  background: #f1f2f0;
-  border: 1px solid #e4e7e3;
-  object-fit: cover;
-  object-position: center;
+  margin-bottom: 20px;
 }
 
 .eyebrow {
   display: inline-block;
-  font-size: 0.62rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #10b36a;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 600;
 }
 
-.results-metrics {
-  display: grid;
-  gap: 10px;
-  align-content: start;
-  padding-top: 10px;
-}
-
-.results-metric {
-  background: #ffffff;
-  border-radius: 12px;
-  min-height: 64px;
-  padding: 10px 10px;
-  text-align: center;
-  border: 1px solid #d9dfda;
-  box-shadow: 0 4px 12px rgba(10, 40, 30, 0.06);
-  display: grid;
-  align-content: center;
-}
-
-.results-metrics h4 {
-  font-size: 0.9rem;
-  color: #0b3d2e;
-  margin-bottom: 2px;
-}
-
-.results-metric span {
-  color: #637b71;
-  font-size: 0.62rem;
-  line-height: 1.25;
-}
-
 .results-cta {
-  padding: 8px 10px;
-  font-size: 0.56rem;
-  border-radius: 4px;
+  margin-top: auto;
+  margin-bottom: 0;
+  padding: 9px 12px;
+  font-size: 0.7rem;
+  border-radius: 3px;
   box-shadow: none;
   min-height: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #161616;
+  border: 1px solid #161616;
+  color: #ffffff;
+}
+
+.results-cta::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background:
+    radial-gradient(circle at 50% 50%, #111111 0 2px, transparent 2.1px),
+    #ffffff;
+  flex: 0 0 auto;
 }
 
 .slider-dots {
@@ -1095,7 +1127,7 @@ section {
 .person span {
   display: block;
   color: rgba(255, 255, 255, 0.5);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   margin-top: 2px;
 }
 
@@ -1227,8 +1259,8 @@ section {
 }
 
 .engagement-card p {
-  font-size: 0.8rem;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  line-height: 1.56;
   color: #536b61;
 }
 
@@ -1245,12 +1277,12 @@ section {
   color: var(--text-muted);
   display: grid;
   gap: 6px;
-  font-size: 0.76rem;
-  line-height: 1.42;
+  font-size: 0.84rem;
+  line-height: 1.5;
 }
 
 .engagement-includes {
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #233f36;
 }
@@ -1280,7 +1312,7 @@ section {
   margin-top: auto;
   min-height: 0;
   border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.86rem;
   box-shadow: none;
   align-self: end;
 }
@@ -1292,8 +1324,8 @@ section {
 
 .engagement-best-fit,
 .engagement-outcome {
-  font-size: 0.78rem;
-  line-height: 1.52;
+  font-size: 0.84rem;
+  line-height: 1.56;
 }
 
 .engagement-best-fit {
@@ -1359,19 +1391,19 @@ section {
 }
 
 .engagement-grid.growth-packages-active .engagement-card p {
-  font-size: 0.84rem;
-  line-height: 1.5;
+  font-size: 0.9rem;
+  line-height: 1.56;
 }
 
 .engagement-grid.growth-packages-active .engagement-card ul {
   gap: 9px;
-  font-size: 0.8rem;
-  line-height: 1.42;
+  font-size: 0.86rem;
+  line-height: 1.5;
 }
 
 .engagement-grid.growth-packages-active .engagement-includes {
   margin-top: 4px;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
 }
 
 .engagement-grid.growth-packages-active .engagement-card li {
@@ -1388,14 +1420,14 @@ section {
 .engagement-grid.growth-packages-active .engagement-card .btn {
   min-height: 42px;
   border-radius: 8px;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
 }
 
 .engagement-note {
   text-align: center;
   margin-top: 16px;
   color: var(--text-muted);
-  font-size: 0.78rem;
+  font-size: 0.86rem;
 }
 
 .site-footer {
@@ -1432,7 +1464,7 @@ section {
 .footer-cta .btn-light {
   padding: 10px 14px;
   border-radius: 6px;
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   font-weight: 700;
   box-shadow: none;
 }
@@ -1464,15 +1496,15 @@ section {
   display: block;
   color: rgba(255, 255, 255, 0.74);
   margin-top: 5px;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
 }
 
 .footer-card p {
   color: rgba(255, 255, 255, 0.72);
   margin: 12px 0 16px;
   max-width: 250px;
-  font-size: 0.8rem;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  line-height: 1.56;
 }
 
 .footer-links {
@@ -1484,7 +1516,7 @@ section {
 .footer-links h4 {
   margin-bottom: 12px;
   color: #63cf98;
-  font-size: 0.64rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -1494,8 +1526,8 @@ section {
   display: block;
   color: rgba(255, 255, 255, 0.72);
   margin-bottom: 7px;
-  font-size: 0.74rem;
-  line-height: 1.4;
+  font-size: 0.82rem;
+  line-height: 1.46;
 }
 
 .footer-bottom {
@@ -1507,7 +1539,7 @@ section {
   justify-content: space-between;
   align-items: center;
   color: rgba(255, 255, 255, 0.64);
-  font-size: 0.68rem;
+  font-size: 0.78rem;
 }
 
 .footer-meta {
@@ -1567,7 +1599,9 @@ section {
   }
 
   .results-card {
-    grid-template-columns: minmax(0, 1fr) 168px;
+    max-width: 844px;
+    min-height: 352px;
+    height: 352px;
   }
 
   .results-copy h3,
@@ -1754,37 +1788,19 @@ section {
   }
 
   .feature-card p {
-    font-size: 0.84rem;
-    line-height: 1.45;
+    font-size: 0.9rem;
+    line-height: 1.52;
   }
 
   .results-card {
-    padding: 26px 22px;
-    border-radius: 22px;
-    gap: 18px;
+    max-width: 100%;
+    min-height: 332px;
+    height: 332px;
   }
 
-  .case-image {
-    height: 120px;
-    margin: 14px 0 16px;
-  }
-
-  .results-metrics {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .results-metric {
-    min-height: 86px;
-    padding: 12px 10px;
-  }
-
-  .results-metrics h4 {
-    font-size: 1.05rem;
-  }
-
-  .results-metric span {
-    font-size: 0.78rem;
+  .results-copy {
+    width: min(100%, 398px);
+    padding: 30px 0 22px 24px;
   }
 
   .trust-grid {
@@ -1822,7 +1838,7 @@ section {
 
   .engagement-card p,
   .engagement-card ul {
-    font-size: 0.79rem;
+    font-size: 0.86rem;
   }
 
   .site-footer {
@@ -1859,13 +1875,13 @@ section {
 
   .hero-copy p {
     max-width: 300px;
-    font-size: 0.88rem;
+    font-size: 0.94rem;
     margin-bottom: 18px;
   }
 
   .pill {
     padding: 5px 10px;
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.06em;
   }
 
@@ -1876,23 +1892,23 @@ section {
 
   .btn {
     padding: 10px 16px;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
   }
 
   .hero-actions .btn-dark,
   .hero-actions .btn-ghost {
     min-height: 36px;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
   }
 
   .trusted-row {
-    margin-top: 20px;
-    font-size: 10px;
+    margin-top: 24px;
+    font-size: 12px;
   }
 
   .trusted-logos {
     max-width: 100%;
-    margin-top: 8px;
+    margin-top: 12px;
     padding: 6px 0;
   }
 
@@ -1919,6 +1935,7 @@ section {
 
   .cert-row {
     max-width: 520px;
+    margin-top: 26px;
   }
 
   .cert-row::before {
@@ -1946,7 +1963,7 @@ section {
   }
 
   .cert-separator {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   .services-head {
@@ -1984,7 +2001,7 @@ section {
 
   .services-feature-pill {
     margin-bottom: 14px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .services-feature-copy h3 {
@@ -1999,8 +2016,8 @@ section {
   }
 
   .services-feature-list li {
-    font-size: 0.86rem;
-    line-height: 1.38;
+    font-size: 0.9rem;
+    line-height: 1.48;
   }
 
   .services-feature-visual {
@@ -2046,7 +2063,7 @@ section {
   }
 
   .chip-tags span {
-    font-size: 9px;
+    font-size: 11px;
     padding: 5px 8px;
   }
 
@@ -2056,12 +2073,6 @@ section {
 
   .slide {
     padding: 0 2px;
-  }
-
-  .results-card {
-    padding: 20px 14px 16px;
-    border-radius: 18px;
-    gap: 14px;
   }
 
   .results-copy h3 {
@@ -2074,35 +2085,20 @@ section {
     line-height: 1.42;
   }
 
-  .case-image {
-    height: 96px;
-    border-radius: 14px;
-    margin: 12px 0 14px;
-  }
-
   .results-cta {
+    margin-top: auto;
     padding: 10px 14px;
-    font-size: 0.82rem;
+    font-size: 0.76rem;
   }
 
-  .results-metrics {
-    grid-template-columns: 1fr;
-    gap: 8px;
+  .results-card {
+    min-height: 320px;
+    height: 320px;
   }
 
-  .results-metric {
-    min-height: 68px;
-    border-radius: 14px;
-    padding: 10px 8px;
-  }
-
-  .results-metrics h4 {
-    font-size: 1rem;
-    margin-bottom: 2px;
-  }
-
-  .results-metric span {
-    font-size: 0.72rem;
+  .results-copy {
+    width: min(100%, 100%);
+    padding: 24px 16px 18px 16px;
   }
 
   .slider-dots {
@@ -2147,7 +2143,7 @@ section {
   }
 
   .person span {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
   }
 
   .testimonial-logo {
@@ -2166,7 +2162,7 @@ section {
 
   .engagement-filter {
     padding: 8px 12px;
-    font-size: 0.68rem;
+    font-size: 0.8rem;
   }
 
   .engagement-grid {
@@ -2190,7 +2186,7 @@ section {
 
   .engagement-grid.growth-packages-active + .engagement-note {
     margin-top: 18px;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
   }
 
   .engagement-card {
@@ -2209,18 +2205,18 @@ section {
 
   .engagement-card p,
   .engagement-card ul {
-    font-size: 0.76rem;
-    line-height: 1.42;
+    font-size: 0.84rem;
+    line-height: 1.48;
   }
 
   .engagement-card .btn {
     padding: 10px 14px;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
   }
 
   .engagement-note {
     margin-top: 14px;
-    font-size: 0.76rem;
+    font-size: 0.84rem;
   }
 
   .cert-row {
@@ -2263,7 +2259,7 @@ section {
   .footer-links span,
   .footer-brand span,
   .footer-bottom {
-    font-size: 0.76rem;
+    font-size: 0.84rem;
   }
 
   .footer-meta {

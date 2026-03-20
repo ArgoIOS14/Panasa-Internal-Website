@@ -125,62 +125,44 @@ window.DEFAULT_CONTENT = {
       },
       {
         "icon": "assets/service-frame-2.svg",
-        "eyebrow": "Core Build",
-        "title": "AI Powered Fintech Backoffice",
-        "text": "Dummy content for backoffice operations and application support.",
+        "eyebrow": "Core Govern",
+        "title": "AI Governance",
+        "text": "",
         "bullets": [
-          "Dummy point one",
-          "Dummy point two",
-          "Dummy point three",
-          "Dummy point four"
+          "AI Risk Classification Impact Assessment",
+          "Model Privacy & Data Protection Controls",
+          "Model Policy & Governance Framework",
+          "Regulatory Alignment (GDPR, DPA, EU AI Act)",
+          "Human In The Loop (HITL) Controls",
+          "Shadow AI Detection & Risk Management"
         ]
       },
       {
         "icon": "assets/service-frame-3.svg",
-        "eyebrow": "Core Build",
-        "title": "Cyber Resilience For Fintech Platforms",
-        "text": "Dummy content for resilience, monitoring, and protection layers.",
+        "eyebrow": "Core Operate",
+        "title": "Intelligent Operations",
+        "text": "",
         "bullets": [
-          "Dummy point one",
-          "Dummy point two",
-          "Dummy point three",
-          "Dummy point four"
+          "24/7 Transaction Monitoring",
+          "Event Correlation & Fraud Detection Workflows",
+          "Dispute & Chargeback Scoped Handling",
+          "Exceptions, Reconciliations & Escalations",
+          "Reporting, Reconciliation & Audit Pipelines",
+          "Operational Dashboards & Playbooks"
         ]
       },
       {
         "icon": "assets/service-frame-4.svg",
-        "eyebrow": "Core Build",
-        "title": "Global Capability Center As A Service",
-        "text": "Dummy content for global teams and operational support models.",
+        "eyebrow": "Core Modernise",
+        "title": "AI-Led Legacy Modernisation",
+        "text": "",
         "bullets": [
-          "Dummy point one",
-          "Dummy point two",
-          "Dummy point three",
-          "Dummy point four"
-        ]
-      },
-      {
-        "icon": "assets/service-frame-5.svg",
-        "eyebrow": "Core Build",
-        "title": "Fintech AI Consulting",
-        "text": "Dummy content for advisory, strategy, and AI transformation work.",
-        "bullets": [
-          "Dummy point one",
-          "Dummy point two",
-          "Dummy point three",
-          "Dummy point four"
-        ]
-      },
-      {
-        "icon": "assets/service-frame-6.svg",
-        "eyebrow": "Core Build",
-        "title": "Data As A Service",
-        "text": "Dummy content for data modernization, governance, and analytics.",
-        "bullets": [
-          "Dummy point one",
-          "Dummy point two",
-          "Dummy point three",
-          "Dummy point four"
+          "Legacy Code & UI Logic Extraction",
+          "System Decomposition & Workflow Mapping",
+          "Structured Code Refactoring",
+          "Multi-Agent Validation & Testing Framework",
+          "Cloud Readiness & Platform Modernisation",
+          "Production Rollout & Cutover Support"
         ]
       }
     ]
@@ -231,9 +213,9 @@ window.DEFAULT_CONTENT = {
     "subtitle": "Real outcomes from real projects with issuer processors and neobanks",
     "slides": [
       {
-        "eyebrow": "CONFIDENTIAL ISSUER PROCESSOR",
-        "title": "Built and Now Operating Card Issuing Platform Processing 10M+ Transactions Monthly",
-        "text": "Leading issuer processor needed to rapidly scale their card platform while maintaining 99.95%+ uptime and reducing operational costs.",
+        "eyebrow": "NEOBANK & ISSUER",
+        "title": "Scaled and Stabilized Digital Banking Platform Handling High Volume Transactions Across Multiple Markets",
+        "text": "Partnering with Panasa, our digital payment system quickly went live, with excellent infrastructure to support escalating transaction volumes and expansion.",
         "image": "assets/placeholder-case-1.svg",
         "cta": {
           "label": "Read Full Case Study",
@@ -255,9 +237,9 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "eyebrow": "Neobank expansion",
-        "title": "Scaled multi-region ledger for 4M+ users with automated reconciliation",
-        "text": "Delivered a resilient ledger and reconciliations stack, reducing manual ops while enabling new market launches.",
+        "eyebrow": "PAYMENT SERVICE PROVIDER",
+        "title": "Modernized Payment Processing System Improving Performance, Reliability, and Operational Efficiency",
+        "text": "End-to-end payment stack upgrade across systems, resulting in a more stable processing environment with improved speed and visibility.",
         "image": "assets/placeholder-case-2.svg",
         "cta": {
           "label": "Read full case study",
@@ -265,45 +247,21 @@ window.DEFAULT_CONTENT = {
         },
         "metrics": [
           {
-            "value": "3",
-            "label": "Regions launched"
+            "value": "6",
+            "label": "Months to Live"
           },
           {
-            "value": "4M+",
-            "label": "Active users"
+            "value": "10M+",
+            "label": "Transactions/Month"
           },
           {
-            "value": "55%",
-            "label": "Ops time saved"
+            "value": "40%",
+            "label": "Cost Reduction"
           }
         ]
       },
       {
-        "eyebrow": "Card issuing rollout",
-        "title": "Launched new BIN program with automated risk controls in 10 weeks",
-        "text": "Partnered with compliance and engineering teams to deliver a high-velocity launch with built-in controls.",
-        "image": "assets/placeholder-case-3.svg",
-        "cta": {
-          "label": "Read full case study",
-          "href": "contact.html"
-        },
-        "metrics": [
-          {
-            "value": "10",
-            "label": "Weeks to launch"
-          },
-          {
-            "value": "98%",
-            "label": "Auto approvals"
-          },
-          {
-            "value": "0",
-            "label": "Critical incidents"
-          }
-        ]
-      },
-      {
-        "eyebrow": "Ops modernization",
+        "eyebrow": "OPS MODERNIZATION",
         "title": "Rebuilt backoffice ops for a global wallet provider",
         "text": "Consolidated fraud tooling, reconciliation, and reporting into a unified ops command center.",
         "image": "assets/placeholder-case-4.svg",
@@ -323,30 +281,6 @@ window.DEFAULT_CONTENT = {
           {
             "value": "4x",
             "label": "Ops efficiency"
-          }
-        ]
-      },
-      {
-        "eyebrow": "Issuer migration",
-        "title": "Seamless processor migration with zero downtime",
-        "text": "Executed a multi-processor migration with automated testing and real-time telemetry dashboards.",
-        "image": "assets/placeholder-case-5.svg",
-        "cta": {
-          "label": "Read full case study",
-          "href": "contact.html"
-        },
-        "metrics": [
-          {
-            "value": "0",
-            "label": "Minutes downtime"
-          },
-          {
-            "value": "120",
-            "label": "Tests automated"
-          },
-          {
-            "value": "18",
-            "label": "Integrations"
           }
         ]
       }
