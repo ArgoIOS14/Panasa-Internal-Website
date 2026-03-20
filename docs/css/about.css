@@ -71,17 +71,19 @@ textarea {
 
 .btn-dark {
   min-height: 40px;
-  padding: 0 18px;
+  padding: 0 14px;
   background: #191919;
   color: #ffffff;
   box-shadow: 0 10px 20px rgba(18, 18, 18, 0.18);
+  gap: 8px;
 }
 
 .btn-ghost {
   min-height: 40px;
-  padding: 0 10px;
+  padding: 0 8px;
   color: #1f2625;
   background: transparent;
+  gap: 8px;
 }
 
 .btn-light {
@@ -180,8 +182,15 @@ textarea {
 .hero-actions {
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 18px;
   margin-top: 18px;
+}
+
+.about-hero-action-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  display: block;
 }
 
 .about-stats {

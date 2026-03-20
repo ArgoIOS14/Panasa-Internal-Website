@@ -150,6 +150,7 @@ const initAbout = async () => {
     trackSelector: '[data-testimonial-track]',
     prevSelector: '[data-testimonial-prev]',
     nextSelector: '[data-testimonial-next]',
+    dotsSelector: '[data-testimonial-dots]',
   });
 
   try {

@@ -131,7 +131,7 @@ ul {
   gap: 8px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(11, 61, 46, 0.12);
+  background: rgba(255, 255, 255, 0.72);
   font-size: var(--type-micro);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1761,7 +1761,7 @@ section {
 
   .engagement-filters {
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .footer-bottom {
@@ -1824,7 +1824,7 @@ section {
 
   .engagement-card {
     padding: 14px 14px 12px;
-    min-height: 0;
+    min-height: 340px;
   }
 
   .engagement-image {
@@ -1936,6 +1936,7 @@ section {
   .cert-row {
     max-width: 520px;
     margin-top: 26px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .cert-row::before {
@@ -2096,9 +2097,34 @@ section {
     height: 320px;
   }
 
+  .results-card::before {
+    background-size: auto 100%;
+    background-position: right center;
+    transform: none;
+  }
+
+  .results-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 68%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.94) 48%,
+      rgba(255, 255, 255, 0.66) 78%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 1;
+    pointer-events: none;
+  }
+
   .results-copy {
     width: min(100%, 100%);
     padding: 24px 16px 18px 16px;
+    z-index: 2;
   }
 
   .slider-dots {
@@ -2156,19 +2182,29 @@ section {
   }
 
   .engagement-filters {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
     gap: 8px;
     margin-bottom: 16px;
   }
 
   .engagement-filter {
-    padding: 8px 12px;
-    font-size: 0.8rem;
+    padding: 7px 11px;
+    font-size: 0.68rem;
+    line-height: 1;
+    border-radius: 7px;
+    white-space: nowrap;
   }
 
   .engagement-grid {
     grid-template-columns: 1fr;
     gap: 12px;
-    padding: 14px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0 0;
   }
 
   .engagement-grid.growth-packages-active {
@@ -2176,7 +2212,8 @@ section {
   }
 
   .engagement-grid.growth-packages-active .engagement-card {
-    padding: 16px 16px 18px;
+    padding: 18px 16px 20px;
+    min-height: 298px;
   }
 
   .engagement-grid.growth-packages-active .engagement-image {
@@ -2190,28 +2227,45 @@ section {
   }
 
   .engagement-card {
-    padding: 12px 12px 10px;
+    padding: 18px 16px 20px;
     border-radius: 14px;
+    min-height: 298px;
+    gap: 12px;
   }
 
   .engagement-image {
-    height: 74px;
+    width: 56px;
+    height: 56px;
     border-radius: 10px;
   }
 
   .engagement-card h3 {
     font-size: 0.96rem;
+    line-height: 1.18;
   }
 
   .engagement-card p,
   .engagement-card ul {
     font-size: 0.84rem;
-    line-height: 1.48;
+    line-height: 1.5;
+  }
+
+  .engagement-card ul {
+    gap: 8px;
+  }
+
+  .engagement-includes,
+  .engagement-best-fit,
+  .engagement-outcome {
+    font-size: 0.84rem;
+    line-height: 1.5;
   }
 
   .engagement-card .btn {
     padding: 10px 14px;
     font-size: 0.84rem;
+    border-radius: 6px;
+    margin-top: auto;
   }
 
   .engagement-note {
@@ -2220,7 +2274,23 @@ section {
   }
 
   .cert-row {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    max-width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .cert-badge-item {
+    min-height: 56px;
+  }
+
+  .cert-badge-frame {
+    min-height: 56px;
+    padding: 8px 8px;
+  }
+
+  .cert-badge-item img {
+    max-width: 60px;
+    height: 32px;
   }
 
   .footer-cta {

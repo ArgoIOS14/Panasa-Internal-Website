@@ -1,9 +1,11 @@
 import { createEl, setText } from '../utils/dom.js';
 
-const chunkCards = (cards) => {
+const MOBILE_BREAKPOINT = '(max-width: 900px)';
+
+const chunkCards = (cards, chunkSize) => {
   const slides = [];
-  for (let index = 0; index < cards.length; index += 2) {
-    slides.push(cards.slice(index, index + 2));
+  for (let index = 0; index < cards.length; index += chunkSize) {
+    slides.push(cards.slice(index, index + chunkSize));
   }
   return slides;
 };
@@ -15,6 +17,7 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
     trackSelector = '[data-testimonials-track]',
     prevSelector = '[data-testimonials-prev]',
     nextSelector = '[data-testimonials-next]',
+    dotsSelector = '[data-testimonials-dots]',
   } = selectors;
 
   const titleEl = document.querySelector(titleSelector);
@@ -24,55 +27,123 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   const track = document.querySelector(trackSelector);
   const prev = document.querySelector(prevSelector);
   const next = document.querySelector(nextSelector);
-  if (!(track && prev && next)) return;
+  const dots = document.querySelector(dotsSelector);
+  if (!(track && prev && next && dots)) return;
 
-  track.innerHTML = '';
+  const media = window.matchMedia(MOBILE_BREAKPOINT);
+  let slides = [];
+  let index = 0;
+  let isDragging = false;
+  let startX = 0;
+  let deltaX = 0;
 
-  const slides = chunkCards(data.cards || []);
-  slides.forEach((pair) => {
-    const slide = createEl('article', 'split-testimonial-card');
-    const columns = createEl('div', 'split-testimonial-columns');
+  const chunkSize = () => (media.matches ? 1 : 2);
 
-    pair.forEach((item) => {
-      const column = createEl('div', 'split-testimonial-column');
-      const body = createEl('p');
-      body.textContent = item.text;
+  const updateDots = () => {
+    Array.from(dots.children).forEach((dot, dotIndex) => {
+      dot.classList.toggle('active', dotIndex === index);
+      dot.setAttribute('aria-selected', String(dotIndex === index));
+    });
+  };
 
-      const person = createEl('div', 'split-testimonial-person');
-      const personCopy = createEl('div');
-      const name = createEl('strong');
-      name.textContent = item.name;
-      const role = createEl('span');
-      role.textContent = item.role;
-      personCopy.append(name, role);
+  const render = (animate = true) => {
+    track.style.transition = animate ? 'transform 0.35s ease' : 'none';
+    track.style.transform = `translateX(-${index * 100}%)`;
+    updateDots();
+  };
 
-      const logo = createEl('img');
-      logo.src = item.logo;
-      logo.alt = item.logoAlt || item.name;
+  const goTo = (nextIndex, animate = true) => {
+    if (!slides.length) return;
+    index = (nextIndex + slides.length) % slides.length;
+    render(animate);
+  };
 
-      person.append(personCopy, logo);
-      column.append(body, person);
-      columns.appendChild(column);
+  const buildSlides = () => {
+    slides = chunkCards(data.cards || [], chunkSize());
+    index = Math.min(index, Math.max(slides.length - 1, 0));
+
+    track.innerHTML = '';
+    dots.innerHTML = '';
+
+    slides.forEach((group, slideIndex) => {
+      const slide = createEl('article', 'split-testimonial-card');
+      const columns = createEl('div', 'split-testimonial-columns');
+      if (group.length === 1) columns.classList.add('is-single');
+
+      group.forEach((item) => {
+        const column = createEl('div', 'split-testimonial-column');
+        const body = createEl('p');
+        body.textContent = item.text;
+
+        const person = createEl('div', 'split-testimonial-person');
+        const personCopy = createEl('div');
+        const name = createEl('strong');
+        name.textContent = item.name;
+        const role = createEl('span');
+        role.textContent = item.role;
+        personCopy.append(name, role);
+
+        const logo = createEl('img');
+        logo.src = item.logo;
+        logo.alt = item.logoAlt || item.name;
+
+        person.append(personCopy, logo);
+        column.append(body, person);
+        columns.appendChild(column);
+      });
+
+      slide.appendChild(columns);
+      track.appendChild(slide);
+
+      const dot = createEl('button', slideIndex === index ? 'split-testimonial-dot active' : 'split-testimonial-dot');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Go to testimonial slide ${slideIndex + 1}`);
+      dot.setAttribute('aria-selected', String(slideIndex === index));
+      dot.addEventListener('click', () => goTo(slideIndex));
+      dots.appendChild(dot);
     });
 
-    slide.appendChild(columns);
-    track.appendChild(slide);
+    render(false);
+  };
+
+  prev.addEventListener('click', () => goTo(index - 1));
+  next.addEventListener('click', () => goTo(index + 1));
+
+  const viewport = track.parentElement;
+  viewport?.addEventListener('pointerdown', (event) => {
+    if (event.target.closest('a, button')) return;
+    isDragging = true;
+    startX = event.clientX;
+    deltaX = 0;
+    track.setPointerCapture?.(event.pointerId);
+    track.style.transition = 'none';
   });
 
-  let index = 0;
-  const render = () => {
-    track.style.transform = `translateX(-${index * 100}%)`;
+  viewport?.addEventListener('pointermove', (event) => {
+    if (!isDragging) return;
+    deltaX = event.clientX - startX;
+    track.style.transform = `translateX(calc(-${index * 100}% + ${deltaX}px))`;
+  });
+
+  const endDrag = (event) => {
+    if (!isDragging) return;
+    isDragging = false;
+    track.releasePointerCapture?.(event.pointerId);
+
+    const threshold = (viewport?.getBoundingClientRect().width || 0) * 0.18;
+    if (Math.abs(deltaX) > threshold) {
+      goTo(deltaX < 0 ? index + 1 : index - 1);
+    } else {
+      render();
+    }
   };
 
-  prev.onclick = () => {
-    index = (index - 1 + slides.length) % slides.length;
-    render();
-  };
+  viewport?.addEventListener('pointerup', endDrag);
+  viewport?.addEventListener('pointercancel', endDrag);
+  viewport?.addEventListener('pointerleave', endDrag);
 
-  next.onclick = () => {
-    index = (index + 1) % slides.length;
-    render();
-  };
+  media.addEventListener('change', buildSlides);
+  window.addEventListener('resize', () => render(false));
 
-  render();
+  buildSlides();
 };
