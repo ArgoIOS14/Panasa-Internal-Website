@@ -399,12 +399,12 @@ const buildNav = (nav) => ({
 
 const initServicesPage = async () => {
   initNavToggle();
-  initScrollAnimations();
   document
     .querySelector('[data-service-trusted-logos]')
     ?.classList.add('logo-marquee', 'logo-marquee-light');
   renderLogoMarquee('[data-service-trusted-logos]', TRUSTED_LOGOS);
   applyServiceMode();
+  initScrollAnimations();
 
   try {
     const content = await loadContent();
