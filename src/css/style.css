@@ -2223,13 +2223,13 @@ section {
   }
 
   .results-card {
-    min-height: 356px;
-    height: 356px;
+    min-height: 380px;
+    height: 380px;
   }
 
   .results-card::before {
     background-size: auto 100%;
-    background-position: right center;
+    background-position: right bottom;
     transform: none;
   }
 
@@ -2254,6 +2254,7 @@ section {
   .results-copy {
     width: min(100%, 100%);
     padding: 24px 16px 22px 16px;
+    min-height: 100%;
     z-index: 2;
   }
 

@@ -118,7 +118,7 @@ const initSwipeCarousel = ({
     currentX = startX;
     deltaX = 0;
     pauseAuto();
-    track.setPointerCapture?.(event.pointerId);
+    carousel.setPointerCapture?.(event.pointerId);
     setTranslate(-index * getWidth() + deltaX, false);
   };
 
@@ -133,7 +133,7 @@ const initSwipeCarousel = ({
     if (!isDragging) return;
     isPointerDown = false;
     isDragging = false;
-    track.releasePointerCapture?.(event.pointerId);
+    carousel.releasePointerCapture?.(event.pointerId);
     const threshold = getWidth() * 0.2;
     if (Math.abs(deltaX) > threshold) {
       if (deltaX < 0) goNext();
@@ -149,6 +149,8 @@ const initSwipeCarousel = ({
   carousel.addEventListener('pointerup', onPointerUp);
   carousel.addEventListener('pointercancel', onPointerUp);
   carousel.addEventListener('pointerleave', onPointerUp);
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', onPointerUp);
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
   window.addEventListener('resize', () => {
