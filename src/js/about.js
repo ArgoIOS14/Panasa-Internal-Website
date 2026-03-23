@@ -19,35 +19,21 @@ const TRUSTED_LOGOS = [
 ];
 
 const ABOUT_TESTIMONIALS = {
-  subtitle: 'What our clients say about working with Panasa',
+  subtitle: 'Feedback from fintech partners delivering secure, scalable, compliant card platforms.',
   cards: [
+    {
+      text: 'Panasa has been a great asset in developing our payment solutions, acting as a true extension of our team while enabling scale and continuous support. We highly recommend their fintech development services.',
+      name: 'Giovanni Santini',
+      role: 'Chief Executive Officer',
+      logo: 'assets/testimonial-logo-osper.svg',
+      logoAlt: 'Osper',
+    },
     {
       text: "Panasa allows us to focus on growing our brands. With their FinTech expertise, dedication, ability to scale, and meticulous attention to detail, we're able to position ourselves as one of the most cutting-edge groups in payment solutions.",
       name: 'Tom Bishop',
       role: 'Chief Commercial Officer',
-      logo: 'assets/logo-globalbank.svg',
-      logoAlt: 'GlobalBank',
-    },
-    {
-      text: 'We eliminated multiple vendor relationships by consolidating with Panasa. From development to 24x7 operations, they handle everything with true payment domain expertise.',
-      name: 'Sarah Miller',
-      role: 'Head of Operations',
-      logo: 'assets/logo-segment.svg',
-      logoAlt: 'Segment',
-    },
-    {
-      text: 'Panasa gave our team a dependable operating partner that could move from launch planning into live delivery without losing speed or quality.',
-      name: 'Priya Menon',
-      role: 'Chief Operating Officer',
-      logo: 'assets/logo-capsule.svg',
-      logoAlt: 'Capsule',
-    },
-    {
-      text: 'Their engineering and operations rhythm reduced handoffs, tightened compliance coordination, and gave us a stronger delivery backbone as we scaled.',
-      name: 'James Carter',
-      role: 'VP Engineering',
-      logo: 'assets/logo-commandr.svg',
-      logoAlt: 'Command+R',
+      logo: 'assets/testimonial-logo-cleava.svg',
+      logoAlt: 'Cleava',
     },
   ],
 };

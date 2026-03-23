@@ -31,6 +31,7 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   if (!(track && prev && next && dots)) return;
 
   const media = window.matchMedia(MOBILE_BREAKPOINT);
+  const cards = data.cards || [];
   let slides = [];
   let index = 0;
   let isDragging = false;
@@ -40,8 +41,12 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   let pendingX = null;
 
   const settleTransition = 'transform var(--motion-duration-carousel, 620ms) var(--motion-ease-carousel, cubic-bezier(0.22, 1, 0.36, 1))';
+  const hasCarousel = () => cards.length > 2;
 
-  const chunkSize = () => (media.matches ? 1 : 2);
+  const chunkSize = () => {
+    if (!hasCarousel()) return Math.max(cards.length, 1);
+    return media.matches ? 1 : 2;
+  };
 
   const updateDots = () => {
     Array.from(dots.children).forEach((dot, dotIndex) => {
@@ -51,6 +56,11 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   };
 
   const render = (animate = true) => {
+    if (!hasCarousel()) {
+      track.style.transition = 'none';
+      track.style.transform = 'translate3d(0, 0, 0)';
+      return;
+    }
     track.style.transition = animate
       ? settleTransition
       : 'none';
@@ -59,17 +69,22 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   };
 
   const goTo = (nextIndex, animate = true) => {
-    if (!slides.length) return;
+    if (!slides.length || !hasCarousel()) return;
     index = (nextIndex + slides.length) % slides.length;
     render(animate);
   };
 
   const buildSlides = () => {
-    slides = chunkCards(data.cards || [], chunkSize());
+    slides = chunkCards(cards, chunkSize());
     index = Math.min(index, Math.max(slides.length - 1, 0));
 
     track.innerHTML = '';
     dots.innerHTML = '';
+
+    const showControls = hasCarousel();
+    prev.style.display = showControls ? '' : 'none';
+    next.style.display = showControls ? '' : 'none';
+    dots.style.display = showControls ? '' : 'none';
 
     slides.forEach((group, slideIndex) => {
       const slide = createEl('article', 'split-testimonial-card');
@@ -101,12 +116,14 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
       slide.appendChild(columns);
       track.appendChild(slide);
 
-      const dot = createEl('button', slideIndex === index ? 'split-testimonial-dot active' : 'split-testimonial-dot');
-      dot.type = 'button';
-      dot.setAttribute('aria-label', `Go to testimonial slide ${slideIndex + 1}`);
-      dot.setAttribute('aria-selected', String(slideIndex === index));
-      dot.addEventListener('click', () => goTo(slideIndex));
-      dots.appendChild(dot);
+      if (showControls) {
+        const dot = createEl('button', slideIndex === index ? 'split-testimonial-dot active' : 'split-testimonial-dot');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Go to testimonial slide ${slideIndex + 1}`);
+        dot.setAttribute('aria-selected', String(slideIndex === index));
+        dot.addEventListener('click', () => goTo(slideIndex));
+        dots.appendChild(dot);
+      }
     });
 
     render(false);
@@ -117,6 +134,7 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
 
   const viewport = track.parentElement;
   viewport?.addEventListener('pointerdown', (event) => {
+    if (!hasCarousel()) return;
     if (event.target.closest('a, button')) return;
     isDragging = true;
     startX = event.clientX;
@@ -126,6 +144,7 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   });
 
   viewport?.addEventListener('pointermove', (event) => {
+    if (!hasCarousel()) return;
     if (!isDragging) return;
     deltaX = event.clientX - startX;
     pendingX = deltaX;
@@ -137,6 +156,7 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   });
 
   const endDrag = (event) => {
+    if (!hasCarousel()) return;
     if (!isDragging) return;
     isDragging = false;
     track.releasePointerCapture?.(event.pointerId);

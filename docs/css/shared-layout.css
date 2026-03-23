@@ -2,6 +2,7 @@
 @import url('https://rsms.me/inter/inter.css');
 
 :root {
+  --nav-shell: 980px;
   --motion-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-emphasis: cubic-bezier(0.2, 0.85, 0.25, 1);
   --motion-ease-carousel: cubic-bezier(0.22, 1, 0.36, 1);
@@ -28,9 +29,10 @@
 }
 
 .nav {
-  max-width: var(--page-shell);
+  max-width: var(--nav-shell);
   margin: 0 auto;
   padding: 12px 18px;
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -40,6 +42,12 @@
   border-radius: 999px;
   color: #fff;
   box-shadow: 0 12px 24px rgba(4, 32, 23, 0.3);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
 }
 
 .brand img {

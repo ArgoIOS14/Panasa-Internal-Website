@@ -15,7 +15,7 @@
         "children": [
           {
             "label": "AI Accelerated Fintech Engineering",
-            "href": "services.html?service=ai-accelerated-fintech-engineering"
+            "href": "services.html"
           },
           {
             "label": "AI Powered Legacy Modernisation",
@@ -52,7 +52,7 @@
     },
     "secondaryCta": {
       "label": "View Solutions",
-      "href": "#services"
+      "href": "services.html"
     },
     "trustedLabel": "Trusted by high-growth fintechs",
     "trustedLogos": [
@@ -124,7 +124,8 @@
     "visualLabel": "Visual Graphics",
     "items": [
       {
-        "icon": "assets/service-frame-1.svg",
+        "icon": "assets/home-services-slide-1.svg",
+        "href": "services.html?service=ai-accelerated-fintech-engineering",
         "eyebrow": "Core Build",
         "title": "AI Accelerated Fintech Engineering",
         "text": "",
@@ -138,7 +139,8 @@
         ]
       },
       {
-        "icon": "assets/service-frame-2.svg",
+        "icon": "assets/home-services-slide-2.svg",
+        "href": "services.html?service=ai-governance",
         "eyebrow": "Core Govern",
         "title": "AI Governance",
         "text": "",
@@ -152,7 +154,8 @@
         ]
       },
       {
-        "icon": "assets/service-frame-3.svg",
+        "icon": "assets/home-services-slide-3.svg",
+        "href": "services.html?service=intelligent-operations",
         "eyebrow": "Core Operate",
         "title": "Intelligent Operations",
         "text": "",
@@ -166,7 +169,8 @@
         ]
       },
       {
-        "icon": "assets/service-frame-4.svg",
+        "icon": "assets/home-services-slide-4.svg",
+        "href": "services.html?service=ai-powered-legacy-modernisation",
         "eyebrow": "Core Modernise",
         "title": "AI-Led Legacy Modernisation",
         "text": "",
@@ -303,31 +307,21 @@
   "testimonials": {
     "pill": "",
     "title": "Trusted by Fintech Leaders",
-    "subtitle": "What our clients say about working with Panasa",
+    "subtitle": "Feedback from fintech partners delivering secure, scalable, compliant card platforms.",
     "cards": [
+      {
+        "text": "Panasa has been a great asset in developing our payment solutions, acting as a true extension of our team while enabling scale and continuous support. We highly recommend their fintech development services.",
+        "name": "Giovanni Santini",
+        "role": "Chief Executive Officer",
+        "logo": "assets/testimonial-logo-osper.svg",
+        "logoAlt": "Osper"
+      },
       {
         "text": "Panasa allows us to focus on growing our brands. With their FinTech expertise, dedication, ability to scale, and meticulous attention to detail, we're able to position ourselves as one of the most cutting-edge groups in payment solutions.",
         "name": "Tom Bishop",
         "role": "Chief Commercial Officer",
-        "logo": "assets/logo-globalbank.svg"
-      },
-      {
-        "text": "We eliminated multiple vendor relationships by consolidating with Panasa. From development to 24x7 operations, they handle everything with true payment domain expertise.",
-        "name": "Sarah Miller",
-        "role": "Head of Operations",
-        "logo": "assets/logo-segment.svg"
-      },
-      {
-        "text": "Panasa gave our team a dependable operating partner that could move from launch planning into live delivery without losing speed or quality.",
-        "name": "Priya Menon",
-        "role": "Chief Operating Officer",
-        "logo": "assets/logo-capsule.svg"
-      },
-      {
-        "text": "Their engineering and operations rhythm reduced handoffs, tightened compliance coordination, and gave us a stronger delivery backbone as we scaled.",
-        "name": "James Carter",
-        "role": "VP Engineering",
-        "logo": "assets/logo-commandr.svg"
+        "logo": "assets/testimonial-logo-cleava.svg",
+        "logoAlt": "Cleava"
       }
     ]
   },
@@ -342,7 +336,7 @@
     "activeFilter": "Engagement Models",
     "items": [
       {
-        "image": "assets/model-squads.svg",
+        "image": "assets/engagement-model-engineering.svg",
         "title": "Engineering Squads",
         "text": "Extend your team with our payment specialists. Flex capacity up or down based on project needs.",
         "bullets": [
@@ -356,7 +350,7 @@
         "variant": "light"
       },
       {
-        "image": "assets/model-managed.svg",
+        "image": "assets/engagement-model-managed.svg",
         "title": "Managed Services",
         "text": "Full operational ownership with SLA-backed performance. From build to 24/7 operations.",
         "bullets": [
@@ -370,7 +364,7 @@
         "variant": "featured"
       },
       {
-        "image": "assets/model-project.svg",
+        "image": "assets/engagement-model-project.svg",
         "title": "Project-Based",
         "text": "Fixed scope, fixed budget, clear deliverables. Perfect for well-defined projects with set timelines.",
         "bullets": [
@@ -384,7 +378,7 @@
         "variant": "light"
       },
       {
-        "image": "assets/model-gdc.svg",
+        "image": "assets/engagement-model-gcc.svg",
         "title": "GCC Delivery Model",
         "text": "Build and scale your global delivery hub with structured talent, operations, and performance frameworks.",
         "bullets": [
@@ -400,7 +394,7 @@
     ],
     "growthPackages": [
       {
-        "image": "assets/model-squads.svg",
+        "image": "assets/growth-package-startup.svg",
         "title": "Startup Package",
         "text": "For newly funded fintechs and early-stage issuers launching or validating product-market fit.",
         "bestSuitedFor": "Seed to Series A",
@@ -416,7 +410,7 @@
         "variant": "light"
       },
       {
-        "image": "assets/model-managed.svg",
+        "image": "assets/growth-package-growth.svg",
         "title": "Growth Package",
         "text": "For fintechs scaling programmes, expanding into new geographies or increasing compliance complexity.",
         "bestSuitedFor": "Series A to Series C",
@@ -432,7 +426,7 @@
         "variant": "featured"
       },
       {
-        "image": "assets/model-project.svg",
+        "image": "assets/growth-package-scaleup.svg",
         "title": "Scaleup Package",
         "text": "For mature fintechs, issuer processors and PSPs operating at high transaction volumes.",
         "bestSuitedFor": "High-growth or mid-market",
@@ -477,7 +471,7 @@
           },
           {
             "label": "Services",
-            "href": "#services"
+            "href": "services.html"
           },
           {
             "label": "Resources",
@@ -521,19 +515,19 @@
         "links": [
           {
             "label": "AI Accelerated Fintech Eng.",
-            "href": "#services"
+            "href": "services.html"
           },
           {
             "label": "AI Powered Fintech Backoffice",
-            "href": "#services"
+            "href": "services.html"
           },
           {
             "label": "Cyber Resilience",
-            "href": "#services"
+            "href": "services.html"
           },
           {
             "label": "GCC as a Service",
-            "href": "#services"
+            "href": "services.html"
           }
         ]
       }

@@ -1,7 +1,29 @@
 import { createEl, setText } from '../utils/dom.js';
-import { highlightWords } from '../utils/text.js';
 
-const createFeatureSlide = (item, ctaLabel, visualLabel) => {
+const resolveServiceHrefFromHeading = (heading, fallbackHref) => {
+  const normalized = (heading || '')
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+  if (normalized.includes('ai accelerated fintech engineering')) {
+    return 'services.html';
+  }
+  if (normalized.includes('ai governance')) {
+    return 'services.html?service=ai-governance';
+  }
+  if (normalized.includes('intelligent operations')) {
+    return 'services.html?service=intelligent-operations';
+  }
+  if (normalized.includes('legacy modernisation') || normalized.includes('legacy modernization')) {
+    return 'services.html?service=ai-powered-legacy-modernisation';
+  }
+
+  return fallbackHref || 'services.html';
+};
+
+const createFeatureSlide = (item, ctaLabel) => {
   const slide = createEl('article', 'services-slide');
 
   const copy = createEl('div', 'services-feature-copy');
@@ -19,21 +41,18 @@ const createFeatureSlide = (item, ctaLabel, visualLabel) => {
   });
 
   const cta = createEl('a', 'services-feature-link');
-  cta.href = 'contact.html';
+  cta.href = resolveServiceHrefFromHeading(item.title, item.href);
   cta.textContent = ctaLabel;
 
   copy.append(pill, title, list, cta);
 
   const visualWrap = createEl('div', 'services-feature-visual-wrap');
   const visual = createEl('div', 'services-feature-visual');
-  const glow = createEl('div', 'services-visual-glow');
-  const label = createEl('span', 'services-visual-label');
-  label.textContent = visualLabel || item.title;
   const icon = createEl('img', 'services-visual-icon');
   icon.src = item.icon;
   icon.alt = item.title;
 
-  visual.append(glow, icon, label);
+  visual.appendChild(icon);
   visualWrap.appendChild(visual);
 
   slide.append(copy, visualWrap);
@@ -53,7 +72,12 @@ export const renderServices = (data) => {
   }
 
   const titleEl = document.querySelector('[data-services-title]');
-  if (titleEl) titleEl.innerHTML = highlightWords(data.title, 1);
+  if (titleEl) {
+    const words = (data.title || '').trim().split(/\s+/).filter(Boolean);
+    const head = words.slice(0, 1).join(' ');
+    const tail = words.slice(1).join(' ');
+    titleEl.innerHTML = tail ? `${head} <span>${tail}</span>` : head;
+  }
   setText('[data-services-subtitle]', data.subtitle);
 
   const slides = document.querySelector('[data-services-slides]');
@@ -65,7 +89,7 @@ export const renderServices = (data) => {
 
   data.items.forEach((item, index) => {
     slides.appendChild(
-      createFeatureSlide(item, data.learnMoreLabel || 'Learn More +', data.visualLabel || item.title)
+      createFeatureSlide(item, data.learnMoreLabel || 'Learn More +')
     );
 
     const dot = createEl('button', index === 0 ? 'services-dot active' : 'services-dot');

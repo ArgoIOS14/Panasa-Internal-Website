@@ -24,7 +24,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
   color: var(--text-dark);
   background: #ffffff;
   overflow-x: hidden;
@@ -172,10 +172,11 @@ textarea {
 }
 
 .about-hero h1 {
-  margin: 20px 0 0;
-  font-size: clamp(2.5rem, 4.6vw, 3.7rem);
-  line-height: 0.98;
-  letter-spacing: -0.055em;
+  max-width: 520px;
+  margin: 18px auto 12px;
+  font-size: clamp(2.2rem, 3.1vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
   font-weight: 600;
 }
 
@@ -187,6 +188,7 @@ textarea {
 .about-hero h1 em {
   color: var(--green);
   font-style: normal;
+  margin-top: 2px;
 }
 
 .about-hero p {
@@ -331,84 +333,64 @@ textarea {
 }
 
 .process-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(310px, 372px);
-  gap: 24px;
   margin-top: 22px;
 }
 
-.process-steps {
+.process-flow {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   display: grid;
-  gap: 8px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.process-step {
-  border: 1px solid transparent;
-  border-radius: 6px;
-  background: transparent;
-  overflow: hidden;
+.process-flow-item {
+  position: relative;
+  text-align: center;
 }
 
-.process-step-trigger {
-  width: 100%;
-  text-align: left;
-  padding: 16px 18px;
-  border: 0;
-  background: transparent;
-  color: #111111;
-  cursor: pointer;
+.process-flow-item::after {
+  content: '';
+  position: absolute;
+  top: 27px;
+  left: calc(50% + 30px);
+  width: calc(100% - 60px);
+  border-top: 1px solid #c8cfcc;
 }
 
-.process-step-trigger strong {
+.process-flow-item:last-child::after {
+  display: none;
+}
+
+.process-flow-index {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 2px solid #c8cfcc;
+  display: grid;
+  place-items: center;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 26px;
+  line-height: 1;
+  color: #2a8e68;
+}
+
+.process-flow-item strong {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
-.process-step-panel {
-  height: 0;
-  overflow: hidden;
-  transition: height var(--motion-duration-md) var(--motion-ease-emphasis);
-}
-
-.process-step-panel-inner {
-  padding: 0 18px 16px;
-  opacity: 0;
-  transform: translate3d(0, 10px, 0);
-  transition:
-    opacity var(--motion-duration-fast) ease,
-    transform var(--motion-duration-fast) var(--motion-ease-standard);
-}
-
-.process-step-panel p {
-  margin: 0;
+.process-flow-item p {
+  margin: 10px auto 0;
+  max-width: 210px;
   font-size: 14px;
-  line-height: 1.6;
-  color: #666d6d;
-}
-
-.process-step.is-active {
-  background: #f4f4f4;
-  border-color: rgba(18, 30, 26, 0.04);
-}
-
-.process-step.is-active .process-step-panel-inner {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.process-visual-card {
-  min-height: 272px;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #111111;
-}
-
-.process-visual-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  line-height: 1.45;
+  color: #66726f;
 }
 
 .partner-strip {
@@ -862,7 +844,6 @@ textarea {
   }
 
   .section-head,
-  .process-grid,
   .site-footer .footer-card {
     grid-template-columns: 1fr;
   }
@@ -943,9 +924,10 @@ textarea {
   }
 
   .about-hero h1 {
-    margin-top: 16px;
-    font-size: 2.05rem;
-    line-height: 1.06;
+    max-width: 290px;
+    margin: 16px auto 12px;
+    font-size: clamp(2rem, 10vw, 2.45rem);
+    line-height: 1.04;
   }
 
   .about-hero p {
@@ -1042,33 +1024,47 @@ textarea {
   }
 
   .process-grid {
-    gap: 16px;
     margin-top: 18px;
+    overflow: visible;
+    padding-bottom: 0;
   }
 
-  .process-steps {
-    gap: 6px;
+  .process-flow {
+    min-width: 0;
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-  .process-step-trigger {
-    padding: 12px 14px;
+  .process-flow-item {
+    text-align: left;
+    padding-left: 68px;
+    min-height: 56px;
   }
 
-  .process-step-trigger strong {
+  .process-flow-index {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+  }
+
+  .process-flow-item::after {
+    top: 54px;
+    left: 26px;
+    width: 0;
+    height: calc(100% - 38px);
+    border-top: 0;
+    border-left: 1px solid #c8cfcc;
+  }
+
+  .process-flow-item strong {
+    margin-top: 2px;
+    font-size: 16px;
+  }
+
+  .process-flow-item p {
+    max-width: none;
     font-size: 13px;
-  }
-
-  .process-step-panel-inner {
-    padding: 0 14px 12px;
-  }
-
-  .process-step-panel p {
-    font-size: 12px;
-    line-height: 1.55;
-  }
-
-  .process-visual-card {
-    min-height: 180px;
   }
 
   .partner-strip {

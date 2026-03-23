@@ -25,7 +25,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
   color: var(--text-dark);
   background: #ffffff;
   overflow-x: hidden;
@@ -118,10 +118,11 @@ textarea {
 }
 
 .contact-hero h1 {
-  margin: 0;
-  font-size: clamp(3rem, 5vw, 4.72rem);
-  line-height: 0.99;
-  letter-spacing: -0.058em;
+  max-width: 520px;
+  margin: 18px auto 12px;
+  font-size: clamp(2.2rem, 3.1vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
   font-weight: 600;
 }
 
@@ -131,7 +132,7 @@ textarea {
 }
 
 .contact-hero h1 em {
-  margin-top: 14px;
+  margin-top: 2px;
   color: var(--green);
   font-style: normal;
 }
@@ -684,6 +685,13 @@ textarea {
   .locations {
     padding-left: 14px;
     padding-right: 14px;
+  }
+
+  .contact-hero h1 {
+    max-width: 290px;
+    margin: 16px auto 12px;
+    font-size: clamp(2rem, 10vw, 2.45rem);
+    line-height: 1.04;
   }
 
   .contact-card {

@@ -76,8 +76,9 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 11px;
-  font-weight: 700;
+  border-radius: 10px;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-weight: 600;
   transition:
     transform var(--motion-duration-fast) var(--motion-ease-standard),
     box-shadow var(--motion-duration-fast) ease,
@@ -108,9 +109,11 @@ a {
 }
 
 .hero-copy h1 {
-  font-size: clamp(2.6rem, 4.6vw, 4.2rem);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
+  max-width: 520px;
+  margin: 18px auto 12px;
+  font-size: clamp(2.2rem, 3.1vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
 }
 
 .hero-copy h1 em {
@@ -118,7 +121,7 @@ a {
   color: #16ab6d;
   font-style: normal;
   font-weight: 600;
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
 .hero-copy p {
@@ -613,7 +616,10 @@ a {
   }
 
   .hero-copy h1 {
-    font-size: 26px;
+    max-width: 290px;
+    margin: 16px auto 12px;
+    font-size: clamp(2rem, 10vw, 2.45rem);
+    line-height: 1.04;
   }
 
   .hero-copy p {
