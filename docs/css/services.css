@@ -318,30 +318,18 @@ textarea {
 .trusted-logos-shell {
   position: relative;
   margin-top: 42px;
-  padding: 0 0 18px;
+  padding: 0;
   text-align: center;
-}
-
-.trusted-logos-shell::after {
-  content: '';
-  position: absolute;
-  right: calc(-1 * var(--page-gutter));
-  bottom: 0;
-  left: calc(-1 * var(--page-gutter));
-  height: 76px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 88%);
-  pointer-events: none;
 }
 
 .trusted-logos {
   max-width: 820px;
   margin: 14px auto 0;
-  border-top: 1px solid rgba(15, 31, 25, 0.1);
-  padding-top: 10px;
+  padding-top: 0;
 }
 
 .trusted-logos.logo-marquee {
-  padding-bottom: 14px;
+  padding-bottom: 0;
 }
 
 .trusted-logos .logo-marquee-track {
@@ -354,7 +342,7 @@ textarea {
 
 .trusted-logos.logo-marquee img {
   height: 25px;
-  opacity: 0.76;
+  opacity: 0.88;
 }
 
 .hero-stats {
