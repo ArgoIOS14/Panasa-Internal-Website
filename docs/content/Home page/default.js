@@ -227,9 +227,9 @@ window.DEFAULT_CONTENT = {
     "subtitle": "Real outcomes from real projects with issuer processors and neobanks",
     "slides": [
       {
-        "eyebrow": "NEOBANK & ISSUER",
-        "title": "Scaled and Stabilized Digital Banking Platform Handling High Volume Transactions Across Multiple Markets",
-        "text": "Partnering with Panasa, our digital payment system quickly went live, with excellent infrastructure to support escalating transaction volumes and expansion.",
+        "eyebrow": "CONFIDENTIAL ISSUER PROCESSOR",
+        "title": "Built and Now Operating Card Issuing Platform Processing 10M+ Transactions Monthly",
+        "text": "Leading issuer processor needed to rapidly scale their card platform while minimizing downtime and reducing operational costs.",
         "image": "assets/placeholder-case-1.svg",
         "cta": {
           "label": "Read Full Case Study",
