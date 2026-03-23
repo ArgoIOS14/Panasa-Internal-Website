@@ -12,6 +12,7 @@ export const initNavToggle = () => {
     navLinks.classList.remove('open');
     navLinks.setAttribute('data-nav-state', 'closed');
     navToggle?.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
 
     navLinks.querySelectorAll('.nav-item-has-children').forEach((item) => {
       if (!(item instanceof HTMLElement)) return;
@@ -42,6 +43,7 @@ export const initNavToggle = () => {
     navLinks?.classList.remove('open');
     navLinks?.setAttribute('data-nav-state', 'closed');
     navToggle?.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
     navLinks?.querySelectorAll('.nav-item-has-children.open').forEach((item) => {
       item.classList.remove('open');
       item.querySelector('.nav-dropdown-toggle')?.setAttribute('aria-expanded', 'false');
@@ -53,6 +55,7 @@ export const initNavToggle = () => {
       const isOpen = navLinks.classList.toggle('open');
       navLinks.setAttribute('data-nav-state', isOpen ? 'open' : 'closed');
       navToggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.classList.toggle('nav-open', isOpen);
     });
 
     navLinks.addEventListener('click', (event) => {

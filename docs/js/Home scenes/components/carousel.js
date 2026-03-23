@@ -155,6 +155,16 @@ const initSwipeCarousel = ({
     measure();
     goTo(index, false);
   });
+
+  let resizeObserver = null;
+  if ('ResizeObserver' in window) {
+    resizeObserver = new ResizeObserver(() => {
+      measure();
+      goTo(index, false);
+    });
+    resizeObserver.observe(carousel);
+  }
+
   reducedMotion.addEventListener('change', () => {
     stopAuto();
     if (!reducedMotion.matches) startAuto();
