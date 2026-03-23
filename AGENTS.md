@@ -159,6 +159,10 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - do not restyle, override, resize, recolor, or locally redefine `.site-header`, `.nav`, `.nav-links`, `.brand`, or the nav CTA on page-specific stylesheets
   - if navigation spacing or styling ever needs to change, make that change in the shared navigation source so all pages stay identical
   - page-specific CSS may position content below the nav, but must not change the nav's color, button layout, border radius, sizing, spacing, or visual treatment
+  - responsive nav behavior must reset cleanly across breakpoint changes:
+    - mobile-only classes, inline styles, open states, submenu sizing, and temporary JS layout overrides must be removed when returning to tablet/desktop widths
+    - resizing from desktop to mobile and back again must preserve the approved desktop pill layout without stretched geometry or leftover mobile alignment styles
+    - any future mobile nav enhancement must be tested for first-open behavior and breakpoint return behavior before being considered complete
 - Form field focus styling is now a strict shared behavior rule:
   - text inputs, textarea fields, and composite text-entry controls must use a neutral grey border by default
   - green borders are reserved for the active selected/focused state only
