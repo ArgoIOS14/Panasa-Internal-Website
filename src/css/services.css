@@ -223,16 +223,19 @@ textarea {
 }
 
 .service-hero-copy {
-  max-width: 560px;
+  max-width: 520px;
   margin: 0 auto;
   text-align: center;
+  display: grid;
+  justify-items: center;
 }
 
 .service-hero h1 {
-  margin: 18px 0 0;
-  font-size: clamp(2.6rem, 4.8vw, 4rem);
-  line-height: 0.98;
-  letter-spacing: -0.06em;
+  max-width: 520px;
+  margin: 18px auto 10px;
+  font-size: clamp(2.2rem, 3.7vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
   font-weight: 600;
 }
 
@@ -244,22 +247,72 @@ textarea {
 .service-hero h1 em {
   color: var(--green);
   font-style: normal;
+  margin-top: 2px;
 }
 
 .service-hero p {
-  max-width: 512px;
-  margin: 18px auto 0;
-  font-size: 15px;
-  line-height: 1.56;
+  max-width: 430px;
+  margin: 0 auto;
+  font-size: 0.97rem;
+  line-height: 1.45;
   letter-spacing: -0.02em;
   color: #394342;
 }
 
 .hero-actions {
   display: flex;
-  justify-content: center;
   gap: 16px;
-  margin-top: 20px;
+  margin-top: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-actions .btn-dark {
+  min-height: 34px;
+  padding: 8px 12px;
+  font-size: 0.74rem;
+  line-height: 1;
+  border-radius: 7px;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-actions .btn-ghost {
+  min-height: 34px;
+  padding: 10px 6px;
+  font-size: 0.74rem;
+  line-height: 1;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #171717;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.hero-action-icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.btn-dark .hero-action-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.btn-ghost .hero-action-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.hero-action-label {
+  display: inline-block;
 }
 
 .trusted-logos-shell {
