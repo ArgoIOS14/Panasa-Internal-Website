@@ -60,11 +60,13 @@ const applyServiceMode = () => {
   const kicker = section?.querySelector('.section-kicker');
   const summary = section?.querySelector('.section-head p');
   const content = section?.querySelector('.domains-grid');
-  if (!(section && title && kicker && summary && content)) return;
+  const deliverablesSection = document.querySelector('.deliverables-section');
+  if (!(section && title && kicker && summary && content && deliverablesSection)) return;
 
   const mode = getServiceMode();
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
+  deliverablesSection.classList.remove('deliverables-section-engineering');
 
   if (mode === 'ai-accelerated-fintech-engineering') {
     section.classList.add('domains-section-process');
@@ -134,6 +136,70 @@ const applyServiceMode = () => {
     `;
 
     initProcessSteps();
+
+    deliverablesSection.classList.add('deliverables-section-engineering');
+    deliverablesSection.innerHTML = `
+      <div class="section-head section-head-dark" data-animate>
+        <div class="section-title">
+          <span class="section-kicker">What We Build</span>
+          <h2>
+            <em>Payment Infrastructure</em>
+            <span>for Regulated Platforms</span>
+          </h2>
+        </div>
+        <p>
+          Every engagement produces a defined set of reports, assessments, and action plans.
+        </p>
+      </div>
+
+      <div class="engineering-build-grid" data-animate>
+        <article class="engineering-build-column">
+          <h3>Payment &amp; Issuing</h3>
+          <ul class="engineering-build-list">
+            <li>Card issuing and programme management</li>
+            <li>Authorisation and payment processing engines</li>
+            <li>Visa and Mastercard scheme integrations</li>
+            <li>Tokenisation and digital wallet enablement</li>
+            <li>Open banking and embedded finance APIs</li>
+          </ul>
+        </article>
+        <article class="engineering-build-column">
+          <h3>Platform Architecture</h3>
+          <ul class="engineering-build-list">
+            <li>API-first microservices for composability</li>
+            <li>Event-driven workflows for real-time processing</li>
+            <li>Multi-tenant design for programme managers</li>
+            <li>Zero-trust partner integrations</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="engineering-build-divider" data-animate></div>
+
+      <div class="engineering-build-footer" data-animate>
+        <span class="engineering-build-kicker">What Makes Delivery Faster</span>
+        <div class="engineering-build-cards">
+          <article class="engineering-build-card">
+            <h3>Specs generated from requirements</h3>
+            <p>
+              Business requirements become implementation-ready specs with automated consistency checks across service boundaries. Less ambiguity, fewer rounds of clarification.
+            </p>
+          </article>
+          <article class="engineering-build-card">
+            <h3>Tests written alongside features</h3>
+            <p>
+              Test suites are generated in parallel with code, not queued after it. The QA bottleneck that delays most fintech releases doesn't exist in our process.
+            </p>
+          </article>
+          <article class="engineering-build-card">
+            <h3>Scheme playbooks, not guesswork</h3>
+            <p>
+              We maintain runbooks for Visa and Mastercard certification, partner onboarding sequences, and compliance checkpoints. Repeatable process, fewer surprises.
+            </p>
+          </article>
+        </div>
+      </div>
+    `;
     return;
   }
 
