@@ -11,7 +11,25 @@
       },
       {
         "label": "Services",
-        "href": "services.html"
+        "href": "services.html",
+        "children": [
+          {
+            "label": "AI Accelerated Fintech Engineering",
+            "href": "services.html"
+          },
+          {
+            "label": "AI Powered Legacy Modernisation",
+            "href": "services.html"
+          },
+          {
+            "label": "AI Governance",
+            "href": "services.html"
+          },
+          {
+            "label": "Intelligent Operations",
+            "href": "services.html"
+          }
+        ]
       },
       {
         "label": "Careers",
