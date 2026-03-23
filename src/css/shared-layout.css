@@ -218,9 +218,17 @@
 
   .nav-mobile-head {
     display: flex;
-    align-items: center;
+    width: 100%;
+    max-width: none;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 26px;
+    margin-bottom: 22px;
+    padding: 0 4px;
+  }
+
+  .nav-mobile-brand {
+    display: inline-flex;
+    align-self: flex-start;
   }
 
   .nav-mobile-brand img {
@@ -242,6 +250,7 @@
     justify-content: center;
     padding: 0;
     cursor: pointer;
+    align-self: flex-start;
   }
 
   .nav-links li {
@@ -267,20 +276,24 @@
     padding-bottom: 0;
     margin-bottom: 0;
     width: 100%;
-    max-width: 280px;
+    max-width: 320px;
   }
 
   .nav-dropdown-wrap {
-    display: inline-flex;
+    position: relative;
+    display: flex;
     align-items: center;
-    gap: 10px;
-    width: auto;
-    max-width: 100%;
+    justify-content: center;
+    width: min(100%, 240px);
     min-height: 44px;
   }
 
   .nav-dropdown-toggle {
     display: inline-flex;
+    position: absolute;
+    top: 50%;
+    right: -6px;
+    transform: translateY(-50%);
     flex: 0 0 auto;
     width: 28px;
     height: 28px;
@@ -311,31 +324,42 @@
 
   .nav-submenu {
     position: static;
-    transform: none;
     min-width: 0;
-    margin-top: 6px;
+    margin-top: 0;
     width: 100%;
-    max-width: 280px;
-    padding: 8px 0 0;
+    max-width: 320px;
+    padding: 0;
     background: transparent;
     border: 0;
     box-shadow: none;
-    opacity: 1;
-    pointer-events: auto;
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(-8px);
+    transition:
+      max-height 0.28s ease,
+      opacity 0.22s ease,
+      transform 0.22s ease,
+      margin-top 0.22s ease;
   }
 
   .nav-item-has-children.open .nav-submenu {
-    display: flex;
+    margin-top: 8px;
+    opacity: 1;
+    pointer-events: auto;
+    max-height: 320px;
+    transform: translateY(0);
   }
 
   .nav-submenu a {
     justify-content: center;
     width: 100%;
-    max-width: 280px;
+    max-width: 320px;
     padding: 10px 14px;
     font-size: 14px;
     font-weight: 500;

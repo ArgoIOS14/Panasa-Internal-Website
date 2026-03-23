@@ -10,7 +10,7 @@ export const initNavToggle = () => {
     items.forEach((item) => {
       if (!(item instanceof HTMLElement)) return;
       item.style.width = '100%';
-      item.style.maxWidth = '280px';
+      item.style.maxWidth = '320px';
       item.style.marginInline = 'auto';
       item.style.display = 'flex';
       item.style.flexDirection = 'column';
@@ -18,9 +18,9 @@ export const initNavToggle = () => {
 
       const triggerWrap = item.querySelector('.nav-dropdown-wrap');
       if (triggerWrap instanceof HTMLElement) {
-        triggerWrap.style.width = 'auto';
+        triggerWrap.style.width = '240px';
         triggerWrap.style.maxWidth = '100%';
-        triggerWrap.style.display = 'inline-flex';
+        triggerWrap.style.display = 'flex';
         triggerWrap.style.alignItems = 'center';
         triggerWrap.style.justifyContent = 'center';
       }
@@ -28,13 +28,12 @@ export const initNavToggle = () => {
       const submenu = item.querySelector('.nav-submenu');
       if (!(submenu instanceof HTMLElement)) return;
 
-      const targetWidth = 280;
+      const targetWidth = 320;
       submenu.style.position = 'static';
       submenu.style.top = 'auto';
       submenu.style.right = 'auto';
       submenu.style.bottom = 'auto';
       submenu.style.left = 'auto';
-      submenu.style.transform = 'none';
       submenu.style.width = `${targetWidth}px`;
       submenu.style.maxWidth = `${targetWidth}px`;
       submenu.style.marginInline = 'auto';
