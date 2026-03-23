@@ -64,6 +64,8 @@ const applyServiceMode = () => {
 
   const mode = getServiceMode();
 
+  section.classList.remove('domains-section-process', 'domains-section-operations');
+
   if (mode === 'ai-accelerated-fintech-engineering') {
     section.classList.add('domains-section-process');
     kicker.textContent = 'How We Work';
@@ -213,6 +215,42 @@ const applyServiceMode = () => {
     `;
 
     initProcessSteps();
+    return;
+  }
+
+  if (mode === 'intelligent-operations') {
+    section.classList.add('domains-section-operations');
+    kicker.textContent = 'What We Run';
+    title.innerHTML = '<em>Six Operational Domains</em><span>One Team</span>';
+    summary.textContent =
+      "We don't just monitor dashboards. We run the full back-office — from real-time transaction monitoring through to dispute resolution.";
+
+    content.innerHTML = `
+      <article class="domain-card">
+        <h3>Transaction monitoring and uptime</h3>
+        <p>24×7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
+      </article>
+      <article class="domain-card">
+        <h3>Fraud and risk handling</h3>
+        <p>Real-time fraud detection with rule-based engines and ML models. Fraud queues, block/unblock workflows, integration with card controls and 3DS alerts. Prevention strategies and ongoing rule tuning.</p>
+      </article>
+      <article class="domain-card">
+        <h3>Customer and cardholder support</h3>
+        <p>L1 through L3 support across voice, chat, email, and in-app channels. Inquiry handling, card status updates, dispute assistance, and social media monitoring. Feedback loop to product and analytics.</p>
+      </article>
+      <article class="domain-card">
+        <h3>Disputes and chargebacks</h3>
+        <p>Full lifecycle chargeback management — rule-based tagging, document workflows, evidence gathering, and response generation. SLA tracking and Visa/Mastercard scheme alignment.</p>
+      </article>
+      <article class="domain-card">
+        <h3>Reporting and reconciliation</h3>
+        <p>Daily reconciliation of transactions, settlements, and chargebacks. Exception logs, scheduled pipelines for audit-ready data, and integration with BI tools like Power BI.</p>
+      </article>
+      <article class="domain-card">
+        <h3>Onboarding and implementation</h3>
+        <p>Platform onboarding for new clients. Merchant setup, KYC review, operations playbook creation, and weekly/monthly reporting. Secure infrastructure with role-based access.</p>
+      </article>
+    `;
   }
 };
 

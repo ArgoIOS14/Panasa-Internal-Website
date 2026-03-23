@@ -554,6 +554,44 @@ textarea {
   object-fit: cover;
 }
 
+.domains-section-operations .section-title h2 {
+  max-width: 520px;
+  font-size: clamp(2.2rem, 3vw, 3rem);
+  line-height: 0.98;
+}
+
+.domains-section-operations .section-head p {
+  max-width: 430px;
+  color: #5d6368;
+}
+
+.domains-section-operations .domains-grid {
+  margin-top: 22px;
+  gap: 14px 16px;
+}
+
+.domains-section-operations .domain-card {
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  background: #f3f3f3;
+}
+
+.domains-section-operations .domain-card h3 {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.domains-section-operations .domain-card p {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #5e6468;
+}
+
+.domains-section-operations .domain-card span {
+  display: none;
+}
+
 .domain-card {
   padding: 16px 16px 14px;
   border-radius: 8px;

@@ -27,7 +27,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Intelligent Operations",
-            "href": "services.html"
+            "href": "services.html?service=intelligent-operations"
           }
         ]
       },
