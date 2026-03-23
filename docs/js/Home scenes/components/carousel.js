@@ -26,35 +26,33 @@ const initSwipeCarousel = ({
   let resumeTimer = null;
   let pauseUntil = 0;
   let carouselWidth = 0;
-  let slideWidth = 0;
   let rafId = null;
-  let pendingTranslate = null;
+  let pendingTransform = null;
 
   const settleTransition = 'transform var(--motion-duration-carousel, 620ms) var(--motion-ease-carousel, cubic-bezier(0.22, 1, 0.36, 1))';
 
   const measure = () => {
     carouselWidth = carousel.getBoundingClientRect().width;
-    slideWidth = slides[0]?.getBoundingClientRect().width || carouselWidth;
   };
 
   const getWidth = () => {
     if (!carouselWidth) measure();
-    return slideWidth || carouselWidth;
+    return carouselWidth;
   };
 
-  const flushTranslate = (value, animate = true) => {
+  const flushTransform = (transformValue, animate = true) => {
     track.style.transition = animate && !reducedMotion.matches ? settleTransition : 'none';
-    track.style.transform = `translate3d(${value}px, 0, 0)`;
+    track.style.transform = transformValue;
   };
 
-  const setTranslate = (value, animate = true) => {
+  const setTransform = (transformValue, animate = true) => {
     if (!animate) {
-      pendingTranslate = value;
+      pendingTransform = transformValue;
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
-        if (pendingTranslate == null) return;
-        flushTranslate(pendingTranslate, false);
-        pendingTranslate = null;
+        if (pendingTransform == null) return;
+        flushTransform(pendingTransform, false);
+        pendingTransform = null;
         rafId = null;
       });
       return;
@@ -62,19 +60,29 @@ const initSwipeCarousel = ({
     if (rafId) {
       window.cancelAnimationFrame(rafId);
       rafId = null;
-      pendingTranslate = null;
+      pendingTransform = null;
     }
-    flushTranslate(value, true);
+    flushTransform(transformValue, true);
+  };
+
+  const setTransformForIndex = (targetIndex, animate = true) => {
+    setTransform(`translate3d(calc(-${targetIndex * 100}% + 0px), 0, 0)`, animate);
   };
 
   const goTo = (nextIndex, animate = true) => {
     index = Math.max(0, Math.min(nextIndex, slides.length - 1));
     dots.forEach((dot, i) => dot.classList.toggle(activeClass, i === index));
-    setTranslate(-index * getWidth(), animate);
+    setTransformForIndex(index, animate);
   };
 
   const goNext = () => goTo((index + 1) % slides.length);
   const goPrev = () => goTo((index - 1 + slides.length) % slides.length);
+
+  const onTrackTransitionEnd = (event) => {
+    if (event.propertyName !== 'transform') return;
+    // Hard snap after animated transitions to avoid sub-pixel drift on narrow/mobile viewports.
+    setTransformForIndex(index, false);
+  };
 
   const startAuto = () => {
     if (reducedMotion.matches || autoplayDelay <= 0 || isDragging || timerId) return;
@@ -119,14 +127,14 @@ const initSwipeCarousel = ({
     deltaX = 0;
     pauseAuto();
     carousel.setPointerCapture?.(event.pointerId);
-    setTranslate(-index * getWidth() + deltaX, false);
+    setTransform(`translate3d(calc(-${index * 100}% + ${deltaX}px), 0, 0)`, false);
   };
 
   const onPointerMove = (event) => {
     if (!isDragging || !isPointerDown) return;
     currentX = event.clientX;
     deltaX = currentX - startX;
-    setTranslate(-index * getWidth() + deltaX, false);
+    setTransform(`translate3d(calc(-${index * 100}% + ${deltaX}px), 0, 0)`, false);
   };
 
   const onPointerUp = (event) => {
@@ -151,6 +159,7 @@ const initSwipeCarousel = ({
   carousel.addEventListener('pointerleave', onPointerUp);
   window.addEventListener('pointerup', onPointerUp);
   window.addEventListener('pointercancel', onPointerUp);
+  track.addEventListener('transitionend', onTrackTransitionEnd);
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
   window.addEventListener('resize', () => {

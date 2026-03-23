@@ -580,6 +580,7 @@ section {
   min-width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, var(--services-visual-col));
   column-gap: 24px;
@@ -662,6 +663,8 @@ section {
   display: grid;
   justify-items: end;
   grid-column: 2;
+  width: 100%;
+  overflow: hidden;
 }
 
 .services-feature-visual {
@@ -2118,11 +2121,14 @@ section {
   }
 
   .services-slide {
+    min-height: 540px;
+    grid-template-rows: minmax(0, 1fr) auto;
     gap: 18px;
   }
 
   .services-feature-copy {
     padding-top: 0;
+    align-self: start;
   }
 
   .services-feature-pill {
@@ -2148,8 +2154,15 @@ section {
 
   .services-feature-visual {
     max-width: 100%;
+    height: 214px;
     min-height: 214px;
+    max-height: 214px;
     border-radius: 16px;
+  }
+
+  .services-feature-visual-wrap {
+    width: 100%;
+    align-self: end;
   }
 
   .services-visual-icon {
