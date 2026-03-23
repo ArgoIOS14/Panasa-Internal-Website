@@ -203,15 +203,53 @@ textarea {
 .hero-actions {
   display: flex;
   justify-content: center;
-  gap: 18px;
+  gap: 16px;
   margin-top: 18px;
 }
 
 .about-hero-action-icon {
-  width: 18px;
-  height: 18px;
   flex: 0 0 auto;
   display: block;
+}
+
+.hero-actions .btn-dark {
+  min-height: 34px;
+  padding: 8px 12px;
+  font-size: 0.74rem;
+  line-height: 1;
+  border-radius: 7px;
+  background: #181818;
+  border-color: #181818;
+  color: #ffffff;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-actions .btn-ghost {
+  min-height: 34px;
+  padding: 10px 6px;
+  font-size: 0.74rem;
+  line-height: 1;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #171717;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.hero-actions .btn-dark .about-hero-action-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.hero-actions .btn-ghost .about-hero-action-icon {
+  width: 14px;
+  height: 14px;
 }
 
 .about-stats {
@@ -944,18 +982,18 @@ textarea {
     margin-top: 16px;
   }
 
-  .btn-dark,
-  .btn-ghost {
+  .hero-actions .btn-dark,
+  .hero-actions .btn-ghost {
     min-height: 34px;
-    font-size: 12px;
+    font-size: 0.74rem;
   }
 
-  .btn-dark {
-    padding: 0 12px;
+  .hero-actions .btn-dark {
+    padding: 8px 12px;
   }
 
-  .btn-ghost {
-    padding: 0 6px;
+  .hero-actions .btn-ghost {
+    padding: 10px 6px;
   }
 
   .about-stats,
