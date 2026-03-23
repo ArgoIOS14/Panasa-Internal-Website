@@ -1540,6 +1540,88 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .domains-section-process {
+    padding-top: 42px;
+    padding-bottom: 32px;
+  }
+
+  .domains-section-process .section-head {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .domains-section-process .section-title {
+    justify-items: center;
+  }
+
+  .domains-section-process .section-kicker {
+    width: 100%;
+    text-align: left;
+    color: #6a6a6a;
+  }
+
+  .domains-section-process .section-title h2 {
+    max-width: 232px;
+    font-size: 1.92rem;
+    line-height: 0.96;
+  }
+
+  .domains-section-process .section-head p {
+    max-width: 282px;
+    margin-top: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #676d72;
+  }
+
+  .domains-section-process .process-grid {
+    max-width: 320px;
+    margin: 16px auto 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .domains-section-process .process-steps {
+    gap: 6px;
+  }
+
+  .domains-section-process .process-step {
+    border-radius: 10px;
+  }
+
+  .domains-section-process .process-step.is-active {
+    background: #f2f2f2;
+  }
+
+  .domains-section-process .process-step-trigger {
+    padding: 10px 12px;
+  }
+
+  .domains-section-process .process-step-trigger strong {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .domains-section-process .process-step-panel-inner {
+    padding: 0 12px 10px;
+  }
+
+  .domains-section-process .process-step-panel p {
+    font-size: 9px;
+    line-height: 1.45;
+  }
+
+  .domains-section-process .process-visual-card {
+    min-height: 0;
+    border-radius: 12px;
+    aspect-ratio: 1.52 / 1;
+  }
+
   .challenge-card {
     min-height: auto;
   }
