@@ -75,11 +75,28 @@ textarea {
 
 .contact-page {
   min-height: 100vh;
+  background: #ffffff;
+}
+
+.contact-hero {
+  position: relative;
+  max-width: var(--page-shell);
+  margin: 74px auto 0;
+  padding: 0 20px;
+}
+
+.contact-hero::before {
+  content: '';
+  position: absolute;
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
+  top: -160px;
+  height: clamp(420px, 52vw, 520px);
   background:
     linear-gradient(rgba(22, 171, 109, 0.09) 1px, transparent 1px),
     linear-gradient(90deg, rgba(22, 171, 109, 0.09) 1px, transparent 1px),
-    radial-gradient(circle at 50% 14%, rgba(237, 255, 248, 0.94) 0%, rgba(214, 245, 230, 0.88) 26%, rgba(255, 255, 255, 0.96) 56%, #ffffff 74%),
-    linear-gradient(180deg, #6ed0a8 0%, #cbeedf 21%, #f8fffb 39%, #ffffff 63%);
+    linear-gradient(180deg, rgba(120, 214, 174, 0.92) 0%, rgba(189, 238, 215, 0.7) 34%, rgba(247, 255, 251, 0.42) 68%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(180deg, #6ed0a8 0%, #cbeedf 28%, #ffffff 78%);
   background-size:
     72px 72px,
     72px 72px,
@@ -90,12 +107,8 @@ textarea {
     center top,
     center top,
     center top;
-}
-
-.contact-hero {
-  max-width: var(--page-shell);
-  margin: 74px auto 0;
-  padding: 0 20px;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .contact-hero-copy {

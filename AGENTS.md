@@ -119,6 +119,10 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - hero/trusted spacing
   - split heading rhythm
   - testimonials/footer vertical density
+- Hero background fade rule for all current and future pages:
+  - mint/green fade plus background grid boxes must be limited to the hero region only
+  - the fade treatment should end around the trusted-logo loop / hero close, not continue through the rest of the page
+  - all sections after the hero region should return to a plain white background unless a section-specific reference explicitly uses a different background
 - About page mobile direction now follows the supplied mobile screenshot:
   - tighter hero proportions
   - 2-column stat cards
