@@ -1638,6 +1638,14 @@ textarea {
     padding-top: 24px;
   }
 
+  .service-hero .hero-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+
   .hero-actions,
   .footer-cta,
   .footer-bottom {

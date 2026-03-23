@@ -196,6 +196,9 @@ ul {
   font-size: 0.74rem;
   line-height: 1;
   border-radius: 7px;
+  background: #0b3d2e;
+  border-color: #0b3d2e;
+  color: #ffffff;
   box-shadow: none;
   display: inline-flex;
   align-items: center;
