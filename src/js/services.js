@@ -62,75 +62,158 @@ const applyServiceMode = () => {
   const content = section?.querySelector('.domains-grid');
   if (!(section && title && kicker && summary && content)) return;
 
-  if (getServiceMode() !== 'ai-accelerated-fintech-engineering') return;
+  const mode = getServiceMode();
 
-  section.classList.add('domains-section-process');
-  kicker.textContent = 'How We Work';
-  title.innerHTML = '<em>Five stages</em><span>continuous feedback</span>';
-  summary.textContent =
-    "No need to hire, train, and manage multiple teams. We're your end-to-end fintech engineering and operations partner.";
+  if (mode === 'ai-accelerated-fintech-engineering') {
+    section.classList.add('domains-section-process');
+    kicker.textContent = 'How We Work';
+    title.innerHTML = '<em>Five stages</em><span>continuous feedback</span>';
+    summary.textContent =
+      "No need to hire, train, and manage multiple teams. We're your end-to-end fintech engineering and operations partner.";
 
-  content.innerHTML = `
-    <div class="process-grid">
-      <div class="process-steps">
-        <article class="process-step is-active" data-process-item>
-          <button class="process-step-trigger" type="button" data-process-step aria-expanded="true">
-            <strong>Stage 1: Scope</strong>
-          </button>
-          <div class="process-step-panel" data-process-panel>
-            <div class="process-step-panel-inner">
-              <p>Problem framing, acceptance criteria, scheme rules mapped to requirements</p>
+    content.innerHTML = `
+      <div class="process-grid">
+        <div class="process-steps">
+          <article class="process-step is-active" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="true">
+              <strong>Stage 1: Scope</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Problem framing, acceptance criteria, scheme rules mapped to requirements</p>
+              </div>
             </div>
-          </div>
-        </article>
-        <article class="process-step" data-process-item>
-          <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
-            <strong>Stage 2: Prototype</strong>
-          </button>
-          <div class="process-step-panel" data-process-panel>
-            <div class="process-step-panel-inner">
-              <p>Competing approaches built on separate branches. Working code in days, not weeks</p>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Stage 2: Prototype</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Competing approaches built on separate branches. Working code in days, not weeks</p>
+              </div>
             </div>
-          </div>
-        </article>
-        <article class="process-step" data-process-item>
-          <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
-            <strong>Stage 3: Validate</strong>
-          </button>
-          <div class="process-step-panel" data-process-panel>
-            <div class="process-step-panel-inner">
-              <p>Automated linting, security scans, type checks. Issues caught and fixed before review</p>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Stage 3: Validate</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Automated linting, security scans, type checks. Issues caught and fixed before review</p>
+              </div>
             </div>
-          </div>
-        </article>
-        <article class="process-step" data-process-item>
-          <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
-            <strong>Stage 4: Test</strong>
-          </button>
-          <div class="process-step-panel" data-process-panel>
-            <div class="process-step-panel-inner">
-              <p>AI-generated test suites from acceptance criteria. 80% + coverage enforced at the pipeline level</p>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Stage 4: Test</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>AI-generated test suites from acceptance criteria. 80% + coverage enforced at the pipeline level</p>
+              </div>
             </div>
-          </div>
-        </article>
-        <article class="process-step" data-process-item>
-          <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
-            <strong>Stage 5: Deploy</strong>
-          </button>
-          <div class="process-step-panel" data-process-panel>
-            <div class="process-step-panel-inner">
-              <p>Progressive rollout with canary releases, automated rollback triggers, and full observability</p>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Stage 5: Deploy</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Progressive rollout with canary releases, automated rollback triggers, and full observability</p>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </div>
+        <div class="process-visual-card">
+          <img src="assets/about-process-visual.svg" alt="Fintech engineering workflow visual" />
+        </div>
       </div>
-      <div class="process-visual-card">
-        <img src="assets/about-process-visual.svg" alt="Fintech engineering workflow visual" />
-      </div>
-    </div>
-  `;
+    `;
 
-  initProcessSteps();
+    initProcessSteps();
+    return;
+  }
+
+  if (mode === 'ai-powered-legacy-modernisation') {
+    section.classList.add('domains-section-process');
+    kicker.textContent = 'How We Work';
+    title.innerHTML = '<em>Six Phases</em><span>Every rule traced end to end</span>';
+    summary.textContent =
+      "We don't rewrite systems from a requirements document. We extract the actual logic from the running system, reconstruct it in a modern stack";
+
+    content.innerHTML = `
+      <div class="process-grid">
+        <div class="process-steps">
+          <article class="process-step is-active" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="true">
+              <strong>Phase 1: Extract</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Parse source code, stored procedures, configs, and runtime behaviour into a structured knowledge base</p>
+              </div>
+            </div>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Phase 2: Model</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Reconstruct domain flows, business rules, and dependencies into a traceable system model for migration planning</p>
+              </div>
+            </div>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Phase 3: Decompose</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Split monolithic workflows into services, bounded contexts, and reusable components mapped to the new target architecture</p>
+              </div>
+            </div>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Phase 4: Generate</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Generate modern code, APIs, test cases, and migration scaffolding aligned to the extracted business logic</p>
+              </div>
+            </div>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Phase 5: Validate</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Cross-check parity between legacy and modernised flows through automated testing, rule comparisons, and operator review</p>
+              </div>
+            </div>
+          </article>
+          <article class="process-step" data-process-item>
+            <button class="process-step-trigger" type="button" data-process-step aria-expanded="false">
+              <strong>Phase 6: Roll out</strong>
+            </button>
+            <div class="process-step-panel" data-process-panel>
+              <div class="process-step-panel-inner">
+                <p>Release in controlled stages with migration checkpoints, rollback coverage, and production monitoring from day one</p>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="process-visual-card">
+          <img src="assets/about-process-visual.svg" alt="Legacy modernisation workflow visual" />
+        </div>
+      </div>
+    `;
+
+    initProcessSteps();
+  }
 };
 
 const resolveToSiteHref = (href) => {

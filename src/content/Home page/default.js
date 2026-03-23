@@ -19,7 +19,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "AI Powered Legacy Modernisation",
-            "href": "services.html"
+            "href": "services.html?service=ai-powered-legacy-modernisation"
           },
           {
             "label": "AI Governance",
