@@ -9,18 +9,52 @@ export const initNavToggle = () => {
     const items = scope.querySelectorAll('.nav-item-has-children');
     items.forEach((item) => {
       if (!(item instanceof HTMLElement)) return;
+      item.style.width = '100%';
+      item.style.maxWidth = '280px';
+      item.style.marginInline = 'auto';
+      item.style.display = 'flex';
+      item.style.flexDirection = 'column';
+      item.style.alignItems = 'center';
+
+      const triggerWrap = item.querySelector('.nav-dropdown-wrap');
+      if (triggerWrap instanceof HTMLElement) {
+        triggerWrap.style.width = 'auto';
+        triggerWrap.style.maxWidth = '100%';
+        triggerWrap.style.display = 'inline-flex';
+        triggerWrap.style.alignItems = 'center';
+        triggerWrap.style.justifyContent = 'center';
+      }
+
       const submenu = item.querySelector('.nav-submenu');
       if (!(submenu instanceof HTMLElement)) return;
 
-      const targetWidth = Math.min(item.getBoundingClientRect().width || 280, 280);
+      const targetWidth = 280;
+      submenu.style.position = 'relative';
+      submenu.style.left = 'auto';
+      submenu.style.transform = 'none';
       submenu.style.width = `${targetWidth}px`;
       submenu.style.maxWidth = `${targetWidth}px`;
+      submenu.style.marginInline = 'auto';
+      submenu.style.alignSelf = 'center';
+      submenu.style.alignItems = 'center';
 
       submenu.querySelectorAll('a').forEach((link) => {
         if (link instanceof HTMLElement) {
           link.style.width = `${targetWidth}px`;
           link.style.maxWidth = `${targetWidth}px`;
+          link.style.marginInline = 'auto';
+          link.style.textAlign = 'center';
+          link.style.justifyContent = 'center';
         }
+      });
+    });
+  };
+
+  const syncAfterOpen = (scope = navLinks) => {
+    requestAnimationFrame(() => {
+      syncMobileDropdownLayout(scope);
+      requestAnimationFrame(() => {
+        syncMobileDropdownLayout(scope);
       });
     });
   };
@@ -39,9 +73,7 @@ export const initNavToggle = () => {
       const isOpen = navLinks.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', String(isOpen));
       if (isOpen) {
-        requestAnimationFrame(() => {
-          syncMobileDropdownLayout(navLinks);
-        });
+        syncAfterOpen(navLinks);
       }
     });
 
@@ -53,9 +85,9 @@ export const initNavToggle = () => {
         const parent = toggle.closest('.nav-item-has-children');
         const isOpen = parent?.classList.toggle('open');
         toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
-        requestAnimationFrame(() => {
-          syncMobileDropdownLayout(parent ?? navLinks);
-        });
+        if (isOpen) {
+          syncAfterOpen(parent ?? navLinks);
+        }
         return;
       }
       if (target.closest('[data-nav-close]') || target.closest('a')) closeMenu();
