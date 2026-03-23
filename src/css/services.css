@@ -170,6 +170,10 @@ textarea {
   font-style: normal;
 }
 
+.challenge-section .section-title h2 em {
+  display: inline;
+}
+
 .section-kicker,
 .pill,
 .trusted-kicker,
