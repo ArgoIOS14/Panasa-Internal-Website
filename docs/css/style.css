@@ -1590,18 +1590,15 @@ section {
 
 [data-animate] {
   opacity: var(--motion-opacity-start, 0);
-  transform: translate3d(0, var(--motion-y-start, 24px), 0) scale(var(--motion-scale-start, 1));
-  filter: blur(var(--motion-blur-start, 0px));
+  transform: translate3d(0, var(--motion-y-start, 24px), 0);
   transition:
     opacity var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
-    transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
-    filter var(--motion-duration, var(--motion-duration-md)) ease var(--motion-delay, 0ms);
+    transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms);
 }
 
 [data-animate].in-view {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-  filter: blur(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .hero-copy > *,
