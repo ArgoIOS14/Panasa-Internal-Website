@@ -223,8 +223,10 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 22px;
+    margin-inline: 0;
     padding: 0 4px;
     flex-wrap: nowrap;
+    align-self: stretch;
   }
 
   .nav-mobile-brand {
