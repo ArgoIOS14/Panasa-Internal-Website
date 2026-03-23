@@ -3,6 +3,37 @@ import { createEl } from '../utils/dom.js';
 export const initNavToggle = () => {
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
+  const resetDesktopNavLayout = () => {
+    if (!(navLinks instanceof HTMLElement) || window.innerWidth <= 900) return;
+
+    navLinks.classList.remove('open');
+    navToggle?.setAttribute('aria-expanded', 'false');
+
+    navLinks.querySelectorAll('.nav-item-has-children').forEach((item) => {
+      if (!(item instanceof HTMLElement)) return;
+      item.classList.remove('open');
+      item.removeAttribute('style');
+
+      const toggle = item.querySelector('.nav-dropdown-toggle');
+      if (toggle instanceof HTMLElement) {
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      const triggerWrap = item.querySelector('.nav-dropdown-wrap');
+      if (triggerWrap instanceof HTMLElement) {
+        triggerWrap.removeAttribute('style');
+      }
+
+      const submenu = item.querySelector('.nav-submenu');
+      if (submenu instanceof HTMLElement) {
+        submenu.removeAttribute('style');
+        submenu.querySelectorAll('a').forEach((link) => {
+          if (link instanceof HTMLElement) link.removeAttribute('style');
+        });
+      }
+    });
+  };
+
   const syncMobileDropdownLayout = (scope = navLinks) => {
     if (!(scope instanceof HTMLElement) || window.innerWidth > 900) return;
 
@@ -96,8 +127,11 @@ export const initNavToggle = () => {
     });
 
     window.addEventListener('resize', () => {
+      resetDesktopNavLayout();
       syncMobileDropdownLayout(navLinks);
     });
+
+    resetDesktopNavLayout();
   }
 };
 
