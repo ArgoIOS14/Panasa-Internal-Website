@@ -49,7 +49,9 @@ const resolveHref = (href) => {
 
 const isActiveLink = (href) => {
   if (href.startsWith('#')) return false;
-  return href === getCurrentRoute() || href === getCurrentPage();
+  if (href.includes('?')) return href === getCurrentRoute();
+  if (window.location.search) return href === getCurrentRoute();
+  return href === getCurrentPage();
 };
 
 const hasActiveChild = (items = []) => {
