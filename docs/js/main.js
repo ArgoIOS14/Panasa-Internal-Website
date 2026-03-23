@@ -26,11 +26,11 @@ const renderPage = (content) => {
   renderFooter(content.footer);
 
   initCarousel();
+  initScrollAnimations();
 };
 
 const initApp = async () => {
   initNavToggle();
-  initScrollAnimations();
 
   try {
     const content = await loadContent();
@@ -42,3 +42,9 @@ const initApp = async () => {
 };
 
 initApp();
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    initScrollAnimations();
+  }
+});

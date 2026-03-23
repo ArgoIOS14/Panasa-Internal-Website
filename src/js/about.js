@@ -168,3 +168,9 @@ const initAbout = async () => {
 };
 
 initAbout();
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    initScrollAnimations();
+  }
+});

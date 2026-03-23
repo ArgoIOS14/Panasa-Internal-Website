@@ -16,3 +16,9 @@ const initCareers = async () => {
 };
 
 initCareers();
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    initScrollAnimations();
+  }
+});

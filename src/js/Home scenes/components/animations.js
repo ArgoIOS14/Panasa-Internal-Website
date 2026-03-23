@@ -1,4 +1,11 @@
+let activeObserver = null;
+
 export const initScrollAnimations = () => {
+  if (activeObserver) {
+    activeObserver.disconnect();
+    activeObserver = null;
+  }
+
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const elements = Array.from(document.querySelectorAll('[data-animate]'));
   if (!elements.length) return;
@@ -168,5 +175,21 @@ export const initScrollAnimations = () => {
     }
   );
 
-  elements.forEach((el) => observer.observe(el));
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  const isInitiallyVisible = (element) => {
+    const rect = element.getBoundingClientRect();
+    return rect.bottom > 0 && rect.top < viewportHeight * 0.92;
+  };
+
+  elements.forEach((el) => {
+    observer.observe(el);
+    if (isInitiallyVisible(el)) {
+      el.classList.add('in-view');
+      clearRevealWillChange(el);
+      if (el.dataset.animateRepeat !== 'true') {
+        observer.unobserve(el);
+      }
+    }
+  });
+  activeObserver = observer;
 };

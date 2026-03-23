@@ -420,3 +420,9 @@ const initServicesPage = async () => {
 };
 
 initServicesPage();
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    initScrollAnimations();
+  }
+});

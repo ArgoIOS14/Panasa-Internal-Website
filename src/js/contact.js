@@ -69,3 +69,9 @@ const initContact = async () => {
 };
 
 initContact();
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    initScrollAnimations();
+  }
+});
