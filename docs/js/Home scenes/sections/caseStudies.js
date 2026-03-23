@@ -26,8 +26,10 @@ export const renderCaseStudies = (data) => {
   data.slides.forEach((slide, index) => {
     const article = createEl('article', 'slide');
     const card = createEl('div', 'results-card');
-    if (slide.image) {
-      card.style.setProperty('--case-slide-bg', `url('${slide.image}')`);
+    if (index > 0 && slide.image) {
+      card.style.setProperty('--case-slide-bg', `url(${slide.image})`);
+    } else {
+      card.style.removeProperty('--case-slide-bg');
     }
     const left = createEl('div', 'results-copy');
 
