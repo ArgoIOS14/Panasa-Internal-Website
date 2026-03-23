@@ -199,6 +199,22 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
     - `AI Governance`
     - `Intelligent Operations`
     - `AI-Led Legacy Modernisation`
+- Services page mode mapping rule:
+  - `services.html` is the base/default `AI Governance` mode
+  - `services.html?service=ai-accelerated-fintech-engineering` is the `AI Accelerated Fintech Engineering` mode
+  - `services.html?service=ai-powered-legacy-modernisation` is the `AI Powered Legacy Modernisation` mode
+  - `services.html?service=intelligent-operations` is the `Intelligent Operations` mode
+  - when the user provides updated screenshot content for any service mode, apply it to that mode-specific section variant rather than replacing the default governance version
+  - current section swaps already implemented:
+    - `AI Accelerated Fintech Engineering`
+      - `What We Cover` swaps to the 5-stage process variant
+      - `What We Build` swaps to the dark `Payment Infrastructure for Regulated Platforms` variant
+      - `How We Build` swaps to the white `Production-grade from sprint one` 3-column variant
+    - `AI Powered Legacy Modernisation`
+      - `What We Cover` swaps to the 6-phase process variant
+    - `Intelligent Operations`
+      - `What We Cover` swaps to the `Six Operational Domains / One Team` card-grid variant
+  - preserve the shared nav parent label as `Services`; only the selected dropdown child should highlight as active
 - Current Case Studies subtitle is:
   - `Real outcomes from real projects with issuer processors and neobanks`
 - Case studies content state:
