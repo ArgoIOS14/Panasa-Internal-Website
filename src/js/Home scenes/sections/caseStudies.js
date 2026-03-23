@@ -26,6 +26,9 @@ export const renderCaseStudies = (data) => {
   data.slides.forEach((slide, index) => {
     const article = createEl('article', 'slide');
     const card = createEl('div', 'results-card');
+    if (slide.image) {
+      card.style.setProperty('--case-slide-bg', `url('${slide.image}')`);
+    }
     const left = createEl('div', 'results-copy');
 
     const eyebrow = createEl('span', 'eyebrow');

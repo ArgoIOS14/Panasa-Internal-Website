@@ -251,50 +251,50 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "eyebrow": "PAYMENT SERVICE PROVIDER",
-        "title": "Modernized Payment Processing System Improving Performance, Reliability, and Operational Efficiency",
-        "text": "End-to-end payment stack upgrade across systems, resulting in a more stable processing environment with improved speed and visibility.",
-        "image": "assets/placeholder-case-2.svg",
+        "eyebrow": "NEOBANK PLATFORM",
+        "title": "Scaled and Stabilized Digital Banking Platform Handling High Volume Transactions Across Multiple Markets",
+        "text": "Fast-growing neobank required improved system reliability, faster issue resolution, and scalable infrastructure to support increasing transaction volumes across regions.",
+        "image": "assets/case-study-card-2.svg",
         "cta": {
-          "label": "Read full case study",
+          "label": "Read Full Case Study",
           "href": "contact.html"
         },
         "metrics": [
           {
-            "value": "6",
-            "label": "Months to Live"
+            "value": "99.98%",
+            "label": "Uptime"
           },
           {
-            "value": "10M+",
-            "label": "Transactions/Month"
+            "value": "8M+",
+            "label": "Transactions/Day"
           },
           {
-            "value": "40%",
-            "label": "Cost Reduction"
+            "value": "50%",
+            "label": "Issue Resolution"
           }
         ]
       },
       {
-        "eyebrow": "OPS MODERNIZATION",
-        "title": "Rebuilt backoffice ops for a global wallet provider",
-        "text": "Consolidated fraud tooling, reconciliation, and reporting into a unified ops command center.",
-        "image": "assets/placeholder-case-4.svg",
+        "eyebrow": "PAYMENT SERVICE PROVIDER",
+        "title": "Modernized Payment Processing System Improving Performance, Reliability, and Operational Efficiency",
+        "text": "Established PSP needed to upgrade legacy systems, reduce downtime, and enhance monitoring to support seamless payment processing and operational continuity.",
+        "image": "assets/case-study-card-3.svg",
         "cta": {
-          "label": "Read full case study",
+          "label": "Read Full Case Study",
           "href": "contact.html"
         },
         "metrics": [
           {
-            "value": "24/7",
-            "label": "Monitoring coverage"
+            "value": "70%",
+            "label": "Less Downtime"
           },
           {
-            "value": "32%",
-            "label": "Fraud reduction"
+            "value": "15M+",
+            "label": "Transactions/Month"
           },
           {
-            "value": "4x",
-            "label": "Ops efficiency"
+            "value": "3x",
+            "label": "Processing Speed"
           }
         ]
       }

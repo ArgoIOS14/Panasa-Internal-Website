@@ -1000,7 +1000,7 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  background: url('../assets/case-results-visual.svg') 54% center / cover no-repeat;
+  background: var(--case-slide-bg, url('../assets/case-results-visual.svg')) 54% center / cover no-repeat;
   z-index: 0;
   transform: scale(1.03);
   transform-origin: center;
