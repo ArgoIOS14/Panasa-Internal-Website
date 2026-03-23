@@ -61,12 +61,16 @@ const applyServiceMode = () => {
   const summary = section?.querySelector('.section-head p');
   const content = section?.querySelector('.domains-grid');
   const deliverablesSection = document.querySelector('.deliverables-section');
-  if (!(section && title && kicker && summary && content && deliverablesSection)) return;
+  const roadmapSection = document.querySelector('.roadmap-section');
+  if (!(section && title && kicker && summary && content && deliverablesSection && roadmapSection)) {
+    return;
+  }
 
   const mode = getServiceMode();
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
   deliverablesSection.classList.remove('deliverables-section-engineering');
+  roadmapSection.classList.remove('roadmap-section-engineering');
 
   if (mode === 'ai-accelerated-fintech-engineering') {
     section.classList.add('domains-section-process');
@@ -198,6 +202,46 @@ const applyServiceMode = () => {
             </p>
           </article>
         </div>
+      </div>
+    `;
+
+    roadmapSection.classList.add('roadmap-section-engineering');
+    roadmapSection.innerHTML = `
+      <div class="section-head" data-animate>
+        <div class="section-title">
+          <span class="section-kicker">How We Build</span>
+          <h2>
+            <em>Production-grade</em>
+            <span>from sprint one</span>
+          </h2>
+        </div>
+        <p>
+          We don't build prototypes that need to be rebuilt for production. Every platform is architected for the transaction
+        </p>
+      </div>
+
+      <div class="engineering-roadmap-grid" data-animate>
+        <article class="engineering-roadmap-card">
+          <h3>High availability</h3>
+          <p>
+            Multi-region deployment, failover routing, and observability stacks that give your ops team clear signal not noise at any transaction volume.
+          </p>
+          <span class="engineering-roadmap-pill">99.99% UPTIME</span>
+        </article>
+        <article class="engineering-roadmap-card">
+          <h3>Operational visibility</h3>
+          <p>
+            Real-time dashboards, immutable audit logs, and traceable workflows. When something goes wrong at 2am, your on-call team can diagnose it in minutes.
+          </p>
+          <span class="engineering-roadmap-pill">FULL TRACEABILITY</span>
+        </article>
+        <article class="engineering-roadmap-card">
+          <h3>Compliance from day one</h3>
+          <p>
+            PCI DSS controls, FCA reporting hooks, and GDPR data handling designed into the architecture not discovered as gaps during your next audit.
+          </p>
+          <span class="engineering-roadmap-pill">PCI &amp; FCA READY</span>
+        </article>
       </div>
     `;
     return;

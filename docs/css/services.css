@@ -962,6 +962,73 @@ textarea {
   color: #5f6468;
 }
 
+.roadmap-section-engineering .section-head p {
+  max-width: 460px;
+}
+
+.roadmap-section-engineering .section-title h2 {
+  max-width: 520px;
+}
+
+.roadmap-section-engineering .section-title h2 em {
+  color: #16ab6d;
+}
+
+.roadmap-section-engineering .section-title h2 span {
+  color: #17191c;
+}
+
+.engineering-roadmap-grid {
+  max-width: var(--page-shell);
+  margin: 30px auto 0;
+  padding: 0 var(--page-gutter);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}
+
+.engineering-roadmap-card {
+  min-height: 316px;
+  padding: 18px 34px 20px 18px;
+  border-left: 1px solid rgba(22, 27, 26, 0.1);
+}
+
+.engineering-roadmap-card:first-child {
+  border-left: 0;
+}
+
+.engineering-roadmap-card h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  color: #181b1d;
+}
+
+.engineering-roadmap-card p {
+  margin: 26px 0 0;
+  font-size: 15px;
+  line-height: 1.62;
+  color: #5f6468;
+}
+
+.engineering-roadmap-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  margin-top: 30px;
+  padding: 0 18px;
+  border-radius: 9px;
+  background: #16ab6d;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
 .why-section {
   margin-top: 48px;
   padding: 64px 24px;
@@ -1329,6 +1396,22 @@ textarea {
   .roadmap-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .engineering-roadmap-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .engineering-roadmap-card {
+    min-height: 0;
+    padding: 18px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(22, 27, 26, 0.1);
+  }
+
+  .engineering-roadmap-card:first-child {
+    border-top: 0;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1409,6 +1492,10 @@ textarea {
     min-height: 0;
   }
 
+  .engineering-roadmap-card p {
+    margin-top: 18px;
+  }
+
   .roadmap-card:nth-child(odd) {
     border-left: 0;
   }
@@ -1435,6 +1522,7 @@ textarea {
   .deliverable-card p,
   .engineering-build-list li,
   .engineering-build-card p,
+  .engineering-roadmap-card p,
   .fit-card p,
   .roadmap-card p {
     font-size: 14px;
