@@ -36,6 +36,10 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   let isDragging = false;
   let startX = 0;
   let deltaX = 0;
+  let rafId = null;
+  let pendingX = null;
+
+  const settleTransition = 'transform var(--motion-duration-carousel, 620ms) var(--motion-ease-carousel, cubic-bezier(0.22, 1, 0.36, 1))';
 
   const chunkSize = () => (media.matches ? 1 : 2);
 
@@ -48,9 +52,9 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
 
   const render = (animate = true) => {
     track.style.transition = animate
-      ? 'transform 0.68s cubic-bezier(0.22, 1, 0.36, 1)'
+      ? settleTransition
       : 'none';
-    track.style.transform = `translateX(-${index * 100}%)`;
+    track.style.transform = `translate3d(-${index * 100}%, 0, 0)`;
     updateDots();
   };
 
@@ -124,13 +128,23 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   viewport?.addEventListener('pointermove', (event) => {
     if (!isDragging) return;
     deltaX = event.clientX - startX;
-    track.style.transform = `translateX(calc(-${index * 100}% + ${deltaX}px))`;
+    pendingX = deltaX;
+    if (rafId) return;
+    rafId = window.requestAnimationFrame(() => {
+      track.style.transform = `translate3d(calc(-${index * 100}% + ${pendingX || 0}px), 0, 0)`;
+      rafId = null;
+    });
   });
 
   const endDrag = (event) => {
     if (!isDragging) return;
     isDragging = false;
     track.releasePointerCapture?.(event.pointerId);
+    if (rafId) {
+      window.cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    pendingX = null;
 
     const threshold = (viewport?.getBoundingClientRect().width || 0) * 0.18;
     if (Math.abs(deltaX) > threshold) {

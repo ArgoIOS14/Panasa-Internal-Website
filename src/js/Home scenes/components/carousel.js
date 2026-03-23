@@ -21,17 +21,48 @@ const initSwipeCarousel = ({
   let currentX = 0;
   let deltaX = 0;
   let isDragging = false;
+  let isPointerDown = false;
   let timerId = null;
   let resumeTimer = null;
   let pauseUntil = 0;
+  let carouselWidth = 0;
+  let rafId = null;
+  let pendingTranslate = null;
 
-  const getWidth = () => carousel.getBoundingClientRect().width;
+  const settleTransition = 'transform var(--motion-duration-carousel, 620ms) var(--motion-ease-carousel, cubic-bezier(0.22, 1, 0.36, 1))';
+
+  const measure = () => {
+    carouselWidth = carousel.getBoundingClientRect().width;
+  };
+
+  const getWidth = () => {
+    if (!carouselWidth) measure();
+    return carouselWidth;
+  };
+
+  const flushTranslate = (value, animate = true) => {
+    track.style.transition = animate && !reducedMotion.matches ? settleTransition : 'none';
+    track.style.transform = `translate3d(${value}px, 0, 0)`;
+  };
 
   const setTranslate = (value, animate = true) => {
-    track.style.transition = animate
-      ? 'transform 0.72s cubic-bezier(0.22, 1, 0.36, 1)'
-      : 'none';
-    track.style.transform = `translateX(${value}px)`;
+    if (!animate) {
+      pendingTranslate = value;
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        if (pendingTranslate == null) return;
+        flushTranslate(pendingTranslate, false);
+        pendingTranslate = null;
+        rafId = null;
+      });
+      return;
+    }
+    if (rafId) {
+      window.cancelAnimationFrame(rafId);
+      rafId = null;
+      pendingTranslate = null;
+    }
+    flushTranslate(value, true);
   };
 
   const goTo = (nextIndex, animate = true) => {
@@ -44,7 +75,7 @@ const initSwipeCarousel = ({
   const goPrev = () => goTo((index - 1 + slides.length) % slides.length);
 
   const startAuto = () => {
-    if (reducedMotion.matches || autoplayDelay <= 0) return;
+    if (reducedMotion.matches || autoplayDelay <= 0 || isDragging || timerId) return;
     const delay = pauseUntil - Date.now();
     if (delay > 0) {
       resumeTimer = setTimeout(startAuto, delay);
@@ -79,17 +110,18 @@ const initSwipeCarousel = ({
 
   const onPointerDown = (event) => {
     if (event.target.closest('a, button, input, textarea, select, label')) return;
+    isPointerDown = true;
     isDragging = true;
     startX = event.clientX;
     currentX = startX;
     deltaX = 0;
     pauseAuto();
     track.setPointerCapture?.(event.pointerId);
-    setTranslate(-index * getWidth(), false);
+    setTranslate(-index * getWidth() + deltaX, false);
   };
 
   const onPointerMove = (event) => {
-    if (!isDragging) return;
+    if (!isDragging || !isPointerDown) return;
     currentX = event.clientX;
     deltaX = currentX - startX;
     setTranslate(-index * getWidth() + deltaX, false);
@@ -97,6 +129,7 @@ const initSwipeCarousel = ({
 
   const onPointerUp = (event) => {
     if (!isDragging) return;
+    isPointerDown = false;
     isDragging = false;
     track.releasePointerCapture?.(event.pointerId);
     const threshold = getWidth() * 0.2;
@@ -112,15 +145,20 @@ const initSwipeCarousel = ({
   carousel.addEventListener('pointerdown', onPointerDown);
   carousel.addEventListener('pointermove', onPointerMove);
   carousel.addEventListener('pointerup', onPointerUp);
+  carousel.addEventListener('pointercancel', onPointerUp);
   carousel.addEventListener('pointerleave', onPointerUp);
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
-  window.addEventListener('resize', () => goTo(index, false));
+  window.addEventListener('resize', () => {
+    measure();
+    goTo(index, false);
+  });
   reducedMotion.addEventListener('change', () => {
     stopAuto();
     if (!reducedMotion.matches) startAuto();
   });
 
+  measure();
   goTo(0, false);
   startAuto();
 };

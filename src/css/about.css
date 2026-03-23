@@ -797,6 +797,8 @@ textarea {
   transition:
     opacity var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
     transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 [data-animate].in-view,

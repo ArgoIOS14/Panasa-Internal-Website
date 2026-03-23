@@ -2,37 +2,38 @@ export const initScrollAnimations = () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const elements = Array.from(document.querySelectorAll('[data-animate]'));
   if (!elements.length) return;
+  const revealTimers = new WeakMap();
 
   const variantStyles = {
     instant: {
-      y: '10px',
+      y: '8px',
       scale: '1',
       blur: '0px',
-      duration: 'var(--motion-duration-fast)',
+      duration: 'var(--motion-duration-reveal-fast)',
     },
     heading: {
-      y: '18px',
-      scale: '0.995',
+      y: '14px',
+      scale: '0.998',
       blur: '0px',
-      duration: 'var(--motion-duration-md)',
+      duration: 'var(--motion-duration-reveal)',
     },
     media: {
-      y: '16px',
-      scale: '0.985',
+      y: '12px',
+      scale: '0.994',
       blur: '0px',
-      duration: 'var(--motion-duration-slow)',
+      duration: 'var(--motion-duration-reveal-slow)',
     },
     card: {
-      y: '22px',
-      scale: '0.985',
+      y: '16px',
+      scale: '0.994',
       blur: '0px',
-      duration: 'var(--motion-duration-md)',
+      duration: 'var(--motion-duration-reveal)',
     },
     soft: {
-      y: '20px',
-      scale: '0.99',
+      y: '14px',
+      scale: '0.995',
       blur: '0px',
-      duration: 'var(--motion-duration-md)',
+      duration: 'var(--motion-duration-reveal)',
     },
   };
 
@@ -105,7 +106,7 @@ export const initScrollAnimations = () => {
   const applyStagger = (element) => {
     if (element.dataset.animateOrder) {
       const order = Number.parseInt(element.dataset.animateOrder, 10) || 0;
-      element.style.setProperty('--motion-delay', `${Math.min(order, 6) * 55}ms`);
+      element.style.setProperty('--motion-delay', `${Math.min(order, 6) * 45}ms`);
       return;
     }
 
@@ -115,17 +116,29 @@ export const initScrollAnimations = () => {
     const siblings = Array.from(staggerParent.querySelectorAll(':scope > [data-animate]'));
     const index = siblings.indexOf(element);
     if (index >= 0) {
-      element.style.setProperty('--motion-delay', `${Math.min(index, 6) * 55}ms`);
+      element.style.setProperty('--motion-delay', `${Math.min(index, 6) * 45}ms`);
     }
+  };
+
+  const clearRevealWillChange = (element) => {
+    const existing = revealTimers.get(element);
+    if (existing) window.clearTimeout(existing);
+    const timer = window.setTimeout(() => {
+      element.style.removeProperty('will-change');
+      revealTimers.delete(element);
+    }, 760);
+    revealTimers.set(element, timer);
   };
 
   const primeElements = () => {
     elements.forEach((element) => {
       applyVariantStyles(element);
       applyStagger(element);
+      element.style.setProperty('will-change', 'opacity, transform');
       if (reducedMotion.matches) {
         element.classList.add('in-view');
         element.style.setProperty('--motion-delay', '0ms');
+        clearRevealWillChange(element);
       }
     });
   };
@@ -139,17 +152,19 @@ export const initScrollAnimations = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view');
+          clearRevealWillChange(entry.target);
           if (entry.target.dataset.animateRepeat !== 'true') {
             observer.unobserve(entry.target);
           }
         } else if (entry.target.dataset.animateRepeat === 'true') {
           entry.target.classList.remove('in-view');
+          entry.target.style.setProperty('will-change', 'opacity, transform');
         }
       });
     },
     {
-      threshold: 0.12,
-      rootMargin: '0px 0px -8% 0px',
+      threshold: 0.1,
+      rootMargin: '0px 0px -6% 0px',
     }
   );
 

@@ -3,10 +3,14 @@ import { createEl } from '../utils/dom.js';
 export const initNavToggle = () => {
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
+  if (navLinks instanceof HTMLElement) {
+    navLinks.setAttribute('data-nav-state', 'closed');
+  }
   const resetDesktopNavLayout = () => {
     if (!(navLinks instanceof HTMLElement) || window.innerWidth <= 900) return;
 
     navLinks.classList.remove('open');
+    navLinks.setAttribute('data-nav-state', 'closed');
     navToggle?.setAttribute('aria-expanded', 'false');
 
     navLinks.querySelectorAll('.nav-item-has-children').forEach((item) => {
@@ -34,66 +38,9 @@ export const initNavToggle = () => {
     });
   };
 
-  const syncMobileDropdownLayout = (scope = navLinks) => {
-    if (!(scope instanceof HTMLElement) || window.innerWidth > 900) return;
-
-    const items = scope.querySelectorAll('.nav-item-has-children');
-    items.forEach((item) => {
-      if (!(item instanceof HTMLElement)) return;
-      item.style.width = '100%';
-      item.style.maxWidth = '320px';
-      item.style.marginInline = 'auto';
-      item.style.display = 'flex';
-      item.style.flexDirection = 'column';
-      item.style.alignItems = 'center';
-
-      const triggerWrap = item.querySelector('.nav-dropdown-wrap');
-      if (triggerWrap instanceof HTMLElement) {
-        triggerWrap.style.width = '240px';
-        triggerWrap.style.maxWidth = '100%';
-        triggerWrap.style.display = 'flex';
-        triggerWrap.style.alignItems = 'center';
-        triggerWrap.style.justifyContent = 'center';
-      }
-
-      const submenu = item.querySelector('.nav-submenu');
-      if (!(submenu instanceof HTMLElement)) return;
-
-      const targetWidth = 320;
-      submenu.style.position = 'static';
-      submenu.style.top = 'auto';
-      submenu.style.right = 'auto';
-      submenu.style.bottom = 'auto';
-      submenu.style.left = 'auto';
-      submenu.style.width = `${targetWidth}px`;
-      submenu.style.maxWidth = `${targetWidth}px`;
-      submenu.style.marginInline = 'auto';
-      submenu.style.alignSelf = 'center';
-      submenu.style.alignItems = 'center';
-
-      submenu.querySelectorAll('a').forEach((link) => {
-        if (link instanceof HTMLElement) {
-          link.style.width = `${targetWidth}px`;
-          link.style.maxWidth = `${targetWidth}px`;
-          link.style.marginInline = 'auto';
-          link.style.textAlign = 'center';
-          link.style.justifyContent = 'center';
-        }
-      });
-    });
-  };
-
-  const syncAfterOpen = (scope = navLinks) => {
-    requestAnimationFrame(() => {
-      syncMobileDropdownLayout(scope);
-      requestAnimationFrame(() => {
-        syncMobileDropdownLayout(scope);
-      });
-    });
-  };
-
   const closeMenu = () => {
     navLinks?.classList.remove('open');
+    navLinks?.setAttribute('data-nav-state', 'closed');
     navToggle?.setAttribute('aria-expanded', 'false');
     navLinks?.querySelectorAll('.nav-item-has-children.open').forEach((item) => {
       item.classList.remove('open');
@@ -104,10 +51,8 @@ export const initNavToggle = () => {
   if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('open');
+      navLinks.setAttribute('data-nav-state', isOpen ? 'open' : 'closed');
       navToggle.setAttribute('aria-expanded', String(isOpen));
-      if (isOpen) {
-        syncAfterOpen(navLinks);
-      }
     });
 
     navLinks.addEventListener('click', (event) => {
@@ -118,9 +63,6 @@ export const initNavToggle = () => {
         const parent = toggle.closest('.nav-item-has-children');
         const isOpen = parent?.classList.toggle('open');
         toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
-        if (isOpen) {
-          syncAfterOpen(parent ?? navLinks);
-        }
         return;
       }
       if (target.closest('[data-nav-close]') || target.closest('a')) closeMenu();
@@ -128,7 +70,6 @@ export const initNavToggle = () => {
 
     window.addEventListener('resize', () => {
       resetDesktopNavLayout();
-      syncMobileDropdownLayout(navLinks);
     });
 
     resetDesktopNavLayout();
