@@ -26,6 +26,7 @@ const initSwipeCarousel = ({
   let resumeTimer = null;
   let pauseUntil = 0;
   let carouselWidth = 0;
+  let slideWidth = 0;
   let rafId = null;
   let pendingTranslate = null;
 
@@ -33,11 +34,12 @@ const initSwipeCarousel = ({
 
   const measure = () => {
     carouselWidth = carousel.getBoundingClientRect().width;
+    slideWidth = slides[0]?.getBoundingClientRect().width || carouselWidth;
   };
 
   const getWidth = () => {
     if (!carouselWidth) measure();
-    return carouselWidth;
+    return slideWidth || carouselWidth;
   };
 
   const flushTranslate = (value, animate = true) => {

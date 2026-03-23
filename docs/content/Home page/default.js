@@ -15,7 +15,7 @@ window.DEFAULT_CONTENT = {
         "children": [
           {
             "label": "AI Accelerated Fintech Engineering",
-            "href": "services.html"
+            "href": "services.html?service=ai-accelerated-fintech-engineering"
           },
           {
             "label": "AI Powered Legacy Modernisation",
@@ -23,7 +23,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "AI Governance",
-            "href": "services.html"
+            "href": "services.html?service=ai-governance"
           },
           {
             "label": "Intelligent Operations",

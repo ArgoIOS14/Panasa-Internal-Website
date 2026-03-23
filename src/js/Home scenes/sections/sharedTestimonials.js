@@ -41,7 +41,7 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   let pendingX = null;
 
   const settleTransition = 'transform var(--motion-duration-carousel, 620ms) var(--motion-ease-carousel, cubic-bezier(0.22, 1, 0.36, 1))';
-  const hasCarousel = () => cards.length > 2;
+  const hasCarousel = () => (media.matches ? cards.length > 1 : cards.length > 2);
 
   const chunkSize = () => {
     if (!hasCarousel()) return Math.max(cards.length, 1);

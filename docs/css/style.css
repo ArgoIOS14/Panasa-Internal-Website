@@ -572,7 +572,11 @@ section {
 }
 
 .services-slide {
+  flex: 0 0 100%;
+  width: 100%;
   min-width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, var(--services-visual-col));
   column-gap: 24px;
