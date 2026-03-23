@@ -23,7 +23,19 @@ export const renderFooter = (data) => {
   const columns = document.querySelector('[data-footer-columns]');
   if (columns) {
     columns.innerHTML = '';
-    data.columns.forEach((column) => {
+    const showResources = data.showResources !== false;
+    const visibleColumns = (data.columns || [])
+      .filter((column) => column.visible !== false)
+      .filter((column) => showResources || !column.isResourcesColumn)
+      .map((column) => ({
+        ...column,
+        links: (column.links || [])
+          .filter((link) => link.visible !== false)
+          .filter((link) => showResources || !link.isResourcesLink),
+      }))
+      .filter((column) => column.links.length > 0);
+
+    visibleColumns.forEach((column) => {
       const col = createEl('div');
       const h4 = createEl('h4');
       h4.textContent = column.title;

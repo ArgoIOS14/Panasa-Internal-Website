@@ -437,6 +437,7 @@ window.DEFAULT_CONTENT = {
     "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24-7 operations.",
     "ctaButton": "Talk to our team",
     "ctaHref": "contact.html",
+    "showResources": false,
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "sales@panasatech.com",
     "phone": "+44 (0) 20 XXXX XXXX",
@@ -445,7 +446,7 @@ window.DEFAULT_CONTENT = {
         "title": "Company",
         "links": [
           {
-            "label": "About us",
+            "label": "About Us",
             "href": "about.html"
           },
           {
@@ -462,32 +463,38 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Resources",
-            "href": "#resources"
+            "href": "#resources",
+            "isResourcesLink": true
           }
         ]
       },
       {
         "title": "Resources",
+        "isResourcesColumn": true,
         "links": [
           {
-            "label": "Case studies",
+            "label": "Case Studies",
             "href": "careers.html"
           },
           {
             "label": "Whitepapers",
-            "href": "#resources"
+            "href": "#resources",
+            "isResourcesLink": true
           },
           {
             "label": "Guides",
-            "href": "#resources"
+            "href": "#resources",
+            "isResourcesLink": true
           },
           {
             "label": "Documentation",
-            "href": "#resources"
+            "href": "#resources",
+            "isResourcesLink": true
           },
           {
             "label": "Support",
-            "href": "#resources"
+            "href": "#resources",
+            "isResourcesLink": true
           }
         ]
       },
@@ -508,14 +515,6 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "GCC as a Service",
-            "href": "#services"
-          },
-          {
-            "label": "Fintech AI Consulting",
-            "href": "#services"
-          },
-          {
-            "label": "Data as a Service",
             "href": "#services"
           }
         ]
