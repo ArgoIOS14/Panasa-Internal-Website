@@ -6,6 +6,7 @@ const initSwipeCarousel = ({
   activeClass = 'active',
   autoplayDelay = 4500,
   pauseDelay = 3200,
+  stableSnap = false,
 }) => {
   const carousel = document.querySelector(rootSelector);
   const track = carousel?.querySelector(trackSelector);
@@ -66,7 +67,11 @@ const initSwipeCarousel = ({
   };
 
   const setTransformForIndex = (targetIndex, animate = true) => {
-    setTransform(`translate3d(calc(-${targetIndex * 100}% + 0px), 0, 0)`, animate);
+    if (stableSnap) {
+      setTransform(`translate3d(calc(-${targetIndex * 100}% + 0px), 0, 0)`, animate);
+      return;
+    }
+    setTransform(`translate3d(${-targetIndex * getWidth()}px, 0, 0)`, animate);
   };
 
   const goTo = (nextIndex, animate = true) => {
@@ -79,6 +84,7 @@ const initSwipeCarousel = ({
   const goPrev = () => goTo((index - 1 + slides.length) % slides.length);
 
   const onTrackTransitionEnd = (event) => {
+    if (!stableSnap) return;
     if (event.propertyName !== 'transform') return;
     // Hard snap after animated transitions to avoid sub-pixel drift on narrow/mobile viewports.
     setTransformForIndex(index, false);
@@ -127,14 +133,22 @@ const initSwipeCarousel = ({
     deltaX = 0;
     pauseAuto();
     carousel.setPointerCapture?.(event.pointerId);
-    setTransform(`translate3d(calc(-${index * 100}% + ${deltaX}px), 0, 0)`, false);
+    if (stableSnap) {
+      setTransform(`translate3d(calc(-${index * 100}% + ${deltaX}px), 0, 0)`, false);
+    } else {
+      setTransform(`translate3d(${-index * getWidth() + deltaX}px, 0, 0)`, false);
+    }
   };
 
   const onPointerMove = (event) => {
     if (!isDragging || !isPointerDown) return;
     currentX = event.clientX;
     deltaX = currentX - startX;
-    setTransform(`translate3d(calc(-${index * 100}% + ${deltaX}px), 0, 0)`, false);
+    if (stableSnap) {
+      setTransform(`translate3d(calc(-${index * 100}% + ${deltaX}px), 0, 0)`, false);
+    } else {
+      setTransform(`translate3d(${-index * getWidth() + deltaX}px, 0, 0)`, false);
+    }
   };
 
   const onPointerUp = (event) => {
@@ -157,9 +171,11 @@ const initSwipeCarousel = ({
   carousel.addEventListener('pointerup', onPointerUp);
   carousel.addEventListener('pointercancel', onPointerUp);
   carousel.addEventListener('pointerleave', onPointerUp);
-  window.addEventListener('pointerup', onPointerUp);
-  window.addEventListener('pointercancel', onPointerUp);
-  track.addEventListener('transitionend', onTrackTransitionEnd);
+  if (stableSnap) {
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+    track.addEventListener('transitionend', onTrackTransitionEnd);
+  }
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
   window.addEventListener('resize', () => {
@@ -167,8 +183,8 @@ const initSwipeCarousel = ({
     goTo(index, false);
   });
 
-  let resizeObserver = null;
-  if ('ResizeObserver' in window) {
+  if (stableSnap && 'ResizeObserver' in window) {
+    let resizeObserver = null;
     resizeObserver = new ResizeObserver(() => {
       measure();
       goTo(index, false);
@@ -201,5 +217,6 @@ export const initCarousel = () => {
     slideSelector: '.services-slide',
     dotSelector: '.services-dot',
     autoplayDelay: 4500,
+    stableSnap: true,
   });
 };
