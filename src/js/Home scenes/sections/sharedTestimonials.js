@@ -47,7 +47,9 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   };
 
   const render = (animate = true) => {
-    track.style.transition = animate ? 'transform 0.35s ease' : 'none';
+    track.style.transition = animate
+      ? 'transform 0.68s cubic-bezier(0.22, 1, 0.36, 1)'
+      : 'none';
     track.style.transform = `translateX(-${index * 100}%)`;
     updateDots();
   };

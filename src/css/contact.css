@@ -160,6 +160,15 @@ textarea {
   background: linear-gradient(180deg, rgba(231, 236, 234, 0.88), rgba(242, 244, 243, 0.92));
   border: 1px solid rgba(255, 255, 255, 0.82);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
+}
+
+.contact-card:hover,
+.office-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--motion-shadow-lift);
 }
 
 .contact-form,
@@ -374,6 +383,9 @@ textarea {
   overflow: hidden;
   border-radius: 14px;
   background: #d0d0d0;
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
 }
 
 .office-card img {
@@ -576,14 +588,40 @@ textarea {
 }
 
 [data-animate] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: var(--motion-opacity-start, 0);
+  transform: translate3d(0, var(--motion-y-start, 24px), 0) scale(var(--motion-scale-start, 1));
+  filter: blur(var(--motion-blur-start, 0px));
+  transition:
+    opacity var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    filter var(--motion-duration, var(--motion-duration-md)) ease var(--motion-delay, 0ms);
 }
 
 [data-animate].in-view {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.contact-hero-copy > * {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity var(--motion-duration-md) var(--motion-ease-standard),
+    transform var(--motion-duration-md) var(--motion-ease-standard);
+}
+
+.contact-hero-copy.in-view > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.contact-hero-copy.in-view > *:nth-child(1) {
+  transition-delay: 40ms;
+}
+
+.contact-hero-copy.in-view > *:nth-child(2) {
+  transition-delay: 110ms;
 }
 
 @media (max-width: 1100px) {

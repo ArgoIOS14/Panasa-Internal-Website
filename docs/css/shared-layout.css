@@ -1,6 +1,16 @@
 @import url('https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap');
 @import url('https://rsms.me/inter/inter.css');
 
+:root {
+  --motion-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-emphasis: cubic-bezier(0.2, 0.85, 0.25, 1);
+  --motion-duration-fast: 180ms;
+  --motion-duration-md: 420ms;
+  --motion-duration-slow: 680ms;
+  --motion-delay: 0ms;
+  --motion-shadow-lift: 0 16px 30px rgba(8, 31, 24, 0.12);
+}
+
 .site-header {
   position: sticky;
   top: calc(-1 * var(--hero-top, 0px));
@@ -49,7 +59,10 @@
 }
 
 .nav-links a {
-  transition: opacity 0.2s ease, color 0.2s ease;
+  transition:
+    opacity var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease,
+    transform var(--motion-duration-fast) var(--motion-ease-standard);
 }
 
 .nav-item-has-children {
@@ -101,7 +114,9 @@
   box-shadow: 0 18px 30px rgba(3, 17, 12, 0.24);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity var(--motion-duration-fast) ease,
+    transform var(--motion-duration-fast) var(--motion-ease-standard);
   z-index: 25;
 }
 
@@ -143,6 +158,10 @@
   opacity: 1;
 }
 
+.nav-links a:hover {
+  transform: translateY(-1px);
+}
+
 .nav .btn-light {
   border: none;
   padding: 10px 18px;
@@ -151,6 +170,15 @@
   border-radius: 10px;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
   opacity: 1;
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) ease,
+    background-color var(--motion-duration-fast) ease;
+}
+
+.nav .btn-light:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
 }
 
 .nav-toggle {
@@ -199,7 +227,7 @@
   }
 
   .nav-links {
-    display: none;
+    display: flex;
     position: fixed;
     inset: 0;
     width: 100vw;
@@ -214,6 +242,14 @@
     z-index: 40;
     overflow-y: auto;
     align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px) scale(0.985);
+    transition:
+      opacity var(--motion-duration-md) ease,
+      transform var(--motion-duration-md) var(--motion-ease-standard),
+      visibility 0s linear var(--motion-duration-md);
   }
 
   .nav-mobile-head {
@@ -257,6 +293,13 @@
     align-self: center;
     flex: 0 0 auto;
     margin-left: auto;
+    transition:
+      transform var(--motion-duration-fast) var(--motion-ease-standard),
+      box-shadow var(--motion-duration-fast) ease;
+  }
+
+  .nav-mobile-close:hover {
+    transform: scale(1.04);
   }
 
   .nav-links > li:not(.nav-mobile-head) {
@@ -266,6 +309,11 @@
     flex-direction: column;
     align-items: center;
     margin-inline: auto;
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity var(--motion-duration-md) ease,
+      transform var(--motion-duration-md) var(--motion-ease-standard);
   }
 
   .nav-links > li:last-child:not(.nav-mobile-head) {
@@ -348,10 +396,10 @@
     overflow: hidden;
     transform: translateY(-8px);
     transition:
-      max-height 0.28s ease,
-      opacity 0.22s ease,
-      transform 0.22s ease,
-      margin-top 0.22s ease;
+      max-height var(--motion-duration-md) var(--motion-ease-emphasis),
+      opacity var(--motion-duration-fast) ease,
+      transform var(--motion-duration-fast) var(--motion-ease-standard),
+      margin-top var(--motion-duration-fast) ease;
   }
 
   .nav-item-has-children.open .nav-submenu {
@@ -377,7 +425,32 @@
   }
 
   .nav-links.open {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+  }
+
+  .nav-links.open > li:not(.nav-mobile-head) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav-links.open > li:nth-child(2) {
+    transition-delay: 40ms;
+  }
+
+  .nav-links.open > li:nth-child(3) {
+    transition-delay: 80ms;
+  }
+
+  .nav-links.open > li:nth-child(4) {
+    transition-delay: 120ms;
+  }
+
+  .nav-links.open > li:nth-child(5) {
+    transition-delay: 160ms;
   }
 
   .nav .btn-light {
@@ -400,6 +473,17 @@
 
   .nav-toggle {
     display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

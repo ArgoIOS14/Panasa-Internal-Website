@@ -155,7 +155,12 @@ ul {
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) ease,
+    background-color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease;
 }
 
 .btn-dark {
@@ -665,6 +670,14 @@ section {
     linear-gradient(135deg, #2f2f2f 0%, #5d5d5d 48%, #cfcfcf 100%);
   background-size: auto, auto, 12px 12px, auto;
   box-shadow: 0 12px 28px rgba(25, 34, 30, 0.1);
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
+}
+
+.services-feature-visual:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px rgba(25, 34, 30, 0.14);
 }
 
 .services-visual-glow {
@@ -796,8 +809,15 @@ section {
   position: relative;
   height: var(--row-height);
   min-height: var(--row-height);
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
 }
 
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--motion-shadow-lift);
+}
 
 .feature-card > *:not(.card-image) {
   position: relative;
@@ -966,6 +986,14 @@ section {
   border-radius: 16px;
   overflow: hidden;
   isolation: isolate;
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
+}
+
+.results-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 42px rgba(10, 36, 28, 0.12);
 }
 
 .results-card::before {
@@ -1561,14 +1589,64 @@ section {
 }
 
 [data-animate] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: var(--motion-opacity-start, 0);
+  transform: translate3d(0, var(--motion-y-start, 24px), 0) scale(var(--motion-scale-start, 1));
+  filter: blur(var(--motion-blur-start, 0px));
+  transition:
+    opacity var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    filter var(--motion-duration, var(--motion-duration-md)) ease var(--motion-delay, 0ms);
 }
 
 [data-animate].in-view {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.hero-copy > *,
+.hero-actions > *,
+.trusted-row > * {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity var(--motion-duration-md) var(--motion-ease-standard),
+    transform var(--motion-duration-md) var(--motion-ease-standard);
+}
+
+.hero-copy.in-view > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.hero-copy.in-view .hero-actions > *,
+.hero-copy.in-view .trusted-row > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.hero-copy.in-view > *:nth-child(1) {
+  transition-delay: 30ms;
+}
+
+.hero-copy.in-view > *:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.hero-copy.in-view > *:nth-child(3) {
+  transition-delay: 150ms;
+}
+
+.hero-copy .hero-actions > *:first-child {
+  transition-delay: 190ms;
+}
+
+.hero-copy .hero-actions > *:last-child {
+  transition-delay: 230ms;
+}
+
+.hero-copy .trusted-row > * {
+  transition-delay: 260ms;
 }
 
 @media (max-width: 1100px) {

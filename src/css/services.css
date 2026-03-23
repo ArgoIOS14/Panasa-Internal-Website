@@ -61,7 +61,12 @@ textarea {
   border-radius: 10px;
   font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) ease,
+    background-color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease;
 }
 
 .btn:hover {
@@ -358,6 +363,9 @@ textarea {
   border-radius: 8px;
   background: #f5f5f5;
   border: 1px solid rgba(15, 26, 22, 0.04);
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
 }
 
 .hero-stat-card strong {
@@ -375,6 +383,14 @@ textarea {
   font-size: 12px;
   line-height: 1.4;
   color: #566160;
+}
+
+.hero-stat-card:hover,
+.deliverable-card:hover,
+.fit-card:hover,
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--motion-shadow-lift);
 }
 
 .challenge-section,
@@ -522,11 +538,16 @@ textarea {
 .domains-section-process .process-step-panel {
   height: 0;
   overflow: hidden;
-  transition: height 0.34s ease;
+  transition: height var(--motion-duration-md) var(--motion-ease-emphasis);
 }
 
 .domains-section-process .process-step-panel-inner {
   padding: 0 18px 16px;
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition:
+    opacity var(--motion-duration-fast) ease,
+    transform var(--motion-duration-fast) var(--motion-ease-standard);
 }
 
 .domains-section-process .process-step-panel p {
@@ -539,6 +560,11 @@ textarea {
 .domains-section-process .process-step.is-active {
   background: #f4f4f4;
   border-color: rgba(18, 30, 26, 0.04);
+}
+
+.domains-section-process .process-step.is-active .process-step-panel-inner {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .domains-section-process .process-visual-card {
@@ -734,6 +760,9 @@ textarea {
   background: linear-gradient(180deg, rgba(31, 31, 31, 0.95), rgba(28, 28, 28, 0.95));
   border: 1px solid rgba(255, 255, 255, 0.06);
   color: #ffffff;
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
 }
 
 .deliverable-card h3 {
@@ -1126,6 +1155,9 @@ textarea {
   position: relative;
   height: var(--row-height);
   min-height: var(--row-height);
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
 }
 
 .feature-card > *:not(.card-image) {
@@ -1275,6 +1307,9 @@ textarea {
   border-radius: 18px;
   background: #f4f4f4;
   border: 1px solid rgba(16, 29, 24, 0.08);
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
 }
 
 .fit-card h3 {
@@ -1382,14 +1417,58 @@ textarea {
 }
 
 [data-animate] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  opacity: var(--motion-opacity-start, 0);
+  transform: translate3d(0, var(--motion-y-start, 24px), 0) scale(var(--motion-scale-start, 1));
+  filter: blur(var(--motion-blur-start, 0px));
+  transition:
+    opacity var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    filter var(--motion-duration, var(--motion-duration-md)) ease var(--motion-delay, 0ms);
 }
 
 [data-animate].in-view {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.service-hero-copy > *,
+.service-hero-copy .hero-actions > * {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity var(--motion-duration-md) var(--motion-ease-standard),
+    transform var(--motion-duration-md) var(--motion-ease-standard);
+}
+
+.service-hero-copy.in-view > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.service-hero-copy.in-view .hero-actions > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.service-hero-copy.in-view > *:nth-child(1) {
+  transition-delay: 30ms;
+}
+
+.service-hero-copy.in-view > *:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.service-hero-copy.in-view > *:nth-child(3) {
+  transition-delay: 150ms;
+}
+
+.service-hero-copy .hero-actions > *:first-child {
+  transition-delay: 190ms;
+}
+
+.service-hero-copy .hero-actions > *:last-child {
+  transition-delay: 230ms;
 }
 
 @media (max-width: 1100px) {

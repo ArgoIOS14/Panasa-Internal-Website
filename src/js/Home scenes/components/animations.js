@@ -1,18 +1,157 @@
 export const initScrollAnimations = () => {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const elements = Array.from(document.querySelectorAll('[data-animate]'));
+  if (!elements.length) return;
+
+  const variantStyles = {
+    instant: {
+      y: '10px',
+      scale: '1',
+      blur: '0px',
+      duration: 'var(--motion-duration-fast)',
+    },
+    heading: {
+      y: '18px',
+      scale: '0.995',
+      blur: '0px',
+      duration: 'var(--motion-duration-md)',
+    },
+    media: {
+      y: '16px',
+      scale: '0.985',
+      blur: '0px',
+      duration: 'var(--motion-duration-slow)',
+    },
+    card: {
+      y: '22px',
+      scale: '0.985',
+      blur: '0px',
+      duration: 'var(--motion-duration-md)',
+    },
+    soft: {
+      y: '20px',
+      scale: '0.99',
+      blur: '0px',
+      duration: 'var(--motion-duration-md)',
+    },
+  };
+
+  const staggerParentSelectors = [
+    '.feature-grid',
+    '.engagement-grid',
+    '.about-stats',
+    '.role-list',
+    '.office-grid',
+    '.challenge-grid',
+    '.domains-grid',
+    '.roadmap-grid',
+    '.fit-cards',
+    '.fit-columns',
+    '.deliverables-cards',
+    '.engineering-build-cards',
+    '.engineering-roadmap-grid',
+    '.hero-stats',
+    '.footer-links',
+  ].join(', ');
+
+  const inferVariant = (element) => {
+    if (element.dataset.animateVariant) return element.dataset.animateVariant;
+
+    if (
+      element.matches(
+        '.site-header, .footer-cta, .footer-card, .nav, .nav-mobile-head'
+      )
+    ) {
+      return 'instant';
+    }
+
+    if (
+      element.matches(
+        'h1, h2, .section-head, .section-title, .section-title-split, .roles-header, .locations-header'
+      )
+    ) {
+      return 'heading';
+    }
+
+    if (
+      element.matches(
+        '.hero-copy, .about-hero-copy, .service-hero-copy, .contact-hero-copy, .team-photo, .about-stats, .trusted-logos-shell, .hero-stats, .presence-map-shell, .process-visual-card, .services-feature-visual, .results-card'
+      )
+    ) {
+      return 'media';
+    }
+
+    if (
+      element.matches(
+        '.feature-card, .engagement-card, .deliverable-card, .fit-card, .role-card, .office-card, .contact-card, .hero-stat-card, .stat-card, .challenge-card, .domain-card, .roadmap-card, .engineering-build-card, .engineering-roadmap-card'
+      )
+    ) {
+      return 'card';
+    }
+
+    return 'soft';
+  };
+
+  const applyVariantStyles = (element) => {
+    const variant = inferVariant(element);
+    const styles = variantStyles[variant] || variantStyles.soft;
+    element.style.setProperty('--motion-y-start', styles.y);
+    element.style.setProperty('--motion-scale-start', styles.scale);
+    element.style.setProperty('--motion-blur-start', styles.blur);
+    element.style.setProperty('--motion-duration', styles.duration);
+    element.dataset.motionVariant = variant;
+  };
+
+  const applyStagger = (element) => {
+    if (element.dataset.animateOrder) {
+      const order = Number.parseInt(element.dataset.animateOrder, 10) || 0;
+      element.style.setProperty('--motion-delay', `${Math.min(order, 6) * 55}ms`);
+      return;
+    }
+
+    const staggerParent = element.closest(staggerParentSelectors);
+    if (!staggerParent) return;
+
+    const siblings = Array.from(staggerParent.querySelectorAll(':scope > [data-animate]'));
+    const index = siblings.indexOf(element);
+    if (index >= 0) {
+      element.style.setProperty('--motion-delay', `${Math.min(index, 6) * 55}ms`);
+    }
+  };
+
+  const primeElements = () => {
+    elements.forEach((element) => {
+      applyVariantStyles(element);
+      applyStagger(element);
+      if (reducedMotion.matches) {
+        element.classList.add('in-view');
+        element.style.setProperty('--motion-delay', '0ms');
+      }
+    });
+  };
+
+  primeElements();
+
+  if (reducedMotion.matches) return;
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view');
-        } else {
+          if (entry.target.dataset.animateRepeat !== 'true') {
+            observer.unobserve(entry.target);
+          }
+        } else if (entry.target.dataset.animateRepeat === 'true') {
           entry.target.classList.remove('in-view');
         }
       });
     },
     {
-      threshold: 0.15,
+      threshold: 0.12,
+      rootMargin: '0px 0px -8% 0px',
     }
   );
 
-  document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
+  elements.forEach((el) => observer.observe(el));
 };

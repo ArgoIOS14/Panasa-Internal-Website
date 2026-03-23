@@ -32,7 +32,8 @@
   align-items: center;
   gap: 36px;
   width: max-content;
-  animation: logo-marquee-loop 20s linear infinite;
+  animation: logo-marquee-loop 24s linear infinite;
+  will-change: transform;
 }
 
 .logo-marquee-item {
@@ -47,6 +48,9 @@
   height: 25px;
   width: auto;
   opacity: 0.76;
+  transition:
+    opacity var(--motion-duration-md) ease,
+    transform var(--motion-duration-md) var(--motion-ease-standard);
 }
 
 .logo-marquee-light::before {

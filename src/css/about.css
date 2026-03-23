@@ -63,7 +63,12 @@ textarea {
   border-radius: 10px;
   font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) ease,
+    background-color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease;
 }
 
 .btn:hover {
@@ -225,6 +230,14 @@ textarea {
   border-radius: 8px;
   background: #f4f4f4;
   border: 1px solid rgba(17, 25, 23, 0.04);
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-md) ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--motion-shadow-lift);
 }
 
 .stat-icon {
@@ -356,11 +369,16 @@ textarea {
 .process-step-panel {
   height: 0;
   overflow: hidden;
-  transition: height 0.34s ease;
+  transition: height var(--motion-duration-md) var(--motion-ease-emphasis);
 }
 
 .process-step-panel-inner {
   padding: 0 18px 16px;
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition:
+    opacity var(--motion-duration-fast) ease,
+    transform var(--motion-duration-fast) var(--motion-ease-standard);
 }
 
 .process-step-panel p {
@@ -373,6 +391,11 @@ textarea {
 .process-step.is-active {
   background: #f4f4f4;
   border-color: rgba(18, 30, 26, 0.04);
+}
+
+.process-step.is-active .process-step-panel-inner {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .process-visual-card {
@@ -769,15 +792,59 @@ textarea {
 }
 
 [data-animate] {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  opacity: var(--motion-opacity-start, 0);
+  transform: translate3d(0, var(--motion-y-start, 22px), 0) scale(var(--motion-scale-start, 1));
+  filter: blur(var(--motion-blur-start, 0px));
+  transition:
+    opacity var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms),
+    filter var(--motion-duration, var(--motion-duration-md)) ease var(--motion-delay, 0ms);
 }
 
 [data-animate].in-view,
 .site-header[data-animate] {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.about-hero-copy > *,
+.about-hero-copy .hero-actions > * {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity var(--motion-duration-md) var(--motion-ease-standard),
+    transform var(--motion-duration-md) var(--motion-ease-standard);
+}
+
+.about-hero-copy.in-view > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.about-hero-copy.in-view .hero-actions > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.about-hero-copy.in-view > *:nth-child(1) {
+  transition-delay: 30ms;
+}
+
+.about-hero-copy.in-view > *:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.about-hero-copy.in-view > *:nth-child(3) {
+  transition-delay: 150ms;
+}
+
+.about-hero-copy .hero-actions > *:first-child {
+  transition-delay: 190ms;
+}
+
+.about-hero-copy .hero-actions > *:last-child {
+  transition-delay: 230ms;
 }
 
 @media (max-width: 1100px) {

@@ -10,6 +10,7 @@ const initSwipeCarousel = ({
   const carousel = document.querySelector(rootSelector);
   const track = carousel?.querySelector(trackSelector);
   if (!carousel || !track) return;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const slides = Array.from(track.querySelectorAll(slideSelector));
   const dots = Array.from(carousel.parentElement?.querySelectorAll(dotSelector) || carousel.querySelectorAll(dotSelector));
@@ -27,7 +28,9 @@ const initSwipeCarousel = ({
   const getWidth = () => carousel.getBoundingClientRect().width;
 
   const setTranslate = (value, animate = true) => {
-    track.style.transition = animate ? 'transform 0.55s ease' : 'none';
+    track.style.transition = animate
+      ? 'transform 0.72s cubic-bezier(0.22, 1, 0.36, 1)'
+      : 'none';
     track.style.transform = `translateX(${value}px)`;
   };
 
@@ -41,6 +44,7 @@ const initSwipeCarousel = ({
   const goPrev = () => goTo((index - 1 + slides.length) % slides.length);
 
   const startAuto = () => {
+    if (reducedMotion.matches || autoplayDelay <= 0) return;
     const delay = pauseUntil - Date.now();
     if (delay > 0) {
       resumeTimer = setTimeout(startAuto, delay);
@@ -112,6 +116,10 @@ const initSwipeCarousel = ({
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
   window.addEventListener('resize', () => goTo(index, false));
+  reducedMotion.addEventListener('change', () => {
+    stopAuto();
+    if (!reducedMotion.matches) startAuto();
+  });
 
   goTo(0, false);
   startAuto();
