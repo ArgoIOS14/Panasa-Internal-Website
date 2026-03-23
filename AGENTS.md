@@ -228,6 +228,11 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ## Collaboration Notes
 - User expects close visual parity with provided Figma/PDF/screenshots
 - Prefer exact spacing, color, and card geometry replication over generic approximations
+- Screenshot text fidelity rule:
+  - when a screenshot, mockup, or reference image includes readable text, copy that text exactly as shown instead of inferring, paraphrasing, rewriting, or filling gaps with invented copy
+  - do not add random, substitute, or "best guess" content when the reference already provides the text
+  - dummy or placeholder data may only be used for sections/pages where no final text has been provided yet, such as intentionally unfinished carousel slides or placeholder cards
+  - once real text is provided in a screenshot, spec, PDF, or direct user message, replace any dummy content and stop using placeholder copy for that area
 - Secondary accent/highlight color should be green `#16AB6D` rather than orange wherever the latest screenshots indicate green emphasis
 - When a user says a section is misaligned or broken, prioritize matching the screenshot over preserving prior implementation details
 - When a screenshot provides iconography or SVG artwork for a section, prefer using the supplied SVGs directly rather than approximating them with CSS boxes, generated icons, or placeholder UI.
