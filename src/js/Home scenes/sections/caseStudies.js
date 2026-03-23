@@ -27,7 +27,10 @@ export const renderCaseStudies = (data) => {
     const article = createEl('article', 'slide');
     const card = createEl('div', 'results-card');
     if (index > 0 && slide.image) {
-      card.style.setProperty('--case-slide-bg', `url(${slide.image})`);
+      const resolvedImagePath = slide.image.startsWith('assets/')
+        ? `../${slide.image}`
+        : slide.image;
+      card.style.setProperty('--case-slide-bg', `url(${resolvedImagePath})`);
     } else {
       card.style.removeProperty('--case-slide-bg');
     }
