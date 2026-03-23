@@ -85,13 +85,49 @@ export const renderEngagement = (data) => {
     'Engagement Models': data.items || [],
     'Growth Packages': data.growthPackages || [],
   };
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let currentFilter = data.activeFilter || data.filters?.[0] || 'Engagement Models';
+  let transitionToken = 0;
+  const OUT_MS = 180;
+  const IN_MS = 260;
 
-  const setActiveFilter = (label) => {
+  const applyFilterState = (label) => {
+    currentFilter = label;
     filters.querySelectorAll('.engagement-filter').forEach((button) => {
       button.classList.toggle('active', button.textContent === label);
+      button.disabled = false;
     });
     grid.classList.toggle('growth-packages-active', label === 'Growth Packages');
     renderCards(filterMap[label] || data.items || []);
+  };
+
+  const setActiveFilter = (label, animate = true) => {
+    if (label === currentFilter) return;
+
+    if (!animate || reducedMotion) {
+      applyFilterState(label);
+      return;
+    }
+
+    const token = ++transitionToken;
+    filters.querySelectorAll('.engagement-filter').forEach((button) => {
+      button.disabled = true;
+    });
+
+    grid.classList.remove('is-transition-in');
+    grid.classList.add('is-transition-out');
+
+    window.setTimeout(() => {
+      if (token !== transitionToken) return;
+      applyFilterState(label);
+      grid.classList.remove('is-transition-out');
+      grid.classList.add('is-transition-in');
+
+      window.setTimeout(() => {
+        if (token !== transitionToken) return;
+        grid.classList.remove('is-transition-in');
+      }, IN_MS);
+    }, OUT_MS);
   };
 
   filters.innerHTML = '';
@@ -99,9 +135,9 @@ export const renderEngagement = (data) => {
     const button = createEl('button', `engagement-filter${filter === (data.activeFilter || data.filters?.[0]) ? ' active' : ''}`);
     button.type = 'button';
     button.textContent = filter;
-    button.addEventListener('click', () => setActiveFilter(filter));
+    button.addEventListener('click', () => setActiveFilter(filter, true));
     filters.appendChild(button);
   });
 
-  setActiveFilter(data.activeFilter || data.filters?.[0] || 'Engagement Models');
+  applyFilterState(currentFilter);
 };
