@@ -199,16 +199,15 @@ textarea {
 .service-hero::before {
   content: '';
   position: absolute;
-  left: 50%;
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
   top: -120px;
-  transform: translateX(-50%);
-  width: 100vw;
   height: clamp(440px, 54vw, 560px);
   background:
     linear-gradient(rgba(22, 171, 109, 0.085) 1px, transparent 1px),
     linear-gradient(90deg, rgba(22, 171, 109, 0.085) 1px, transparent 1px),
-    radial-gradient(circle at 50% 18%, rgba(235, 255, 246, 0.98) 0%, rgba(206, 241, 221, 0.92) 30%, rgba(255, 255, 255, 0.98) 72%, #ffffff 100%),
-    linear-gradient(180deg, #76d5ae 0%, #d9f3e6 24%, #ffffff 72%, #ffffff 100%);
+    linear-gradient(180deg, rgba(120, 214, 174, 0.92) 0%, rgba(189, 238, 215, 0.7) 34%, rgba(245, 255, 250, 0.42) 68%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(180deg, #7bd6b0 0%, #d6f2e4 38%, #ffffff 82%);
   background-size:
     76px 76px,
     76px 76px,
