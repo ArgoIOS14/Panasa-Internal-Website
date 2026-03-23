@@ -56,10 +56,6 @@ const hasActiveChild = (items = []) => {
   return items.some((item) => isActiveLink(item.href));
 };
 
-const getActiveChild = (items = []) => {
-  return items.find((item) => isActiveLink(item.href)) || null;
-};
-
 export const renderNav = (data) => {
   const container = document.querySelector('[data-nav-links]');
   if (!container) return;
@@ -88,12 +84,11 @@ export const renderNav = (data) => {
     const li = createEl('li');
     if (Array.isArray(link.children) && link.children.length > 0) {
       li.classList.add('nav-item-has-children');
-      const activeChild = getActiveChild(link.children);
 
       const triggerWrap = createEl('div', 'nav-dropdown-wrap');
       const a = createEl('a');
-      a.textContent = activeChild?.label || link.label;
-      a.href = resolveHref(activeChild?.href || link.href);
+      a.textContent = link.label;
+      a.href = resolveHref(link.href);
       if (isActiveLink(link.href) || hasActiveChild(link.children)) a.classList.add('active');
 
       const toggle = createEl('button', 'nav-dropdown-toggle');
