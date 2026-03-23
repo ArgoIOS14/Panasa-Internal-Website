@@ -222,11 +222,11 @@
     max-width: none;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 22px;
-    margin-inline: 0;
+    margin: 0 0 22px;
     padding: 0 4px;
     flex-wrap: nowrap;
     align-self: stretch;
+    flex: 0 0 auto;
   }
 
   .nav-mobile-brand {
@@ -259,7 +259,7 @@
     margin-left: auto;
   }
 
-  .nav-links li {
+  .nav-links > li:not(.nav-mobile-head) {
     width: 100%;
     max-width: 280px;
     display: flex;
@@ -268,7 +268,7 @@
     margin-inline: auto;
   }
 
-  .nav-links li:last-child {
+  .nav-links > li:last-child:not(.nav-mobile-head) {
     display: flex;
     justify-content: center;
     width: auto;
