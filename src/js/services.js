@@ -216,7 +216,7 @@ const applyServiceMode = () => {
           </h2>
         </div>
         <p>
-          We don't build prototypes that need to be rebuilt for production. Every platform is architected for the transaction
+          We don't build prototypes that need to be rebuilt for production. Every platform is architected for the transaction environment.
         </p>
       </div>
 
@@ -224,7 +224,7 @@ const applyServiceMode = () => {
         <article class="engineering-roadmap-card">
           <h3>High availability</h3>
           <p>
-            Multi-region deployment, failover routing, and observability stacks that give your ops team clear signal not noise at any transaction volume.
+            Multi-region deployment, failover routing, and observability stacks that give your ops team clear signal, not noise, at any transaction volume.
           </p>
           <span class="engineering-roadmap-pill">99.99% UPTIME</span>
         </article>
@@ -238,7 +238,7 @@ const applyServiceMode = () => {
         <article class="engineering-roadmap-card">
           <h3>Compliance from day one</h3>
           <p>
-            PCI DSS controls, FCA reporting hooks, and GDPR data handling designed into the architecture not discovered as gaps during your next audit.
+            PCI DSS controls, FCA reporting hooks, and GDPR data handling designed into the architecture, not discovered as gaps during your next audit.
           </p>
           <span class="engineering-roadmap-pill">PCI &amp; FCA READY</span>
         </article>
@@ -252,7 +252,7 @@ const applyServiceMode = () => {
     kicker.textContent = 'How We Work';
     title.innerHTML = '<em>Six Phases</em><span>Every rule traced end to end</span>';
     summary.textContent =
-      "We don't rewrite systems from a requirements document. We extract the actual logic from the running system, reconstruct it in a modern stack";
+      "We don't rewrite systems from a requirements document. We extract the actual logic from the running system and reconstruct it in a modern stack.";
 
     content.innerHTML = `
       <div class="process-grid">

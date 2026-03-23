@@ -448,11 +448,11 @@
         "variant": "light"
       }
     ],
-    "note": "*Most clients start with a Growth Package and graduate to Scaleup Package as they scale"
+    "note": "*Most clients start with a project and graduate to managed services as they scale"
   },
   "footer": {
     "ctaTitle": "Ready to Build Your Card Platform",
-    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24-7 operations.",
+    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24/7 operations.",
     "ctaButton": "Talk to our team",
     "ctaHref": "contact.html",
     "showResources": false,
