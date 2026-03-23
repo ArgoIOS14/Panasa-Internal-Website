@@ -213,6 +213,7 @@
     box-shadow: none;
     z-index: 40;
     overflow-y: auto;
+    align-items: center;
   }
 
   .nav-mobile-head {
@@ -244,21 +245,23 @@
   }
 
   .nav-links li {
-    width: 100%;
+    width: min(100%, 260px);
     display: grid;
     justify-items: center;
+    margin-inline: auto;
   }
 
   .nav-links li:last-child {
     display: flex;
     justify-content: center;
+    width: auto;
   }
 
   .nav-item-has-children {
     position: static;
     padding-bottom: 0;
     margin-bottom: 0;
-    width: 100%;
+    width: min(100%, 260px);
     justify-items: center;
   }
 
@@ -267,7 +270,7 @@
     grid-template-columns: 1fr 28px;
     align-items: center;
     gap: 10px;
-    width: min(100%, 260px);
+    width: 100%;
   }
 
   .nav-dropdown-toggle {
@@ -302,7 +305,7 @@
     transform: none;
     min-width: 0;
     margin-top: 6px;
-    width: min(100%, 260px);
+    width: 100%;
     padding: 8px 0 0;
     background: transparent;
     border: 0;
