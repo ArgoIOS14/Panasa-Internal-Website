@@ -571,10 +571,22 @@ section {
   grid-template-columns: minmax(0, 1fr) minmax(320px, var(--services-visual-col));
   column-gap: 24px;
   align-items: start;
+  position: relative;
+  isolation: isolate;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .services-feature-copy {
   padding-top: 0;
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
 }
 
 .services-feature-pill {
