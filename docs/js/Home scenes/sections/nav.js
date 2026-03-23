@@ -29,7 +29,10 @@ export const initNavToggle = () => {
       if (!(submenu instanceof HTMLElement)) return;
 
       const targetWidth = 280;
-      submenu.style.position = 'relative';
+      submenu.style.position = 'static';
+      submenu.style.top = 'auto';
+      submenu.style.right = 'auto';
+      submenu.style.bottom = 'auto';
       submenu.style.left = 'auto';
       submenu.style.transform = 'none';
       submenu.style.width = `${targetWidth}px`;
