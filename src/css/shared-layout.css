@@ -245,6 +245,8 @@
 
   .nav-links li {
     width: 100%;
+    display: grid;
+    justify-items: center;
   }
 
   .nav-links li:last-child {
@@ -256,13 +258,16 @@
     position: static;
     padding-bottom: 0;
     margin-bottom: 0;
+    width: 100%;
+    justify-items: center;
   }
 
   .nav-dropdown-wrap {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 28px;
     align-items: center;
     gap: 10px;
+    width: min(100%, 260px);
   }
 
   .nav-dropdown-toggle {
@@ -278,11 +283,13 @@
     opacity: 1;
     display: inline-flex;
     justify-content: center;
-    width: 100%;
+    width: auto;
+    min-width: 0;
     font-size: 16px;
     font-weight: 600;
     line-height: 1;
     padding: 12px 0;
+    text-align: center;
   }
 
   .nav-links a:hover,
@@ -295,7 +302,7 @@
     transform: none;
     min-width: 0;
     margin-top: 6px;
-    width: 100%;
+    width: min(100%, 260px);
     padding: 8px 0 0;
     background: transparent;
     border: 0;
@@ -312,7 +319,7 @@
 
   .nav-submenu a {
     justify-content: center;
-    width: min(100%, 240px);
+    width: 100%;
     padding: 10px 14px;
     font-size: 14px;
     font-weight: 500;
