@@ -2212,11 +2212,16 @@ section {
     margin-top: auto;
     padding: 10px 14px;
     font-size: 0.76rem;
+    width: max-content;
+    min-width: 170px;
+    justify-content: center;
+    white-space: nowrap;
+    flex: 0 0 auto;
   }
 
   .results-card {
-    min-height: 320px;
-    height: 320px;
+    min-height: 356px;
+    height: 356px;
   }
 
   .results-card::before {
@@ -2245,7 +2250,7 @@ section {
 
   .results-copy {
     width: min(100%, 100%);
-    padding: 24px 16px 18px 16px;
+    padding: 24px 16px 22px 16px;
     z-index: 2;
   }
 
