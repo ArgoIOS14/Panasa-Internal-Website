@@ -141,6 +141,10 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 - Treat this typography mapping as a standing rule for all future pages and sections unless the user explicitly requests an exception:
   - titles/headings/navigation labels/buttons: `Lufga`
   - descriptions/body copy/supporting text/list text/legal/footer text: `Inter Variable`
+- Typography scale consistency rule:
+  - even when a supplied screenshot makes a text block appear unusually small, do not shrink typography below the established page/system scale unless the user explicitly asks for that exception
+  - screenshot matching should preserve the project's overall typography philosophy, hierarchy, and readability across the full page
+  - mobile text in particular should stay visually consistent with the rest of the page rather than being reduced to match an undersized-looking reference crop
 - Use a common pill-shaped navigation bar component on all pages that require navigation.
 - The common navigation bar must retain the same brand image assets and visual treatment already established in the project.
 - Use the shared Panasa footer treatment on all current and future pages unless the user explicitly requests a different footer:
