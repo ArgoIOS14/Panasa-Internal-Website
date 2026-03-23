@@ -3,6 +3,28 @@ import { createEl } from '../utils/dom.js';
 export const initNavToggle = () => {
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
+  const syncMobileDropdownLayout = (scope = navLinks) => {
+    if (!(scope instanceof HTMLElement) || window.innerWidth > 900) return;
+
+    const items = scope.querySelectorAll('.nav-item-has-children');
+    items.forEach((item) => {
+      if (!(item instanceof HTMLElement)) return;
+      const submenu = item.querySelector('.nav-submenu');
+      if (!(submenu instanceof HTMLElement)) return;
+
+      const targetWidth = Math.min(item.getBoundingClientRect().width || 280, 280);
+      submenu.style.width = `${targetWidth}px`;
+      submenu.style.maxWidth = `${targetWidth}px`;
+
+      submenu.querySelectorAll('a').forEach((link) => {
+        if (link instanceof HTMLElement) {
+          link.style.width = `${targetWidth}px`;
+          link.style.maxWidth = `${targetWidth}px`;
+        }
+      });
+    });
+  };
+
   const closeMenu = () => {
     navLinks?.classList.remove('open');
     navToggle?.setAttribute('aria-expanded', 'false');
@@ -16,6 +38,11 @@ export const initNavToggle = () => {
     navToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        requestAnimationFrame(() => {
+          syncMobileDropdownLayout(navLinks);
+        });
+      }
     });
 
     navLinks.addEventListener('click', (event) => {
@@ -26,9 +53,16 @@ export const initNavToggle = () => {
         const parent = toggle.closest('.nav-item-has-children');
         const isOpen = parent?.classList.toggle('open');
         toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+        requestAnimationFrame(() => {
+          syncMobileDropdownLayout(parent ?? navLinks);
+        });
         return;
       }
       if (target.closest('[data-nav-close]') || target.closest('a')) closeMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      syncMobileDropdownLayout(navLinks);
     });
   }
 };
