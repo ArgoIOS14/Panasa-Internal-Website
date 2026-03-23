@@ -13,7 +13,16 @@ export const renderEngagement = (data) => {
   }
 
   const titleEl = document.querySelector('[data-engagement-title]');
-  if (titleEl) titleEl.innerHTML = 'Engagement Models <span>Built for Your Growth</span>';
+  if (titleEl) {
+    const title = data.title || '';
+    const highlight = 'Built for Your Growth';
+    if (title.endsWith(highlight)) {
+      const prefix = title.slice(0, -highlight.length).trimEnd();
+      titleEl.innerHTML = `${prefix} <span>${highlight}</span>`;
+    } else {
+      titleEl.textContent = title;
+    }
+  }
 
   setText('[data-engagement-subtitle]', data.subtitle);
   setText('[data-engagement-note]', data.note);
