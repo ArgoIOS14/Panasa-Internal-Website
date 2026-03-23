@@ -11,7 +11,7 @@ window.DEFAULT_CONTENT = {
       },
       {
         "label": "Services",
-        "href": "#services"
+        "href": "services.html"
       },
       {
         "label": "Careers",

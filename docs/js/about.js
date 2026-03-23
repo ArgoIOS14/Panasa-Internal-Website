@@ -54,6 +54,7 @@ const ABOUT_TESTIMONIALS = {
 
 const resolveToSiteHref = (href) => {
   if (href === '#about') return 'about.html';
+  if (href === '#services') return 'services.html';
   if (href.startsWith('#')) return `index.html${href}`;
   return href;
 };
