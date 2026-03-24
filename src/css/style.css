@@ -1436,7 +1436,7 @@ section {
 }
 
 .engagement-grid.growth-packages-active .engagement-card {
-  min-height: 620px;
+  min-height: 0;
   border-radius: 0;
   padding: 20px 20px 22px;
   gap: 14px;
@@ -1500,6 +1500,23 @@ section {
   min-height: 42px;
   border-radius: 8px;
   font-size: 0.88rem;
+}
+
+@media (min-width: 901px) {
+  .engagement-grid.growth-packages-active {
+    align-items: stretch;
+  }
+
+  .engagement-grid.growth-packages-active .engagement-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .engagement-grid.growth-packages-active .engagement-card .btn {
+    margin-top: auto;
+  }
 }
 
 .engagement-note {
