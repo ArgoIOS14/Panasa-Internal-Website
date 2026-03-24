@@ -7,9 +7,9 @@
   --motion-duration-fast: 180ms;
   --motion-duration-md: 420ms;
   --motion-duration-slow: 680ms;
-  --motion-duration-reveal-fast: 220ms;
-  --motion-duration-reveal: 460ms;
-  --motion-duration-reveal-slow: 560ms;
+  --motion-duration-reveal-fast: 180ms;
+  --motion-duration-reveal: 340ms;
+  --motion-duration-reveal-slow: 420ms;
   --motion-duration-carousel: 620ms;
   --motion-duration-panel: 360ms;
   --motion-delay: 0ms;

@@ -12,32 +12,32 @@ export const initScrollAnimations = () => {
 
   const variantStyles = {
     instant: {
-      y: '8px',
+      y: '4px',
       scale: '1',
       blur: '0px',
       duration: 'var(--motion-duration-reveal-fast)',
     },
     heading: {
-      y: '14px',
-      scale: '0.998',
+      y: '8px',
+      scale: '0.999',
       blur: '0px',
       duration: 'var(--motion-duration-reveal)',
     },
     media: {
-      y: '12px',
-      scale: '0.994',
+      y: '6px',
+      scale: '0.998',
       blur: '0px',
-      duration: 'var(--motion-duration-reveal-slow)',
+      duration: 'var(--motion-duration-reveal)',
     },
     card: {
-      y: '16px',
-      scale: '0.994',
+      y: '10px',
+      scale: '0.998',
       blur: '0px',
       duration: 'var(--motion-duration-reveal)',
     },
     soft: {
-      y: '14px',
-      scale: '0.995',
+      y: '8px',
+      scale: '0.999',
       blur: '0px',
       duration: 'var(--motion-duration-reveal)',
     },
@@ -112,7 +112,7 @@ export const initScrollAnimations = () => {
   const applyStagger = (element) => {
     if (element.dataset.animateOrder) {
       const order = Number.parseInt(element.dataset.animateOrder, 10) || 0;
-      element.style.setProperty('--motion-delay', `${Math.min(order, 6) * 45}ms`);
+      element.style.setProperty('--motion-delay', `${Math.min(order, 6) * 30}ms`);
       return;
     }
 
@@ -122,7 +122,7 @@ export const initScrollAnimations = () => {
     const siblings = Array.from(staggerParent.querySelectorAll(':scope > [data-animate]'));
     const index = siblings.indexOf(element);
     if (index >= 0) {
-      element.style.setProperty('--motion-delay', `${Math.min(index, 6) * 45}ms`);
+      element.style.setProperty('--motion-delay', `${Math.min(index, 6) * 30}ms`);
     }
   };
 
@@ -166,8 +166,8 @@ export const initScrollAnimations = () => {
       }
     },
     {
-      threshold: 0.05,
-      rootMargin: '0px 0px -2% 0px',
+      threshold: 0.01,
+      rootMargin: '0px 0px 120px 0px',
     }
   );
 
