@@ -32,10 +32,6 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
-        "label": "Resources",
-        "href": "#resources"
-      },
-      {
         "label": "Careers",
         "href": "careers.html"
       }

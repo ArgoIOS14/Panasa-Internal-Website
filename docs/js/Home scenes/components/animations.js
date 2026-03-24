@@ -12,32 +12,32 @@ export const initScrollAnimations = () => {
 
   const variantStyles = {
     instant: {
-      y: '4px',
+      y: '6px',
       scale: '1',
       blur: '0px',
       duration: 'var(--motion-duration-reveal-fast)',
     },
     heading: {
-      y: '8px',
-      scale: '0.999',
+      y: '18px',
+      scale: '0.998',
       blur: '0px',
       duration: 'var(--motion-duration-reveal)',
     },
     media: {
-      y: '6px',
-      scale: '0.998',
+      y: '14px',
+      scale: '0.996',
       blur: '0px',
-      duration: 'var(--motion-duration-reveal)',
+      duration: 'var(--motion-duration-reveal-slow)',
     },
     card: {
-      y: '10px',
-      scale: '0.998',
+      y: '20px',
+      scale: '0.996',
       blur: '0px',
       duration: 'var(--motion-duration-reveal)',
     },
     soft: {
-      y: '8px',
-      scale: '0.999',
+      y: '16px',
+      scale: '0.998',
       blur: '0px',
       duration: 'var(--motion-duration-reveal)',
     },
@@ -167,7 +167,7 @@ export const initScrollAnimations = () => {
     },
     {
       threshold: 0.01,
-      rootMargin: '0px 0px 120px 0px',
+      rootMargin: '0px 0px 40px 0px',
     }
   );
 
