@@ -2009,7 +2009,4 @@ textarea {
     border-top: 0;
   }
 
-  .footer-links {
-    grid-template-columns: 1fr;
-  }
 }

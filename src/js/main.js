@@ -29,16 +29,22 @@ const renderPage = (content) => {
   initScrollAnimations();
 };
 
-const initApp = async () => {
+const initApp = () => {
   initNavToggle();
 
-  try {
-    const content = await loadContent();
-    renderPage(content);
-  } catch (err) {
-    console.error('Failed to load content.json', err);
-    if (window.DEFAULT_CONTENT) renderPage(window.DEFAULT_CONTENT);
+  // Render default content immediately for fast first paint
+  if (window.DEFAULT_CONTENT) {
+    renderPage(window.DEFAULT_CONTENT);
   }
+
+  // Then try to fetch fresh content in the background
+  loadContent()
+    .then((content) => {
+      renderPage(content);
+    })
+    .catch(() => {
+      // Default content already rendered, nothing to do
+    });
 };
 
 initApp();

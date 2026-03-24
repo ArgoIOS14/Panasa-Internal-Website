@@ -712,21 +712,4 @@ textarea {
     min-height: 240px;
   }
 
-  .contact-footer {
-    padding: 44px 14px 20px;
-  }
-
-  .footer-card {
-    padding: 30px 18px 20px;
-    gap: 28px;
-  }
-
-  .footer-links {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .footer-meta {
-    gap: 14px;
-  }
 }

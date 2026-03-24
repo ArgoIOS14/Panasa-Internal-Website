@@ -9,7 +9,6 @@ export const initScrollAnimations = () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const elements = Array.from(document.querySelectorAll('[data-animate]'));
   if (!elements.length) return;
-  const revealTimers = new WeakMap();
 
   const variantStyles = {
     instant: {
@@ -127,25 +126,13 @@ export const initScrollAnimations = () => {
     }
   };
 
-  const clearRevealWillChange = (element) => {
-    const existing = revealTimers.get(element);
-    if (existing) window.clearTimeout(existing);
-    const timer = window.setTimeout(() => {
-      element.style.removeProperty('will-change');
-      revealTimers.delete(element);
-    }, 760);
-    revealTimers.set(element, timer);
-  };
-
   const primeElements = () => {
     elements.forEach((element) => {
       applyVariantStyles(element);
       applyStagger(element);
-      element.style.setProperty('will-change', 'opacity, transform');
       if (reducedMotion.matches) {
         element.classList.add('in-view');
         element.style.setProperty('--motion-delay', '0ms');
-        clearRevealWillChange(element);
       }
     });
   };
@@ -159,13 +146,11 @@ export const initScrollAnimations = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view');
-          clearRevealWillChange(entry.target);
           if (entry.target.dataset.animateRepeat !== 'true') {
             observer.unobserve(entry.target);
           }
         } else if (entry.target.dataset.animateRepeat === 'true') {
           entry.target.classList.remove('in-view');
-          entry.target.style.setProperty('will-change', 'opacity, transform');
         }
       });
     },
@@ -185,7 +170,6 @@ export const initScrollAnimations = () => {
     observer.observe(el);
     if (isInitiallyVisible(el)) {
       el.classList.add('in-view');
-      clearRevealWillChange(el);
       if (el.dataset.animateRepeat !== 'true') {
         observer.unobserve(el);
       }
