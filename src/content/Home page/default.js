@@ -47,9 +47,9 @@ window.DEFAULT_CONTENT = {
   },
   "hero": {
     "pill": "Trusted by fintechs across UK, EU & APAC",
-    "title": "Ship & modernise your fintech in weeks",
+    "title": "Ship & Modernise Your Fintech in Weeks",
     "titleEmphasis": "Scale Without Surprises",
-    "subtitle": "Your AI-native partner for Dev, Ops & Scale. No handoffs.",
+    "subtitle": "Your AI-Native Partner for Dev, Ops & Scale. No Handoffs.",
     "primaryCta": {
       "label": "Talk to our team",
       "href": "contact.html"

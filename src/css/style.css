@@ -1667,6 +1667,11 @@ section {
   --motion-y-start: 0px;
 }
 
+.services-feature[data-animate],
+.split-testimonial-shell[data-animate] {
+  --motion-y-start: 0px;
+}
+
 .hero-copy > *,
 .hero-actions > *,
 .trusted-row > * {
