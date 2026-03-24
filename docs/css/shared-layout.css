@@ -21,8 +21,7 @@
   top: calc(-1 * var(--hero-top, 0px));
   z-index: 20;
   padding: 16px 0;
-  backdrop-filter: blur(8px);
-  background: rgba(125, 211, 174, 0.25);
+  background: rgba(125, 211, 174, 0.88);
 }
 
 .nav {

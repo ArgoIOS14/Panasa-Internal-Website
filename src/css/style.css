@@ -31,8 +31,10 @@ body {
   overflow-x: hidden;
 }
 
-html {
-  scroll-behavior: smooth;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 h1,
@@ -109,7 +111,7 @@ ul {
 
 .hero-copy h1 em {
   color: #16ab6d;
-  font-style: normal;
+  font-style: italic;
   display: block;
   margin-top: 2px;
 }
@@ -1651,13 +1653,18 @@ section {
     transform var(--motion-duration, var(--motion-duration-md)) var(--motion-ease-standard) var(--motion-delay, 0ms);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  will-change: opacity, transform;
 }
 
 [data-animate].in-view {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-  will-change: auto;
+}
+
+.hero[data-animate],
+.hero-copy[data-animate],
+.site-header[data-animate] {
+  --motion-opacity-start: 1;
+  --motion-y-start: 0px;
 }
 
 .hero-copy > *,
