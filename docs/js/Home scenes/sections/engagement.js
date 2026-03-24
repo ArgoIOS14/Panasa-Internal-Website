@@ -88,8 +88,8 @@ export const renderEngagement = (data) => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let currentFilter = data.activeFilter || data.filters?.[0] || 'Engagement Models';
   let transitionToken = 0;
-  const OUT_MS = 180;
-  const IN_MS = 260;
+  const OUT_MS = 300;
+  const IN_MS = 400;
 
   const applyFilterState = (label) => {
     currentFilter = label;

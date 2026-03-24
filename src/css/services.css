@@ -1475,8 +1475,6 @@ textarea {
   color: #5b6065;
 }
 
-/* Footer uses shared-footer.css — no page-specific overrides */
-
 [data-animate] {
   opacity: var(--motion-opacity-start, 0);
   transform: translate3d(0, var(--motion-y-start, 24px), 0);

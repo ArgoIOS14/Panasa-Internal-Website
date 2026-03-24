@@ -1,11 +1,53 @@
+@import url('https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap');
+@import url('https://rsms.me/inter/inter.css');
+
 .site-footer,
 .contact-footer {
+  padding: 56px 24px 24px;
+  color: #fff;
   background:
     url('../assets/footer-background-paths-container.svg') center/cover no-repeat,
     linear-gradient(130deg, #1d6f4c 0%, #247a56 48%, #59c591 100%);
 }
 
+.footer-cta {
+  max-width: var(--page-shell, 980px);
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.footer-cta h2 {
+  font-size: 1.85rem;
+  line-height: 1.02;
+  margin: 0 0 8px;
+}
+
+.footer-cta p {
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 500px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.footer-cta .btn-light {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: none;
+}
+
 .footer-card {
+  max-width: var(--page-shell, 980px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.35fr 2fr;
+  gap: 28px;
+  position: relative;
+  overflow: hidden;
   background:
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.04), transparent 32%),
     radial-gradient(circle at 82% 76%, rgba(63, 208, 137, 0.08), transparent 30%),
@@ -22,19 +64,9 @@
     center,
     center;
   border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 24px 26px 16px;
   backdrop-filter: blur(8px);
-}
-
-.site-footer .footer-card {
-  border-radius: 18px;
-  padding: 30px 30px 18px;
-  gap: 32px;
-}
-
-.contact-footer .footer-card {
-  border-radius: 20px;
-  padding: 42px 54px 24px;
-  gap: 36px;
 }
 
 .footer-brand img {
@@ -61,6 +93,7 @@
 
 .footer-links {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 26px;
 }
 
@@ -88,30 +121,59 @@
 }
 
 .footer-bottom {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
   color: rgba(255, 255, 255, 0.68);
   font-size: 13px;
 }
 
-@media (max-width: 1100px) {
-  .contact-footer .footer-card {
-    padding: 40px 36px 24px;
-  }
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
+/* ── Tablet ── */
 @media (max-width: 900px) {
-  .site-footer .footer-card,
-  .contact-footer .footer-card {
-    gap: 28px;
+  .footer-cta {
+    align-items: center;
+  }
+
+  .footer-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
   }
 }
 
+/* ── Mobile ── */
 @media (max-width: 640px) {
+  .site-footer,
+  .contact-footer {
+    padding: 22px 16px 16px;
+  }
+
   .site-footer .footer-cta,
   .contact-footer .footer-cta {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+    margin-bottom: 14px;
   }
 
   .site-footer .footer-cta h2,
@@ -123,12 +185,6 @@
   .contact-footer .footer-cta p {
     font-size: 0.82rem;
     line-height: 1.45;
-  }
-
-  .site-footer,
-  .contact-footer {
-    padding-top: 22px;
-    padding-bottom: 16px;
   }
 
   .site-footer .footer-card,
@@ -174,7 +230,7 @@
   }
 
   .footer-links {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
   }
 
@@ -212,9 +268,5 @@
   .footer-meta a {
     font-size: 12px;
     line-height: 1.3;
-  }
-
-  .contact-footer .footer-card {
-    padding: 30px 18px 20px;
   }
 }
