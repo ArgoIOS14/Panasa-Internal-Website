@@ -697,6 +697,16 @@ textarea {
   color: #ffffff;
 }
 
+.deliverables-bullet {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16ab6d;
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
 .deliverables-copy h3 {
   margin: 0;
   font-size: 17px;

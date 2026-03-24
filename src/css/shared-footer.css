@@ -137,24 +137,17 @@
   }
 
   .footer-brand {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 12px;
-    row-gap: 8px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .footer-brand img {
     width: 112px;
-    grid-column: 1 / 2;
-    grid-row: 1;
   }
 
   .footer-brand p {
-    grid-column: 1 / 2;
-    grid-row: 2 / 4;
-    margin: 0;
-    max-width: 220px;
+    margin: 4px 0 8px;
     font-size: 12px;
     line-height: 1.45;
     color: rgba(255, 255, 255, 0.8);
@@ -164,18 +157,7 @@
     margin-top: 0;
     font-size: 12px;
     line-height: 1.4;
-    text-align: right;
     color: rgba(255, 255, 255, 0.84);
-  }
-
-  .footer-brand span[data-footer-email] {
-    grid-column: 2 / 3;
-    grid-row: 2;
-  }
-
-  .footer-brand span[data-footer-phone] {
-    grid-column: 2 / 3;
-    grid-row: 3;
   }
 
   .footer-links {

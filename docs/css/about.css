@@ -749,6 +749,10 @@ textarea {
   color: #535b5b;
 }
 
+.site-footer {
+  padding: 56px 24px 24px;
+}
+
 .footer-cta {
   max-width: var(--page-shell);
   margin: 0 auto 20px;
@@ -881,8 +885,7 @@ textarea {
     padding-top: 34px;
   }
 
-  .section-head,
-  .site-footer .footer-card {
+  .section-head {
     grid-template-columns: 1fr;
   }
 
@@ -923,15 +926,6 @@ textarea {
 
   .footer-cta {
     align-items: center;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .footer-links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
