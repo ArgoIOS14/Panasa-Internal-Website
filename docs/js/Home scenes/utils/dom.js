@@ -6,5 +6,9 @@ export const setText = (selector, value) => {
 export const createEl = (tag, className) => {
   const el = document.createElement(tag);
   if (className) el.className = className;
+  if (tag === 'img') {
+    el.loading = 'lazy';
+    el.decoding = 'async';
+  }
   return el;
 };

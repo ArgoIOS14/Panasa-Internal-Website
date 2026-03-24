@@ -53,6 +53,7 @@ h6 {
 img {
   max-width: 100%;
   display: block;
+  content-visibility: auto;
 }
 
 a {
@@ -438,6 +439,13 @@ ul {
 
 section {
   padding: 64px 24px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+.hero {
+  content-visibility: visible;
+  contain-intrinsic-size: auto;
 }
 
 .section-title {

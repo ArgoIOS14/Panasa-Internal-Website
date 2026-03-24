@@ -141,18 +141,29 @@ export const initScrollAnimations = () => {
 
   if (reducedMotion.matches) return;
 
+  let rafPending = false;
+  let pendingEntries = [];
+
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          if (entry.target.dataset.animateRepeat !== 'true') {
-            observer.unobserve(entry.target);
-          }
-        } else if (entry.target.dataset.animateRepeat === 'true') {
-          entry.target.classList.remove('in-view');
-        }
-      });
+      pendingEntries.push(...entries);
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(() => {
+          const batch = pendingEntries.splice(0);
+          batch.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              if (entry.target.dataset.animateRepeat !== 'true') {
+                observer.unobserve(entry.target);
+              }
+            } else if (entry.target.dataset.animateRepeat === 'true') {
+              entry.target.classList.remove('in-view');
+            }
+          });
+          rafPending = false;
+        });
+      }
     },
     {
       threshold: 0.05,
