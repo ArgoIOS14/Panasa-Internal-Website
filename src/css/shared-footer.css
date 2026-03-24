@@ -109,7 +109,20 @@
 @media (max-width: 640px) {
   .site-footer .footer-cta,
   .contact-footer .footer-cta {
-    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .site-footer .footer-cta h2,
+  .contact-footer .footer-cta h2 {
+    font-size: 1.3rem;
+  }
+
+  .site-footer .footer-cta p,
+  .contact-footer .footer-cta p {
+    font-size: 0.82rem;
+    line-height: 1.45;
   }
 
   .site-footer,
@@ -169,7 +182,7 @@
     margin-bottom: 8px;
     font-size: 11px;
     letter-spacing: 0.1em;
-    color: #f3b896;
+    color: #39d17f;
   }
 
   .footer-links a,
