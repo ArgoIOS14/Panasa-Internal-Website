@@ -1440,7 +1440,7 @@ section {
   border-radius: 0;
   padding: 20px 20px 22px;
   gap: 14px;
-  border-right: 1px solid #d7ddd9;
+  border-right: none;
 }
 
 .engagement-grid.growth-packages-active .engagement-card:last-child {
