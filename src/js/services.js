@@ -151,7 +151,7 @@ const AI_ACCELERATED_COPY = {
   },
   why: {
     kicker: 'Why Panasa',
-    title: ["Why Fintech's", 'Choose Panasa'],
+    title: ["Why Fintechs", 'Choose Panasa'],
     summary:
       'What sets us apart in the fintech development landscape',
     cards: [
@@ -588,7 +588,7 @@ const applyIntelligentOperationsTextOverrides = () => {
     const whyCards = why.querySelectorAll('.feature-card');
 
     if (whyPill) whyPill.textContent = 'Why Panasa';
-    if (whyTitle) whyTitle.innerHTML = "Why Fintech's <span>Choose Panasa</span>";
+    if (whyTitle) whyTitle.innerHTML = "Why Fintechs <span>Choose Panasa</span>";
     if (whySummary) {
       whySummary.textContent = 'What sets us apart in the fintech development landscape';
     }

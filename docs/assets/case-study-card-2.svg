@@ -6,7 +6,7 @@
 <defs>
 <clipPath id="bgblur_0_759_605_clip_path" transform="translate(100 100)"><rect x="0.5" y="0.5" width="1279" height="599" rx="15.5"/>
 </clipPath><pattern id="pattern0_759_605" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_759_605" transform="matrix(0.000408973 0 0 0.000872475 -0.070759 -0.0234849)"/>
+<use xlink:href="#image0_759_605" transform="matrix(0.000408973 0 0 0.000872475 -0.085 -0.0234849)"/>
 </pattern>
 <linearGradient id="paint0_linear_759_605" x1="0" y1="0" x2="816.355" y2="984.47" gradientUnits="userSpaceOnUse">
 <stop stop-color="#141414" stop-opacity="0.24"/>

@@ -177,6 +177,10 @@
   transform: translateY(-1px);
 }
 
+.nav-links a.btn-light:hover {
+  color: #0b3d2e;
+}
+
 .nav .btn-light {
   border: none;
   padding: 10px 18px;

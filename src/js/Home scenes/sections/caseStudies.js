@@ -56,6 +56,20 @@ export const renderCaseStudies = (data) => {
     left.append(eyebrow, h3, p, cta);
 
     card.append(left);
+
+    if (slide.metrics && slide.metrics.length) {
+      const metricsCol = createEl('div', 'results-metrics');
+      slide.metrics.forEach((m) => {
+        const chip = createEl('div', 'results-metric');
+        const val = createEl('span', 'results-metric-value');
+        val.textContent = m.value;
+        const lbl = createEl('span', 'results-metric-label');
+        lbl.textContent = m.label;
+        chip.append(val, lbl);
+        metricsCol.appendChild(chip);
+      });
+      card.append(metricsCol);
+    }
     article.appendChild(card);
     slidesContainer.appendChild(article);
 
