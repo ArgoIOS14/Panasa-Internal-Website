@@ -241,21 +241,99 @@ textarea {
   outline: none;
 }
 
-.phone-prefix {
-  padding: 0 12px;
-  font-size: 13px;
-  color: #314442;
+.phone-code-wrapper {
   position: relative;
 }
 
-.phone-prefix::after {
-  content: '';
+.phone-code-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: #314442;
+  white-space: nowrap;
+  border-right: 1px solid rgba(26, 43, 36, 0.12);
+}
+
+.phone-code-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.phone-code-value {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.phone-code-arrow {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+.phone-code-dropdown {
   position: absolute;
-  top: 8px;
-  right: 0;
-  bottom: 8px;
-  width: 1px;
-  background: rgba(26, 43, 36, 0.12);
+  top: calc(100% + 6px);
+  left: -1px;
+  width: 260px;
+  max-height: 240px;
+  background: #fff;
+  border: 1px solid #d0d7d3;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  flex-direction: column;
+  overflow: hidden;
+  display: none;
+}
+
+.phone-code-dropdown:not([hidden]) {
+  display: flex;
+}
+
+.phone-code-search {
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid #e8ece9;
+  font-size: 13px;
+  outline: none;
+  width: 100%;
+}
+
+.phone-code-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.phone-code-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #2a3a34;
+}
+
+.phone-code-list li:hover {
+  background: #f0f4f2;
+}
+
+.phone-code-list li .code-flag {
+  font-size: 16px;
+}
+
+.phone-code-list li .code-dial {
+  color: #6b7d76;
+  margin-left: auto;
+  font-size: 12px;
 }
 
 .phone-field input {
@@ -564,4 +642,18 @@ textarea {
     min-height: 240px;
   }
 
+  .phone-code-dropdown {
+    width: calc(100vw - 60px);
+    max-width: 280px;
+    left: -12px;
+  }
+
+  .phone-code-btn {
+    padding: 0 6px 0 8px;
+    gap: 3px;
+  }
+
+  .phone-code-value {
+    font-size: 12px;
+  }
 }
