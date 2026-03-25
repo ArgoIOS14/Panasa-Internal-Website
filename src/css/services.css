@@ -1020,9 +1020,15 @@ textarea {
 }
 
 .roadmap-card {
+  display: flex;
+  flex-direction: column;
   min-height: 388px;
   padding: 18px 28px 14px 16px;
   border-left: 1px solid rgba(22, 27, 26, 0.1);
+}
+
+.roadmap-card .roadmap-phase {
+  margin-top: auto;
 }
 
 .roadmap-card:first-child {
@@ -1108,7 +1114,7 @@ textarea {
 
 .roadmap-section-operations .roadmap-phase {
   min-height: 28px;
-  margin-top: 20px;
+  margin-top: auto;
   padding: 0 10px;
   border-radius: 4px;
   background: #16ab6d;
@@ -1871,7 +1877,7 @@ textarea {
   }
 
   .roadmap-section-operations .roadmap-phase {
-    margin-top: 14px;
+    margin-top: auto;
     min-height: 28px;
     font-size: 10px;
   }

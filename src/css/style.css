@@ -1211,8 +1211,8 @@ section {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
-  padding: 22px 20px;
+  gap: 14px;
+  padding: 18px 16px;
   border: 1px solid #d9e0db;
   border-radius: 18px;
   background: #ffffff;
@@ -1310,13 +1310,12 @@ section {
 .engagement-card {
   background: #ffffff;
   border-radius: 18px;
-  padding: 18px 20px 8px;
+  padding: 16px 18px 14px;
   border: none;
   display: grid;
   grid-template-rows: auto auto auto auto 1fr auto;
-  gap: 12px;
+  gap: 8px;
   align-content: start;
-  min-height: 454px;
 }
 
 .engagement-image {
@@ -1848,7 +1847,6 @@ section {
 
   .engagement-card {
     padding: 14px 14px 12px;
-    min-height: 340px;
   }
 
   .engagement-image {
