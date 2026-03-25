@@ -845,7 +845,11 @@ const applyServiceMode = () => {
     'roadmap-section-engineering',
     'roadmap-section-operations',
     'roadmap-section-legacy',
+    'roadmap-section-governance',
   );
+  if (mode === 'ai-governance') {
+    roadmapSection.classList.add('roadmap-section-governance');
+  }
 
   if (mode === 'ai-accelerated-fintech-engineering') {
     section.classList.add('domains-section-process');
