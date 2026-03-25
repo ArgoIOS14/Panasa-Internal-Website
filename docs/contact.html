@@ -53,21 +53,31 @@
               <div class="contact-grid">
                 <label class="field">
                   <span>First Name</span>
-                  <input type="text" name="firstName" placeholder="First Name" />
+                  <input type="text" name="firstName" placeholder="Enter First Name" />
                 </label>
                 <label class="field">
                   <span>Last Name</span>
-                  <input type="text" name="lastName" placeholder="Last Name" />
+                  <input type="text" name="lastName" placeholder="Enter Last Name" />
                 </label>
                 <label class="field">
                   <span>Email</span>
-                  <input type="email" name="email" placeholder="firstname@acme.inc" />
+                  <input type="email" name="email" placeholder="Enter Email" />
                 </label>
                 <label class="field">
                   <span>Phone Number</span>
                   <div class="phone-field">
-                    <span class="phone-prefix">+91</span>
-                    <input type="tel" name="phone" placeholder="98765 43210" />
+                    <div class="phone-code-wrapper">
+                      <button type="button" class="phone-code-btn" data-phone-code="+91">
+                        <span class="phone-code-flag">🇮🇳</span>
+                        <span class="phone-code-value">+91</span>
+                        <span class="phone-code-arrow">▾</span>
+                      </button>
+                      <div class="phone-code-dropdown" hidden>
+                        <input type="text" class="phone-code-search" placeholder="Search country..." />
+                        <ul class="phone-code-list"></ul>
+                      </div>
+                    </div>
+                    <input type="tel" name="phone" placeholder="Enter Phone Number" />
                   </div>
                 </label>
               </div>
@@ -77,7 +87,7 @@
                 <textarea
                   name="requirements"
                   rows="5"
-                  placeholder="Tell us about your requirements"
+                  placeholder="Enter your requirements"
                 ></textarea>
               </label>
 

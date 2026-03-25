@@ -1113,6 +1113,7 @@ textarea {
 }
 
 .roadmap-section-operations .roadmap-phase {
+  align-self: flex-start;
   min-height: 28px;
   margin-top: auto;
   padding: 0 10px;
