@@ -9,18 +9,22 @@
       content="Learn how Panasa builds secure, scalable fintech infrastructure with global delivery, experienced leadership, and proven execution."
     />
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://rsms.me" crossorigin />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-layout.css" />
     <link rel="stylesheet" href="css/about.css" />
-    <link rel="stylesheet" href="css/shared-logo-marquee.css" />
-    <link rel="stylesheet" href="css/shared-testimonials.css" />
-    <link rel="stylesheet" href="css/shared-footer.css" />
+    <link rel="stylesheet" href="css/shared-logo-marquee.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-testimonials.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-footer.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div class="about-page">
       <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="index.html" aria-label="Panasa home">
-            <img src="assets/logo.svg" alt="Panasa" />
+            <img src="assets/logo.svg" alt="Panasa" fetchpriority="high" />
           </a>
           <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
             <span></span>
@@ -111,8 +115,10 @@
 
           <div class="presence-map-shell" data-animate>
             <img
-              src="assets/about-global-presence.svg"
+              src="assets/about-global-presence.webp"
               alt="Panasa global delivery footprint map"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </section>
@@ -199,7 +205,7 @@
 
           <div class="leadership-grid">
             <article class="leader-card" data-animate>
-              <img src="assets/about-leader-1.svg" alt="Rajesh Thaikootathil" />
+              <img src="assets/about-leader-1.webp" alt="Rajesh Thaikootathil" loading="lazy" decoding="async" />
               <div class="leader-overlay">
                 <div class="leader-summary">
                   <h3>Rajesh Thaikootathil</h3>
@@ -217,7 +223,7 @@
               </div>
             </article>
             <article class="leader-card" data-animate>
-              <img src="assets/about-leader-2.svg" alt="Deepthi Ajay" />
+              <img src="assets/about-leader-2.webp" alt="Deepthi Ajay" loading="lazy" decoding="async" />
               <div class="leader-overlay">
                 <div class="leader-summary">
                   <h3>Deepthi Ajay</h3>
@@ -235,7 +241,7 @@
               </div>
             </article>
             <article class="leader-card" data-animate>
-              <img src="assets/about-leader-3.svg" alt="Moharam Kunnath" />
+              <img src="assets/about-leader-3.webp" alt="Moharam Kunnath" loading="lazy" decoding="async" />
               <div class="leader-overlay">
                 <div class="leader-summary">
                   <h3>Moharam Kunnath</h3>
@@ -253,7 +259,7 @@
               </div>
             </article>
             <article class="leader-card" data-animate>
-              <img src="assets/about-leader-4.svg" alt="Jishnu V" />
+              <img src="assets/about-leader-4.webp" alt="Jishnu V" loading="lazy" decoding="async" />
               <div class="leader-overlay">
                 <div class="leader-summary">
                   <h3>Jishnu V</h3>
@@ -271,7 +277,7 @@
               </div>
             </article>
             <article class="leader-card" data-animate>
-              <img src="assets/about-leader-5.svg" alt="Rahul Chandra" />
+              <img src="assets/about-leader-5.webp" alt="Rahul Chandra" loading="lazy" decoding="async" />
               <div class="leader-overlay">
                 <div class="leader-summary">
                   <h3>Rahul Chandra</h3>
@@ -442,7 +448,7 @@
       </footer>
     </div>
 
-    <script src="content/Home page/default.js"></script>
+    <script src="content/Home page/default.js" defer></script>
     <script type="module" src="js/about.js"></script>
   </body>
 </html>

@@ -40,6 +40,8 @@ export const renderWhy = (data) => {
       const img = createEl('img', 'card-image');
       img.src = cardData.image;
       img.alt = cardData.title;
+      img.loading = 'lazy';
+      img.decoding = 'async';
       card.appendChild(img);
     }
 

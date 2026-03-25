@@ -39,6 +39,8 @@ export const renderEngagement = (data) => {
       const img = createEl('img', 'engagement-image');
       img.src = item.image;
       img.alt = item.title;
+      img.loading = 'lazy';
+      img.decoding = 'async';
 
       const h3 = createEl('h3');
       h3.textContent = item.title;

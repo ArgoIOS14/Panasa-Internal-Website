@@ -17,16 +17,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="css/shared-layout.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/shared-logo-marquee.css" />
-    <link rel="stylesheet" href="css/shared-testimonials.css" />
-    <link rel="stylesheet" href="css/shared-footer.css" />
+    <link rel="stylesheet" href="css/shared-logo-marquee.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-testimonials.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-footer.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div class="page">
       <header class="site-header" id="top">
         <nav class="nav">
           <div class="brand">
-            <img src="assets/logo.svg" alt="Panasa" data-bind="logo" />
+            <img src="assets/logo.svg" alt="Panasa" data-bind="logo" fetchpriority="high" />
           </div>
           <button class="nav-toggle" aria-label="Open navigation">
             <span></span>
@@ -167,7 +167,7 @@
       </footer>
     </div>
 
-    <script src="content/Home page/default.js"></script>
+    <script src="content/Home page/default.js" defer></script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

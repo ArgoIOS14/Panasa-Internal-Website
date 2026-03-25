@@ -6,16 +6,23 @@
     <title>Panasa | Careers</title>
     <meta name="description" content="Build the future of fintech with Panasa." />
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://rsms.me" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-layout.css" />
     <link rel="stylesheet" href="css/careers.css" />
-    <link rel="stylesheet" href="css/shared-footer.css" />
+    <link rel="stylesheet" href="css/shared-footer.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div class="careers-page">
       <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="index.html" aria-label="Panasa home">
-            <img src="assets/logo.svg" alt="Panasa" />
+            <img src="assets/logo.svg" alt="Panasa" fetchpriority="high" />
           </a>
           <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
             <span></span>
@@ -42,7 +49,7 @@
 
           <div class="team-photo" data-animate>
             <img
-              src="assets/Team Photo.png"
+              src="assets/Team Photo.webp"
               alt="Panasa team celebrating together in the office"
               onerror="this.onerror=null;this.src='assets/placeholder-team.svg';"
             />
@@ -185,7 +192,7 @@
       </footer>
     </div>
 
-    <script src="content/Home page/default.js"></script>
+    <script src="content/Home page/default.js" defer></script>
     <script type="module" src="js/careers.js"></script>
   </body>
 </html>

@@ -107,6 +107,8 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
         const logo = createEl('img');
         logo.src = item.logo;
         logo.alt = item.logoAlt || item.name;
+        logo.loading = 'lazy';
+        logo.decoding = 'async';
 
         person.append(personCopy, logo);
         column.append(body, person);

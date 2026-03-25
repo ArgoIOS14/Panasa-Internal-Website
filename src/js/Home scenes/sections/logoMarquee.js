@@ -13,6 +13,8 @@ export const renderLogoMarquee = (selector, logos) => {
     const img = createEl('img');
     img.src = logo.src;
     img.alt = logo.alt;
+    img.loading = 'lazy';
+    img.decoding = 'async';
     if (index >= logos.length) img.setAttribute('aria-hidden', 'true');
     item.appendChild(img);
     track.appendChild(item);
