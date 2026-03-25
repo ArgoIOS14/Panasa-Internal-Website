@@ -124,6 +124,7 @@ const initPhoneCodePicker = () => {
           flagSpan.textContent = c.flag;
           valueSpan.textContent = c.code;
           btn.dataset.phoneCode = c.code;
+          btn.dataset.phoneName = c.name;
           dropdown.hidden = true;
           search.value = '';
         });
@@ -165,7 +166,7 @@ const initContactForm = () => {
       firstName: form.firstName.value.trim(),
       lastName: form.lastName.value.trim(),
       email: form.email.value.trim(),
-      phone: phoneCode + ' ' + form.phone.value.trim(),
+      phone: '(' + phoneCode + ') ' + form.phone.value.trim(),
       message: form.requirements.value.trim(),
     };
 
