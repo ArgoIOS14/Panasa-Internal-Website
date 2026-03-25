@@ -9,16 +9,20 @@
       content="Talk to Panasa about engineering, operations, and scaling your fintech platform."
     />
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://rsms.me" crossorigin />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-layout.css" />
     <link rel="stylesheet" href="css/contact.css" />
-    <link rel="stylesheet" href="css/shared-footer.css" />
+    <link rel="stylesheet" href="css/shared-footer.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div class="contact-page">
       <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="index.html" aria-label="Panasa home">
-            <img src="assets/logo.svg" alt="Panasa" />
+            <img src="assets/logo.svg" alt="Panasa" fetchpriority="high" />
           </a>
           <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
             <span></span>
@@ -112,7 +116,7 @@
 
           <div class="office-grid">
             <article class="office-card" data-animate>
-              <img src="assets/contact-office-kochi.svg" alt="Panasa Kochi office building" />
+              <img src="assets/contact-office-kochi.webp" alt="Panasa Kochi office building" loading="lazy" decoding="async" />
               <div class="office-overlay">
                 <div class="office-flag office-flag-india" aria-hidden="true"></div>
                 <div>
@@ -123,7 +127,7 @@
             </article>
 
             <article class="office-card" data-animate>
-              <img src="assets/contact-office-uk.svg" alt="Panasa UK office waterfront view" />
+              <img src="assets/contact-office-uk.webp" alt="Panasa UK office waterfront view" loading="lazy" decoding="async" />
               <div class="office-overlay">
                 <div class="office-flag office-flag-uk" aria-hidden="true"></div>
                 <div>
@@ -154,7 +158,7 @@
       </footer>
     </div>
 
-    <script src="content/Home page/default.js"></script>
+    <script src="content/Home page/default.js" defer></script>
     <script type="module" src="js/contact.js"></script>
   </body>
 </html>

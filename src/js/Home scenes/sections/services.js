@@ -51,6 +51,8 @@ const createFeatureSlide = (item, ctaLabel) => {
   const icon = createEl('img', 'services-visual-icon');
   icon.src = item.icon;
   icon.alt = item.title;
+  icon.loading = 'lazy';
+  icon.decoding = 'async';
 
   visual.appendChild(icon);
   visualWrap.appendChild(visual);

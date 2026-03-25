@@ -9,17 +9,21 @@
       content="Panasa AI governance services for regulated fintech teams that need clear controls, deliverables, and audit-ready operating models."
     />
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://rsms.me" crossorigin />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-layout.css" />
     <link rel="stylesheet" href="css/services.css" />
-    <link rel="stylesheet" href="css/shared-logo-marquee.css" />
-    <link rel="stylesheet" href="css/shared-footer.css" />
+    <link rel="stylesheet" href="css/shared-logo-marquee.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-footer.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div class="services-page">
       <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="index.html" aria-label="Panasa home">
-            <img src="assets/logo.svg" alt="Panasa" />
+            <img src="assets/logo.svg" alt="Panasa" fetchpriority="high" />
           </a>
           <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
             <span></span>
@@ -449,7 +453,7 @@
               </div>
             </article>
             <article class="feature-card dark">
-              <img class="card-image" src="assets/why-card-1.svg" alt="Night city visual representing scale" />
+              <img class="card-image" src="assets/why-card-1.webp" alt="Night city visual representing scale" loading="lazy" decoding="async" />
               <div>
                 <h3>Proven at scale</h3>
                 <p>
@@ -459,7 +463,7 @@
               </div>
             </article>
             <article class="feature-card photo">
-              <img class="card-image" src="assets/why-card-4.svg" alt="Panasa team collaborating" />
+              <img class="card-image" src="assets/why-card-4.webp" alt="Panasa team collaborating" loading="lazy" decoding="async" />
               <div>
                 <h3>Full-Stack Team</h3>
                 <p>
@@ -553,7 +557,7 @@
       </footer>
     </div>
 
-    <script src="content/Home page/default.js"></script>
+    <script src="content/Home page/default.js" defer></script>
     <script type="module" src="js/services.js"></script>
   </body>
 </html>

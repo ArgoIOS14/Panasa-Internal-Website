@@ -17,40 +17,23 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="css/shared-layout.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/shared-logo-marquee.css" />
-    <link rel="stylesheet" href="css/shared-testimonials.css" />
-    <link rel="stylesheet" href="css/shared-footer.css" />
-    <link rel="preload" href="assets/logo.svg" as="image" />
-    <link rel="preload" href="assets/certifications.svg" as="image" />
-    <link rel="preload" href="assets/hero-cta-talk-icon.svg" as="image" />
-    <link rel="preload" href="assets/hero-cta-view-icon.svg" as="image" />
-    <link rel="preload" href="assets/service-frame-1.svg" as="image" />
-    <style>
-      /* Prevent layout shift before JS renders content */
-      .hero { min-height: 520px; }
-      .cert-row.single { min-height: 100px; }
-      @media (max-width: 900px) { .hero { min-height: 460px; } }
-      @media (max-width: 600px) { .hero { min-height: 400px; } }
-    </style>
+    <link rel="stylesheet" href="css/shared-logo-marquee.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-testimonials.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-footer.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div class="page">
       <header class="site-header" id="top">
         <nav class="nav">
           <div class="brand">
-            <img src="assets/logo.svg" alt="Panasa" data-bind="logo" />
+            <img src="assets/logo.svg" alt="Panasa" data-bind="logo" fetchpriority="high" />
           </div>
           <button class="nav-toggle" aria-label="Open navigation">
             <span></span>
             <span></span>
             <span></span>
           </button>
-          <ul class="nav-links" data-nav-links>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="careers.html">Careers</a></li>
-            <li><a href="contact.html" class="btn btn-nav">Contact Us</a></li>
-          </ul>
+          <ul class="nav-links" data-nav-links></ul>
         </nav>
       </header>
 
@@ -58,12 +41,12 @@
         <section class="hero" id="about" data-animate>
           <div class="hero-grid">
             <div class="hero-copy" data-animate>
-              <span class="pill" data-hero-pill>TRUSTED BY FINTECHS ACROSS EU, UK &amp; APAC</span>
+              <span class="pill" data-hero-pill></span>
               <h1>
-                <span data-hero-title>Ship &amp; modernise your fintech in weeks</span>
-                <em data-hero-title-emphasis>Scale Without Surprises</em>
+                <span data-hero-title></span>
+                <em data-hero-title-emphasis></em>
               </h1>
-              <p data-hero-subtitle>Your AI-native partner for Dev, Ops &amp; Scale. No handoffs.</p>
+              <p data-hero-subtitle></p>
               <div class="hero-actions">
                 <a class="btn btn-dark" data-hero-cta-primary></a>
                 <a class="btn btn-ghost" data-hero-cta-secondary></a>
@@ -75,7 +58,7 @@
             </div>
           </div>
           <div class="cert-row single" data-hero-cert-badges>
-            <img src="assets/certifications.svg" alt="Certifications" loading="eager" decoding="async" fetchpriority="high" />
+            <img src="assets/certifications.svg" alt="Certifications" fetchpriority="high" />
           </div>
           <div class="cert-separator" aria-hidden="true"></div>
         </section>
@@ -184,7 +167,7 @@
       </footer>
     </div>
 
-    <script src="content/Home page/default.js"></script>
+    <script src="content/Home page/default.js" defer></script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

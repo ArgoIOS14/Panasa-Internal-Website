@@ -124,7 +124,7 @@
     "visualLabel": "Visual Graphics",
     "items": [
       {
-        "icon": "assets/home-services-slide-1.svg",
+        "icon": "assets/home-services-slide-1.webp",
         "href": "services.html?service=ai-accelerated-fintech-engineering",
         "eyebrow": "Core Build",
         "title": "AI Accelerated Fintech Engineering",
@@ -139,7 +139,7 @@
         ]
       },
       {
-        "icon": "assets/home-services-slide-2.svg",
+        "icon": "assets/home-services-slide-2.webp",
         "href": "services.html?service=ai-governance",
         "eyebrow": "Core Govern",
         "title": "AI Governance",
@@ -154,7 +154,7 @@
         ]
       },
       {
-        "icon": "assets/home-services-slide-3.svg",
+        "icon": "assets/home-services-slide-3.webp",
         "href": "services.html?service=intelligent-operations",
         "eyebrow": "Core Operate",
         "title": "Intelligent Operations",
@@ -169,7 +169,7 @@
         ]
       },
       {
-        "icon": "assets/home-services-slide-4.svg",
+        "icon": "assets/home-services-slide-4.webp",
         "href": "services.html?service=ai-powered-legacy-modernisation",
         "eyebrow": "Core Modernise",
         "title": "AI-Led Legacy Modernisation",
@@ -204,14 +204,14 @@
       },
       {
         "style": "dark",
-        "image": "assets/why-card-1.svg",
+        "image": "assets/why-card-1.webp",
         "title": "Proven at scale",
         "text": "Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that.",
         "imageType": "image"
       },
       {
         "style": "photo",
-        "image": "assets/why-card-4.svg",
+        "image": "assets/why-card-4.webp",
         "title": "Full-stack team",
         "text": "From strategy to 24/7 ops — no vendor juggling needed. One team, end-to-end ownership.",
         "imageType": "image"
@@ -258,7 +258,7 @@
         "eyebrow": "NEOBANK PLATFORM",
         "title": "Scaled and Stabilized Digital Banking Platform Handling High Volume Transactions Across Multiple Markets",
         "text": "Fast-growing neobank required improved system reliability, faster issue resolution, and scalable infrastructure to support increasing transaction volumes across regions.",
-        "image": "assets/case-study-card-2.svg",
+        "image": "assets/case-study-card-2.webp",
         "cta": {
           "label": "Read Full Case Study",
           "href": "contact.html"
@@ -282,7 +282,7 @@
         "eyebrow": "PAYMENT SERVICE PROVIDER",
         "title": "Modernized Payment Processing System Improving Performance, Reliability, and Operational Efficiency",
         "text": "Established PSP needed to upgrade legacy systems, reduce downtime, and enhance monitoring to support seamless payment processing and operational continuity.",
-        "image": "assets/case-study-card-3.svg",
+        "image": "assets/case-study-card-3.webp",
         "cta": {
           "label": "Read Full Case Study",
           "href": "contact.html"
