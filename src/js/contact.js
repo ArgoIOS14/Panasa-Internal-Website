@@ -101,6 +101,29 @@ const COUNTRY_CODES = [
   { name: 'Oman', code: '+968', flag: '🇴🇲' },
 ];
 
+const PHONE_LENGTHS = {
+  '+1': [10], '+7': [10], '+20': [10], '+27': [9], '+31': [9], '+32': [8,9],
+  '+33': [9], '+34': [9], '+39': [9,10], '+41': [9], '+43': [9,10], '+44': [10],
+  '+45': [8], '+46': [9], '+47': [8], '+48': [9], '+49': [10,11], '+52': [10],
+  '+54': [10], '+55': [10,11], '+56': [9], '+57': [10], '+60': [9,10], '+61': [9],
+  '+62': [9,10,11,12], '+63': [10], '+64': [8,9], '+65': [8], '+66': [9],
+  '+81': [10,11], '+82': [9,10,11], '+84': [9,10], '+86': [11], '+90': [10],
+  '+91': [10], '+92': [10], '+94': [9], '+234': [10], '+254': [9],
+  '+351': [9], '+353': [9], '+358': [9,10], '+852': [8], '+880': [10],
+  '+965': [8], '+966': [9], '+968': [8], '+971': [9], '+972': [9],
+  '+973': [8], '+974': [8],
+};
+
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+const isValidPhone = (phone, code) => {
+  const digits = phone.replace(/\D/g, '');
+  if (!digits) return false;
+  const lengths = PHONE_LENGTHS[code];
+  if (lengths) return lengths.includes(digits.length);
+  return digits.length >= 7 && digits.length <= 15;
+};
+
 const initPhoneCodePicker = () => {
   const wrapper = document.querySelector('.phone-code-wrapper');
   if (!wrapper) return;
@@ -119,31 +142,46 @@ const initPhoneCodePicker = () => {
       .filter((c) => !q || c.name.toLowerCase().includes(q) || c.code.includes(q))
       .forEach((c) => {
         const li = document.createElement('li');
+        li.dataset.code = c.code;
+        li.dataset.flag = c.flag;
+        li.dataset.name = c.name;
         li.innerHTML = `<span class="code-flag">${c.flag}</span><span>${c.name}</span><span class="code-dial">${c.code}</span>`;
-        li.addEventListener('click', () => {
-          flagSpan.textContent = c.flag;
-          valueSpan.textContent = c.code;
-          btn.dataset.phoneCode = c.code;
-          btn.dataset.phoneName = c.name;
-          dropdown.hidden = true;
-          search.value = '';
-        });
         list.appendChild(li);
       });
   };
 
+  let justSelected = false;
+
+  list.addEventListener('mousedown', (e) => {
+    const li = e.target.closest('li');
+    if (!li) return;
+    flagSpan.textContent = li.dataset.flag;
+    valueSpan.textContent = li.dataset.code;
+    btn.dataset.phoneCode = li.dataset.code;
+    btn.dataset.phoneName = li.dataset.name;
+    search.value = '';
+    justSelected = true;
+    dropdown.classList.remove('open');
+  });
+
   btn.addEventListener('click', () => {
-    dropdown.hidden = !dropdown.hidden;
-    if (!dropdown.hidden) {
+    if (justSelected) {
+      justSelected = false;
+      return;
+    }
+    const isOpen = dropdown.classList.toggle('open');
+    if (isOpen) {
       renderList();
-      search.focus();
+      setTimeout(() => search.focus(), 0);
     }
   });
 
   search.addEventListener('input', () => renderList(search.value));
 
-  document.addEventListener('click', (e) => {
-    if (!wrapper.contains(e.target)) dropdown.hidden = true;
+  document.addEventListener('mousedown', (e) => {
+    if (!wrapper.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
   });
 };
 
@@ -153,30 +191,74 @@ const initContactForm = () => {
 
   initPhoneCodePicker();
 
-  const btn = form.querySelector('button[type="submit"]');
-  const btnText = btn?.textContent || 'Send Message';
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const btnText = submitBtn?.textContent || 'Send Message';
+  const fields = {
+    firstName: form.firstName,
+    lastName: form.lastName,
+    email: form.querySelector('input[name="email"]'),
+    phone: form.phone,
+    message: form.requirements,
+  };
+
+  submitBtn.disabled = true;
+
+  const clearError = (field) => {
+    const wrapper = field.closest('.field') || field.closest('.phone-field')?.closest('.field');
+    if (wrapper) wrapper.classList.remove('field-error');
+  };
+
+  const setError = (field) => {
+    const wrapper = field.closest('.field') || field.closest('.phone-field')?.closest('.field');
+    if (wrapper) wrapper.classList.add('field-error');
+  };
+
+  const checkFormValid = () => {
+    const filled =
+      fields.firstName.value.trim() &&
+      fields.lastName.value.trim() &&
+      fields.email.value.trim() &&
+      fields.phone.value.trim() &&
+      fields.message.value.trim();
+    submitBtn.disabled = !filled;
+  };
+
+  Object.values(fields).forEach((field) => {
+    field.addEventListener('input', () => {
+      clearError(field);
+      checkFormValid();
+    });
+  });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const phoneCodeBtn = form.querySelector('.phone-code-btn');
     const phoneCode = phoneCodeBtn?.dataset.phoneCode || '+91';
+    let valid = true;
 
-    const data = {
-      firstName: form.firstName.value.trim(),
-      lastName: form.lastName.value.trim(),
-      email: form.email.value.trim(),
-      phone: '(' + phoneCode + ') ' + form.phone.value.trim(),
-      message: form.requirements.value.trim(),
-    };
-
-    if (!data.firstName || !data.email || !data.message) {
-      alert('Please fill in your name, email, and message.');
-      return;
+    if (!isValidEmail(fields.email.value.trim())) {
+      setError(fields.email);
+      valid = false;
     }
 
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
+    if (!isValidPhone(fields.phone.value.trim(), phoneCode)) {
+      setError(fields.phone);
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    const data = {
+      firstName: fields.firstName.value.trim(),
+      lastName: fields.lastName.value.trim(),
+      email: fields.email.value.trim(),
+      phone: '(' + phoneCode + ') ' + fields.phone.value.trim(),
+      message: fields.message.value.trim(),
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
 
     try {
       const formData = new FormData();
@@ -191,14 +273,15 @@ const initContactForm = () => {
         body: formData,
       });
       form.reset();
-      btn.textContent = 'Message Sent!';
+      submitBtn.textContent = 'Message Sent!';
+      submitBtn.disabled = true;
       setTimeout(() => {
-        btn.textContent = btnText;
-        btn.disabled = false;
+        submitBtn.textContent = btnText;
+        checkFormValid();
       }, 3000);
     } catch {
-      btn.textContent = btnText;
-      btn.disabled = false;
+      submitBtn.textContent = btnText;
+      checkFormValid();
       alert('Something went wrong. Please try again.');
     }
   });
