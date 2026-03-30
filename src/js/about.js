@@ -4,6 +4,7 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderLogoMarquee } from './Home scenes/sections/logoMarquee.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderSharedTestimonials } from './Home scenes/sections/sharedTestimonials.js';
+import { initEmailCapture } from './Home scenes/components/email-capture.js';
 
 const TRUSTED_LOGOS = [
   { src: 'assets/logo-accelovate.svg', alt: 'Accelovate' },
@@ -40,7 +41,7 @@ const ABOUT_TESTIMONIALS = {
 
 const resolveToSiteHref = (href) => {
   if (href === '#about') return 'about.html';
-  if (href === '#services') return 'services.html';
+  if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
   if (href.startsWith('#')) return `index.html${href}`;
   return href;
 };
@@ -138,6 +139,15 @@ const initAbout = async () => {
     prevSelector: '[data-testimonial-prev]',
     nextSelector: '[data-testimonial-next]',
     dotsSelector: '[data-testimonial-dots]',
+  });
+
+  initEmailCapture({
+    promptHeading: 'Have a question we didn\'t cover?',
+    promptSubtext: 'Leave your email and we\'ll follow up.',
+    buttonLabel: 'Follow up',
+    triggerPercent: 0.75,
+    storageKey: 'panasa_email_about',
+    crmDescription: 'Email capture: FAQ follow-up (About page)',
   });
 
   try {

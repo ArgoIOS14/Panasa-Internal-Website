@@ -11,23 +11,23 @@
       },
       {
         "label": "Services",
-        "href": "services.html",
+        "href": "ai-accelerated-fintech-engineering.html",
         "children": [
           {
             "label": "AI Accelerated Fintech Engineering",
-            "href": "services.html?service=ai-accelerated-fintech-engineering"
+            "href": "ai-accelerated-fintech-engineering.html"
           },
           {
             "label": "AI Powered Legacy Modernisation",
-            "href": "services.html?service=ai-powered-legacy-modernisation"
+            "href": "ai-powered-legacy-modernisation.html"
           },
           {
             "label": "AI Governance",
-            "href": "services.html?service=ai-governance"
+            "href": "ai-governance.html"
           },
           {
             "label": "Intelligent Operations",
-            "href": "services.html?service=intelligent-operations"
+            "href": "intelligent-operations.html"
           }
         ]
       },
@@ -52,7 +52,7 @@
     },
     "secondaryCta": {
       "label": "View Solutions",
-      "href": "services.html"
+      "href": "ai-accelerated-fintech-engineering.html"
     },
     "trustedLabel": "Trusted by high-growth fintechs",
     "trustedLogos": [
@@ -125,7 +125,7 @@
     "items": [
       {
         "icon": "assets/home-services-slide-1.webp",
-        "href": "services.html?service=ai-accelerated-fintech-engineering",
+        "href": "ai-accelerated-fintech-engineering.html",
         "eyebrow": "Core Build",
         "title": "AI Accelerated Fintech Engineering",
         "text": "",
@@ -140,7 +140,7 @@
       },
       {
         "icon": "assets/home-services-slide-2.webp",
-        "href": "services.html?service=ai-governance",
+        "href": "ai-governance.html",
         "eyebrow": "Core Govern",
         "title": "AI Governance",
         "text": "",
@@ -155,7 +155,7 @@
       },
       {
         "icon": "assets/home-services-slide-3.webp",
-        "href": "services.html?service=intelligent-operations",
+        "href": "intelligent-operations.html",
         "eyebrow": "Core Operate",
         "title": "Intelligent Operations",
         "text": "",
@@ -170,7 +170,7 @@
       },
       {
         "icon": "assets/home-services-slide-4.webp",
-        "href": "services.html?service=ai-powered-legacy-modernisation",
+        "href": "ai-powered-legacy-modernisation.html",
         "eyebrow": "Core Modernise",
         "title": "AI-Led Legacy Modernisation",
         "text": "",
@@ -471,7 +471,7 @@
           },
           {
             "label": "Services",
-            "href": "services.html"
+            "href": "ai-accelerated-fintech-engineering.html"
           },
           {
             "label": "Resources",
@@ -515,19 +515,19 @@
         "links": [
           {
             "label": "AI Accelerated Fintech Engg.",
-            "href": "services.html"
+            "href": "ai-accelerated-fintech-engineering.html"
           },
           {
             "label": "AI Governance",
-            "href": "services.html?service=ai-governance"
+            "href": "ai-governance.html"
           },
           {
             "label": "Intelligent Operations",
-            "href": "services.html?service=intelligent-operations"
+            "href": "intelligent-operations.html"
           },
           {
             "label": "AI Powered Legacy Modernisation",
-            "href": "services.html?service=ai-powered-legacy-modernisation"
+            "href": "ai-powered-legacy-modernisation.html"
           }
         ]
       }

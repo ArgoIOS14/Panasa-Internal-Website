@@ -3,6 +3,7 @@ import { loadContent } from './Home scenes/data/loadContent.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderLogoMarquee } from './Home scenes/sections/logoMarquee.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
+import { initEmailCapture } from './Home scenes/components/email-capture.js';
 
 const TRUSTED_LOGOS = [
   { src: 'assets/logo-accelovate.svg', alt: 'Accelovate' },
@@ -332,7 +333,14 @@ const initProcessSteps = () => {
 
 const getServiceMode = () => {
   const params = new URLSearchParams(window.location.search);
-  return params.get('service') || 'ai-accelerated-fintech-engineering';
+  const fromParam = params.get('service');
+  if (fromParam) return fromParam;
+
+  const path = window.location.pathname;
+  if (path.includes('ai-governance')) return 'ai-governance';
+  if (path.includes('intelligent-operations')) return 'intelligent-operations';
+  if (path.includes('ai-powered-legacy-modernisation')) return 'ai-powered-legacy-modernisation';
+  return 'ai-accelerated-fintech-engineering';
 };
 
 const applyIntelligentOperationsTextOverrides = () => {
@@ -1192,7 +1200,7 @@ const applyServiceMode = () => {
 
 const resolveToSiteHref = (href) => {
   if (href === '#about') return 'about.html';
-  if (href === '#services') return 'services.html';
+  if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
   if (href.startsWith('#')) return `index.html${href}`;
   return href;
 };
@@ -1219,7 +1227,7 @@ const buildNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'services.html' : resolveToSiteHref(link.href),
+    href: link.label === 'Services' ? 'ai-accelerated-fintech-engineering.html' : resolveToSiteHref(link.href),
   })),
 });
 
@@ -1234,6 +1242,15 @@ const initServicesPage = async () => {
     applyAIAcceleratedPageCopy();
   }
   initScrollAnimations();
+
+  initEmailCapture({
+    promptHeading: 'Want the full services breakdown?',
+    promptSubtext: 'We\'ll email you our detailed overview.',
+    buttonLabel: 'Get overview',
+    triggerPercent: 0.5,
+    storageKey: 'panasa_email_services',
+    crmDescription: 'Email capture: Services overview (Services page)',
+  });
 
   try {
     const content = await loadContent();

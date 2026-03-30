@@ -8,19 +8,19 @@ const resolveServiceHrefFromHeading = (heading, fallbackHref) => {
     .trim();
 
   if (normalized.includes('ai accelerated fintech engineering')) {
-    return 'services.html';
+    return 'ai-accelerated-fintech-engineering.html';
   }
   if (normalized.includes('ai governance')) {
-    return 'services.html?service=ai-governance';
+    return 'ai-governance.html';
   }
   if (normalized.includes('intelligent operations')) {
-    return 'services.html?service=intelligent-operations';
+    return 'intelligent-operations.html';
   }
   if (normalized.includes('legacy modernisation') || normalized.includes('legacy modernization')) {
-    return 'services.html?service=ai-powered-legacy-modernisation';
+    return 'ai-powered-legacy-modernisation.html';
   }
 
-  return fallbackHref || 'services.html';
+  return fallbackHref || 'ai-accelerated-fintech-engineering.html';
 };
 
 const createFeatureSlide = (item, ctaLabel) => {

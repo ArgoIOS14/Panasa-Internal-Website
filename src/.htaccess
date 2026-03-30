@@ -1,0 +1,24 @@
+# Redirect old WordPress URLs to new static pages
+# Verify these are needed with infra team before deploying
+
+Redirect 301 /services/ /ai-accelerated-fintech-engineering.html
+Redirect 301 /about/ /about.html
+Redirect 301 /careers/ /careers.html
+Redirect 301 /contact/ /contact.html
+
+# Redirect old query-param service URLs
+RewriteEngine On
+RewriteCond %{QUERY_STRING} service=ai-governance
+RewriteRule ^services\.html$ /ai-governance.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} service=intelligent-operations
+RewriteRule ^services\.html$ /intelligent-operations.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} service=ai-powered-legacy-modernisation
+RewriteRule ^services\.html$ /ai-powered-legacy-modernisation.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} service=ai-accelerated-fintech-engineering
+RewriteRule ^services\.html$ /ai-accelerated-fintech-engineering.html? [R=301,L]
+
+# Default services.html redirect
+RewriteRule ^services\.html$ /ai-accelerated-fintech-engineering.html [R=301,L]
