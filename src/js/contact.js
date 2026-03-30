@@ -43,8 +43,7 @@ const buildContactFooter = (footer) => ({
   },
 });
 
-const SHEET_URL =
-  'https://script.google.com/macros/s/AKfycbwBVGKg2rXOnW0T3JVyaOTZVNrMcxY0WVjFnC8AlCYAXcbx7YNJQvbnoowfgbzpcKWw/exec';
+const API_URL = '/api/zoho-proxy.php';
 
 const COUNTRY_CODES = [
   { name: 'India', code: '+91', flag: '🇮🇳' },
@@ -261,16 +260,10 @@ const initContactForm = () => {
     submitBtn.textContent = 'Sending...';
 
     try {
-      const formData = new FormData();
-      formData.append('firstName', data.firstName);
-      formData.append('lastName', data.lastName);
-      formData.append('email', data.email);
-      formData.append('phone', data.phone);
-      formData.append('message', data.message);
-
-      await fetch(SHEET_URL, {
+      await fetch(API_URL, {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
       form.reset();
       submitBtn.textContent = 'Message Sent!';
