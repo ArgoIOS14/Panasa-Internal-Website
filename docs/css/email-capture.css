@@ -1,0 +1,260 @@
+/* ── Email Capture Popup ─────────────────────────────────── */
+
+.email-capture {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  max-width: 380px;
+  width: calc(100% - 48px);
+  background: #ffffff;
+  border-radius: 14px;
+  border-left: 3px solid #16ab6d;
+  box-shadow: 0 20px 50px rgba(9, 35, 28, 0.15);
+  padding: 24px 22px;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition:
+    opacity 380ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.email-capture--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.email-capture--hiding {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+/* ── Close button ───────────────────────────────────────── */
+
+.email-capture__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  color: #5c7a6e;
+  transition: background 180ms ease, color 180ms ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.email-capture__close:hover {
+  background: rgba(11, 61, 46, 0.06);
+  color: #0f2c25;
+}
+
+.email-capture__close svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* ── Body content ───────────────────────────────────────── */
+
+.email-capture__body {
+  padding-right: 20px; /* space for close button */
+}
+
+.email-capture__heading {
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f2c25;
+  line-height: 1.25;
+  margin: 0 0 4px;
+}
+
+.email-capture__subtext {
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #5c7a6e;
+  line-height: 1.45;
+  margin: 0 0 16px;
+}
+
+/* ── Form ────────────────────────────────────────────────── */
+
+.email-capture__form {
+  display: flex;
+  gap: 8px;
+}
+
+.email-capture__input {
+  flex: 1;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #c8d0cc;
+  border-radius: 9px;
+  background: #ffffff;
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #202626;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(24, 38, 32, 0.04);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.email-capture__input::placeholder {
+  color: #555f5d;
+}
+
+.email-capture__input:focus {
+  border-color: rgba(22, 171, 109, 0.78);
+  box-shadow: 0 0 0 3px rgba(22, 171, 109, 0.08);
+}
+
+.email-capture__input--error {
+  border-color: #d94040;
+}
+
+.email-capture__input--error:focus {
+  border-color: #d94040;
+  box-shadow: 0 0 0 3px rgba(217, 64, 64, 0.08);
+}
+
+.email-capture__submit {
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 9px;
+  background: #084a2d;
+  color: #ffffff;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.email-capture__submit:hover {
+  background: #0b3d2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(8, 31, 24, 0.18);
+}
+
+.email-capture__submit:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.email-capture__submit:disabled {
+  background: #a3b5ad;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Error message ──────────────────────────────────────── */
+
+.email-capture__error {
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: #d94040;
+  margin: 6px 0 0;
+  display: none;
+}
+
+.email-capture__error--visible {
+  display: block;
+}
+
+/* ── Success state ──────────────────────────────────────── */
+
+.email-capture__success {
+  display: none;
+}
+
+.email-capture__success--visible {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0 0;
+}
+
+.email-capture__success-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e9fff4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.email-capture__success-icon svg {
+  width: 12px;
+  height: 12px;
+  stroke: #16ab6d;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.email-capture__success-text {
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #16ab6d;
+  font-weight: 500;
+}
+
+/* ── Mobile bottom sheet ────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .email-capture {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    max-width: none;
+    width: 100%;
+    border-radius: 14px 14px 0 0;
+    padding: 20px 18px calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .email-capture__form {
+    flex-direction: column;
+  }
+
+  .email-capture__submit {
+    width: 100%;
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .email-capture {
+    transition: opacity 0ms;
+    transform: none;
+  }
+
+  .email-capture--visible {
+    transform: none;
+  }
+
+  .email-capture--hiding {
+    transform: none;
+  }
+}

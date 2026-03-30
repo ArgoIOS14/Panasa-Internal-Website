@@ -9,6 +9,7 @@ import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderServices } from './Home scenes/sections/services.js';
 import { renderTestimonials } from './Home scenes/sections/testimonials.js';
 import { renderWhy } from './Home scenes/sections/why.js';
+import { initEmailCapture } from './Home scenes/components/email-capture.js';
 
 const renderPage = (content) => {
   document.title = content.meta.title;
@@ -36,6 +37,15 @@ const initApp = () => {
   if (window.DEFAULT_CONTENT) {
     renderPage(window.DEFAULT_CONTENT);
   }
+
+  initEmailCapture({
+    promptHeading: 'See how we delivered for a top issuer',
+    promptSubtext: 'Get the full case study in your inbox.',
+    buttonLabel: 'Get it free',
+    triggerPercent: 0.6,
+    storageKey: 'panasa_email_home',
+    crmDescription: 'Email capture: Case study request (Home page)',
+  });
 
   // Then try to fetch fresh content in the background
   loadContent()
