@@ -460,17 +460,21 @@ textarea {
 
 .leadership-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-top: 22px;
 }
 
 .leader-card {
   position: relative;
-  min-height: 258px;
+  min-height: 320px;
   border-radius: 4px;
   overflow: hidden;
   background: #dedede;
+}
+
+.leader-card:first-child {
+  border-left: 3px solid #2dd4bf;
 }
 
 .leader-card img {
@@ -809,9 +813,6 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .leadership-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 900px) {
@@ -1057,7 +1058,7 @@ textarea {
   }
 
   .leader-card {
-    min-height: 164px;
+    min-height: 200px;
   }
 
   .leader-summary,
