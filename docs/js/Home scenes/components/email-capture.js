@@ -157,6 +157,10 @@ export const initEmailCapture = (userConfig = {}) => {
       localStorage.setItem(cfg.storageKey, String(Date.now()));
     }
 
+    // Clean up event listeners
+    window.removeEventListener('scroll', onScroll);
+    document.removeEventListener('keydown', onKeydown);
+
     els.aside.classList.remove('email-capture--visible');
     els.aside.classList.add('email-capture--hiding');
 
@@ -200,7 +204,6 @@ export const initEmailCapture = (userConfig = {}) => {
   const onKeydown = (e) => {
     if (e.key === 'Escape' && revealed && !dismissed) {
       dismiss('close');
-      document.removeEventListener('keydown', onKeydown);
     }
   };
   document.addEventListener('keydown', onKeydown);

@@ -1,6 +1,15 @@
 <?php
+// CSRF protection: validate Origin header
+$allowed_origins = ['https://www.panasatech.com', 'http://localhost'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS' && !in_array($origin, $allowed_origins)) {
+    http_response_code(403);
+    echo json_encode(['status' => 'error', 'message' => 'Forbidden']);
+    exit;
+}
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: ' . ($origin ?: $allowed_origins[0]));
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 

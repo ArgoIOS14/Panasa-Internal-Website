@@ -724,8 +724,11 @@ textarea {
 
 .faq-icon {
   flex: 0 0 auto;
-  font-size: 18px;
-  line-height: 1;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .faq-answer {

@@ -144,7 +144,15 @@ const initPhoneCodePicker = () => {
         li.dataset.code = c.code;
         li.dataset.flag = c.flag;
         li.dataset.name = c.name;
-        li.innerHTML = `<span class="code-flag">${c.flag}</span><span>${c.name}</span><span class="code-dial">${c.code}</span>`;
+        const flagEl = document.createElement('span');
+        flagEl.className = 'code-flag';
+        flagEl.textContent = c.flag;
+        const nameEl = document.createElement('span');
+        nameEl.textContent = c.name;
+        const dialEl = document.createElement('span');
+        dialEl.className = 'code-dial';
+        dialEl.textContent = c.code;
+        li.append(flagEl, nameEl, dialEl);
         list.appendChild(li);
       });
   };

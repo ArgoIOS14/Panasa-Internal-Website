@@ -57,6 +57,43 @@ const buildFooterLinks = (footer) => ({
   })),
 });
 
+const createFaqSvg = (isOpen) => {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('width', '28');
+  svg.setAttribute('height', '28');
+  svg.setAttribute('viewBox', '0 0 28 28');
+  svg.setAttribute('fill', 'none');
+
+  const hLine = document.createElementNS(NS, 'path');
+  hLine.setAttribute('d', isOpen ? 'M23.3332 14H4.6665' : 'M23.3332 14H4.6665');
+  hLine.setAttribute('stroke', '#141414');
+  hLine.setAttribute('stroke-width', '2.5');
+  hLine.setAttribute('stroke-linecap', 'round');
+  hLine.setAttribute('stroke-linejoin', 'round');
+  svg.appendChild(hLine);
+
+  if (isOpen) {
+    const hLine2 = document.createElementNS(NS, 'path');
+    hLine2.setAttribute('d', 'M23.3384 13.9961L4.67171 13.9961');
+    hLine2.setAttribute('stroke', '#141414');
+    hLine2.setAttribute('stroke-width', '2.5');
+    hLine2.setAttribute('stroke-linecap', 'round');
+    hLine2.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(hLine2);
+  } else {
+    const vLine = document.createElementNS(NS, 'path');
+    vLine.setAttribute('d', 'M14.0015 4.66797L14.0015 23.3346');
+    vLine.setAttribute('stroke', '#141414');
+    vLine.setAttribute('stroke-width', '2.5');
+    vLine.setAttribute('stroke-linecap', 'round');
+    vLine.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(vLine);
+  }
+
+  return svg;
+};
+
 const initFaq = () => {
   const items = Array.from(document.querySelectorAll('.faq-item'));
   if (!items.length) return;
@@ -69,7 +106,8 @@ const initFaq = () => {
 
     item.classList.toggle('is-open', isOpen);
     button.setAttribute('aria-expanded', String(isOpen));
-    icon.textContent = isOpen ? 'x' : '+';
+    icon.textContent = '';
+    icon.appendChild(createFaqSvg(isOpen));
     panel.style.height = isOpen ? `${panel.scrollHeight}px` : '0px';
   };
 
