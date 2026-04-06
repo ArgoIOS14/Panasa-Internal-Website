@@ -76,7 +76,27 @@
             <span></span>
             <span></span>
           </button>
-          <ul class="nav-links" data-nav-links></ul>
+          <ul class="nav-links" data-nav-links>
+            <li class="nav-mobile-head">
+              <a class="nav-mobile-brand" href="index.html" aria-label="Panasa home"><img src="assets/logo.svg" alt="Panasa" /></a>
+              <button class="nav-mobile-close" type="button" aria-label="Close navigation" data-nav-close="true">×</button>
+            </li>
+            <li><a href="about.html">About Us</a></li>
+            <li class="nav-item-has-children">
+              <div class="nav-dropdown-wrap">
+                <a href="ai-accelerated-fintech-engineering.html">Services</a>
+                <button class="nav-dropdown-toggle" type="button" aria-label="Open Services menu" aria-expanded="false"><span></span></button>
+              </div>
+              <div class="nav-submenu">
+                <a href="ai-accelerated-fintech-engineering.html">AI Accelerated Fintech Engineering</a>
+                <a href="ai-powered-legacy-modernisation.html">AI Powered Legacy Modernisation</a>
+                <a href="ai-governance.html">AI Governance</a>
+                <a href="intelligent-operations.html">Intelligent Operations</a>
+              </div>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a class="btn btn-light" href="contact.html">Contact Us</a></li>
+          </ul>
         </nav>
       </header>
 
@@ -91,17 +111,49 @@
               </h1>
               <p data-hero-subtitle>Your AI-Native Partner for Dev, Ops &amp; Scale. No Handoffs.</p>
               <div class="hero-actions">
-                <a class="btn btn-dark" data-hero-cta-primary></a>
-                <a class="btn btn-ghost" data-hero-cta-secondary></a>
+                <a class="btn btn-dark" data-hero-cta-primary href="contact.html">
+                  <img class="hero-action-icon" src="assets/hero-cta-talk-icon.svg" alt="" aria-hidden="true" />
+                  <span class="hero-action-label">Talk to our team</span>
+                </a>
+                <a class="btn btn-ghost" data-hero-cta-secondary href="ai-accelerated-fintech-engineering.html">
+                  <img class="hero-action-icon" src="assets/hero-cta-view-icon.svg" alt="" aria-hidden="true" />
+                  <span class="hero-action-label">View Solutions</span>
+                </a>
               </div>
               <div class="trusted-row">
-                <span data-hero-trusted-label></span>
-                <div class="trusted-logos" data-hero-trusted-logos></div>
+                <span data-hero-trusted-label>Trusted by high-growth fintechs</span>
+                <div class="trusted-logos logo-marquee logo-marquee-light" data-hero-trusted-logos>
+                  <div class="logo-marquee-track">
+                    <div class="logo-marquee-item"><img src="assets/logo-accelovate.svg" alt="Accelovate" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-paymentology.svg" alt="Paymentology" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-crunch.svg" alt="Crunch" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-ribbon-gi.svg" alt="Ribbon GI" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-kani.svg" alt="Kani" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-88-eu.svg" alt="88 EU" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-osper.svg" alt="Osper" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-accelovate.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-paymentology.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-crunch.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-ribbon-gi.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-kani.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-88-eu.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-osper.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-paci.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-prosper.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-dialect.svg" alt="" loading="lazy" /></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="cert-row single" data-hero-cert-badges>
-            <img src="assets/certifications.svg" alt="Certifications" fetchpriority="high" />
+          <div class="cert-row" data-hero-cert-badges>
+            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-gdpr.svg" alt="GDPR" /></div></div>
+            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-iso.svg" alt="ISO 27001" /></div></div>
+            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-gptw.svg" alt="Great Place to Work" /></div></div>
+            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-pci.svg" alt="PCI" /></div></div>
           </div>
           <div class="cert-separator" aria-hidden="true"></div>
         </section>
@@ -110,16 +162,86 @@
           <div class="services-shell">
             <div class="services-head" data-animate>
               <div class="services-heading">
-                <span class="pill" data-services-pill></span>
-                <h2 data-services-title></h2>
+                <span class="pill" data-services-pill style="display:none"></span>
+                <h2 data-services-title>AI-Driven <span>Fintech Services Stack</span></h2>
               </div>
-              <p class="services-summary" data-services-subtitle></p>
+              <p class="services-summary" data-services-subtitle>End-to-end AI-powered engineering, governance, and operational services for secure, scalable fintech platforms.</p>
             </div>
             <div class="services-feature" data-animate>
               <div class="services-carousel" data-services-carousel>
-                <div class="services-slides" data-services-slides></div>
+                <div class="services-slides" data-services-slides>
+                  <article class="services-slide">
+                    <div class="services-feature-copy">
+                      <span class="services-feature-pill">Core Build</span>
+                      <h3>AI Accelerated Fintech Engineering</h3>
+                      <ul class="services-feature-list">
+                        <li>AI Agent Swarm Powered Legacy App</li>
+                        <li>AI-Led Fintech Engineering</li>
+                        <li>AI Strategy &amp; Implementation</li>
+                        <li>Agentic AI &amp; Automation</li>
+                        <li>New Product and Platform</li>
+                        <li>Business Intelligence &amp; Advanced Analytics</li>
+                      </ul>
+                      <a class="services-feature-link" href="ai-accelerated-fintech-engineering.html">Learn More  ›</a>
+                    </div>
+                    <div class="services-feature-visual-wrap"><div class="services-feature-visual"><img class="services-visual-icon" src="assets/home-services-slide-1.webp" alt="AI Accelerated Fintech Engineering" loading="lazy" decoding="async" /></div></div>
+                  </article>
+                  <article class="services-slide">
+                    <div class="services-feature-copy">
+                      <span class="services-feature-pill">Core Govern</span>
+                      <h3>AI Governance</h3>
+                      <ul class="services-feature-list">
+                        <li>AI Risk Classification Impact Assessment</li>
+                        <li>Model Privacy &amp; Data Protection Controls</li>
+                        <li>Model Policy &amp; Governance Framework</li>
+                        <li>Regulatory Alignment (GDPR, DPA, EU AI Act)</li>
+                        <li>Human In The Loop (HITL) Controls</li>
+                        <li>Shadow AI Detection &amp; Risk Management</li>
+                      </ul>
+                      <a class="services-feature-link" href="ai-governance.html">Learn More  ›</a>
+                    </div>
+                    <div class="services-feature-visual-wrap"><div class="services-feature-visual"><img class="services-visual-icon" src="assets/home-services-slide-2.webp" alt="AI Governance" loading="lazy" decoding="async" /></div></div>
+                  </article>
+                  <article class="services-slide">
+                    <div class="services-feature-copy">
+                      <span class="services-feature-pill">Core Operate</span>
+                      <h3>Intelligent Operations</h3>
+                      <ul class="services-feature-list">
+                        <li>24/7 Transaction Monitoring</li>
+                        <li>Event Correlation &amp; Fraud Detection Workflows</li>
+                        <li>Dispute &amp; Chargeback Scoped Handling</li>
+                        <li>Exceptions, Reconciliations &amp; Escalations</li>
+                        <li>Reporting, Reconciliation &amp; Audit Pipelines</li>
+                        <li>Operational Dashboards &amp; Playbooks</li>
+                      </ul>
+                      <a class="services-feature-link" href="intelligent-operations.html">Learn More  ›</a>
+                    </div>
+                    <div class="services-feature-visual-wrap"><div class="services-feature-visual"><img class="services-visual-icon" src="assets/home-services-slide-3.webp" alt="Intelligent Operations" loading="lazy" decoding="async" /></div></div>
+                  </article>
+                  <article class="services-slide">
+                    <div class="services-feature-copy">
+                      <span class="services-feature-pill">Core Modernise</span>
+                      <h3>AI-Led Legacy Modernisation</h3>
+                      <ul class="services-feature-list">
+                        <li>Legacy Code &amp; UI Logic Extraction</li>
+                        <li>System Decomposition &amp; Workflow Mapping</li>
+                        <li>Structured Code Refactoring</li>
+                        <li>Multi-Agent Validation &amp; Testing Framework</li>
+                        <li>Cloud Readiness &amp; Platform Modernisation</li>
+                        <li>Production Rollout &amp; Cutover Support</li>
+                      </ul>
+                      <a class="services-feature-link" href="ai-powered-legacy-modernisation.html">Learn More  ›</a>
+                    </div>
+                    <div class="services-feature-visual-wrap"><div class="services-feature-visual"><img class="services-visual-icon" src="assets/home-services-slide-4.webp" alt="AI-Led Legacy Modernisation" loading="lazy" decoding="async" /></div></div>
+                  </article>
+                </div>
               </div>
-              <div class="services-dots" data-services-dots></div>
+              <div class="services-dots" data-services-dots>
+                <button class="services-dot active" type="button" aria-label="Show AI Accelerated Fintech Engineering" data-services-slide="0"></button>
+                <button class="services-dot" type="button" aria-label="Show AI Governance" data-services-slide="1"></button>
+                <button class="services-dot" type="button" aria-label="Show Intelligent Operations" data-services-slide="2"></button>
+                <button class="services-dot" type="button" aria-label="Show AI-Led Legacy Modernisation" data-services-slide="3"></button>
+              </div>
             </div>
           </div>
         </section>
@@ -127,42 +249,144 @@
         <section class="dark-section" id="resources" data-animate>
           <div class="section-title section-title-split section-title-split-dark" data-animate>
             <div class="section-heading-copy">
-              <span class="pill" data-why-pill></span>
-              <h2 data-why-title></h2>
+              <span class="pill" data-why-pill style="display:none"></span>
+              <h2 data-why-title>Why Fintechs <span>Choose Panasa</span></h2>
             </div>
-            <p data-why-subtitle></p>
+            <p data-why-subtitle>What sets us apart in the fintech development landscape.</p>
           </div>
-          <div class="feature-grid" data-why-cards></div>
+          <div class="feature-grid" data-why-cards>
+            <article class="feature-card light">
+              <img class="card-image" src="assets/why-card-2.svg" alt="Payment experts, not generalists" loading="lazy" decoding="async" />
+              <div>
+                <h3>Payment experts, not generalists</h3>
+                <p>20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently.</p>
+              </div>
+            </article>
+            <article class="feature-card dark">
+              <img class="card-image" src="assets/why-card-1.webp" alt="Proven at scale" loading="lazy" decoding="async" />
+              <div>
+                <h3>Proven at scale</h3>
+                <p>Supporting platforms processing 10M+ transactions monthly. We've been there, scaled that.</p>
+              </div>
+            </article>
+            <article class="feature-card photo">
+              <img class="card-image" src="assets/why-card-4.webp" alt="Full-stack team" loading="lazy" decoding="async" />
+              <div>
+                <h3>Full-stack team</h3>
+                <p>From strategy to 24/7 ops — no vendor juggling needed. One team, end-to-end ownership.</p>
+              </div>
+            </article>
+            <article class="feature-card light">
+              <img class="card-image" src="assets/why-card-3.svg" alt="Compliance-first approach" loading="lazy" decoding="async" />
+              <div>
+                <h3>Compliance-first approach</h3>
+                <p>ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.</p>
+              </div>
+            </article>
+          </div>
         </section>
 
         <section class="results" id="careers" data-animate>
           <div class="section-title section-title-split" data-animate>
             <div class="section-heading-copy">
-              <span class="pill" data-case-pill></span>
-              <h2 data-case-title></h2>
+              <span class="pill" data-case-pill style="display:none"></span>
+              <h2 data-case-title>Proven Results <span>for Leading Platforms</span></h2>
             </div>
-            <p data-case-subtitle></p>
+            <p data-case-subtitle>Real outcomes from real projects with issuer processors and neobanks</p>
           </div>
           <div class="carousel" data-carousel>
-            <div class="slides" data-case-slides></div>
-            <div class="slider-dots" role="tablist" aria-label="Case study slides" data-case-dots></div>
+            <div class="slides" data-case-slides>
+              <article class="slide">
+                <div class="results-card">
+                  <div class="results-copy">
+                    <span class="eyebrow">CONFIDENTIAL ISSUER PROCESSOR</span>
+                    <h3>Built and Now Operating Card Issuing Platform Processing 10M+ Transactions Monthly</h3>
+                    <p>Leading issuer processor needed to rapidly scale their card platform while minimizing downtime and reducing operational costs.</p>
+                    <a class="btn btn-dark results-cta" href="contact.html">Read Full Case Study</a>
+                  </div>
+                  <div class="results-metrics">
+                    <div class="results-metric"><span class="results-metric-value">6</span><span class="results-metric-label">Months to Live</span></div>
+                    <div class="results-metric"><span class="results-metric-value">10M+</span><span class="results-metric-label">Transactions/Month</span></div>
+                    <div class="results-metric"><span class="results-metric-value">40%</span><span class="results-metric-label">Cost Reduction</span></div>
+                  </div>
+                </div>
+              </article>
+              <article class="slide">
+                <div class="results-card" style="--case-slide-bg: url(../assets/case-study-card-2.webp)">
+                  <div class="results-copy">
+                    <span class="eyebrow">NEOBANK PLATFORM</span>
+                    <h3>Scaled and Stabilized Digital Banking Platform Handling High Volume Transactions Across Multiple Markets</h3>
+                    <p>Fast-growing neobank required improved system reliability, faster issue resolution, and scalable infrastructure to support increasing transaction volumes across regions.</p>
+                    <a class="btn btn-dark results-cta" href="contact.html">Read Full Case Study</a>
+                  </div>
+                  <div class="results-metrics">
+                    <div class="results-metric"><span class="results-metric-value">99.98%</span><span class="results-metric-label">Uptime</span></div>
+                    <div class="results-metric"><span class="results-metric-value">8M+</span><span class="results-metric-label">Transactions/Day</span></div>
+                    <div class="results-metric"><span class="results-metric-value">50%</span><span class="results-metric-label">Issue Resolution</span></div>
+                  </div>
+                </div>
+              </article>
+              <article class="slide">
+                <div class="results-card" style="--case-slide-bg: url(../assets/case-study-card-3.webp)">
+                  <div class="results-copy">
+                    <span class="eyebrow">PAYMENT SERVICE PROVIDER</span>
+                    <h3>Modernized Payment Processing System Improving Performance, Reliability, and Operational Efficiency</h3>
+                    <p>Established PSP needed to upgrade legacy systems, reduce downtime, and enhance monitoring to support seamless payment processing and operational continuity.</p>
+                    <a class="btn btn-dark results-cta" href="contact.html">Read Full Case Study</a>
+                  </div>
+                  <div class="results-metrics">
+                    <div class="results-metric"><span class="results-metric-value">70%</span><span class="results-metric-label">Less Downtime</span></div>
+                    <div class="results-metric"><span class="results-metric-value">15M+</span><span class="results-metric-label">Transactions/Month</span></div>
+                    <div class="results-metric"><span class="results-metric-value">3x</span><span class="results-metric-label">Processing Speed</span></div>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="slider-dots" role="tablist" aria-label="Case study slides" data-case-dots>
+              <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
+              <button class="dot" data-slide="1" aria-label="Slide 2"></button>
+              <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+            </div>
           </div>
         </section>
 
         <section class="testimonials shared-testimonials" data-animate>
           <div class="section-title section-title-split section-title-split-dark" data-animate>
             <div class="section-heading-copy">
-              <span class="pill" data-testimonials-pill></span>
-              <h2 data-testimonials-title></h2>
+              <span class="pill" data-testimonials-pill style="display:none"></span>
+              <h2 data-testimonials-title>Trusted by <span>Fintech Leaders</span></h2>
             </div>
-            <p data-testimonials-subtitle></p>
+            <p data-testimonials-subtitle>Feedback from fintech partners delivering secure, scalable, compliant card platforms.</p>
           </div>
           <div class="split-testimonial-shell" data-animate>
             <button class="split-testimonial-arrow prev" type="button" aria-label="Previous testimonial" data-testimonials-prev>
               <
             </button>
             <div class="split-testimonial-viewport">
-              <div class="split-testimonial-track" data-testimonials-track></div>
+              <div class="split-testimonial-track" data-testimonials-track>
+                <div class="split-testimonial-slide">
+                  <article class="split-testimonial-card">
+                    <blockquote>Panasa has been a great asset in developing our payment solutions, acting as a true extension of our team while enabling scale and continuous support. We highly recommend their fintech development services.</blockquote>
+                    <div class="split-testimonial-author">
+                      <div class="split-testimonial-info">
+                        <span class="split-testimonial-name">Giovanni Santini</span>
+                        <span class="split-testimonial-role">Chief Executive Officer</span>
+                      </div>
+                      <img class="split-testimonial-logo" src="assets/testimonial-logo-osper.svg" alt="Osper" loading="lazy" />
+                    </div>
+                  </article>
+                  <article class="split-testimonial-card">
+                    <blockquote>Panasa allows us to focus on growing our brands. With their FinTech expertise, dedication, ability to scale, and meticulous attention to detail, we're able to position ourselves as one of the most cutting-edge groups in payment solutions.</blockquote>
+                    <div class="split-testimonial-author">
+                      <div class="split-testimonial-info">
+                        <span class="split-testimonial-name">Tom Bishop</span>
+                        <span class="split-testimonial-role">Chief Commercial Officer</span>
+                      </div>
+                      <img class="split-testimonial-logo" src="assets/testimonial-logo-cleava.svg" alt="Cleava" loading="lazy" />
+                    </div>
+                  </article>
+                </div>
+              </div>
             </div>
             <button class="split-testimonial-arrow next" type="button" aria-label="Next testimonial" data-testimonials-next>
               >
@@ -174,37 +398,92 @@
         <section class="engagement" id="contact" data-animate>
           <div class="section-title section-title-split" data-animate>
             <div class="section-heading-copy">
-              <span class="pill" data-engagement-pill></span>
-              <h2 data-engagement-title></h2>
+              <span class="pill" data-engagement-pill style="display:none"></span>
+              <h2 data-engagement-title>Engagement Models <span>Built for Your Growth</span></h2>
             </div>
-            <p data-engagement-subtitle></p>
+            <p data-engagement-subtitle>Flexible operating models designed to match your fintech's stage, scale, and regulatory complexity.</p>
           </div>
-          <div class="engagement-filters" data-engagement-filters></div>
-          <div class="engagement-grid" data-engagement-grid></div>
-          <p class="engagement-note" data-engagement-note></p>
+          <div class="engagement-filters" data-engagement-filters>
+            <button class="engagement-filter active" type="button">Engagement Models</button>
+            <button class="engagement-filter" type="button">Growth Packages</button>
+          </div>
+          <div class="engagement-grid" data-engagement-grid>
+            <article class="engagement-card">
+              <img class="engagement-image" src="assets/engagement-model-engineering.svg" alt="Engineering Squads" loading="lazy" decoding="async" />
+              <h3>Engineering Squads</h3>
+              <p>Extend your team with our payment specialists. Flex capacity up or down based on project needs.</p>
+              <div class="engagement-includes">Includes:</div>
+              <ul><li>Month-to-month flexibility</li><li>Defined timeline</li><li>Milestone payments</li><li>End-to-end ownership</li><li>Predictable costs</li></ul>
+              <a class="btn btn-dark" href="contact.html">Talk to us</a>
+            </article>
+            <article class="engagement-card featured">
+              <img class="engagement-image" src="assets/engagement-model-managed.svg" alt="Managed Services" loading="lazy" decoding="async" />
+              <h3>Managed Services</h3>
+              <p>Full operational ownership with SLA-backed performance. From build to 24/7 operations.</p>
+              <div class="engagement-includes">Includes:</div>
+              <ul><li>24/7 coverage</li><li>SLA guarantees</li><li>Outcome-based pricing</li><li>Complete ownership</li><li>Continuous optimisation</li></ul>
+              <a class="btn btn-dark" href="contact.html">Talk to us</a>
+            </article>
+            <article class="engagement-card">
+              <img class="engagement-image" src="assets/engagement-model-project.svg" alt="Project-Based" loading="lazy" decoding="async" />
+              <h3>Project-Based</h3>
+              <p>Fixed scope, fixed budget, clear deliverables. Perfect for well-defined projects with set timelines.</p>
+              <div class="engagement-includes">Includes:</div>
+              <ul><li>Clear deliverables</li><li>Defined timeline</li><li>Milestone payments</li><li>End-to-end ownership</li><li>Predictable costs</li></ul>
+              <a class="btn btn-dark" href="contact.html">Talk to us</a>
+            </article>
+            <article class="engagement-card">
+              <img class="engagement-image" src="assets/engagement-model-gcc.svg" alt="GCC Delivery Model" loading="lazy" decoding="async" />
+              <h3>GCC Delivery Model</h3>
+              <p>Build and scale your global delivery hub with structured talent, operations, and performance frameworks.</p>
+              <div class="engagement-includes">Includes:</div>
+              <ul><li>Talent Advisory Workspaces</li><li>AI-Powered Business Operations</li><li>Market Intelligence &amp; Benchmarking</li><li>Workforce Planning</li><li>Build-Operate-Transfer (BOT)</li></ul>
+              <a class="btn btn-dark" href="contact.html">Talk to us</a>
+            </article>
+          </div>
+          <p class="engagement-note" data-engagement-note>*Most clients start with a project and graduate to managed services as they scale</p>
         </section>
       </main>
 
       <footer class="site-footer">
         <div class="footer-cta" data-animate>
           <div>
-            <h2 data-footer-cta-title></h2>
-            <p data-footer-cta-text></p>
+            <h2 data-footer-cta-title>Ready to Build Your Card Platform</h2>
+            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24/7 operations.</p>
           </div>
-          <button class="btn btn-light" data-footer-cta-button></button>
+          <a class="btn btn-light" data-footer-cta-button href="contact.html">Talk to our team</a>
         </div>
 
         <div class="footer-card" data-animate>
           <div class="footer-brand">
             <img src="assets/logo.svg" alt="Panasa" data-bind="logo" />
-            <p data-footer-brand-text></p>
-            <span data-footer-email></span>
-            <span data-footer-phone></span>
+            <p data-footer-brand-text>From technical leaders to operations teams, we deliver value across your entire organization.</p>
+            <span data-footer-email>info@panasatech.com</span>
+            <span data-footer-phone>+44 (0) 1273 977101  •  +91 75940 52401</span>
           </div>
-          <div class="footer-links" data-footer-columns></div>
+          <div class="footer-links" data-footer-columns>
+            <div>
+              <h4>Company</h4>
+              <a href="about.html">About Us</a>
+              <a href="careers.html">Careers</a>
+              <a href="contact.html">Contact</a>
+              <a href="ai-accelerated-fintech-engineering.html">Services</a>
+            </div>
+            <div>
+              <h4>Services</h4>
+              <a href="ai-accelerated-fintech-engineering.html">AI Accelerated Fintech Engg.</a>
+              <a href="ai-governance.html">AI Governance</a>
+              <a href="intelligent-operations.html">Intelligent Operations</a>
+              <a href="ai-powered-legacy-modernisation.html">AI Powered Legacy Modernisation</a>
+            </div>
+          </div>
           <div class="footer-bottom">
-            <span data-footer-copyright></span>
-            <div class="footer-meta" data-footer-legal-links></div>
+            <span data-footer-copyright>© 2026 Panasa Technology. All rights reserved.</span>
+            <div class="footer-meta" data-footer-legal-links>
+              <a href="#top">Privacy Policy</a>
+              <a href="#top">Terms of Service</a>
+              <a href="#top">Cookies</a>
+            </div>
           </div>
         </div>
       </footer>
