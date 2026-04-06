@@ -2,7 +2,8 @@
 // CSRF protection: validate Origin header
 $allowed_origins = ['https://www.panasatech.com', 'http://localhost'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS' && !in_array($origin, $allowed_origins)) {
+$originAllowed = in_array($origin, $allowed_origins) || preg_match('#^http://localhost(:\d+)?$#', $origin);
+if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS' && !$originAllowed) {
     http_response_code(403);
     echo json_encode(['status' => 'error', 'message' => 'Forbidden']);
     exit;
@@ -73,11 +74,20 @@ curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 10,
 ]);
-$tokenResponse = json_decode(curl_exec($ch), true);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$tokenRaw = curl_exec($ch);
+$tokenError = curl_error($ch);
+curl_close($ch);
+
+if ($tokenError) {
+    http_response_code(502);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to connect to Zoho auth']);
+    exit;
+}
+
+$tokenResponse = json_decode($tokenRaw, true);
 
 if (!isset($tokenResponse['access_token'])) {
-    http_response_code(500);
+    http_response_code(502);
     echo json_encode(['status' => 'error', 'message' => 'Failed to get access token']);
     exit;
 }
@@ -92,7 +102,8 @@ $contactData = json_encode([
         'Email' => $email,
         'Phone' => $cleanPhone,
         'Mobile' => $cleanPhone,
-        'Description' => $message,
+        'Form_Submission_Data' => $message,
+        'Lead_Source1' => 'Website',
     ]],
 ]);
 
@@ -107,9 +118,18 @@ curl_setopt_array($ch, [
         'Content-Type: application/json',
     ],
 ]);
-$biginResponse = json_decode(curl_exec($ch), true);
+$biginRaw = curl_exec($ch);
+$biginError = curl_error($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
 
+if ($biginError) {
+    http_response_code(502);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to connect to Zoho Bigin']);
+    exit;
+}
+
+$biginResponse = json_decode($biginRaw, true);
 $biginStatus = $biginResponse['data'][0]['status'] ?? 'error';
 
 if ($biginStatus === 'success') {

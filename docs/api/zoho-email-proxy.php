@@ -2,9 +2,10 @@
 // CSRF protection: validate Origin header
 $allowed_origins = ['https://www.panasatech.com', 'http://localhost'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS' && !in_array($origin, $allowed_origins)) {
+$originAllowed = in_array($origin, $allowed_origins) || preg_match('#^http://localhost(:\d+)?$#', $origin);
+if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS' && !$originAllowed) {
     http_response_code(403);
-    echo json_encode(['error' => 'Forbidden']);
+    echo json_encode(['status' => 'error', 'message' => 'Forbidden']);
     exit;
 }
 
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['error' => 'Method not allowed']);
+    echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
     exit;
 }
 
@@ -32,7 +33,7 @@ $description = trim($input['description'] ?? 'Email capture');
 
 if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
-    echo json_encode(['error' => 'Valid email is required']);
+    echo json_encode(['status' => 'error', 'message' => 'Valid email is required']);
     exit;
 }
 
@@ -40,7 +41,7 @@ if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $envPath = __DIR__ . '/.env';
 if (!file_exists($envPath)) {
     http_response_code(500);
-    echo json_encode(['error' => 'Server configuration error']);
+    echo json_encode(['status' => 'error', 'message' => 'Server configuration error']);
     exit;
 }
 
@@ -79,7 +80,7 @@ curl_close($ch);
 
 if ($tokenError) {
     http_response_code(502);
-    echo json_encode(['error' => 'Failed to connect to Zoho auth']);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to connect to Zoho auth']);
     exit;
 }
 
@@ -88,7 +89,7 @@ $accessToken = $tokenData['access_token'] ?? '';
 
 if (!$accessToken) {
     http_response_code(502);
-    echo json_encode(['error' => 'Failed to get access token']);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to get access token']);
     exit;
 }
 
@@ -97,7 +98,8 @@ $contactPayload = json_encode([
     'data' => [[
         'Email'       => $email,
         'Last_Name'   => 'Email Subscriber',
-        'Description' => $description,
+        'Form_Submission_Data' => $description,
+        'Lead_Source1' => 'Website',
     ]],
 ]);
 
@@ -119,18 +121,19 @@ curl_close($ch);
 
 if ($biginError) {
     http_response_code(502);
-    echo json_encode(['error' => 'Failed to connect to Zoho Bigin']);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to connect to Zoho Bigin']);
     exit;
 }
 
 $biginData = json_decode($biginResponse, true);
 
 if ($httpCode >= 200 && $httpCode < 300) {
-    echo json_encode(['success' => true, 'message' => 'Contact created']);
+    echo json_encode(['status' => 'success', 'message' => 'Contact created']);
 } else {
     http_response_code($httpCode ?: 500);
     echo json_encode([
-        'error'   => 'Failed to create contact',
+        'status'  => 'error',
+        'message' => 'Failed to create contact',
         'details' => $biginData,
     ]);
 }
