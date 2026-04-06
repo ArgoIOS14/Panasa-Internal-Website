@@ -24,7 +24,7 @@ const AI_ACCELERATED_COPY = {
     title: ['Ship fintech', 'platforms faster'],
     subtitle:
       'We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half',
-    primaryCta: 'Explore Services',
+    primaryCta: 'Talk to our team',
     secondaryCta: 'View Case Studies',
     trustedKicker: 'Trusted by High-Growth Fintechs',
     stats: [
@@ -422,7 +422,7 @@ const applyIntelligentOperationsTextOverrides = () => {
       heroSummary.textContent =
         'Transaction volumes double. Chargebacks, rules change quarterly. Your clients expect sub-hour response times around the clock.';
     }
-    if (heroActions[0]) heroActions[0].textContent = 'Explore Services';
+    if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
     if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
     if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
@@ -767,7 +767,7 @@ const applyLegacyModernisationTextOverrides = () => {
       heroSummary.textContent =
         'Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.';
     }
-    if (heroActions[0]) heroActions[0].textContent = 'Explore Services';
+    if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
     if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
     if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'index.html#case-studies');
     if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';

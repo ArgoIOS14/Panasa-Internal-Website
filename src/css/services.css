@@ -270,26 +270,26 @@ textarea {
 }
 
 .hero-actions .btn-dark {
-  min-height: 34px;
-  padding: 8px 12px;
-  font-size: 0.74rem;
+  min-height: 44px;
+  padding: 12px 20px;
+  font-size: 0.88rem;
   line-height: 1;
-  border-radius: 7px;
+  border-radius: 10px;
   box-shadow: none;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .hero-actions .btn-ghost {
-  min-height: 34px;
-  padding: 10px 6px;
-  font-size: 0.74rem;
+  min-height: 44px;
+  padding: 12px 14px;
+  font-size: 0.88rem;
   line-height: 1;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: #171717;
   border: 0;
   border-radius: 0;
@@ -302,13 +302,13 @@ textarea {
 }
 
 .btn-dark .hero-action-icon {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
 }
 
 .btn-ghost .hero-action-icon {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
 }
 
 .hero-action-label {
