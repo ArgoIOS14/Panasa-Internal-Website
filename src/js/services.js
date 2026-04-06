@@ -25,7 +25,7 @@ const AI_ACCELERATED_COPY = {
     subtitle:
       'We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half',
     primaryCta: 'Explore Services',
-    secondaryCta: 'View Open Roles',
+    secondaryCta: 'View Case Studies',
     trustedKicker: 'Trusted by High-Growth Fintechs',
     stats: [
       { value: '50%', label: 'Faster delivery vs traditional teams' },
@@ -197,8 +197,68 @@ const AI_ACCELERATED_COPY = {
   },
 };
 
-const setHTML = (node, html) => {
-  if (node) node.innerHTML = html;
+/**
+ * Allowed tags and attributes for the HTML sanitizer.
+ * Only these elements survive; everything else is stripped.
+ */
+const SAFE_TAGS = new Set([
+  'div', 'span', 'em', 'strong', 'p', 'h2', 'h3', 'ul', 'ol', 'li',
+  'article', 'a', 'section', 'br',
+]);
+const SAFE_ATTRS = new Set([
+  'class', 'aria-label', 'aria-hidden', 'data-animate', 'data-process-item',
+  'data-process-step', 'data-process-panel', 'href',
+]);
+
+/**
+ * Sanitise an HTML string by parsing it and only keeping whitelisted
+ * tags and attributes.  Returns a DocumentFragment.
+ */
+const sanitizeToFragment = (html) => {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+
+  const walk = (root) => {
+    const nodesToRemove = [];
+    for (const child of root.childNodes) {
+      if (child.nodeType === Node.TEXT_NODE) continue;
+      if (child.nodeType !== Node.ELEMENT_NODE) {
+        nodesToRemove.push(child);
+        continue;
+      }
+      const tag = child.tagName.toLowerCase();
+      if (!SAFE_TAGS.has(tag)) {
+        // Replace disallowed element with its children
+        const frag = document.createDocumentFragment();
+        while (child.firstChild) frag.appendChild(child.firstChild);
+        root.replaceChild(frag, child);
+        // Re-walk since children were moved into root
+        walk(root);
+        return;
+      }
+      // Strip disallowed attributes
+      for (const attr of Array.from(child.attributes)) {
+        if (!SAFE_ATTRS.has(attr.name)) {
+          child.removeAttribute(attr.name);
+        }
+      }
+      walk(child);
+    }
+    nodesToRemove.forEach((n) => root.removeChild(n));
+  };
+
+  walk(template.content);
+  return template.content;
+};
+
+/**
+ * Set the contents of `node` from a trusted HTML string using
+ * a whitelist-based sanitizer.  Only tags in SAFE_TAGS survive.
+ */
+const setSafeHTML = (node, html) => {
+  if (!node) return;
+  node.textContent = '';                 // clear existing content
+  node.appendChild(sanitizeToFragment(html));
 };
 
 const setText = (node, text) => {
@@ -212,7 +272,7 @@ const applyAIAcceleratedPageCopy = () => {
   if (heroSection) {
     setText(heroSection.querySelector('.pill'), copy.hero.pill);
     const heroHeading = heroSection.querySelector('h1');
-    setHTML(
+    setSafeHTML(
       heroHeading,
       `<span>${copy.hero.title[0]}</span><em>${copy.hero.title[1]}</em>`,
     );
@@ -237,7 +297,7 @@ const applyAIAcceleratedPageCopy = () => {
   if (challengeSection) {
     setText(challengeSection.querySelector('.section-kicker'), copy.challenge.kicker);
     const challengeTitle = challengeSection.querySelector('.section-title h2');
-    setHTML(
+    setSafeHTML(
       challengeTitle,
       `<span>${copy.challenge.title[0]}</span><span><em>${copy.challenge.title[1]}</em></span>`,
     );
@@ -257,7 +317,7 @@ const applyAIAcceleratedPageCopy = () => {
   if (whySection) {
     setText(whySection.querySelector('.section-heading-copy .pill'), copy.why.kicker);
     const whyHeading = whySection.querySelector('.section-heading-copy h2');
-    setHTML(whyHeading, `${copy.why.title[0]} <span>${copy.why.title[1]}</span>`);
+    setSafeHTML(whyHeading, `${copy.why.title[0]} <span>${copy.why.title[1]}</span>`);
     setText(whySection.querySelector('.section-title-split p'), copy.why.summary);
 
     const featureCards = whySection.querySelectorAll('.feature-card');
@@ -273,7 +333,7 @@ const applyAIAcceleratedPageCopy = () => {
   if (fitSection) {
     setText(fitSection.querySelector('.section-kicker'), copy.fit.kicker);
     const fitHeading = fitSection.querySelector('.section-title h2');
-    setHTML(
+    setSafeHTML(
       fitHeading,
       `<span>${copy.fit.title[0]}</span><em>${copy.fit.title[1]}</em>`,
     );
@@ -355,15 +415,15 @@ const applyIntelligentOperationsTextOverrides = () => {
 
     if (heroPill) heroPill.textContent = 'INTELLIGENT OPERATIONS';
     if (heroTitle) {
-      heroTitle.innerHTML =
-        '<span>Fintech operations that scale</span><em>without scaling headcount</em>';
+      setSafeHTML(heroTitle,
+        '<span>Fintech operations that scale</span><em>without scaling headcount</em>');
     }
     if (heroSummary) {
       heroSummary.textContent =
         'Transaction volumes double. Chargebacks, rules change quarterly. Your clients expect sub-hour response times around the clock.';
     }
     if (heroActions[0]) heroActions[0].textContent = 'Explore Services';
-    if (heroActions[1]) heroActions[1].textContent = 'View Open Roles';
+    if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
     if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
     const heroStats = [
@@ -391,8 +451,8 @@ const applyIntelligentOperationsTextOverrides = () => {
 
     if (challengeKicker) challengeKicker.textContent = 'The Problem';
     if (challengeTitle) {
-      challengeTitle.innerHTML =
-        '<span>Operations gets harder every</span><span>quarter and <em>your team is already stretched</em></span>';
+      setSafeHTML(challengeTitle,
+        '<span>Operations gets harder every</span><span>quarter and <em>your team is already stretched</em></span>');
     }
     if (challengeSummary) {
       challengeSummary.textContent =
@@ -474,7 +534,7 @@ const applyIntelligentOperationsTextOverrides = () => {
   const deliverables = document.querySelector('.deliverables-section');
   if (deliverables) {
     deliverables.classList.add('deliverables-section-operations');
-    deliverables.innerHTML = `
+    setSafeHTML(deliverables, `
       <div class="section-head section-head-dark" data-animate>
         <div class="section-title">
           <span class="section-kicker">How It Works</span>
@@ -541,13 +601,13 @@ const applyIntelligentOperationsTextOverrides = () => {
           </p>
         </article>
       </div>
-    `;
+    `);
   }
 
   const roadmap = document.querySelector('.roadmap-section');
   if (roadmap) {
     roadmap.classList.add('roadmap-section-operations');
-    roadmap.innerHTML = `
+    setSafeHTML(roadmap, `
       <div class="section-head" data-animate>
         <div class="section-title">
           <span class="section-kicker">What Changes</span>
@@ -585,7 +645,7 @@ const applyIntelligentOperationsTextOverrides = () => {
           <span class="roadmap-phase">ALWAYS AUDIT-READY</span>
         </article>
       </div>
-    `;
+    `);
   }
 
   const why = document.querySelector('.why-section');
@@ -596,7 +656,7 @@ const applyIntelligentOperationsTextOverrides = () => {
     const whyCards = why.querySelectorAll('.feature-card');
 
     if (whyPill) whyPill.textContent = 'Why Panasa';
-    if (whyTitle) whyTitle.innerHTML = "Why Fintechs <span>Choose Panasa</span>";
+    if (whyTitle) setSafeHTML(whyTitle, "Why Fintechs <span>Choose Panasa</span>");
     if (whySummary) {
       whySummary.textContent = 'What sets us apart in the fintech development landscape';
     }
@@ -641,8 +701,8 @@ const applyIntelligentOperationsTextOverrides = () => {
 
     if (fitKicker) fitKicker.textContent = 'Who This Is For';
     if (fitTitle) {
-      fitTitle.innerHTML =
-        '<em>Fintechs that need operations</em><span>to keep pace with growth</span>';
+      setSafeHTML(fitTitle,
+        '<em>Fintechs that need operations</em><span>to keep pace with growth</span>');
     }
     if (fitSummary) {
       fitSummary.textContent = '';
@@ -701,15 +761,15 @@ const applyLegacyModernisationTextOverrides = () => {
 
     if (heroPill) heroPill.textContent = 'AI POWERED LEGACY MODERNISATION';
     if (heroTitle) {
-      heroTitle.innerHTML = '<span>Modernise legacy platforms</span><em>without losing the logic</em>';
+      setSafeHTML(heroTitle, '<span>Modernise legacy platforms</span><em>without losing the logic</em>');
     }
     if (heroSummary) {
       heroSummary.textContent =
         'Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.';
     }
     if (heroActions[0]) heroActions[0].textContent = 'Explore Services';
-    if (heroActions[1]) heroActions[1].textContent = 'View Open Roles';
-    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'careers.html');
+    if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
+    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'index.html#case-studies');
     if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
     const heroStats = [
@@ -737,8 +797,8 @@ const applyLegacyModernisationTextOverrides = () => {
 
     if (challengeKicker) challengeKicker.textContent = 'The Problem';
     if (challengeTitle) {
-      challengeTitle.innerHTML =
-        '<span>Legacy migration is</span><span><em>expensive, slow, and risky</em></span>';
+      setSafeHTML(challengeTitle,
+        '<span>Legacy migration is</span><span><em>expensive, slow, and risky</em></span>');
     }
     if (challengeSummary) {
       challengeSummary.textContent =
@@ -781,7 +841,7 @@ const applyLegacyModernisationTextOverrides = () => {
 
     if (fitKicker) fitKicker.textContent = 'Who This Is For';
     if (fitTitle) {
-      fitTitle.innerHTML = '<em>Fintechs that need operations</em><span>to keep pace with growth</span>';
+      setSafeHTML(fitTitle, '<em>Fintechs that need operations</em><span>to keep pace with growth</span>');
     }
     if (fitSummary) fitSummary.textContent = '';
 
@@ -841,8 +901,8 @@ const applyServiceMode = () => {
 
   const heroActions = document.querySelectorAll('.service-hero .hero-action-label');
   const heroActionLinks = document.querySelectorAll('.service-hero .hero-actions a');
-  if (heroActions[1]) heroActions[1].textContent = 'View Open Roles';
-  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'careers.html');
+  if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
+  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'index.html#case-studies');
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
   deliverablesSection.classList.remove(
@@ -862,10 +922,10 @@ const applyServiceMode = () => {
   if (mode === 'ai-accelerated-fintech-engineering') {
     section.classList.add('domains-section-process');
     kicker.textContent = AI_ACCELERATED_COPY.howWeWork.kicker;
-    title.innerHTML = `<em>${AI_ACCELERATED_COPY.howWeWork.title[0]}</em><span>${AI_ACCELERATED_COPY.howWeWork.title[1]}</span>`;
+    setSafeHTML(title, `<em>${AI_ACCELERATED_COPY.howWeWork.title[0]}</em><span>${AI_ACCELERATED_COPY.howWeWork.title[1]}</span>`);
     summary.textContent = AI_ACCELERATED_COPY.howWeWork.summary;
 
-    content.innerHTML = `
+    setSafeHTML(content, `
       <div class="process-grid">
         <ol class="process-flow" aria-label="Fintech engineering process">
           <li class="process-flow-item">
@@ -895,12 +955,12 @@ const applyServiceMode = () => {
           </li>
         </ol>
       </div>
-    `;
+    `);
 
     initProcessSteps();
 
     deliverablesSection.classList.add('deliverables-section-engineering');
-    deliverablesSection.innerHTML = `
+    setSafeHTML(deliverablesSection, `
       <div class="section-head section-head-dark" data-animate>
         <div class="section-title">
           <span class="section-kicker">${AI_ACCELERATED_COPY.whatWeBuild.kicker}</span>
@@ -961,10 +1021,10 @@ const applyServiceMode = () => {
           </article>
         </div>
       </div>
-    `;
+    `);
 
     roadmapSection.classList.add('roadmap-section-engineering');
-    roadmapSection.innerHTML = `
+    setSafeHTML(roadmapSection, `
       <div class="section-head" data-animate>
         <div class="section-title">
           <span class="section-kicker">${AI_ACCELERATED_COPY.howWeBuild.kicker}</span>
@@ -1001,7 +1061,7 @@ const applyServiceMode = () => {
           <span class="engineering-roadmap-pill">${AI_ACCELERATED_COPY.howWeBuild.cards[2].pill}</span>
         </article>
       </div>
-    `;
+    `);
     applyAIAcceleratedPageCopy();
     return;
   }
@@ -1010,11 +1070,11 @@ const applyServiceMode = () => {
     applyLegacyModernisationTextOverrides();
     section.classList.add('domains-section-process');
     kicker.textContent = 'How We Work';
-    title.innerHTML = '<em>Six Phases</em><span>Every rule traced end to end</span>';
+    setSafeHTML(title, '<em>Six Phases</em><span>Every rule traced end to end</span>');
     summary.textContent =
       "We don't rewrite systems from a requirements document. We extract the actual logic from the running system, reconstruct it in a modern stack.";
 
-    content.innerHTML = `
+    setSafeHTML(content, `
       <div class="process-grid">
         <ol class="process-flow process-flow-six" aria-label="Legacy modernisation process">
           <li class="process-flow-item">
@@ -1049,12 +1109,12 @@ const applyServiceMode = () => {
           </li>
         </ol>
       </div>
-    `;
+    `);
 
     initProcessSteps();
 
     deliverablesSection.classList.add('deliverables-section-engineering');
-    deliverablesSection.innerHTML = `
+    setSafeHTML(deliverablesSection, `
       <div class="section-head section-head-dark" data-animate>
         <div class="section-title">
           <span class="section-kicker">What We Build</span>
@@ -1116,10 +1176,10 @@ const applyServiceMode = () => {
           </article>
         </div>
       </div>
-    `;
+    `);
 
     roadmapSection.classList.add('roadmap-section-legacy');
-    roadmapSection.innerHTML = `
+    setSafeHTML(roadmapSection, `
       <div class="section-head" data-animate>
         <div class="section-title">
           <span class="section-kicker">How We Build</span>
@@ -1156,18 +1216,18 @@ const applyServiceMode = () => {
           <span class="roadmap-phase">FULL AUDIT TRAIL</span>
         </article>
       </div>
-    `;
+    `);
     return;
   }
 
   if (mode === 'intelligent-operations') {
     section.classList.add('domains-section-operations');
     kicker.textContent = 'What We Run';
-    title.innerHTML = '<em>Six Operational Domains</em><span>One Team</span>';
+    setSafeHTML(title, '<em>Six Operational Domains</em><span>One Team</span>');
     summary.textContent =
       "We don't just monitor dashboards. We run the full back-office — from real-time transaction monitoring through to dispute resolution.";
 
-    content.innerHTML = `
+    setSafeHTML(content, `
       <article class="domain-card">
         <h3>Transaction monitoring and uptime</h3>
         <p>24×7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
@@ -1192,7 +1252,7 @@ const applyServiceMode = () => {
         <h3>Onboarding and implementation</h3>
         <p>Platform onboarding for new clients. Merchant setup, KYC review, operations playbook creation, and weekly/monthly reporting. Secure infrastructure with role-based access.</p>
       </article>
-    `;
+    `);
 
     applyIntelligentOperationsTextOverrides();
   }
