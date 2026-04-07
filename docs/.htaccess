@@ -1,5 +1,9 @@
 RewriteEngine On
 
+# ── Enforce www prefix ───────────────────────────────────
+RewriteCond %{HTTP_HOST} ^panasatech\.com$ [NC]
+RewriteRule ^(.*)$ https://www.panasatech.com/$1 [R=301,L]
+
 # ── Clean URLs: strip .html extension ────────────────────
 # If the request is not a file or directory, try adding .html
 RewriteCond %{REQUEST_FILENAME} !-f

@@ -1,0 +1,40 @@
+# Panasa Technology
+
+> Panasa is a fintech engineering studio that helps regulated fintechs launch, scale, and operate secure payment platforms with AI-native engineering, governance, and 24/7 operations.
+
+## About
+
+Panasa Technology provides end-to-end engineering, operations, and compliance services for fintech companies. With 20+ years of experience, 300+ team members, and billions of transactions managed, Panasa serves issuers, processors, neobanks, and payment platforms across the UK, EU, and APAC.
+
+## Services
+
+- AI Accelerated Fintech Engineering: AI-led fintech engineering, strategy, automation, and platform development
+- AI Governance: AI risk management, regulatory alignment (GDPR, EU AI Act, ISO 42001), and governance frameworks
+- Intelligent Operations: 24/7 transaction monitoring, fraud detection, dispute handling, and operational dashboards
+- AI Powered Legacy Modernisation: Legacy code extraction, system decomposition, refactoring, and cloud modernisation
+
+## Engagement Models
+
+- Engineering Squads: Flexible team extension with payment specialists
+- Managed Services: Full operational ownership with SLA-backed performance
+- Project-Based: Fixed scope, fixed budget, clear deliverables
+- GCC Delivery Model: Build and scale global delivery hubs
+
+## Contact
+
+- Website: https://www.panasatech.com
+- Email: info@panasatech.com
+- Phone UK: +44 (0) 1273 977101
+- Phone India: +91 75940 52401
+
+## Offices
+
+- Brighton & Hove, UK: Maritime House, Basin Rd North
+- Kochi, India: 9th Floor, Carnival Infopark Phase 2
+
+## Certifications
+
+- ISO 27001
+- PCI-DSS Aligned
+- GDPR Compliant
+- Great Place to Work Certified
