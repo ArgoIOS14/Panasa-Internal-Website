@@ -4,7 +4,7 @@ Both endpoints act as server-side proxies to Zoho Bigin CRM, keeping OAuth crede
 
 ## Environment Variables
 
-All variables are loaded from `src/api/.env` (see `.env.example` in the project root).
+All variables are loaded from `dev/api/.env` (see `.env.example` in the project root).
 
 | Variable | Purpose |
 |----------|---------|
@@ -111,7 +111,7 @@ The contact is created with `Last_Name` set to `"Email Subscriber"`.
 
 ```json
 {
-  "success": true,
+  "status": "success",
   "message": "Contact created"
 }
 ```
@@ -120,13 +120,15 @@ The contact is created with `Last_Name` set to `"Email Subscriber"`.
 
 ```json
 {
-  "error": "Valid email is required"
+  "status": "error",
+  "message": "Valid email is required"
 }
 ```
 
 ```json
 {
-  "error": "Failed to create contact",
+  "status": "error",
+  "message": "Failed to create contact",
   "details": { ... }
 }
 ```
@@ -138,7 +140,16 @@ The contact is created with `Last_Name` set to `"Email Subscriber"`.
 - Both endpoints validate the `Origin` header against an allowlist (`https://www.panasatech.com`, `http://localhost`). Requests from other origins receive a `403`.
 - `Access-Control-Allow-Origin` is set to the validated origin (not `*`).
 - Both support `OPTIONS` preflight requests.
-- OAuth credentials are stored in `src/api/.env`, which is blocked from web access by `src/api/.htaccess`.
+- OAuth credentials are stored in `dev/api/.env`, which is blocked from web access by `dev/api/.htaccess`.
+
+## Response Format
+
+Both endpoints now use a consistent response envelope:
+
+- **Success:** `{"status": "success", "message": "..."}`
+- **Error:** `{"status": "error", "message": "...", "details": ...}` (details is optional)
+
+This standardization simplifies client-side error handling — you only need to check `response.status === "success"` regardless of which endpoint you called.
 
 ## Timeouts
 

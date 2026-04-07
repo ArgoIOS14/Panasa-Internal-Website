@@ -2,34 +2,70 @@
 
 This website is a static site, so it can be hosted on any platform that serves HTML, CSS, JS, and assets.
 
-## Recommended Structure
+## PHP Requirement for Forms
 
-- Edit the working source in `src/`
-- Sync the live-ready copy into `docs/`
-- Publish `docs/` to your hosting provider
+The contact form (`zoho-proxy.php`) and email capture popup (`zoho-email-proxy.php`) require a **PHP 8+** runtime. Static-only hosts will serve the pages but form submissions will fail silently or 404.
 
-Before publishing, mirror `src/` into `docs/`:
+| Platform | PHP Support | Notes |
+|----------|-------------|-------|
+| GitHub Pages | No | Static files only — forms won't work |
+| Netlify / Vercel | No | Would need serverless functions (not yet configured) |
+| cPanel / Shared Hosting | Yes | Full PHP support out of the box |
+| Docker / VPS | Yes | Full control over runtime and configuration |
+
+If you deploy to a static-only host, the site will load fine but any form submission will fail. Plan accordingly.
+
+## Project Structure
+
+- `dev/` — working source (development)
+- `prod/` — production-ready copy (deploy this folder)
+
+## Recommended Workflow
+
+- Edit the working source in `dev/`
+- Sync the live-ready copy into `prod/`
+- Publish `prod/` to your hosting provider
+
+Before publishing, mirror `dev/` into `prod/`:
 
 ```bash
-rm -rf docs
-mkdir -p docs
-cp -R src/* docs/
+rm -rf prod
+mkdir -p prod
+cp -R dev/* prod/
 ```
+
+## Local Development
+
+### With clean URLs (recommended):
+
+```bash
+php -S localhost:8080 dev/router.php -t dev
+```
+
+This mimics `.htaccess` rewrite rules — `/about` serves `about.html`, `/about.html` redirects to `/about`.
+
+### Without clean URLs:
+
+```bash
+php -S localhost:8080 -t dev
+```
+
+Pages are accessed with `.html` extension.
 
 ## Fastest Option: GitHub Pages
 
-This project is already set up well for GitHub Pages because it uses the `docs/` folder.
+This project can use GitHub Pages with the `prod/` folder (note: PHP forms won't work).
 
 ### Steps
 
-1. Make your changes in `src/`
-2. Sync `src/` into `docs/`
+1. Make your changes in `dev/`
+2. Sync `dev/` into `prod/`
 3. Commit and push the repo
 4. In GitHub, open `Settings -> Pages`
 5. Under `Source`, choose `Deploy from a branch`
 6. Select:
    - Branch: `main`
-   - Folder: `/docs`
+   - Folder: `/prod`
 7. Save
 
 GitHub will generate a live URL after deployment.
@@ -40,20 +76,20 @@ GitHub will generate a live URL after deployment.
 
 - Push the repo to GitHub
 - Create a new Netlify site from the repo
-- Set the publish directory to `docs`
+- Set the publish directory to `prod`
 - No build command is required for this project
 
-If you want Netlify to always publish the latest site, make sure `docs/` is committed after every `src/` update.
+If you want Netlify to always publish the latest site, make sure `prod/` is committed after every `dev/` update.
 
 ### Vercel
 
 - Import the repo into Vercel
-- Set the output directory to `docs`
-- Leave the build command empty unless you later automate the `src` to `docs` sync
+- Set the output directory to `prod`
+- Leave the build command empty unless you later automate the `dev` to `prod` sync
 
 ### Traditional Hosting / cPanel / S3
 
-- Upload the contents of `docs/` to the server's public web root
+- Upload the contents of `prod/` to the server's public web root
 - Common upload targets are `public_html/`, `www/`, or an S3 bucket configured for static website hosting
 
 ## Domain Setup
@@ -68,13 +104,12 @@ Most platforms handle SSL automatically once the DNS is connected correctly.
 
 ## Pre-Launch Checklist
 
-- Confirm the latest design/content changes were made in `src/`
-- Re-sync `docs/` before publishing
-- Test locally from `docs/`
+- Confirm the latest design/content changes were made in `dev/`
+- Re-sync `prod/` before publishing
+- Test locally from `dev/`
 
 ```bash
-cd docs
-python3 -m http.server 8080
+php -S localhost:8080 dev/router.php -t dev
 ```
 
 Then open `http://localhost:8080`
@@ -87,9 +122,9 @@ Then open `http://localhost:8080`
 
 For this project, the easiest path to go live is:
 
-1. Edit in `src/`
-2. Copy into `docs/`
+1. Edit in `dev/`
+2. Copy into `prod/`
 3. Push to GitHub
-4. Host with GitHub Pages from `/docs`
+4. Deploy `prod/` to SiteGround (or host with GitHub Pages from `/prod`)
 
 That gives you a reliable live website without adding any framework or deployment complexity.

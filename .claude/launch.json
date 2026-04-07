@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "panasa-site",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8082", "-d", "src"],
+      "runtimeExecutable": "/opt/homebrew/bin/php",
+      "runtimeArgs": ["-S", "localhost:8082", "-t", "dev"],
       "port": 8082
     }
   ]
