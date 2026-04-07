@@ -1,79 +1,140 @@
 # Panasa Website
 
+Static website for Panasa Technology — a fintech engineering studio serving issuers, processors, neobanks, and payment platforms across the UK, EU, and APAC.
+
 ## Project Structure
 
-- `src/` is the primary editable source
-- `docs/` is the deployable static mirror used for publishing
-- `src/index.html`
-- `src/css/style.css`
-- `src/js/main.js`
-- `src/content/Home page/content.json`
-- `src/content/Home page/default.js`
-- `src/assets/`
-
-## Local Preview
-
-Recommended:
-
-```bash
-cd docs
-python3 -m http.server 8080
+```
+dev/                  # Development source (edit here)
+prod/                 # Production-ready mirror (deploy this)
+dev/index.html        # Homepage (pre-rendered for SEO)
+dev/about.html        # About page
+dev/contact.html      # Contact page with Zoho Bigin CRM form
+dev/careers.html      # Careers page
+dev/services.html     # Services overview (AI Governance)
+dev/ai-governance.html
+dev/ai-accelerated-fintech-engineering.html
+dev/ai-powered-legacy-modernisation.html
+dev/intelligent-operations.html
+dev/css/              # Stylesheets
+dev/js/               # JavaScript modules
+dev/assets/           # Images, icons, logos
+dev/api/              # PHP proxy endpoints for Zoho Bigin CRM
+dev/content/          # CMS content (JSON + JS fallback)
+dev/router.php        # Local dev router for clean URLs
+dev/robots.txt        # Crawler directives
+dev/sitemap.xml       # XML sitemap
+dev/llms.txt          # AI crawler guidance
+dev/.htaccess         # Apache URL rewriting + redirects
+API.md                # API endpoint documentation
+HOSTING.md            # Deployment guide
+CHANGELOG.md          # Version history
 ```
 
-Then open `http://localhost:8080`
+## Local Development
 
-## Publishing / Hosting
+### With clean URLs (recommended)
 
-This is a static website, so it can go live on any platform that serves HTML, CSS, JS, and assets.
+```bash
+cd dev && php -S localhost:8080 router.php
+```
+
+Then open `http://localhost:8080`. Clean URLs work: `/about` serves `about.html`, `/about.html` redirects to `/about`.
+
+### Without clean URLs
+
+```bash
+php -S localhost:8080 -t dev
+```
+
+Pages are accessed with `.html` extension (e.g. `http://localhost:8080/about.html`).
+
+### Requirements
+
+- PHP 8+ (for local server and Zoho CRM proxy)
+- PHP `curl` extension (for API calls to Zoho)
+
+## Zoho Bigin CRM Integration
+
+The contact form and email capture popup submit leads to Zoho Bigin CRM via PHP proxy endpoints.
+
+### Endpoints
+
+| Endpoint | Purpose |
+|----------|---------|
+| `POST /api/zoho-proxy.php` | Contact form submissions |
+| `POST /api/zoho-email-proxy.php` | Email capture popup submissions |
+
+### Setup
+
+1. Create a `.env` file in `dev/api/` (and `prod/api/` for production):
+
+```
+ZOHO_CLIENT_ID=your_client_id
+ZOHO_CLIENT_SECRET=your_client_secret
+ZOHO_REFRESH_TOKEN=your_refresh_token
+ZOHO_ACCOUNTS_URL=https://accounts.zoho.in/oauth/v2/token
+ZOHO_BIGIN_API_URL=https://www.zohoapis.in/bigin/v2/Contacts
+```
+
+2. The `.env` file is blocked from web access by `api/.htaccess`.
+
+See [API.md](API.md) for full endpoint documentation and field mappings.
+
+## Publishing
 
 ### Publish Flow
 
-1. Make changes in `src/`
-2. Sync `src/` into `docs/`
-3. Publish `docs/`
-
-Use this before pushing live updates:
+1. Make changes in `dev/`
+2. Sync `dev/` into `prod/`:
 
 ```bash
-rm -rf docs
-mkdir -p docs
-cp -R src/* docs/
+rm -rf prod
+mkdir -p prod
+cp -R dev/* prod/
 ```
 
-### Fastest Option: GitHub Pages
+3. Push to GitHub
+4. Deploy `prod/` to SiteGround (or other PHP-capable host)
 
-This repo is already structured for GitHub Pages because it uses the `docs/` folder.
+### Hosting Requirements
 
-1. Push the repo to GitHub
-2. In GitHub, open `Settings -> Pages`
-3. Set `Source` to `Deploy from a branch`
-4. Choose branch `main`
-5. Choose folder `/docs`
-6. Save
+- Apache with `mod_rewrite` enabled (for clean URLs and redirects)
+- PHP 8+ with `curl` extension (for CRM integration)
+- SiteGround recommended (current hosting)
 
-GitHub will then generate the live site URL.
+See [HOSTING.md](HOSTING.md) for detailed deployment instructions.
 
-### Other Hosting Options
+## SEO
 
-- Netlify: import the repo and set the publish directory to `docs`
-- Vercel: import the repo and set the output directory to `docs`
-- cPanel / shared hosting: upload the contents of `docs/` into `public_html/`
-- Amazon S3: upload `docs/` to a bucket configured for static website hosting
+- Homepage pre-rendered with static HTML (visible to crawlers without JS)
+- Organization JSON-LD schema on all pages
+- BreadcrumbList and FAQPage structured data
+- Open Graph + Twitter Card meta tags
+- Canonical tags with clean URLs
+- Hreflang tags (en-GB + x-default)
+- XML sitemap and robots.txt
+- AI crawler directives (blocks training crawlers)
+- llms.txt for AI discovery
+- Clean URLs via .htaccess (no .html extensions)
+- www enforcement via 301 redirect
+- Old WordPress URL redirects (301)
 
-## Pre-Launch Checklist
+## Features
 
-- Confirm the latest edits were made in `src/`
-- Re-sync `docs/` before publishing
-- Test Home, About, Careers, and Contact locally
-- Verify images, CSS, JS, and navigation load correctly
-- Check desktop, tablet, and mobile layouts
-
-## Notes
-
-- Responsive layout with mobile nav
+- Responsive layout with mobile navigation
 - Scroll animations via IntersectionObserver
-- All assets are local SVGs
-- Runtime content loads from `src/content/Home page/content.json`
-- `src/content/Home page/default.js` provides the built-in fallback content
-- If content changes, update both `content.json` and `default.js`
-- For a standalone hosting note, see `HOSTING.md`
+- Services carousel with swipe/drag support
+- Email capture popup with scroll trigger and 3-day dismiss cooldown
+- Engagement models with animated tab filtering
+- FAQ accordion with custom SVG icons
+- Logo marquee animation
+- Testimonials carousel (responsive: static on desktop, swipeable on mobile)
+- Contact form with searchable country code picker and validation
+
+## Content Management
+
+- Runtime content loads from `dev/content/Home page/content.json`
+- `dev/content/Home page/default.js` provides the built-in fallback content
+- Homepage JS only re-renders sections when fetched content differs from defaults
+- If content changes, update both `content.json` and `default.js`, then update the static HTML in `index.html` to match
