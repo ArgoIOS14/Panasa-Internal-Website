@@ -53,7 +53,7 @@ Content-Type: application/json
 | `lastName` | string | yes | |
 | `email` | string | yes | |
 | `phone` | string | no | Sent with country code prefix; non-digit chars are stripped server-side |
-| `message` | string | no | Mapped to `Description` in Bigin |
+| `message` | string | no | Mapped to `Form_Submission_Data` in Bigin |
 
 ### Response — Success (200)
 
@@ -132,6 +132,32 @@ The contact is created with `Last_Name` set to `"Email Subscriber"`.
   "details": { ... }
 }
 ```
+
+---
+
+## Bigin Field Mapping
+
+### Contact Form (`zoho-proxy.php`)
+
+| Form Field | Bigin API Field |
+|------------|----------------|
+| `firstName` | `First_Name` |
+| `lastName` | `Last_Name` |
+| `email` | `Email` |
+| `phone` | `Phone` + `Mobile` |
+| `message` | `Form_Submission_Data` |
+| (auto) | `Lead_Source1` = `"Website"` |
+
+### Email Capture (`zoho-email-proxy.php`)
+
+| Form Field | Bigin API Field |
+|------------|----------------|
+| `email` | `Email` |
+| `description` | `Form_Submission_Data` |
+| (auto) | `Last_Name` = `"Email Subscriber"` |
+| (auto) | `Lead_Source1` = `"Website"` |
+
+Note: `Lead_Source1` is a custom picklist field in Bigin (not the standard `Lead_Source`).
 
 ---
 
