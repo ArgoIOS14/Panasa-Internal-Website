@@ -492,9 +492,8 @@
     "legal": {
       "copyright": "© 2026 Panasa Technology. All rights reserved.",
       "links": [
-        { "label": "Privacy Policy", "href": "#top" },
-        { "label": "Terms of Service", "href": "#top" },
-        { "label": "Cookies", "href": "#top" }
+        { "label": "Privacy Policy", "href": "privacy-policy.html" },
+        { "label": "Cookies", "href": "privacy-policy.html#section-cookies" }
       ]
     }
   }

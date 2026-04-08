@@ -549,15 +549,11 @@ window.DEFAULT_CONTENT = {
       "links": [
         {
           "label": "Privacy Policy",
-          "href": "#top"
-        },
-        {
-          "label": "Terms of Service",
-          "href": "#top"
+          "href": "privacy-policy.html"
         },
         {
           "label": "Cookies",
-          "href": "#top"
+          "href": "privacy-policy.html#section-cookies"
         }
       ]
     }
