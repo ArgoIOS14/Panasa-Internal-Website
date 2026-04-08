@@ -446,28 +446,27 @@ window.DEFAULT_CONTENT = {
   },
   "footer": {
     "ctaTitle": "Ready to Build Your Card Platform",
-    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24/7 operations.",
-    "ctaButton": "Talk to our team",
+    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.",
+    "ctaButton": "Book a Meeting",
     "ctaHref": "contact.html",
     "showResources": false,
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "info@panasatech.com",
-    "phone": "+44 (0) 1273 977101  •  +91 75940 52401",
+    "phones": [
+      "+44 (0) 1273 977101",
+      "+91 75940 52401"
+    ],
     "columns": [
       {
         "title": "Company",
         "links": [
           {
+            "label": "Home",
+            "href": "index.html"
+          },
+          {
             "label": "About Us",
             "href": "about.html"
-          },
-          {
-            "label": "Careers",
-            "href": "careers.html"
-          },
-          {
-            "label": "Contact",
-            "href": "contact.html"
           },
           {
             "label": "Services",
@@ -477,6 +476,16 @@ window.DEFAULT_CONTENT = {
             "label": "Resources",
             "href": "#resources",
             "isResourcesLink": true
+          },
+          {
+            "label": "Careers",
+            "href": "careers.html",
+            "badge": "hiring",
+            "badgeText": "HIRING!"
+          },
+          {
+            "label": "Contact",
+            "href": "contact.html"
           }
         ]
       },
@@ -485,11 +494,12 @@ window.DEFAULT_CONTENT = {
         "isResourcesColumn": true,
         "links": [
           {
-            "label": "Case Studies",
-            "href": "careers.html"
+            "label": "Blogs",
+            "href": "#resources",
+            "isResourcesLink": true
           },
           {
-            "label": "Whitepapers",
+            "label": "Insights",
             "href": "#resources",
             "isResourcesLink": true
           },
@@ -499,12 +509,14 @@ window.DEFAULT_CONTENT = {
             "isResourcesLink": true
           },
           {
-            "label": "Documentation",
+            "label": "Newsletter",
             "href": "#resources",
-            "isResourcesLink": true
+            "isResourcesLink": true,
+            "badge": "new",
+            "badgeText": "NEW"
           },
           {
-            "label": "Support",
+            "label": "Case Studies",
             "href": "#resources",
             "isResourcesLink": true
           }
@@ -514,8 +526,12 @@ window.DEFAULT_CONTENT = {
         "title": "Services",
         "links": [
           {
-            "label": "AI Accelerated Fintech Engg.",
+            "label": "AI Accelerated Fintech Engineering",
             "href": "ai-accelerated-fintech-engineering.html"
+          },
+          {
+            "label": "AI Powered Legacy Modernisation",
+            "href": "ai-powered-legacy-modernisation.html"
           },
           {
             "label": "AI Governance",
@@ -524,10 +540,6 @@ window.DEFAULT_CONTENT = {
           {
             "label": "Intelligent Operations",
             "href": "intelligent-operations.html"
-          },
-          {
-            "label": "AI Powered Legacy Modernisation",
-            "href": "ai-powered-legacy-modernisation.html"
           }
         ]
       }

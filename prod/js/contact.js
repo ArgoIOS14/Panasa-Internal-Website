@@ -14,7 +14,7 @@ const buildContactNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'ai-accelerated-fintech-engineering.html' : resolveToSiteHref(link.href),
+    href: link.label === 'Services' ? 'services.html' : resolveToSiteHref(link.href),
   })),
   cta: {
     ...nav.cta,
@@ -289,10 +289,46 @@ const initContactForm = () => {
   });
 };
 
+const copyToClipboard = (text) => {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  }
+  return fallbackCopy(text);
+};
+
+const fallbackCopy = (text) => {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  return Promise.resolve();
+};
+
+const initCopyButtons = () => {
+  document.querySelectorAll('.copy-btn[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy');
+      copyToClipboard(text).then(() => {
+        btn.classList.add('copied');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = original;
+        }, 1500);
+      });
+    });
+  });
+};
+
 const initContact = async () => {
   initNavToggle();
   initScrollAnimations();
   initContactForm();
+  initCopyButtons();
 
   try {
     const content = await loadContent();

@@ -446,107 +446,55 @@
   },
   "footer": {
     "ctaTitle": "Ready to Build Your Card Platform",
-    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24/7 operations.",
-    "ctaButton": "Talk to our team",
+    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.",
+    "ctaButton": "Book a Meeting",
     "ctaHref": "contact.html",
     "showResources": false,
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "info@panasatech.com",
-    "phone": "+44 (0) 1273 977101  •  +91 75940 52401",
+    "phones": [
+      "+44 (0) 1273 977101",
+      "+91 75940 52401"
+    ],
     "columns": [
       {
         "title": "Company",
         "links": [
-          {
-            "label": "About Us",
-            "href": "about.html"
-          },
-          {
-            "label": "Careers",
-            "href": "careers.html"
-          },
-          {
-            "label": "Contact",
-            "href": "contact.html"
-          },
-          {
-            "label": "Services",
-            "href": "services.html"
-          },
-          {
-            "label": "Resources",
-            "href": "#resources",
-            "isResourcesLink": true
-          }
+          { "label": "Home", "href": "index.html" },
+          { "label": "About Us", "href": "about.html" },
+          { "label": "Services", "href": "services.html" },
+          { "label": "Resources", "href": "#resources", "isResourcesLink": true },
+          { "label": "Careers", "href": "careers.html", "badge": "hiring", "badgeText": "HIRING!" },
+          { "label": "Contact", "href": "contact.html" }
         ]
       },
       {
         "title": "Resources",
         "isResourcesColumn": true,
         "links": [
-          {
-            "label": "Case Studies",
-            "href": "careers.html"
-          },
-          {
-            "label": "Whitepapers",
-            "href": "#resources",
-            "isResourcesLink": true
-          },
-          {
-            "label": "Guides",
-            "href": "#resources",
-            "isResourcesLink": true
-          },
-          {
-            "label": "Documentation",
-            "href": "#resources",
-            "isResourcesLink": true
-          },
-          {
-            "label": "Support",
-            "href": "#resources",
-            "isResourcesLink": true
-          }
+          { "label": "Blogs", "href": "#resources", "isResourcesLink": true },
+          { "label": "Insights", "href": "#resources", "isResourcesLink": true },
+          { "label": "Guides", "href": "#resources", "isResourcesLink": true },
+          { "label": "Newsletter", "href": "#resources", "isResourcesLink": true, "badge": "new", "badgeText": "NEW" },
+          { "label": "Case Studies", "href": "#resources", "isResourcesLink": true }
         ]
       },
       {
         "title": "Services",
         "links": [
-          {
-            "label": "AI Accelerated Fintech Engg.",
-            "href": "ai-accelerated-fintech-engineering.html"
-          },
-          {
-            "label": "AI Governance",
-            "href": "ai-governance.html"
-          },
-          {
-            "label": "Intelligent Operations",
-            "href": "intelligent-operations.html"
-          },
-          {
-            "label": "AI Powered Legacy Modernisation",
-            "href": "ai-powered-legacy-modernisation.html"
-          }
+          { "label": "AI Accelerated Fintech Engineering", "href": "ai-accelerated-fintech-engineering.html" },
+          { "label": "AI Powered Legacy Modernisation", "href": "ai-powered-legacy-modernisation.html" },
+          { "label": "AI Governance", "href": "ai-governance.html" },
+          { "label": "Intelligent Operations", "href": "intelligent-operations.html" }
         ]
       }
     ],
     "legal": {
       "copyright": "© 2026 Panasa Technology. All rights reserved.",
       "links": [
-        {
-          "label": "Privacy Policy",
-          "href": "#top"
-        },
-        {
-          "label": "Terms of Service",
-          "href": "#top"
-        },
-        {
-          "label": "Cookies",
-          "href": "#top"
-        }
+        { "label": "Privacy Policy", "href": "#top" },
+        { "label": "Terms of Service", "href": "#top" },
+        { "label": "Cookies", "href": "#top" }
       ]
     }
   }

@@ -6,20 +6,38 @@ export const renderFooter = (data) => {
 
   const ctaBtn = document.querySelector('[data-footer-cta-button]');
   if (ctaBtn) {
-    ctaBtn.textContent = data.ctaButton;
+    const label = ctaBtn.querySelector('.footer-cta-label');
+    if (label) {
+      label.textContent = data.ctaButton;
+    } else {
+      ctaBtn.textContent = data.ctaButton;
+    }
     if ('href' in ctaBtn) {
       ctaBtn.href = data.ctaHref || 'contact.html';
-    } else {
-      ctaBtn.addEventListener('click', () => {
-        window.location.href = data.ctaHref || 'contact.html';
-      });
     }
   }
 
   setText('[data-footer-brand-text]', data.brandText);
-  setText('[data-footer-email]', data.email);
-  setText('[data-footer-phone]', data.phone);
 
+  // Contact info
+  const phoneContainer = document.querySelector('[data-footer-phones]');
+  if (phoneContainer && data.phones) {
+    phoneContainer.innerHTML = '';
+    data.phones.forEach((phone) => {
+      const a = createEl('a');
+      a.href = `tel:${phone.replace(/\s|\(|\)/g, '')}`;
+      a.textContent = phone;
+      phoneContainer.appendChild(a);
+    });
+  }
+
+  const emailLink = document.querySelector('[data-footer-email]');
+  if (emailLink && data.email) {
+    emailLink.href = `mailto:${data.email}`;
+    emailLink.textContent = data.email;
+  }
+
+  // Columns
   const columns = document.querySelector('[data-footer-columns]');
   if (columns) {
     columns.innerHTML = '';
@@ -43,8 +61,18 @@ export const renderFooter = (data) => {
 
       column.links.forEach((link) => {
         const a = createEl('a');
-        a.textContent = link.label;
         a.href = link.href;
+
+        if (link.badge) {
+          const labelSpan = document.createTextNode(link.label);
+          a.appendChild(labelSpan);
+          const badge = createEl('span', `footer-link-badge footer-link-badge-${link.badge}`);
+          badge.textContent = link.badgeText || link.badge.toUpperCase();
+          a.appendChild(badge);
+        } else {
+          a.textContent = link.label;
+        }
+
         col.appendChild(a);
       });
 
@@ -52,10 +80,10 @@ export const renderFooter = (data) => {
     });
   }
 
-  setText('[data-footer-copyright]', data.legal.copyright);
+  setText('[data-footer-copyright]', data.legal?.copyright);
 
   const legal = document.querySelector('[data-footer-legal-links]');
-  if (legal) {
+  if (legal && data.legal?.links) {
     legal.innerHTML = '';
     data.legal.links.forEach((link) => {
       const a = createEl('a');

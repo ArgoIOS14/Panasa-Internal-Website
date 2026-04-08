@@ -244,6 +244,13 @@ a {
   gap: 12px;
 }
 
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
 .role-card {
   padding: 22px 24px;
   border: 1px solid var(--line);
