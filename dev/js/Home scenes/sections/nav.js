@@ -148,6 +148,13 @@ export const renderNav = (data) => {
       triggerWrap.append(a, toggle);
 
       const submenu = createEl('div', 'nav-submenu');
+
+      const parentLink = createEl('a', 'nav-submenu-parent');
+      parentLink.textContent = link.label;
+      parentLink.href = resolveHref(link.href);
+      if (isActiveLink(link.href)) parentLink.classList.add('active');
+      submenu.appendChild(parentLink);
+
       link.children.forEach((child) => {
         const childLink = createEl('a');
         childLink.textContent = child.label;

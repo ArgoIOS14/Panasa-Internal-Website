@@ -4,6 +4,7 @@ import { renderEngagement } from './Home scenes/sections/engagement.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderSharedTestimonials } from './Home scenes/sections/sharedTestimonials.js';
+import { initEmailCapture } from './Home scenes/components/email-capture.js';
 
 /* ── FAQ Accordion ──────────────────────────────────────────── */
 
@@ -61,6 +62,15 @@ const initApp = () => {
 
   initFaqAccordion();
   initScrollAnimations();
+
+  initEmailCapture({
+    promptHeading: 'Want to see how we deliver?',
+    promptSubtext: 'Get our services overview straight to your inbox.',
+    buttonLabel: 'Get overview',
+    triggerPercent: 0.65,
+    storageKey: 'panasa_email_services_overview',
+    crmDescription: 'Email capture: Services overview request (Services landing page)',
+  });
 
   loadContent()
     .then((content) => {
