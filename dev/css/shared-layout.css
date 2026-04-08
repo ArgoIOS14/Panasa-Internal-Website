@@ -1,3 +1,30 @@
+/* ==========================================================================
+   DESIGN TOKENS — Motion / Easing & Duration Scale
+   ==========================================================================
+
+   EASING CURVES
+   --motion-ease-standard : General-purpose ease-out for most transitions (hover, fade)
+   --motion-ease-emphasis : Slightly stiffer curve for transforms that need weight (scale, slide)
+   --motion-ease-carousel : Smooth deceleration for carousel/slide animations
+   --motion-ease-enter    : Entry animations — elements appearing on screen (same as standard)
+
+   DURATION SCALE
+   --motion-duration-fast        : 180ms — micro-interactions: hover, focus, color changes
+   --motion-duration-md          : 420ms — medium transitions: mobile nav open/close, overlays
+   --motion-duration-slow        : 680ms — large layout shifts, page-level transitions
+   --motion-duration-reveal-fast : 200ms — quick reveal for staggered list items
+   --motion-duration-reveal      : 380ms — standard scroll-triggered reveal animations
+   --motion-duration-reveal-slow : 460ms — slower reveal for hero or large elements
+   --motion-duration-carousel    : 620ms — carousel slide transitions
+   --motion-duration-panel       : 360ms — panel expand/collapse (mobile submenu, accordion)
+
+   OTHER
+   --motion-delay       : Base delay offset for staggered animations (default 0ms)
+   --motion-shadow-lift : Elevated shadow for hover/lift effects on cards
+   --nav-shell          : Max width of the navigation bar container (980px)
+
+   ========================================================================== */
+
 :root {
   --nav-shell: 980px;
   --motion-ease-standard: cubic-bezier(0.16, 1, 0.3, 1);

@@ -1,3 +1,33 @@
+/* ==========================================================================
+   DESIGN TOKENS — Color Palette, Spacing & Typography
+   ==========================================================================
+
+   COLOR PALETTE
+   --bg-light       : Page background, light sections (#f7fff9)
+   --bg-mint        : Soft mint tint for cards and highlighted areas (#c9f0db)
+   --bg-dark        : Primary dark background — nav, footer, dark sections (#0b3d2e)
+   --bg-dark-2      : Deeper dark variant for layered dark-on-dark contrast (#052d22)
+   --accent         : Teal accent for buttons and interactive highlights (#2dd4bf)
+   --accent-2       : Green accent, secondary CTA and hover states (#16ab6d)
+   --text-dark      : Primary body text color (#0f2c25)
+   --text-muted     : Secondary/supporting text (#5c7a6e)
+   --card           : Card surface background (#e9fff4)
+   --border         : Subtle border for cards and dividers (rgba)
+   --shadow         : Default card/section drop shadow
+
+   SPACING & LAYOUT
+   --page-shell          : Max content width (980px)
+   --split-summary-col   : Width of summary column in split layouts (360px)
+   --services-visual-col : Width of visual column in services grid (398px)
+
+   TYPOGRAPHY SCALE
+   --type-micro   : 12px — badges, labels, fine print
+   --type-support : 14px — captions, helper text, nav items
+   --type-body    : 15px — default body copy
+   Headings use the Lufga font stack; body uses InterVariable / Inter.
+
+   ========================================================================== */
+
 :root {
   --bg-light: #f7fff9;
   --bg-mint: #c9f0db;

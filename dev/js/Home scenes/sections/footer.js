@@ -10,9 +10,9 @@ export const renderFooter = (data) => {
     if ('href' in ctaBtn) {
       ctaBtn.href = data.ctaHref || 'contact.html';
     } else {
-      ctaBtn.onclick = () => {
+      ctaBtn.addEventListener('click', () => {
         window.location.href = data.ctaHref || 'contact.html';
-      };
+      });
     }
   }
 

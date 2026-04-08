@@ -1287,7 +1287,7 @@ const buildNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'ai-accelerated-fintech-engineering.html' : resolveToSiteHref(link.href),
+    href: link.label === 'Services' ? 'services.html' : resolveToSiteHref(link.href),
   })),
 });
 

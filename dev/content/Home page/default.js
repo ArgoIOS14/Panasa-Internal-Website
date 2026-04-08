@@ -11,7 +11,7 @@ window.DEFAULT_CONTENT = {
       },
       {
         "label": "Services",
-        "href": "ai-accelerated-fintech-engineering.html",
+        "href": "services.html",
         "children": [
           {
             "label": "AI Accelerated Fintech Engineering",
@@ -471,7 +471,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Services",
-            "href": "ai-accelerated-fintech-engineering.html"
+            "href": "services.html"
           },
           {
             "label": "Resources",

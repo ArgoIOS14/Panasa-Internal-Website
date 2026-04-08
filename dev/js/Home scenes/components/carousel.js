@@ -178,13 +178,14 @@ const initSwipeCarousel = ({
   }
   carousel.addEventListener('mouseenter', stopAuto);
   carousel.addEventListener('mouseleave', startAuto);
-  window.addEventListener('resize', () => {
+  const onResize = () => {
     measure();
     goTo(index, false);
-  });
+  };
+  window.addEventListener('resize', onResize);
 
+  let resizeObserver = null;
   if (stableSnap && 'ResizeObserver' in window) {
-    let resizeObserver = null;
     resizeObserver = new ResizeObserver(() => {
       measure();
       goTo(index, false);
@@ -192,14 +193,34 @@ const initSwipeCarousel = ({
     resizeObserver.observe(carousel);
   }
 
-  reducedMotion.addEventListener('change', () => {
+  const onMotionChange = () => {
     stopAuto();
     if (!reducedMotion.matches) startAuto();
-  });
+  };
+  reducedMotion.addEventListener('change', onMotionChange);
 
   measure();
   goTo(0, false);
   startAuto();
+
+  return () => {
+    stopAuto();
+    carousel.removeEventListener('pointerdown', onPointerDown);
+    carousel.removeEventListener('pointermove', onPointerMove);
+    carousel.removeEventListener('pointerup', onPointerUp);
+    carousel.removeEventListener('pointercancel', onPointerUp);
+    carousel.removeEventListener('pointerleave', onPointerUp);
+    if (stableSnap) {
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+      track.removeEventListener('transitionend', onTrackTransitionEnd);
+    }
+    carousel.removeEventListener('mouseenter', stopAuto);
+    carousel.removeEventListener('mouseleave', startAuto);
+    window.removeEventListener('resize', onResize);
+    if (resizeObserver) resizeObserver.disconnect();
+    reducedMotion.removeEventListener('change', onMotionChange);
+  };
 };
 
 export const initCarousel = () => {

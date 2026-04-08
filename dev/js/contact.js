@@ -268,11 +268,12 @@ const initContactForm = () => {
     submitBtn.textContent = 'Sending...';
 
     try {
-      await fetch(API_URL, {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      if (!response.ok) throw new Error('Server error');
       form.reset();
       submitBtn.textContent = 'Message Sent!';
       submitBtn.disabled = true;
