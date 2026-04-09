@@ -2,6 +2,10 @@ import { initScrollAnimations } from './Home scenes/components/animations.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
+import { firebaseConfig } from './firebase-config.js';
+
+function stripTags(str) { if (!str || typeof str !== 'string' || !str.includes('<')) return str || ''; const d = document.createElement('div'); d.innerHTML = str; return d.textContent || ''; }
+function deepStripTags(obj) { if (typeof obj === 'string') return stripTags(obj); if (Array.isArray(obj)) return obj.map(deepStripTags); if (obj && typeof obj === 'object') { const o = {}; for (const k of Object.keys(obj)) o[k] = deepStripTags(obj[k]); return o; } return obj; }
 
 const resolveToSiteHref = (href) => {
   if (href === '#about') return 'about.html';
@@ -65,6 +69,24 @@ const initPrivacy = async () => {
       renderFooter(buildFooterLinks(window.DEFAULT_CONTENT.footer));
     }
   }
+
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js');
+    const { getDatabase, ref, get } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js');
+    const app = initializeApp(firebaseConfig, 'privacy-reader');
+    const db = getDatabase(app);
+    const snapshot = await get(ref(db, 'pages/privacyPolicy'));
+    if (snapshot.exists()) {
+      const fb = deepStripTags(snapshot.val());
+      const h = fb.hero || {};
+      const pill = document.querySelector('.privacy-hero .pill');
+      const h1 = document.querySelector('.privacy-hero h1');
+      const heroP = document.querySelector('.privacy-hero p');
+      if (pill && h.pill) pill.textContent = h.pill;
+      if (h1 && (h.title || h.titleEmphasis)) h1.innerHTML = `<span>${h.title || ''}</span> <em>${h.titleEmphasis || ''}</em>`;
+      if (heroP && h.subtitle) heroP.textContent = h.subtitle;
+    }
+  } catch (e) { console.warn('Firebase fetch failed for privacy policy', e); }
 };
 
 initPrivacy();

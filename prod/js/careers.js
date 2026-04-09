@@ -2,6 +2,7 @@ import { initScrollAnimations } from './Home scenes/components/animations.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
+import { firebaseConfig } from './firebase-config.js';
 
 const initFilters = () => {
   const search = document.querySelector('.search-wrap input');
@@ -85,6 +86,33 @@ const buildFooter = (footer) => ({
   })),
 });
 
+async function fetchPageContent(path) {
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js');
+    const { getDatabase, ref, get } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js');
+    const app = initializeApp(firebaseConfig, 'careers-reader');
+    const db = getDatabase(app);
+    const snapshot = await get(ref(db, path));
+    return snapshot.exists() ? snapshot.val() : null;
+  } catch (e) { console.warn('Firebase fetch failed', e); return null; }
+}
+
+function stripTags(str) { if (!str || typeof str !== 'string' || !str.includes('<')) return str || ''; const d = document.createElement('div'); d.innerHTML = str; return d.textContent || ''; }
+function deepStripTags(obj) { if (typeof obj === 'string') return stripTags(obj); if (Array.isArray(obj)) return obj.map(deepStripTags); if (obj && typeof obj === 'object') { const o = {}; for (const k of Object.keys(obj)) o[k] = deepStripTags(obj[k]); return o; } return obj; }
+
+function applyCareersContent(fb) {
+  if (!fb) return;
+  const h = fb.hero || {};
+  const heroH1 = document.querySelector('.hero-copy h1');
+  if (heroH1 && (h.title || h.titleEmphasis)) heroH1.innerHTML = `<span>${h.title || ''}</span> <em>${h.titleEmphasis || ''}</em>`;
+  const heroP = document.querySelector('.hero-copy p');
+  if (heroP && h.subtitle) heroP.textContent = h.subtitle;
+
+  const r = fb.roles || {};
+  const rolesH2 = document.querySelector('.roles-header h2');
+  if (rolesH2 && r.heading) rolesH2.textContent = r.heading;
+}
+
 const initCareers = async () => {
   initNavToggle();
   initScrollAnimations();
@@ -99,6 +127,9 @@ const initCareers = async () => {
     if (window.DEFAULT_CONTENT?.nav) renderNav(buildNav(window.DEFAULT_CONTENT.nav));
     if (window.DEFAULT_CONTENT?.footer) renderFooter(buildFooter(window.DEFAULT_CONTENT.footer));
   }
+
+  const fbRaw = await fetchPageContent('pages/careers');
+  applyCareersContent(fbRaw ? deepStripTags(fbRaw) : null);
 };
 
 initCareers();

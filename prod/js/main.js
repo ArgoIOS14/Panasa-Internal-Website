@@ -87,6 +87,18 @@ const initApp = () => {
         initScrollAnimations();
       }
     })
+    .then((content) => {
+      // Override email capture popup if Firebase has data
+      const ec = content?.emailCapture;
+      if (ec) {
+        const h = document.querySelector('.email-capture__heading');
+        const s = document.querySelector('.email-capture__subtext');
+        const b = document.querySelector('.email-capture__form button[type="submit"]');
+        if (h && ec.promptHeading) h.textContent = ec.promptHeading;
+        if (s && ec.promptSubtext) s.textContent = ec.promptSubtext;
+        if (b && ec.buttonLabel) b.textContent = ec.buttonLabel;
+      }
+    })
     .catch(() => {
       // Pre-rendered content already visible, nothing to do
     });

@@ -2,6 +2,7 @@ import { initScrollAnimations } from './Home scenes/components/animations.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
+import { firebaseConfig } from './firebase-config.js';
 
 const resolveToSiteHref = (href) => {
   if (href === '#contact') return 'contact.html';
@@ -324,6 +325,44 @@ const initCopyButtons = () => {
   });
 };
 
+async function fetchPageContent(path) {
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js');
+    const { getDatabase, ref, get } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js');
+    const app = initializeApp(firebaseConfig, 'contact-reader');
+    const db = getDatabase(app);
+    const snapshot = await get(ref(db, path));
+    return snapshot.exists() ? snapshot.val() : null;
+  } catch (e) { console.warn('Firebase fetch failed', e); return null; }
+}
+
+function stripTags(str) { if (!str || typeof str !== 'string' || !str.includes('<')) return str || ''; const d = document.createElement('div'); d.innerHTML = str; return d.textContent || ''; }
+function deepStripTags(obj) { if (typeof obj === 'string') return stripTags(obj); if (Array.isArray(obj)) return obj.map(deepStripTags); if (obj && typeof obj === 'object') { const o = {}; for (const k of Object.keys(obj)) o[k] = deepStripTags(obj[k]); return o; } return obj; }
+
+function applyContactContent(fb) {
+  if (!fb) return;
+  const h = fb.hero || {};
+  const heroH1 = document.querySelector('.contact-hero-copy h1');
+  if (heroH1 && (h.title || h.titleEmphasis)) heroH1.innerHTML = `<span>${h.title || ''}</span> <em>${h.titleEmphasis || ''}</em>`;
+  const heroP = document.querySelector('.contact-hero-copy p');
+  if (heroP && h.subtitle) heroP.textContent = h.subtitle;
+
+  const ci = fb.contactInfo || {};
+  const infoH2 = document.querySelector('.contact-info h2');
+  if (infoH2 && ci.heading) infoH2.textContent = ci.heading;
+  const emailLink = document.querySelector('.contact-info .info-link-row a[href^="mailto"]');
+  if (emailLink && ci.email) { emailLink.textContent = ci.email; emailLink.href = `mailto:${ci.email}`; }
+
+  const loc = fb.locations || {};
+  const locTitle = document.querySelector('.locations-title h2');
+  if (locTitle && (loc.title || loc.titleEmphasis)) locTitle.innerHTML = `<span>${loc.title || ''}</span> <em>${loc.titleEmphasis || ''}</em>`;
+  const locP = document.querySelector('.locations-title + p, .locations p');
+  if (locP && loc.subtitle) locP.textContent = loc.subtitle;
+  const offices = Array.isArray(loc.offices) ? loc.offices : (loc.offices ? Object.values(loc.offices) : []);
+  const officeCards = document.querySelectorAll('.office-card');
+  offices.forEach((o, i) => { if (!officeCards[i]) return; const h3 = officeCards[i].querySelector('h3'); const p = officeCards[i].querySelector('.office-overlay p'); if (h3 && o.country) h3.textContent = o.country; if (p && o.address) p.textContent = o.address; });
+}
+
 const initContact = async () => {
   initNavToggle();
   initScrollAnimations();
@@ -339,6 +378,9 @@ const initContact = async () => {
     if (window.DEFAULT_CONTENT?.nav) renderNav(buildContactNav(window.DEFAULT_CONTENT.nav));
     if (window.DEFAULT_CONTENT?.footer) renderFooter(buildContactFooter(window.DEFAULT_CONTENT.footer));
   }
+
+  const fbRaw = await fetchPageContent('pages/contact');
+  applyContactContent(fbRaw ? deepStripTags(fbRaw) : null);
 };
 
 initContact();

@@ -5,6 +5,7 @@ import { renderLogoMarquee } from './Home scenes/sections/logoMarquee.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderSharedTestimonials } from './Home scenes/sections/sharedTestimonials.js';
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
+import { firebaseConfig } from './firebase-config.js';
 
 const TRUSTED_LOGOS = [
   { src: 'assets/logo-accelovate.svg', alt: 'Accelovate' },
@@ -165,6 +166,148 @@ const initProcessSteps = () => {
   });
 };
 
+async function fetchAboutContent() {
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js');
+    const { getDatabase, ref, get } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js');
+    const app = initializeApp(firebaseConfig, 'about-reader');
+    const db = getDatabase(app);
+    const snapshot = await get(ref(db, 'pages/about'));
+    if (snapshot.exists()) return snapshot.val();
+  } catch (e) {
+    console.warn('Firebase fetch failed for about page', e);
+  }
+  return null;
+}
+
+function stripTags(str) { if (!str || typeof str !== 'string' || !str.includes('<')) return str || ''; const d = document.createElement('div'); d.innerHTML = str; return d.textContent || ''; }
+function deepStripTags(obj) { if (typeof obj === 'string') return stripTags(obj); if (Array.isArray(obj)) return obj.map(deepStripTags); if (obj && typeof obj === 'object') { const o = {}; for (const k of Object.keys(obj)) o[k] = deepStripTags(obj[k]); return o; } return obj; }
+function setText(el, text) { if (el && text) el.textContent = stripTags(text); }
+
+function applyAboutContent(content) {
+  if (!content) return;
+
+  // Hero
+  const hero = content.hero;
+  if (hero) {
+    setText(document.querySelector('.about-hero .pill'), hero.pill);
+    const h1 = document.querySelector('.about-hero-copy h1');
+    if (h1 && (hero.title || hero.titleEmphasis)) {
+      h1.innerHTML = `<span>${hero.title || ''}</span> <em>${hero.titleEmphasis || ''}</em>`;
+    }
+    setText(document.querySelector('.about-hero-copy p'), hero.subtitle);
+    const ctas = document.querySelectorAll('.about-hero .hero-actions a');
+    if (ctas[0] && hero.primaryCta) {
+      const label = ctas[0].querySelector('.hero-action-label');
+      if (label) label.textContent = hero.primaryCta.label || '';
+      if (hero.primaryCta.href) ctas[0].setAttribute('href', hero.primaryCta.href);
+    }
+    if (ctas[1] && hero.secondaryCta) {
+      const label = ctas[1].querySelector('.hero-action-label');
+      if (label) label.textContent = hero.secondaryCta.label || '';
+      if (hero.secondaryCta.href) ctas[1].setAttribute('href', hero.secondaryCta.href);
+    }
+  }
+
+  // Stats
+  const stats = content.stats;
+  if (Array.isArray(stats)) {
+    const cards = document.querySelectorAll('.about-stats .stat-card');
+    stats.forEach((s, i) => {
+      if (!cards[i]) return;
+      setText(cards[i].querySelector('strong'), s.value);
+      setText(cards[i].querySelector('span:last-child'), s.label);
+    });
+  }
+
+  // Global Delivery
+  const delivery = content.delivery;
+  if (delivery) {
+    const section = document.querySelector('.presence-section');
+    if (section) {
+      const h2 = section.querySelector('.section-title h2');
+      if (h2) h2.innerHTML = `<span>${delivery.title || ''}</span> <em>${delivery.titleEmphasis || ''}</em>`;
+      setText(section.querySelector('.section-head p'), delivery.subtitle);
+    }
+  }
+
+  // Process
+  const process = content.process;
+  if (process) {
+    const section = document.querySelector('.process-section');
+    if (section) {
+      const h2 = section.querySelector('.section-title h2');
+      if (h2) h2.innerHTML = `<span>${process.title || ''}</span> <em>${process.titleEmphasis || ''}</em>`;
+      setText(section.querySelector('.section-head p'), process.subtitle);
+      const steps = Array.isArray(process.steps) ? process.steps : Object.values(process.steps || {});
+      const items = section.querySelectorAll('.process-flow-item');
+      steps.forEach((s, i) => {
+        if (!items[i]) return;
+        setText(items[i].querySelector('strong'), s.heading);
+        setText(items[i].querySelector('p'), s.description);
+      });
+    }
+  }
+
+  // Leadership
+  const leadership = content.leadership;
+  if (Array.isArray(leadership) || (leadership && typeof leadership === 'object')) {
+    const leaders = Array.isArray(leadership) ? leadership : Object.values(leadership);
+    const cards = document.querySelectorAll('.leadership-section .leader-card');
+    leaders.forEach((l, i) => {
+      if (!cards[i]) return;
+      setText(cards[i].querySelector('.leader-summary h3'), l.name);
+      setText(cards[i].querySelector('.leader-summary p'), l.role);
+      setText(cards[i].querySelector('.leader-detail h3'), l.name);
+      const detailRole = cards[i].querySelector('.leader-detail p:first-of-type');
+      if (detailRole) detailRole.textContent = l.role;
+      const detailBio = cards[i].querySelector('.leader-detail p:last-of-type');
+      if (detailBio && detailBio !== detailRole) detailBio.textContent = l.bio;
+    });
+  }
+
+  // Testimonials (override the hardcoded object)
+  const testimonials = content.testimonials;
+  if (testimonials?.cards) {
+    const tCards = Array.isArray(testimonials.cards) ? testimonials.cards : Object.values(testimonials.cards);
+    // Re-render testimonials with Firebase data
+    renderSharedTestimonials({ subtitle: testimonials.subtitle || ABOUT_TESTIMONIALS.subtitle, cards: tCards }, {
+      subtitleSelector: '.about-testimonials .section-head p',
+      trackSelector: '[data-testimonial-track]',
+      prevSelector: '[data-testimonial-prev]',
+      nextSelector: '[data-testimonial-next]',
+      dotsSelector: '[data-testimonial-dots]',
+    });
+    if (testimonials.title || testimonials.titleEmphasis) {
+      const h2 = document.querySelector('.about-testimonials .section-title-split h2');
+      if (h2) h2.innerHTML = `${testimonials.title || 'Trusted by'} <span>${testimonials.titleEmphasis || 'Fintech Leaders'}</span>`;
+    }
+  }
+
+  // FAQ
+  const faq = content.faq;
+  if (faq) {
+    const section = document.querySelector('.faq-section');
+    if (section) {
+      const h2 = section.querySelector('.section-title h2');
+      if (h2 && (faq.title || faq.titleEmphasis)) {
+        h2.innerHTML = `<span>${faq.title || ''}</span> <em>${faq.titleEmphasis || ''}</em>`;
+      }
+      setText(section.querySelector('.section-head p'), faq.subtitle);
+      const items = Array.isArray(faq.items) ? faq.items : Object.values(faq.items || {});
+      const faqItems = section.querySelectorAll('.faq-item');
+      items.forEach((f, i) => {
+        if (!faqItems[i]) return;
+        const qBtn = faqItems[i].querySelector('.faq-question');
+        const qSpan = qBtn?.querySelector('span:first-child');
+        if (qSpan && f.question) qSpan.textContent = f.question;
+        const answer = faqItems[i].querySelector('[data-faq-panel] p');
+        if (answer) answer.textContent = f.answer;
+      });
+    }
+  }
+}
+
 const initAbout = async () => {
   initNavToggle();
   initScrollAnimations();
@@ -179,10 +322,14 @@ const initAbout = async () => {
     dotsSelector: '[data-testimonial-dots]',
   });
 
-  initEmailCapture({
+  // Email capture — will be overridden by Firebase data below
+  const defaultEmailCapture = {
     promptHeading: 'Have a question we didn\'t cover?',
     promptSubtext: 'Leave your email and we\'ll follow up.',
     buttonLabel: 'Follow up',
+  };
+  initEmailCapture({
+    ...defaultEmailCapture,
     triggerPercent: 0.75,
     storageKey: 'panasa_email_about',
     crmDescription: 'Email capture: FAQ follow-up (About page)',
@@ -198,6 +345,22 @@ const initAbout = async () => {
     if (window.DEFAULT_CONTENT?.footer) {
       renderFooter(buildFooterLinks(window.DEFAULT_CONTENT.footer));
     }
+  }
+
+  // Apply Firebase content (overrides hardcoded HTML if data exists)
+  const aboutContentRaw = await fetchAboutContent();
+  const aboutContent = aboutContentRaw ? deepStripTags(aboutContentRaw) : null;
+  applyAboutContent(aboutContent);
+
+  // Override email capture popup text if Firebase has data
+  const ec = aboutContent?.emailCapture;
+  if (ec) {
+    const heading = document.querySelector('.email-capture__heading');
+    const subtext = document.querySelector('.email-capture__subtext');
+    const btn = document.querySelector('.email-capture__form button[type="submit"]');
+    if (heading && ec.promptHeading) heading.textContent = ec.promptHeading;
+    if (subtext && ec.promptSubtext) subtext.textContent = ec.promptSubtext;
+    if (btn && ec.buttonLabel) btn.textContent = ec.buttonLabel;
   }
 };
 
