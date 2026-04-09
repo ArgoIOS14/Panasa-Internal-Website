@@ -61,6 +61,23 @@ export const initNavToggle = () => {
     navLinks.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
+
+      const isMobile = window.innerWidth <= 900;
+
+      // On mobile, clicking the parent link or toggle button toggles the dropdown
+      if (isMobile) {
+        const dropdownWrap = target.closest('.nav-dropdown-wrap');
+        if (dropdownWrap) {
+          event.preventDefault();
+          const parent = dropdownWrap.closest('.nav-item-has-children');
+          const toggle = dropdownWrap.querySelector('.nav-dropdown-toggle');
+          const isOpen = parent?.classList.toggle('open');
+          toggle?.setAttribute('aria-expanded', String(Boolean(isOpen)));
+          return;
+        }
+      }
+
+      // Desktop: only the toggle button opens the dropdown
       const toggle = target.closest('.nav-dropdown-toggle');
       if (toggle instanceof HTMLButtonElement) {
         const parent = toggle.closest('.nav-item-has-children');
@@ -68,6 +85,7 @@ export const initNavToggle = () => {
         toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
         return;
       }
+
       if (target.closest('[data-nav-close]') || target.closest('a')) closeMenu();
     });
 

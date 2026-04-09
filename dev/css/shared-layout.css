@@ -55,7 +55,7 @@
   max-width: var(--nav-shell);
   margin: 0 auto;
   padding: 12px 18px;
-  min-height: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -517,7 +517,8 @@
   }
 
   .nav-submenu .nav-submenu-parent {
-    display: none;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
   }
 
   .nav-links.open {
