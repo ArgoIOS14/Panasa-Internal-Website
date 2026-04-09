@@ -933,6 +933,21 @@ textarea {
   color: #ffffff;
 }
 
+.engineering-build-list li.has-custom-icon::before,
+.engineering-build-list li.has-custom-icon::after {
+  display: none;
+}
+
+.engineering-build-list .bullet-icon {
+  position: absolute;
+  top: 0.15em;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
 .engineering-build-divider {
   max-width: var(--page-shell);
   margin: 34px auto 0;

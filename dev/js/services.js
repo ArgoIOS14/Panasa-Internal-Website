@@ -94,20 +94,38 @@ const AI_ACCELERATED_COPY = {
       {
         heading: 'Payment & Issuing',
         bullets: [
-          'Card issuing and programme management',
-          'Authorisation and payment processing engines',
-          'Visa and Mastercard scheme integrations',
-          'Tokenisation and digital wallet enablement',
-          'Open banking and embedded finance APIs',
+          { icon: null, text: 'Card issuing and programme management' },
+          { icon: null, text: 'Authorisation and payment processing engines' },
+          { icon: null, text: 'Visa and Mastercard scheme integrations' },
+          { icon: null, text: 'Tokenisation and digital wallet enablement' },
+          { icon: null, text: 'Open banking and embedded finance APIs' },
         ],
       },
       {
         heading: 'Platform Architecture',
         bullets: [
-          'API-first microservices for composability',
-          'Event-driven workflows for real-time processing',
-          'Multi-tenant design for programme managers',
-          'Zero-trust partner integrations',
+          { icon: null, text: 'API-first microservices for composability' },
+          { icon: null, text: 'Event-driven workflows for real-time processing' },
+          { icon: null, text: 'Multi-tenant design for programme managers' },
+          { icon: null, text: 'Zero-trust partner integrations' },
+        ],
+      },
+      {
+        heading: 'Security & Compliance',
+        bullets: [
+          { icon: null, text: 'PCI DSS Level 1 certified infrastructure' },
+          { icon: null, text: 'Real-time fraud detection and prevention' },
+          { icon: null, text: 'KYC/AML screening and monitoring' },
+          { icon: null, text: 'GDPR and data residency controls' },
+        ],
+      },
+      {
+        heading: 'Integration & Analytics',
+        bullets: [
+          { icon: null, text: 'RESTful and GraphQL API gateway' },
+          { icon: null, text: 'Webhook-based event notifications' },
+          { icon: null, text: 'Real-time transaction dashboards' },
+          { icon: null, text: 'Custom reporting and data exports' },
         ],
       },
     ],
@@ -975,25 +993,13 @@ const applyServiceMode = () => {
       </div>
 
       <div class="engineering-build-grid" data-animate>
+        ${AI_ACCELERATED_COPY.whatWeBuild.columns.map(col => `
         <article class="engineering-build-column">
-          <h3>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].heading}</h3>
+          <h3>${col.heading}</h3>
           <ul class="engineering-build-list">
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[0]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[1]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[2]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[3]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[4]}</li>
+            ${col.bullets.map(b => `<li${b.icon ? ' class="has-custom-icon"' : ''}>${b.icon ? `<img src="${b.icon}" alt="" class="bullet-icon">` : ''}${b.text}</li>`).join('')}
           </ul>
-        </article>
-        <article class="engineering-build-column">
-          <h3>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].heading}</h3>
-          <ul class="engineering-build-list">
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[0]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[1]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[2]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[3]}</li>
-          </ul>
-        </article>
+        </article>`).join('')}
       </div>
 
       <div class="engineering-build-divider" data-animate></div>
