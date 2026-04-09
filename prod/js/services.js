@@ -128,6 +128,15 @@ const AI_ACCELERATED_COPY = {
           { icon: null, text: 'Custom reporting and data exports' },
         ],
       },
+      {
+        heading: 'Operations & Monitoring',
+        bullets: [
+          { icon: null, text: '24/7 incident response and escalation' },
+          { icon: null, text: 'Automated alerting and anomaly detection' },
+          { icon: null, text: 'SLA tracking and uptime reporting' },
+          { icon: null, text: 'Capacity planning and load management' },
+        ],
+      },
     ],
     deliveryKicker: 'What Makes Delivery Faster',
     deliveryCards: [
