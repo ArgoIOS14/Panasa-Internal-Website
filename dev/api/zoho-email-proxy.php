@@ -76,7 +76,6 @@ curl_setopt_array($ch, [
 ]);
 $tokenResponse = curl_exec($ch);
 $tokenError = curl_error($ch);
-curl_close($ch);
 
 if ($tokenError) {
     http_response_code(502);
@@ -117,7 +116,6 @@ curl_setopt_array($ch, [
 $biginResponse = curl_exec($ch);
 $biginError = curl_error($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
 
 if ($biginError) {
     http_response_code(502);
@@ -126,9 +124,12 @@ if ($biginError) {
 }
 
 $biginData = json_decode($biginResponse, true);
+$biginCode = $biginData['data'][0]['code'] ?? '';
 
 if ($httpCode >= 200 && $httpCode < 300) {
     echo json_encode(['status' => 'success', 'message' => 'Contact created']);
+} elseif ($biginCode === 'DUPLICATE_DATA') {
+    echo json_encode(['status' => 'success', 'message' => 'Contact already exists']);
 } else {
     http_response_code($httpCode ?: 500);
     echo json_encode([
