@@ -34,13 +34,7 @@ const buildContactFooter = (footer) => ({
           : resolveToSiteHref(link.href),
     })),
   })),
-  legal: {
-    ...footer.legal,
-    links: footer.legal.links.map((link) => ({
-      ...link,
-      href: '#top',
-    })),
-  },
+  legal: footer.legal,
 });
 
 const API_URL = '/api/zoho-proxy.php';

@@ -186,6 +186,10 @@
   justify-content: space-between;
 }
 
+.nav-submenu .nav-submenu-parent {
+  display: none;
+}
+
 .nav-submenu a::after {
   content: '→';
   flex: 0 0 auto;
@@ -517,6 +521,7 @@
   }
 
   .nav-submenu .nav-submenu-parent {
+    display: flex;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.92);
   }
