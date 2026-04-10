@@ -20,7 +20,7 @@ Redirect 301 /services/ /ai-accelerated-fintech-engineering
 Redirect 301 /about/ /about
 Redirect 301 /careers/ /careers
 Redirect 301 /contact/ /contact
-Redirect 301 /privacy-policy/ /
+Redirect 301 /privacy-policy/ /privacy-policy
 
 # ── Redirect old query-param service URLs ────────────────
 RewriteCond %{QUERY_STRING} service=ai-governance
