@@ -1,4 +1,5 @@
 .DS_Store
 panasa-static-site.zip
+panasa-deploy-v*.zip
 .env
 router.php
