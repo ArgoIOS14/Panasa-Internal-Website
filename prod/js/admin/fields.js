@@ -89,26 +89,32 @@ export function esc(str) {
  * Image upload widget — drag-drop, file picker, URL fallback, preview.
  * Returns a container element with a hidden input holding the URL value.
  */
+const MAX_UPLOAD_SIZE = 5 * 1024 * 1024; // 5MB
+
 function imageInput(currentUrl, className) {
   const wrapper = el('div', 'image-upload-widget');
   const hasImage = currentUrl && currentUrl.trim();
 
-  const PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" rx="8" fill="%23242424"/><path d="M28 52l8-10 6 7 10-13 12 16H16z" fill="%23444"/><circle cx="30" cy="32" r="5" fill="%23444"/></svg>');
+  const PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" rx="8" fill="%23e5e7eb"/><path d="M28 52l8-10 6 7 10-13 12 16H16z" fill="%23d1d5db"/><circle cx="30" cy="32" r="5" fill="%23d1d5db"/></svg>');
 
   wrapper.innerHTML = `
     <input type="hidden" class="${className || 'img-url-value'}" value="${esc(currentUrl || '')}">
-    <div class="img-drop-zone ${hasImage ? 'has-preview' : 'has-preview'}">
-      <img src="${hasImage ? esc(currentUrl) : PLACEHOLDER}" class="img-preview ${hasImage ? '' : 'img-placeholder'}" alt="${hasImage ? 'Preview' : 'No image'}">
+    <div class="img-drop-zone ${hasImage ? 'has-preview' : ''}">
+      <img src="${hasImage ? esc(currentUrl) : PLACEHOLDER}" class="img-preview ${hasImage ? '' : 'img-placeholder'}" alt="${hasImage ? 'Preview' : 'No image'}" onerror="this.src='${PLACEHOLDER}';this.classList.add('img-placeholder');this.parentElement.classList.add('img-error')">
       <div class="img-drop-label">
-        <span class="img-drop-icon">&#128247;</span>
         <span>Drop image here or <label class="img-browse-label">browse<input type="file" accept="image/*" class="img-file-input"></label></span>
       </div>
-      <div class="img-uploading" style="display:none">Uploading...</div>
+      <div class="img-uploading" style="display:none"><span class="img-spinner"></span> Uploading\u2026</div>
+      <div class="img-error-msg" style="display:none">Image failed to load</div>
     </div>
     <div class="img-url-row">
-      <input type="text" class="img-url-text field-input" value="${esc(currentUrl || '')}" placeholder="Or paste image URL">
       <button type="button" class="img-gallery-btn" title="Choose from gallery">Gallery</button>
+      <button type="button" class="img-paste-btn" title="Paste image URL">Paste URL</button>
       <button type="button" class="img-clear-btn" title="Remove image" style="${hasImage ? '' : 'display:none'}">Remove</button>
+    </div>
+    <div class="img-paste-row" style="display:none">
+      <input type="text" class="img-url-text field-input" value="${esc(currentUrl || '')}" placeholder="Paste image URL and press Enter">
+      <button type="button" class="img-paste-apply">Apply</button>
     </div>
   `;
 
@@ -117,11 +123,17 @@ function imageInput(currentUrl, className) {
   const fileInput = wrapper.querySelector('.img-file-input');
   const urlText = wrapper.querySelector('.img-url-text');
   const uploading = wrapper.querySelector('.img-uploading');
+  const errorMsg = wrapper.querySelector('.img-error-msg');
   const clearBtn = wrapper.querySelector('.img-clear-btn');
+  const pasteBtn = wrapper.querySelector('.img-paste-btn');
+  const pasteRow = wrapper.querySelector('.img-paste-row');
+  const pasteApply = wrapper.querySelector('.img-paste-apply');
 
   function setUrl(url) {
     hiddenInput.value = url;
     urlText.value = url;
+    errorMsg.style.display = 'none';
+    dropZone.classList.remove('img-error');
     const existing = dropZone.querySelector('.img-preview');
     if (url) {
       dropZone.classList.add('has-preview');
@@ -131,32 +143,60 @@ function imageInput(currentUrl, className) {
         img.className = 'img-preview';
         img.src = url;
         img.alt = 'Preview';
+        img.onerror = () => { img.src = PLACEHOLDER; img.classList.add('img-placeholder'); dropZone.classList.add('img-error'); errorMsg.style.display = ''; };
         dropZone.prepend(img);
       }
       clearBtn.style.display = '';
+      // Hide paste row after applying
+      pasteRow.style.display = 'none';
     } else {
-      // Show placeholder instead of removing preview
-      dropZone.classList.add('has-preview');
+      dropZone.classList.remove('has-preview');
       if (existing) { existing.src = PLACEHOLDER; existing.classList.add('img-placeholder'); existing.alt = 'No image'; }
       clearBtn.style.display = 'none';
+    }
+    // Dispatch change event for alt text auto-fill
+    hiddenInput.dispatchEvent(new Event('change'));
+  }
+
+  function showFeedback(msg, type) {
+    // Use toast if available, otherwise inline
+    if (typeof window.showToast === 'function') {
+      window.showToast(msg, type);
+    } else {
+      const fb = wrapper.querySelector('.img-feedback') || document.createElement('div');
+      fb.className = 'img-feedback img-feedback-' + type;
+      fb.textContent = msg;
+      if (!fb.parentElement) wrapper.appendChild(fb);
+      setTimeout(() => fb.remove(), 4000);
     }
   }
 
   async function uploadFile(file) {
+    // Client-side file size check
+    if (file.size > MAX_UPLOAD_SIZE) {
+      showFeedback(`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max 5MB.`, 'error');
+      return;
+    }
+
     uploading.style.display = '';
     dropZone.querySelector('.img-drop-label').style.display = 'none';
+    errorMsg.style.display = 'none';
     try {
       const token = await getAuthToken();
-      if (!token) { alert('Not authenticated'); return; }
+      if (!token) { showFeedback('Not authenticated', 'error'); return; }
       const form = new FormData();
       form.append('file', file);
       const res = await fetch('/api/upload.php', { method: 'POST', body: form, headers: { 'Authorization': 'Bearer ' + token } });
       const json = await res.json();
-      if (json.url) { setUrl(json.url); }
-      else { alert(json.error || 'Upload failed'); }
+      if (json.url) {
+        setUrl(json.url);
+        showFeedback('Image uploaded', 'success');
+      } else {
+        showFeedback(json.error || 'Upload failed', 'error');
+      }
     } catch (e) {
       console.error('Upload error:', e);
-      alert('Upload failed');
+      showFeedback('Upload failed — check your connection', 'error');
     } finally {
       uploading.style.display = 'none';
       dropZone.querySelector('.img-drop-label').style.display = '';
@@ -171,6 +211,7 @@ function imageInput(currentUrl, className) {
     dropZone.classList.remove('drag-over');
     const file = e.dataTransfer.files?.[0];
     if (file && file.type.startsWith('image/')) uploadFile(file);
+    else if (file) showFeedback('Only image files accepted', 'error');
   });
 
   // File picker
@@ -179,8 +220,16 @@ function imageInput(currentUrl, className) {
     if (file) uploadFile(file);
   });
 
-  // URL text input
-  urlText.addEventListener('change', () => setUrl(urlText.value));
+  // Paste URL toggle
+  pasteBtn.addEventListener('click', () => {
+    const isVisible = pasteRow.style.display !== 'none';
+    pasteRow.style.display = isVisible ? 'none' : 'flex';
+    if (!isVisible) urlText.focus();
+  });
+
+  // Apply pasted URL
+  pasteApply.addEventListener('click', () => setUrl(urlText.value.trim()));
+  urlText.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); setUrl(urlText.value.trim()); } });
 
   // Clear
   if (clearBtn) clearBtn.addEventListener('click', () => setUrl(''));
@@ -189,14 +238,17 @@ function imageInput(currentUrl, className) {
   const galleryBtn = wrapper.querySelector('.img-gallery-btn');
   if (galleryBtn) {
     galleryBtn.addEventListener('click', () => {
-      // Set global callback for gallery selection
       window._galleryCallback = (url) => setUrl(url);
-      document.getElementById('gallery-modal').style.display = '';
       document.getElementById('gallery-modal').dispatchEvent(new Event('open'));
     });
   }
 
   return wrapper;
+}
+
+// Expose showToast globally for image upload feedback
+if (typeof window !== 'undefined') {
+  import('./animations.js').then(m => { window.showToast = m.showToast; }).catch(() => {});
 }
 
 // ── Render a single field ──
@@ -214,6 +266,7 @@ export function renderField(sectionKey, field, value, data, onRerender) {
 
   switch (field.type) {
     case 'text': group.appendChild(textInput(value || '')); break;
+    case 'image': group.appendChild(imageInput(value || '', 'field-image')); break;
     case 'textarea': group.appendChild(textArea(value || '')); break;
     case 'title': group.appendChild(textInput(value?.[0] || '', 'Line 1 (highlighted)')); group.appendChild(textInput(value?.[1] || '', 'Line 2')); break;
     case 'label-href': renderLabelHref(group, value || {}); break;
@@ -224,6 +277,7 @@ export function renderField(sectionKey, field, value, data, onRerender) {
     case 'heading-body-cards': renderHBCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'pill-cards': renderPillCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'string-list': renderStringList(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'image-list': renderImageList(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'service-cards': renderServiceCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'why-cards': renderWhyCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'case-slides': renderCaseSlides(group, sectionKey, field.key, toArr(value), ctx); break;
@@ -248,21 +302,55 @@ function toArr(val) {
 
 // ── Shared renderers ──
 
+const SITE_PAGES = [
+  { value: 'index.html', label: 'Home' },
+  { value: 'about.html', label: 'About Us' },
+  { value: 'services.html', label: 'Services Overview' },
+  { value: 'ai-accelerated-fintech-engineering.html', label: 'AI Accelerated Fintech Engineering' },
+  { value: 'ai-powered-legacy-modernisation.html', label: 'AI Powered Legacy Modernisation' },
+  { value: 'ai-governance.html', label: 'AI Governance' },
+  { value: 'intelligent-operations.html', label: 'Intelligent Operations' },
+  { value: 'contact.html', label: 'Contact' },
+  { value: 'careers.html', label: 'Careers' },
+  { value: 'privacy-policy.html', label: 'Privacy Policy' },
+];
+
 function renderLabelHref(group, obj) {
-  const row = el('div', 'card-row');
-  row.innerHTML = `<input type="text" class="lh-label" value="${esc(obj.label || '')}" placeholder="Label"><input type="text" class="lh-href" value="${esc(obj.href || '')}" placeholder="URL / href">`;
+  const row = el('div', 'card-row label-href-row');
+  const labelInput = `<input type="text" class="lh-label" value="${esc(obj.label || '')}" placeholder="Button text">`;
+  const options = SITE_PAGES.map(p =>
+    `<option value="${esc(p.value)}"${(obj.href || '') === p.value ? ' selected' : ''}>${esc(p.label)}</option>`
+  ).join('');
+  const hrefSelect = `<select class="lh-href lh-href-select">${options}</select>`;
+  row.innerHTML = labelInput + hrefSelect;
   group.appendChild(row);
+  // Always show icon upload for CTAs (allows adding/changing button icons)
+  const iconLabel = el('div', 'field-label');
+  iconLabel.textContent = 'Button icon (optional)';
+  iconLabel.style.marginTop = '6px';
+  iconLabel.style.fontSize = '12px';
+  group.appendChild(iconLabel);
+  group.appendChild(imageInput(obj.icon || '', 'lh-icon'));
 }
 
 function renderStats(group, sectionKey, arrayKey, items, ctx) {
   const container = el('div', 'repeatable-container');
   items.forEach((s, i) => {
+    const card = el('div', 'nested-card');
     const row = el('div', 'card-row');
     row.innerHTML = `<input type="text" class="rep-value" value="${esc(s.value)}" placeholder="Value (e.g. 50%)"><input type="text" class="rep-label" value="${esc(s.label)}" placeholder="Label"><button class="bullet-remove" data-idx="${i}">&times;</button>`;
-    container.appendChild(row);
+    card.appendChild(row);
+    // Icon upload (optional)
+    const iconLabel = el('div', 'field-label');
+    iconLabel.textContent = 'Icon (optional)';
+    iconLabel.style.fontSize = '12px';
+    iconLabel.style.marginTop = '4px';
+    card.appendChild(iconLabel);
+    card.appendChild(imageInput(s.icon || '', 'rep-icon'));
+    container.appendChild(card);
   });
   addButton(group, container, '+ Add stat', () => {
-    ctx.data[sectionKey][arrayKey].push({ value: '', label: '' });
+    ctx.data[sectionKey][arrayKey].push({ value: '', label: '', icon: '' });
     ctx.onRerender();
   });
   attachRemove(container, ctx, sectionKey, arrayKey);
@@ -377,6 +465,51 @@ function renderStringList(group, sectionKey, arrayKey, items, ctx) {
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
+function renderImageList(group, sectionKey, arrayKey, items, ctx) {
+  const container = el('div', 'repeatable-container');
+  items.forEach((item, i) => {
+    const card = el('div', 'nested-card image-list-card');
+    const src = typeof item === 'string' ? item : (item.src || '');
+    const alt = typeof item === 'string' ? '' : (item.alt || '');
+    // Image upload widget
+    const imgWidget = imageInput(src, 'il-src');
+    card.appendChild(imgWidget);
+    // Alt text row
+    const altRow = el('div', 'card-row');
+    altRow.innerHTML = `<input type="text" class="il-alt" value="${esc(alt)}" placeholder="Alt text / label"><button class="bullet-remove" data-idx="${i}">&times;</button>`;
+    card.appendChild(altRow);
+    // Auto-fill alt text from filename when image changes (if alt is empty)
+    const hiddenInput = imgWidget.querySelector('.il-src');
+    if (hiddenInput) {
+      const observer = new MutationObserver(() => {
+        const altInput = card.querySelector('.il-alt');
+        if (altInput && !altInput.value.trim() && hiddenInput.value) {
+          // Derive alt from filename: "assets/badge-gdpr.svg" → "Gdpr"
+          const filename = hiddenInput.value.split('/').pop().replace(/\.[^.]+$/, '');
+          const cleaned = filename.replace(/^(badge|logo|icon|about|asset|img)[_-]/i, '').replace(/[_-]/g, ' ');
+          altInput.value = cleaned.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+      });
+      observer.observe(hiddenInput, { attributes: true, attributeFilter: ['value'] });
+      // Also listen for programmatic value changes via input event
+      hiddenInput.addEventListener('change', () => {
+        const altInput = card.querySelector('.il-alt');
+        if (altInput && !altInput.value.trim() && hiddenInput.value) {
+          const filename = hiddenInput.value.split('/').pop().replace(/\.[^.]+$/, '');
+          const cleaned = filename.replace(/^(badge|logo|icon|about|asset|img)[_-]/i, '').replace(/[_-]/g, ' ');
+          altInput.value = cleaned.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+      });
+    }
+    container.appendChild(card);
+  });
+  addButton(group, container, '+ Add image', () => {
+    ctx.data[sectionKey][arrayKey].push({ src: '', alt: '' });
+    ctx.onRerender();
+  });
+  attachRemove(container, ctx, sectionKey, arrayKey);
+}
+
 // ── Home page specific ──
 
 function renderServiceCards(group, sectionKey, arrayKey, items, ctx) {
@@ -438,7 +571,10 @@ function renderTestimonialCards(group, sectionKey, arrayKey, cards, ctx) {
   const container = el('div', 'repeatable-container');
   cards.forEach((c, i) => {
     const card = el('div', 'nested-card');
-    card.innerHTML = `<div class="card-row"><input type="text" class="tc-name" value="${esc(c.name || '')}" placeholder="Name"><input type="text" class="tc-role" value="${esc(c.role || '')}" placeholder="Role"><button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="tc-text" placeholder="Testimonial quote">${esc(c.text || '')}</textarea><div class="card-row"><input type="text" class="tc-logo" value="${esc(c.logo || '')}" placeholder="Logo path"><input type="text" class="tc-logoAlt" value="${esc(c.logoAlt || '')}" placeholder="Logo alt text"></div>`;
+    card.innerHTML = `<div class="card-row"><input type="text" class="tc-name" value="${esc(c.name || '')}" placeholder="Name"><input type="text" class="tc-role" value="${esc(c.role || '')}" placeholder="Role"><button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="tc-text" placeholder="Testimonial quote">${esc(c.text || '')}</textarea><div class="card-row"><input type="text" class="tc-logoAlt" value="${esc(c.logoAlt || '')}" placeholder="Logo alt text"></div>`;
+    // Add image upload widget for logo (instead of plain text input)
+    const altRow = card.querySelector('.card-row:last-child');
+    card.insertBefore(imageInput(c.logo || '', 'tc-logo'), altRow);
     container.appendChild(card);
   });
   addButton(group, container, '+ Add testimonial', () => {
@@ -460,10 +596,21 @@ function renderEngagementCards(group, sectionKey, arrayKey, items, ctx) {
   const container = el('div', 'repeatable-container');
   items.forEach((item, i) => {
     const card = el('div', 'nested-card');
-    card.innerHTML = `<div class="card-row"><input type="text" class="ec-title" value="${esc(item.title || '')}" placeholder="Title">${variantSelect(item.variant || 'light', 'ec-variant')}<button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="ec-text" placeholder="Description">${esc(item.text || '')}</textarea><div class="card-row"><input type="text" class="ec-cta" value="${esc(item.cta || '')}" placeholder="CTA label"></div><div class="field-label" style="margin-top:6px">Bullets</div>${toArr(item.bullets).map((b, bi) => `<div class="card-row"><input type="text" class="ec-bullet" value="${esc(b)}" placeholder="Bullet"><button class="bullet-remove ec-bullet-rm" data-parent="${i}" data-idx="${bi}">&times;</button></div>`).join('')}`;
-    // Image upload widget
-    const ctaRow = card.querySelectorAll('.card-row')[1];
-    ctaRow.parentNode.insertBefore(imageInput(item.image || '', 'ec-image'), ctaRow.nextSibling);
+    card.innerHTML = `<div class="card-row"><input type="text" class="ec-title" value="${esc(item.title || '')}" placeholder="Title">${variantSelect(item.variant || 'light', 'ec-variant')}<button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="ec-text" placeholder="Description">${esc(item.text || '')}</textarea><div class="card-row"><input type="text" class="ec-cta" value="${esc(item.cta || '')}" placeholder="CTA label"></div>`;
+    // Image upload widget — after CTA, before bullets
+    card.appendChild(imageInput(item.image || '', 'ec-image'));
+    // Bullets section with clear separator
+    const ecBulletsLabel = el('div', 'field-label');
+    ecBulletsLabel.textContent = 'Bullets';
+    ecBulletsLabel.style.marginTop = '12px';
+    ecBulletsLabel.style.paddingTop = '12px';
+    ecBulletsLabel.style.borderTop = '1px solid var(--admin-border)';
+    card.appendChild(ecBulletsLabel);
+    toArr(item.bullets).forEach((b, bi) => {
+      const bRow = el('div', 'card-row');
+      bRow.innerHTML = `<input type="text" class="ec-bullet" value="${esc(b)}" placeholder="Bullet"><button class="bullet-remove ec-bullet-rm" data-parent="${i}" data-idx="${bi}">&times;</button>`;
+      card.appendChild(bRow);
+    });
     // Add bullet button
     const addBulletBtn = el('button', 'add-bullet-btn');
     addBulletBtn.textContent = '+ Add bullet';
@@ -499,9 +646,21 @@ function renderGrowthCards(group, sectionKey, arrayKey, items, ctx) {
   const container = el('div', 'repeatable-container');
   items.forEach((item, i) => {
     const card = el('div', 'nested-card');
-    card.innerHTML = `<div class="card-row"><input type="text" class="gc-title" value="${esc(item.title || '')}" placeholder="Title">${variantSelect(item.variant || 'light', 'gc-variant')}<button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="gc-text" placeholder="Description">${esc(item.text || '')}</textarea><div class="card-row"><input type="text" class="gc-bestSuited" value="${esc(item.bestSuitedFor || '')}" placeholder="Best suited for"><input type="text" class="gc-cta" value="${esc(item.cta || '')}" placeholder="CTA label"></div><input type="text" class="gc-outcome field-input" value="${esc(item.outcome || '')}" placeholder="Outcome"><div class="field-label" style="margin-top:6px">Bullets</div>${toArr(item.bullets).map((b, bi) => `<div class="card-row"><input type="text" class="gc-bullet" value="${esc(b)}" placeholder="Bullet"><button class="bullet-remove gc-bullet-rm" data-parent="${i}" data-idx="${bi}">&times;</button></div>`).join('')}`;
-    // Image upload widget
+    card.innerHTML = `<div class="card-row"><input type="text" class="gc-title" value="${esc(item.title || '')}" placeholder="Title">${variantSelect(item.variant || 'light', 'gc-variant')}<button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="gc-text" placeholder="Description">${esc(item.text || '')}</textarea><div class="card-row"><input type="text" class="gc-bestSuited" value="${esc(item.bestSuitedFor || '')}" placeholder="Best suited for"><input type="text" class="gc-cta" value="${esc(item.cta || '')}" placeholder="CTA label"></div><input type="text" class="gc-outcome field-input" value="${esc(item.outcome || '')}" placeholder="Outcome">`;
+    // Image upload widget — placed after outcome, before bullets
     card.appendChild(imageInput(item.image || '', 'gc-image'));
+    // Bullets section with clear separator
+    const bulletsLabel = el('div', 'field-label');
+    bulletsLabel.textContent = 'Bullets';
+    bulletsLabel.style.marginTop = '12px';
+    bulletsLabel.style.paddingTop = '12px';
+    bulletsLabel.style.borderTop = '1px solid var(--admin-border)';
+    card.appendChild(bulletsLabel);
+    toArr(item.bullets).forEach((b, bi) => {
+      const bRow = el('div', 'card-row');
+      bRow.innerHTML = `<input type="text" class="gc-bullet" value="${esc(b)}" placeholder="Bullet"><button class="bullet-remove gc-bullet-rm" data-parent="${i}" data-idx="${bi}">&times;</button>`;
+      card.appendChild(bRow);
+    });
     // Add bullet button
     const gcAddBullet = el('button', 'add-bullet-btn');
     gcAddBullet.textContent = '+ Add bullet';
@@ -695,15 +854,17 @@ export function readAllForms(editorSections, sections, data) {
 
       switch (field.type) {
         case 'text': { const input = group.querySelector('input'); if (input) ref[field.key] = input.value; break; }
+        case 'image': { const img = group.querySelector('.field-image'); if (img) ref[field.key] = img.value; break; }
         case 'textarea': { const qw = group.querySelector('.quill-wrapper'); if (qw) { ref[field.key] = readQuillValue(qw, false); } else { const ta = group.querySelector('textarea'); if (ta) ref[field.key] = ta.value; } break; }
         case 'title': { const inputs = group.querySelectorAll('input'); if (inputs.length >= 2) ref[field.key] = [inputs[0].value, inputs[1].value]; break; }
-        case 'label-href': { const l = group.querySelector('.lh-label'); const h = group.querySelector('.lh-href'); if (l && h) ref[field.key] = { label: l.value, href: h.value }; break; }
-        case 'stats': { ref[field.key] = Array.from(group.querySelectorAll('.card-row')).map(r => ({ value: r.querySelector('.rep-value')?.value || '', label: r.querySelector('.rep-label')?.value || '' })); break; }
+        case 'label-href': { const l = group.querySelector('.lh-label'); const h = group.querySelector('.lh-href'); const ic = group.querySelector('.lh-icon'); if (l && h) { const obj = { label: l.value, href: h.value }; if (ic && ic.value) obj.icon = ic.value; ref[field.key] = obj; } break; }
+        case 'stats': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ value: c.querySelector('.rep-value')?.value || '', label: c.querySelector('.rep-label')?.value || '', icon: c.querySelector('.rep-icon')?.value || '' })); break; }
         case 'numbered-cards': { ref.cards = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ number: c.querySelector('.nc-number')?.value || '', title: c.querySelector('.nc-title')?.value || '', body: c.querySelector('.nc-body')?.value || '' })); break; }
         case 'stages': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ heading: c.querySelector('.rep-heading')?.value || '', description: c.querySelector('.rep-description')?.value || '' })); break; }
         case 'columns': { ref.columns = Array.from(group.querySelectorAll('.section-card')).map(card => ({ heading: card.querySelector('.col-heading')?.value || '', bullets: Array.from(card.querySelectorAll('.bullet-row')).map(row => ({ icon: row.querySelector('.icon-input')?.value || null, text: row.querySelector('.bullet-text')?.value || '' })) })); break; }
         case 'heading-body-cards': case 'pill-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => { const obj = { heading: c.querySelector('.hb-heading')?.value || '', body: c.querySelector('.hb-body')?.value || '' }; const pill = c.querySelector('.hb-pill'); if (pill) obj.pill = pill.value; return obj; }); break; }
         case 'string-list': { ref[field.key] = Array.from(group.querySelectorAll('.card-row')).map(r => r.querySelector('.str-item')?.value || ''); break; }
+        case 'image-list': { ref[field.key] = Array.from(group.querySelectorAll('.image-list-card')).map(c => ({ src: c.querySelector('.il-src')?.value || '', alt: c.querySelector('.il-alt')?.value || '' })); break; }
         case 'service-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, eyebrow: c.querySelector('.sc-eyebrow')?.value || '', title: c.querySelector('.sc-title')?.value || '', href: c.querySelector('.sc-href')?.value || '', icon: c.querySelector('.sc-icon')?.value || '', bullets: Array.from(c.querySelectorAll('.sc-bullet')).map(b => b.value) }; }); break; }
         case 'why-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.wc-title')?.value || '', text: c.querySelector('.wc-text')?.value || '', style: c.querySelector('.wc-style')?.value || 'light', image: c.querySelector('.wc-image')?.value || '' }; }); break; }
         case 'case-slides': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; const mvs = c.querySelectorAll('.cs-metric-value'); const mls = c.querySelectorAll('.cs-metric-label'); return { ...existing, eyebrow: c.querySelector('.cs-eyebrow')?.value || '', title: c.querySelector('.cs-title')?.value || '', text: c.querySelector('.cs-text')?.value || '', image: c.querySelector('.cs-image')?.value || '', cta: { label: c.querySelector('.cs-cta-label')?.value || '', href: c.querySelector('.cs-cta-href')?.value || '' }, metrics: Array.from(mvs).map((mv, mi) => ({ value: mv.value, label: mls[mi]?.value || '' })) }; }); break; }

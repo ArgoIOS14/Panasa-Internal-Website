@@ -5,6 +5,7 @@ export const defaults = {
     title: 'Build the Future of Fintech',
     titleEmphasis: 'with Panasa',
     subtitle: 'Join a team that builds secure, scalable payment infrastructure used by modern fintech platforms. Work on real-world systems, solve complex engineering challenges, and grow your career in fintech.',
+    teamPhoto: 'Team Photo.webp',
   },
   roles: {
     heading: 'Careers at Panasa Technology',
@@ -24,6 +25,7 @@ export const sections = [
     { key: 'title', label: 'Title', type: 'text' },
     { key: 'titleEmphasis', label: 'Title emphasis', type: 'text' },
     { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+    { key: 'teamPhoto', label: 'Team photo', type: 'image' },
   ]},
   { key: 'roles', label: 'Open Roles', fields: [
     { key: 'heading', label: 'Section heading', type: 'text' },

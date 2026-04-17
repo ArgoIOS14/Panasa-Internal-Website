@@ -3,6 +3,31 @@ import { loadFromFirebase, saveDraft, publishToLive, saveHistory, loadHistory } 
 import { renderField, readAllForms, readQuillValue, el, setReadForms } from './fields.js';
 import { auth } from '../firebase-config.js';
 
+// ── New feature modules ──
+import { initDragReorder } from './dragReorder.js';
+import { pushUndoState, undo, redo, clearUndoHistory } from './undoRedo.js';
+import { initShortcuts, shortcutLabel } from './shortcuts.js';
+import { initPreview, refreshPreview, closePreview } from './preview.js';
+import { initRebuildStatus, setRebuildState, restoreRebuildState, triggerManualRebuild } from './rebuildStatus.js';
+import { initHistoryDiff, enhanceHistoryEntries } from './historyDiff.js';
+import { initValidation, validateAllFields, clearValidationErrors } from './validation.js';
+import { initConflictDetection, cleanupPresence, checkForConflicts } from './conflicts.js';
+import { initContentSearch, clearSearchCache } from './contentSearch.js';
+import { initA11y } from './a11y.js';
+import { initImageEnhancements } from './imageEnhancements.js';
+
+// ── Round 2 feature modules ──
+import { initAnalytics } from './analytics.js';
+import { initSeoPreview, setSeoPageUrl, hideSeoPreview } from './seoPreview.js';
+import { initAutosave, stopAutosave, resetAutosaveHash } from './autosave.js';
+import { initAuditLog, logAction } from './auditLog.js';
+import { initBulkOps } from './bulkOps.js';
+
+// ── Round 3 UI/UX modules ──
+import { showModal, hideModal, showToast, showSkeleton } from './animations.js';
+import { initTutorial } from './tutorial.js';
+import { initUiEnhancements, updateSectionBadges } from './uiEnhancements.js';
+
 import * as aiEngPage from './pages/ai-engineering.js';
 import * as homePage from './pages/home.js';
 import * as aboutPage from './pages/about.js';
@@ -137,45 +162,7 @@ editorSections.addEventListener('input', scheduleAutoSave);
    Validation
    ═══════════════════════════════════════════════ */
 
-function validateFields() {
-  const issues = [];
-  editorSections.querySelectorAll('.field-group').forEach(group => {
-    group.classList.remove('field-invalid');
-  });
-
-  // Check text inputs that are empty in important fields
-  const page = getPage();
-  for (const cfg of page.sections) {
-    for (const field of cfg.fields) {
-      if (field.type !== 'text' && field.type !== 'textarea') continue;
-      const sectionKey = cfg.parentKey || cfg.key;
-      const body = editorSections.querySelector(`[data-section-key="${sectionKey}"]${cfg.nestedKey ? `[data-nested-key="${cfg.nestedKey}"]` : ':not([data-nested-key])'}`);
-      if (!body) continue;
-      const group = body.querySelector(`[data-field-key="${field.key}"]`);
-      if (!group) continue;
-      const input = group.querySelector('input[type="text"], .quill-wrapper');
-      if (!input) continue;
-      let val = '';
-      if (input.classList?.contains('quill-wrapper')) {
-        val = readQuillValue(input);
-      } else {
-        val = input.value;
-      }
-      if (!val || !val.trim() || val === '<p><br></p>') {
-        group.classList.add('field-invalid');
-        issues.push(`${cfg.label}: ${field.label} is empty`);
-      }
-    }
-  }
-
-  if (issues.length) {
-    validationSummary.innerHTML = `<strong>${issues.length} empty field${issues.length > 1 ? 's' : ''}:</strong> ${issues.slice(0, 5).join(', ')}${issues.length > 5 ? ` and ${issues.length - 5} more` : ''}`;
-    validationSummary.style.display = '';
-  } else {
-    validationSummary.style.display = 'none';
-  }
-  return issues;
-}
+// Validation now handled by validation.js module (validateAllFields)
 
 /* ═══════════════════════════════════════════════
    Load / Save / Publish
@@ -191,6 +178,8 @@ async function loadData() {
   updatePageStatus();
   renderEditor();
   checkLocalDraft();
+  clearUndoHistory();
+  pushUndoState(data);
 }
 
 // Make defaults available globally for fields.js delete confirmations
@@ -203,17 +192,22 @@ async function handleSave() {
   saveStatus.className = 'save-status';
   try {
     doReadForms();
-    validateFields();
+    pushUndoState(data);
+    const issues = validateAllFields();
     await saveDraft(getPage().fbPath, data);
     dataSource = 'draft';
     updatePageStatus();
     clearLocalDraft();
-    saveStatus.textContent = 'Draft saved';
+    saveStatus.textContent = 'Draft saved' + (issues.length ? ` (${issues.length} warnings)` : '');
     saveStatus.classList.add('success');
+    showToast('Draft saved', 'success');
+    resetAutosaveHash();
+    logAction('save_draft', currentPage);
   } catch (err) {
     console.error('Save failed:', err);
     saveStatus.textContent = 'Save failed — ' + err.message;
     saveStatus.classList.add('error');
+    showToast('Save failed: ' + err.message, 'error');
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save Draft';
@@ -227,18 +221,69 @@ async function handlePublish() {
   saveStatus.className = 'save-status';
   try {
     doReadForms();
-    const issues = validateFields();
+    pushUndoState(data);
+    const issues = validateAllFields();
+
+    // Check for conflicts before publishing
+    const conflictCheck = await checkForConflicts(currentPage);
+    if (conflictCheck.hasConflict) {
+      if (!confirm('This page was updated by someone else since you loaded it.\n\nPublish anyway and overwrite their changes?')) {
+        publishBtn.disabled = false;
+        publishBtn.textContent = 'Publish';
+        return;
+      }
+    }
+
+    // Get version note
+    const versionNoteInput = document.getElementById('version-note');
+    const versionNote = versionNoteInput?.value?.trim() || '';
+
     await publishToLive(getPage().fbPath, data);
-    await saveHistory(currentPage, data);
+    await saveHistory(currentPage, data, versionNote);
     dataSource = 'published';
     updatePageStatus();
     clearLocalDraft();
+    clearSearchCache();
+    if (versionNoteInput) versionNoteInput.value = '';
+
+    // Trigger static HTML rebuild for SEO
+    setRebuildState('rebuilding', currentPage);
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      const rebuildRes = await fetch('/api/rebuild.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + (token || ''),
+        },
+        body: JSON.stringify({ pageKey: currentPage, data }),
+      });
+      const rebuildResult = await rebuildRes.json();
+      if (rebuildResult.status === 'success') {
+        setRebuildState('success', currentPage);
+      } else {
+        setRebuildState('failed', currentPage);
+        // Show validation errors if any
+        if (rebuildResult.errors?.length) {
+          console.warn('HTML rebuild validation failed:', rebuildResult.errors);
+          showToast('HTML rebuild blocked: validation failed. Original file preserved.', 'error', 5000);
+        }
+      }
+    } catch (rebuildErr) {
+      console.warn('HTML rebuild failed (non-blocking):', rebuildErr);
+      setRebuildState('failed', currentPage);
+    }
+
     saveStatus.textContent = 'Published successfully' + (issues.length ? ` (${issues.length} warnings)` : '');
     saveStatus.classList.add('success');
+    showToast('Published successfully!', 'success');
+    resetAutosaveHash();
+    logAction('publish', currentPage, { label: versionNote });
   } catch (err) {
     console.error('Publish failed:', err);
     saveStatus.textContent = 'Publish failed — ' + err.message;
     saveStatus.classList.add('error');
+    showToast('Publish failed: ' + err.message, 'error');
   } finally {
     publishBtn.disabled = false;
     publishBtn.textContent = 'Publish';
@@ -286,10 +331,11 @@ searchInput.addEventListener('input', handleSearch);
 const galleryModal = document.getElementById('gallery-modal');
 const galleryGrid = document.getElementById('gallery-grid');
 const galleryLoading = document.getElementById('gallery-loading');
-document.getElementById('gallery-close').addEventListener('click', () => galleryModal.style.display = 'none');
-galleryModal.addEventListener('click', (e) => { if (e.target === galleryModal) galleryModal.style.display = 'none'; });
+document.getElementById('gallery-close').addEventListener('click', () => hideModal(galleryModal));
+galleryModal.addEventListener('click', (e) => { if (e.target === galleryModal) hideModal(galleryModal); });
 
 galleryModal.addEventListener('open', async () => {
+  showModal(galleryModal);
   galleryGrid.innerHTML = '';
   galleryLoading.style.display = '';
   try {
@@ -308,7 +354,7 @@ galleryModal.addEventListener('open', async () => {
       // Select image
       item.querySelector('img').addEventListener('click', () => {
         if (window._galleryCallback) window._galleryCallback(img.url);
-        galleryModal.style.display = 'none';
+        hideModal(galleryModal);
       });
       // Delete image
       item.querySelector('.gallery-item-delete').addEventListener('click', async (e) => {
@@ -325,6 +371,56 @@ galleryModal.addEventListener('open', async () => {
   }
 });
 
+// Gallery tab switching
+document.querySelectorAll('.gallery-tab').forEach(tab => {
+  tab.addEventListener('click', async () => {
+    document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const tabType = tab.dataset.tab;
+
+    if (tabType === 'uploads') {
+      // Re-trigger the uploads gallery (reuse the existing 'open' handler)
+      galleryModal.dispatchEvent(new Event('open'));
+    } else if (tabType === 'assets') {
+      // Load static assets
+      galleryGrid.innerHTML = '';
+      galleryLoading.style.display = '';
+      try {
+        const token = await auth.currentUser?.getIdToken();
+        const res = await fetch('/api/assets.php', { headers: { 'Authorization': 'Bearer ' + (token || '') } });
+        const json = await res.json();
+        galleryLoading.style.display = 'none';
+        if (!json.assets?.length) {
+          galleryGrid.innerHTML = '<p style="padding:20px;color:var(--admin-text-muted)">No static assets found.</p>';
+          return;
+        }
+        let currentCategory = '';
+        for (const asset of json.assets) {
+          // Category header
+          if (asset.category !== currentCategory) {
+            currentCategory = asset.category;
+            const header = document.createElement('div');
+            header.className = 'gallery-category-header';
+            header.textContent = currentCategory;
+            galleryGrid.appendChild(header);
+          }
+          const item = el('div', 'gallery-item');
+          const sizeKb = Math.round(asset.size / 1024);
+          item.innerHTML = `<img src="${asset.url}" alt="${asset.name}"><div class="gallery-item-info">${asset.name} (${sizeKb}KB)</div>`;
+          // Select asset (no delete button for static assets)
+          item.querySelector('img').addEventListener('click', () => {
+            if (window._galleryCallback) window._galleryCallback(asset.url);
+            hideModal(galleryModal);
+          });
+          galleryGrid.appendChild(item);
+        }
+      } catch (e) {
+        galleryLoading.textContent = 'Failed to load assets.';
+      }
+    }
+  });
+});
+
 /* ═══════════════════════════════════════════════
    History
    ═══════════════════════════════════════════════ */
@@ -332,11 +428,11 @@ galleryModal.addEventListener('open', async () => {
 const historyModal = document.getElementById('history-modal');
 const historyList = document.getElementById('history-list');
 const historyLoading = document.getElementById('history-loading');
-document.getElementById('history-close').addEventListener('click', () => historyModal.style.display = 'none');
-historyModal.addEventListener('click', (e) => { if (e.target === historyModal) historyModal.style.display = 'none'; });
+document.getElementById('history-close').addEventListener('click', () => hideModal(historyModal));
+historyModal.addEventListener('click', (e) => { if (e.target === historyModal) hideModal(historyModal); });
 
 historyBtn.addEventListener('click', async () => {
-  historyModal.style.display = '';
+  showModal(historyModal);
   historyList.innerHTML = '';
   historyLoading.style.display = '';
   const entries = await loadHistory(currentPage);
@@ -348,20 +444,26 @@ historyBtn.addEventListener('click', async () => {
   for (const entry of entries) {
     const div = el('div', 'history-entry');
     const date = new Date(entry.timestamp);
-    div.innerHTML = `<div><div class="history-entry-time">${date.toLocaleDateString()} ${date.toLocaleTimeString()}</div><div class="history-entry-meta">${Object.keys(entry.data || {}).length} sections</div></div>`;
+    const labelText = entry.label ? ` — ${entry.label}` : '';
+    div.innerHTML = `<div class="history-date"><div class="history-entry-time">${date.toLocaleDateString()} ${date.toLocaleTimeString()}${labelText}</div><div class="history-entry-meta">${Object.keys(entry.data || {}).length} sections</div></div>`;
+    const actions = el('div', 'history-actions');
     const btn = el('button', 'btn btn-secondary btn-small');
     btn.textContent = 'Restore';
     btn.addEventListener('click', () => {
       if (!confirm('Restore this version? Current changes will be lost.')) return;
       data = entry.data;
+      pushUndoState(data);
       renderEditor();
-      historyModal.style.display = 'none';
+      hideModal(historyModal);
       saveStatus.textContent = 'Restored from history — save or publish to apply';
       saveStatus.className = 'save-status';
     });
-    div.appendChild(btn);
+    actions.appendChild(btn);
+    div.appendChild(actions);
     historyList.appendChild(div);
   }
+  // Enhance with diff compare buttons
+  enhanceHistoryEntries(historyList, entries);
 });
 
 /* ═══════════════════════════════════════════════
@@ -403,11 +505,14 @@ function renderEditor(focusSectionKey) {
     body.dataset.sectionKey = sectionKey;
     if (nestedKey) body.dataset.nestedKey = nestedKey;
 
+    // Inner wrapper for smooth accordion animation (grid-template-rows transition)
+    const bodyInner = el('div', 'section-body-inner');
     for (const field of cfg.fields) {
       const rerender = (focusKey) => { renderEditor(focusKey || editorKey); };
       rerender.readForms = doReadForms;
-      body.appendChild(renderField(nestedKey ? `${sectionKey}.${nestedKey}` : sectionKey, field, section[field.key], data, rerender));
+      bodyInner.appendChild(renderField(nestedKey ? `${sectionKey}.${nestedKey}` : sectionKey, field, section[field.key], data, rerender));
     }
+    body.appendChild(bodyInner);
 
     wrapper.appendChild(body);
 
@@ -434,6 +539,12 @@ function renderEditor(focusSectionKey) {
 
   // Re-apply search filter
   handleSearch();
+
+  // Initialize new feature modules after render
+  initDragReorder();
+  initA11y();
+  initValidation();
+  updateSectionBadges();
 }
 
 /* ═══════════════════════════════════════════════
@@ -442,11 +553,24 @@ function renderEditor(focusSectionKey) {
 
 pageSelect.addEventListener('change', async () => {
   doReadForms();
+  cleanupPresence();
+  clearValidationErrors();
+  closePreview();
+  stopAutosave();
+  hideSeoPreview();
   currentPage = pageSelect.value;
   _openSections = new Set();
   searchInput.value = '';
   validationSummary.style.display = 'none';
+  clearUndoHistory();
   await loadData();
+  restoreRebuildState(currentPage);
+  initConflictDetection(currentPage);
+  setSeoPageUrl(getPage().previewUrl);
+  initAutosave(
+    () => { doReadForms(); return data; },
+    () => getPage().fbPath
+  );
 });
 
 saveBtn.addEventListener('click', handleSave);
@@ -473,6 +597,7 @@ revertBtn.addEventListener('click', async () => {
     clearLocalDraft();
     saveStatus.textContent = 'Reverted to defaults and published';
     saveStatus.className = 'save-status success';
+    logAction('revert', currentPage);
   } catch (err) {
     saveStatus.textContent = 'Revert failed — ' + err.message;
     saveStatus.className = 'save-status error';
@@ -486,5 +611,101 @@ revertBtn.addEventListener('click', async () => {
    ═══════════════════════════════════════════════ */
 
 initAuth({
-  onLogin: loadData,
+  onLogin: async () => {
+    await loadData();
+
+    // Initialize new feature modules
+    initShortcuts({
+      onSave: handleSave,
+      onPublish: handlePublish,
+      onUndo: () => {
+        const prev = undo();
+        if (prev) { data = prev; renderEditor(); }
+      },
+      onRedo: () => {
+        const next = redo();
+        if (next) { data = next; renderEditor(); }
+      },
+    });
+
+    initPreview(
+      () => getPage().previewUrl,
+      () => saveDraft(getPage().fbPath, data)
+    );
+
+    initRebuildStatus();
+    restoreRebuildState(currentPage);
+
+    // Manual rebuild button
+    document.addEventListener('manual-rebuild', () => {
+      doReadForms();
+      triggerManualRebuild(currentPage, data, () => auth.currentUser?.getIdToken());
+    });
+
+    initHistoryDiff(async () => {
+      const page = getPage();
+      const result = await loadFromFirebase(page.fbPath, page.sections, currentDefaults);
+      return result.data;
+    });
+
+    initValidation();
+
+    initConflictDetection(currentPage);
+
+    initContentSearch(PAGES, async (pageKey) => {
+      pageSelect.value = pageKey;
+      currentPage = pageKey;
+      _openSections = new Set();
+      searchInput.value = '';
+      await loadData();
+    });
+
+    initImageEnhancements(
+      () => auth.currentUser?.getIdToken(),
+      () => { /* gallery refresh handled by existing gallery code */ }
+    );
+
+    initA11y();
+
+    // ── Round 3 UI/UX modules ──
+    initUiEnhancements();
+    initTutorial();
+
+    // ── Round 2 modules ──
+    initAnalytics(PAGES);
+    initSeoPreview();
+    setSeoPageUrl(getPage().previewUrl);
+    initAutosave(
+      () => { doReadForms(); return data; },
+      () => getPage().fbPath
+    );
+    initAuditLog();
+    initBulkOps(PAGES);
+
+    // Undo/Redo button click handlers
+    const undoBtn = document.getElementById('undo-btn');
+    const redoBtn = document.getElementById('redo-btn');
+    if (undoBtn) undoBtn.addEventListener('click', () => {
+      const prev = undo();
+      if (prev) { data = prev; renderEditor(); }
+    });
+    if (redoBtn) redoBtn.addEventListener('click', () => {
+      const next = redo();
+      if (next) { data = next; renderEditor(); }
+    });
+
+    // Keyboard hint labels
+    const saveKbd = saveBtn?.querySelector('kbd');
+    const pubKbd = publishBtn?.querySelector('kbd');
+    if (saveKbd) saveKbd.textContent = shortcutLabel('save');
+    if (pubKbd) pubKbd.textContent = shortcutLabel('publish');
+    if (undoBtn) undoBtn.title = `Undo (${shortcutLabel('undo')})`;
+    if (redoBtn) redoBtn.title = `Redo (${shortcutLabel('redo')})`;
+
+    // Push undo state on drag reorder
+    document.addEventListener('reorder', () => {
+      doReadForms();
+      pushUndoState(data);
+    });
+  },
 });

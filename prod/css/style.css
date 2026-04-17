@@ -341,21 +341,23 @@ ul {
 .cert-row {
   margin-top: 36px;
   position: relative;
-  max-width: 642px;
+  max-width: 720px;
   margin-left: auto;
   margin-right: auto;
   background: #fff;
   border: none;
   border-radius: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 0;
   text-align: center;
   font-weight: 600;
   color: var(--text-muted);
   overflow: visible;
   isolation: isolate;
+  flex-wrap: nowrap;
 }
 
 .cert-row::before {
@@ -375,6 +377,9 @@ ul {
   padding: 0;
   border: 1px solid #d2d2d2;
   background: #fff;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 180px;
 }
 
 .cert-badge-item + .cert-badge-item {
@@ -1976,7 +1981,6 @@ section {
   .cert-row {
     max-width: 520px;
     margin-top: 26px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .cert-row::before {
@@ -2372,8 +2376,8 @@ section {
 
   .cert-row {
     max-width: 100%;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0;
+    flex-wrap: wrap;
   }
 
   .cert-badge-item {

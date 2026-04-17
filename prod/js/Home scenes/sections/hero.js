@@ -25,10 +25,10 @@ export const renderHero = (data) => {
   setText('[data-hero-subtitle]', data.subtitle);
 
   const primary = document.querySelector('[data-hero-cta-primary]');
-  setHeroAction(primary, data.primaryCta, 'assets/hero-cta-talk-icon.svg');
+  setHeroAction(primary, data.primaryCta, data.primaryCta?.icon || 'assets/hero-cta-talk-icon.svg');
 
   const secondary = document.querySelector('[data-hero-cta-secondary]');
-  setHeroAction(secondary, data.secondaryCta, 'assets/hero-cta-view-icon.svg');
+  setHeroAction(secondary, data.secondaryCta, data.secondaryCta?.icon || 'assets/hero-cta-view-icon.svg');
 
   setText('[data-hero-trusted-label]', data.trustedLabel);
 

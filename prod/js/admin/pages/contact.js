@@ -6,6 +6,10 @@ export const defaults = {
     titleEmphasis: 'Fintech Platform',
     subtitle: 'Talk to our team about engineering, operations, or scaling your payment infrastructure.',
   },
+  form: {
+    heading: 'Send us a message',
+    submitButton: 'Send Message',
+  },
   contactInfo: {
     heading: 'You can reach us anytime via',
     emailHeading: 'Email',
@@ -29,6 +33,10 @@ export const sections = [
     { key: 'title', label: 'Title', type: 'text' },
     { key: 'titleEmphasis', label: 'Title emphasis', type: 'text' },
     { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+  ]},
+  { key: 'form', label: 'Contact Form', fields: [
+    { key: 'heading', label: 'Form heading', type: 'text' },
+    { key: 'submitButton', label: 'Submit button text', type: 'text' },
   ]},
   { key: 'contactInfo', label: 'Contact Info', fields: [
     { key: 'heading', label: 'Heading', type: 'text' },

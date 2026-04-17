@@ -76,7 +76,7 @@ curl_setopt_array($ch, [
 ]);
 $tokenRaw = curl_exec($ch);
 $tokenError = curl_error($ch);
-curl_close($ch);
+// curl_close() omitted — deprecated in PHP 8.0+
 
 if ($tokenError) {
     http_response_code(502);
@@ -121,7 +121,7 @@ curl_setopt_array($ch, [
 $biginRaw = curl_exec($ch);
 $biginError = curl_error($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+// curl_close() omitted — deprecated in PHP 8.0+
 
 if ($biginError) {
     http_response_code(502);

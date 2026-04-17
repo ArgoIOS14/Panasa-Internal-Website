@@ -6,14 +6,18 @@ export const renderFooter = (data) => {
 
   const ctaBtn = document.querySelector('[data-footer-cta-button]');
   if (ctaBtn) {
+    // Handle both old string format and new object format { label, href }
+    const btnData = data.ctaButton;
+    const btnLabel = typeof btnData === 'object' ? (btnData.label || '') : (btnData || '');
+    const btnHref = typeof btnData === 'object' ? (btnData.href || 'contact.html') : (data.ctaHref || 'contact.html');
     const label = ctaBtn.querySelector('.footer-cta-label');
     if (label) {
-      label.textContent = data.ctaButton;
+      label.textContent = btnLabel;
     } else {
-      ctaBtn.textContent = data.ctaButton;
+      ctaBtn.textContent = btnLabel;
     }
     if ('href' in ctaBtn) {
-      ctaBtn.href = data.ctaHref || 'contact.html';
+      ctaBtn.href = btnHref;
     }
   }
 

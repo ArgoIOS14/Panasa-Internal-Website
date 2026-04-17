@@ -28,6 +28,14 @@ export function normalizeData(raw, sections, defaults) {
       if (f.type === 'columns' && Array.isArray(val)) {
         val = val.map(col => ({ heading: col.heading || '', bullets: (Array.isArray(col.bullets) ? col.bullets : Object.values(col.bullets || {})).map(b => ({ icon: b.icon || null, text: b.text || '' })) }));
       }
+      // Deep-merge label-href objects so missing keys (e.g. icon) get filled from defaults
+      if (f.type === 'label-href' && typeof val === 'object' && typeof defaultVal === 'object' && defaultVal) {
+        val = { ...defaultVal, ...val };
+      }
+      // Handle old ctaButton format (string → object migration)
+      if (f.type === 'label-href' && typeof val === 'string') {
+        val = { label: val, href: defaultVal?.href || '#', icon: defaultVal?.icon || '' };
+      }
       out[sectionKey][f.key] = val;
     }
     if (typeof section === 'object' && !Array.isArray(section)) {
@@ -77,21 +85,23 @@ export async function saveDraft(fbPath, data) {
  * Publish — copy draft to live path, then clean up draft.
  */
 export async function publishToLive(fbPath, data) {
-  await set(ref(db, fbPath), data);
+  const publishData = { ...data, _lastModified: Date.now() };
+  await set(ref(db, fbPath), publishData);
   // Also save draft so they stay in sync
   const draftPath = fbPath.startsWith('pages/') ? `drafts/${fbPath.replace('pages/', '')}` : `drafts/${fbPath}`;
-  await set(ref(db, draftPath), data);
+  await set(ref(db, draftPath), publishData);
 }
 
 /**
  * Save a history snapshot.
  */
-export async function saveHistory(pageKey, data) {
+export async function saveHistory(pageKey, data, label = '') {
   const timestamp = Date.now();
   const historyPath = `history/${pageKey}/${timestamp}`;
   await set(ref(db, historyPath), {
     timestamp,
     date: new Date(timestamp).toISOString(),
+    label,
     data,
   });
 }

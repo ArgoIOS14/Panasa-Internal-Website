@@ -38,8 +38,19 @@
     <header class="admin-header">
       <h1>Panasa CMS</h1>
       <div class="admin-header-actions">
+        <span id="rebuild-status" class="rebuild-badge"></span>
         <span id="admin-user" class="admin-user"></span>
-        <button id="history-btn" class="btn btn-secondary btn-small">History</button>
+        <button id="preview-toggle" class="btn btn-secondary btn-small" title="Toggle live preview" data-help="Preview your changes in a side panel before publishing.">Preview</button>
+        <button id="history-btn" class="btn btn-secondary btn-small" data-help="View and restore previous published versions.">History</button>
+        <div class="header-tools-menu">
+          <button id="tools-menu-btn" class="btn btn-secondary btn-small" aria-expanded="false" aria-haspopup="true">Tools &#9662;</button>
+          <div id="tools-dropdown" class="tools-dropdown">
+            <button id="analytics-btn" class="tools-dropdown-item">Dashboard</button>
+            <button id="audit-btn" class="tools-dropdown-item">Audit Log</button>
+            <button id="bulk-ops-btn" class="tools-dropdown-item">Bulk Operations</button>
+          </div>
+        </div>
+        <button id="help-btn" class="btn-help" title="Help & Tutorial" data-help="Open the help guide or restart the tutorial.">?</button>
         <button id="logout-btn" class="btn btn-secondary btn-small">Log out</button>
       </div>
     </header>
@@ -47,7 +58,7 @@
     <div class="admin-body">
       <!-- Page selector + status -->
       <div class="admin-toolbar">
-        <div class="page-selector">
+        <div class="page-selector" data-help="Select which website page to edit. Each page has its own content sections.">
           <label class="page-selector-label">Editing:</label>
           <select id="page-select">
             <option value="aiAcceleratedEngineering">AI Accelerated Engineering</option>
@@ -63,10 +74,16 @@
           </select>
           <span id="page-status" class="page-status"></span>
         </div>
-        <div class="admin-search">
+        <div class="admin-search" style="position:relative">
           <input type="text" id="search-input" placeholder="Search sections..." class="search-input">
+          <label for="search-input" class="sr-only">Search sections</label>
+          <button id="search-mode-toggle" class="btn btn-sm search-mode-btn" title="Search across all pages">All pages</button>
+          <div id="search-results" class="search-results-dropdown" style="display:none"></div>
         </div>
       </div>
+
+      <!-- Conflict banner -->
+      <div id="conflict-banner" class="conflict-banner" style="display:none"></div>
 
       <!-- Editor sections -->
       <div id="editor-sections"></div>
@@ -76,22 +93,57 @@
 
       <!-- Action bar -->
       <div class="save-bar">
-        <button id="save-btn" class="btn btn-primary">Save Draft</button>
-        <button id="publish-btn" class="btn btn-publish">Publish</button>
-        <button id="preview-btn" class="btn btn-secondary btn-small">Preview</button>
-        <button id="revert-btn" class="btn btn-revert btn-small">Revert to Default</button>
-        <span id="save-status" class="save-status"></span>
-        <span id="autosave-status" class="autosave-status"></span>
+        <div class="save-bar-left">
+          <button id="undo-btn" class="btn btn-undo" title="Undo" disabled data-help="Undo the last change.">&#8617;</button>
+          <button id="redo-btn" class="btn btn-redo" title="Redo" disabled data-help="Redo a previously undone change.">&#8618;</button>
+        </div>
+        <div class="save-bar-center">
+          <button id="save-btn" class="btn btn-primary" data-help="Save changes as a private draft. Won't affect the live site.">Save Draft <kbd></kbd></button>
+          <button id="publish-btn" class="btn btn-publish" data-help="Make changes live on the website. Triggers an HTML rebuild for SEO.">Publish <kbd></kbd></button>
+          <span id="save-status" class="save-status"></span>
+          <span id="autosave-status" class="autosave-status"></span>
+        </div>
+        <div class="save-bar-right">
+          <input id="version-note" type="text" class="version-note-input" placeholder="Version note" maxlength="100" data-help="Optional note describing this publish (shown in version history)." />
+          <button id="save-bar-more" class="btn btn-secondary btn-small" aria-expanded="false">More &#9662;</button>
+          <div id="save-bar-overflow" class="save-bar-overflow">
+            <button id="preview-btn" class="overflow-item">Preview in new tab</button>
+            <button id="rebuild-btn" class="overflow-item">Rebuild HTML</button>
+            <button id="revert-btn" class="overflow-item overflow-danger">Revert to Default</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Preview Panel (sidebar) -->
+  <div id="preview-panel" class="preview-panel" style="display:none">
+    <div class="preview-toolbar">
+      <div class="preview-devices">
+        <button class="preview-device active" data-device="desktop">Desktop</button>
+        <button class="preview-device" data-device="tablet">Tablet</button>
+        <button class="preview-device" data-device="mobile">Mobile</button>
+      </div>
+      <button id="preview-close" class="btn btn-sm">&#10005; Close</button>
+    </div>
+    <div class="preview-iframe-wrap">
+      <iframe id="preview-iframe" class="preview-iframe"></iframe>
+    </div>
+  </div>
+
   <!-- Image Gallery Modal -->
-  <div id="gallery-modal" class="modal-overlay" style="display:none">
+  <div id="gallery-modal" class="modal-overlay" role="dialog" aria-modal="true" style="display:none">
     <div class="modal-content gallery-modal">
-      <div class="modal-header">
+      <div class="modal-header gallery-header">
         <h2>Image Gallery</h2>
-        <button id="gallery-close" class="modal-close">&times;</button>
+        <input id="gallery-search" type="text" class="gallery-search-input" placeholder="Search images..." />
+        <button id="batch-upload-btn" class="btn btn-sm">Batch Upload</button>
+        <input id="batch-file-input" type="file" multiple accept="image/*" style="display:none" />
+        <button id="gallery-close" class="modal-close" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="gallery-tabs">
+        <button class="gallery-tab active" data-tab="uploads">Uploads</button>
+        <button class="gallery-tab" data-tab="assets">Site Assets</button>
       </div>
       <div id="gallery-grid" class="gallery-grid"></div>
       <div id="gallery-loading" class="gallery-loading">Loading images...</div>
@@ -99,11 +151,11 @@
   </div>
 
   <!-- History Modal -->
-  <div id="history-modal" class="modal-overlay" style="display:none">
+  <div id="history-modal" class="modal-overlay" role="dialog" aria-modal="true" style="display:none">
     <div class="modal-content history-modal">
       <div class="modal-header">
         <h2>Version History</h2>
-        <button id="history-close" class="modal-close">&times;</button>
+        <button id="history-close" class="modal-close" aria-label="Close dialog">&times;</button>
       </div>
       <div id="history-list" class="history-list"></div>
       <div id="history-loading" class="gallery-loading">Loading history...</div>
