@@ -13,7 +13,7 @@ export const renderFooter = (data) => {
       ctaBtn.textContent = data.ctaButton;
     }
     if ('href' in ctaBtn) {
-      ctaBtn.href = data.ctaHref || 'contact.html';
+      ctaBtn.href = data.ctaHref || 'contact';
     }
   }
 

@@ -40,9 +40,9 @@ const ABOUT_TESTIMONIALS = {
 };
 
 const resolveToSiteHref = (href) => {
-  if (href === '#about') return 'about.html';
-  if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
-  if (href.startsWith('#')) return `index.html${href}`;
+  if (href === '#about') return 'about';
+  if (href === '#services') return 'ai-accelerated-fintech-engineering';
+  if (href.startsWith('#')) return `/${href}`;
   return href;
 };
 

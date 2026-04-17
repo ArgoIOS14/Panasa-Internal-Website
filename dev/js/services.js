@@ -769,7 +769,7 @@ const applyLegacyModernisationTextOverrides = () => {
     }
     if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
     if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'index.html#case-studies');
+    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
     if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
     const heroStats = [
@@ -902,7 +902,7 @@ const applyServiceMode = () => {
   const heroActions = document.querySelectorAll('.service-hero .hero-action-label');
   const heroActionLinks = document.querySelectorAll('.service-hero .hero-actions a');
   if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'index.html#case-studies');
+  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
   deliverablesSection.classList.remove(
@@ -1259,9 +1259,9 @@ const applyServiceMode = () => {
 };
 
 const resolveToSiteHref = (href) => {
-  if (href === '#about') return 'about.html';
-  if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
-  if (href.startsWith('#')) return `index.html${href}`;
+  if (href === '#about') return 'about';
+  if (href === '#services') return 'ai-accelerated-fintech-engineering';
+  if (href.startsWith('#')) return `/${href}`;
   return href;
 };
 
@@ -1287,7 +1287,7 @@ const buildNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'services.html' : resolveToSiteHref(link.href),
+    href: link.label === 'Services' ? 'services' : resolveToSiteHref(link.href),
   })),
 });
 

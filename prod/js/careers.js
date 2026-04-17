@@ -70,7 +70,7 @@ const buildNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'services.html' : link.href,
+    href: link.label === 'Services' ? 'services' : link.href,
   })),
 });
 

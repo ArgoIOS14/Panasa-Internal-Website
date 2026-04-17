@@ -4,9 +4,9 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 
 const resolveToSiteHref = (href) => {
-  if (href === '#contact') return 'contact.html';
-  if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
-  if (href.startsWith('#')) return `index.html${href}`;
+  if (href === '#contact') return 'contact';
+  if (href === '#services') return 'ai-accelerated-fintech-engineering';
+  if (href.startsWith('#')) return `/${href}`;
   return href;
 };
 
@@ -14,11 +14,11 @@ const buildContactNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'services.html' : resolveToSiteHref(link.href),
+    href: link.label === 'Services' ? 'services' : resolveToSiteHref(link.href),
   })),
   cta: {
     ...nav.cta,
-    href: 'contact.html',
+    href: 'contact',
   },
 });
 
@@ -30,7 +30,7 @@ const buildContactFooter = (footer) => ({
       ...link,
       href:
         link.label.toLowerCase() === 'contact'
-          ? 'contact.html'
+          ? 'contact'
           : resolveToSiteHref(link.href),
     })),
   })),

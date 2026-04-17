@@ -7,38 +7,38 @@ window.DEFAULT_CONTENT = {
     "links": [
       {
         "label": "About Us",
-        "href": "about.html"
+        "href": "about"
       },
       {
         "label": "Services",
-        "href": "services.html",
+        "href": "services",
         "children": [
           {
             "label": "AI Accelerated Fintech Engineering",
-            "href": "ai-accelerated-fintech-engineering.html"
+            "href": "ai-accelerated-fintech-engineering"
           },
           {
             "label": "AI Powered Legacy Modernisation",
-            "href": "ai-powered-legacy-modernisation.html"
+            "href": "ai-powered-legacy-modernisation"
           },
           {
             "label": "AI Governance",
-            "href": "ai-governance.html"
+            "href": "ai-governance"
           },
           {
             "label": "Intelligent Operations",
-            "href": "intelligent-operations.html"
+            "href": "intelligent-operations"
           }
         ]
       },
       {
         "label": "Careers",
-        "href": "careers.html"
+        "href": "careers"
       }
     ],
     "cta": {
       "label": "Contact Us",
-      "href": "contact.html"
+      "href": "contact"
     }
   },
   "hero": {
@@ -48,11 +48,11 @@ window.DEFAULT_CONTENT = {
     "subtitle": "Your AI-Native Partner for Dev, Ops & Scale. No Handoffs.",
     "primaryCta": {
       "label": "Talk to our team",
-      "href": "contact.html"
+      "href": "contact"
     },
     "secondaryCta": {
       "label": "View Solutions",
-      "href": "ai-accelerated-fintech-engineering.html"
+      "href": "ai-accelerated-fintech-engineering"
     },
     "trustedLabel": "Trusted by high-growth fintechs",
     "trustedLogos": [
@@ -125,7 +125,7 @@ window.DEFAULT_CONTENT = {
     "items": [
       {
         "icon": "assets/home-services-slide-1.webp",
-        "href": "ai-accelerated-fintech-engineering.html",
+        "href": "ai-accelerated-fintech-engineering",
         "eyebrow": "Core Build",
         "title": "AI Accelerated Fintech Engineering",
         "text": "",
@@ -140,7 +140,7 @@ window.DEFAULT_CONTENT = {
       },
       {
         "icon": "assets/home-services-slide-2.webp",
-        "href": "ai-governance.html",
+        "href": "ai-governance",
         "eyebrow": "Core Govern",
         "title": "AI Governance",
         "text": "",
@@ -155,7 +155,7 @@ window.DEFAULT_CONTENT = {
       },
       {
         "icon": "assets/home-services-slide-3.webp",
-        "href": "intelligent-operations.html",
+        "href": "intelligent-operations",
         "eyebrow": "Core Operate",
         "title": "Intelligent Operations",
         "text": "",
@@ -170,7 +170,7 @@ window.DEFAULT_CONTENT = {
       },
       {
         "icon": "assets/home-services-slide-4.webp",
-        "href": "ai-powered-legacy-modernisation.html",
+        "href": "ai-powered-legacy-modernisation",
         "eyebrow": "Core Modernise",
         "title": "AI-Led Legacy Modernisation",
         "text": "",
@@ -237,7 +237,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-1.svg",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact.html"
+          "href": "contact"
         },
         "metrics": [
           {
@@ -261,7 +261,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-2.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact.html"
+          "href": "contact"
         },
         "metrics": [
           {
@@ -285,7 +285,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-3.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact.html"
+          "href": "contact"
         },
         "metrics": [
           {
@@ -448,7 +448,7 @@ window.DEFAULT_CONTENT = {
     "ctaTitle": "Ready to Build Your Card Platform",
     "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.",
     "ctaButton": "Book a Meeting",
-    "ctaHref": "contact.html",
+    "ctaHref": "contact",
     "showResources": false,
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "info@panasatech.com",
@@ -462,15 +462,15 @@ window.DEFAULT_CONTENT = {
         "links": [
           {
             "label": "Home",
-            "href": "index.html"
+            "href": "/"
           },
           {
             "label": "About Us",
-            "href": "about.html"
+            "href": "about"
           },
           {
             "label": "Services",
-            "href": "services.html"
+            "href": "services"
           },
           {
             "label": "Resources",
@@ -479,13 +479,13 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Careers",
-            "href": "careers.html",
+            "href": "careers",
             "badge": "hiring",
             "badgeText": "HIRING!"
           },
           {
             "label": "Contact",
-            "href": "contact.html"
+            "href": "contact"
           }
         ]
       },
@@ -527,19 +527,19 @@ window.DEFAULT_CONTENT = {
         "links": [
           {
             "label": "AI Accelerated Fintech Engineering",
-            "href": "ai-accelerated-fintech-engineering.html"
+            "href": "ai-accelerated-fintech-engineering"
           },
           {
             "label": "AI Powered Legacy Modernisation",
-            "href": "ai-powered-legacy-modernisation.html"
+            "href": "ai-powered-legacy-modernisation"
           },
           {
             "label": "AI Governance",
-            "href": "ai-governance.html"
+            "href": "ai-governance"
           },
           {
             "label": "Intelligent Operations",
-            "href": "intelligent-operations.html"
+            "href": "intelligent-operations"
           }
         ]
       }
@@ -549,11 +549,11 @@ window.DEFAULT_CONTENT = {
       "links": [
         {
           "label": "Privacy Policy",
-          "href": "privacy-policy.html"
+          "href": "privacy-policy"
         },
         {
           "label": "Cookies",
-          "href": "privacy-policy.html#section-cookies"
+          "href": "privacy-policy#section-cookies"
         }
       ]
     }

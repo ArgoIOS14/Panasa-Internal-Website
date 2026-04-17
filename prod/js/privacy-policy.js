@@ -4,9 +4,9 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 
 const resolveToSiteHref = (href) => {
-  if (href === '#about') return 'about.html';
-  if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
-  if (href.startsWith('#')) return `index.html${href}`;
+  if (href === '#about') return 'about';
+  if (href === '#services') return 'ai-accelerated-fintech-engineering';
+  if (href.startsWith('#')) return `/${href}`;
   return href;
 };
 
