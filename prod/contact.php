@@ -1,34 +1,28 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fintech Engineering Careers — Kochi & Brighton | Panasa</title>
-    <meta name="description" content="Join 300+ fintech engineers building payment platforms for global clients. Flexible work, individual L&D budgets, health insurance. Open roles in engineering, operations and strategy." />
+    <?php include __DIR__ . '/partials/head-common.php'; ?>
+    <title>Contact Panasa — Fintech Engineering Enquiries | UK & India</title>
+    <meta
+      name="description"
+      content="Discuss your fintech engineering needs. Offices in Brighton (UK) and Kochi (India). Project-based, managed services and GCC delivery engagements available."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Panasa Technology" />
-    <meta property="og:title" content="Fintech Engineering Careers — Kochi & Brighton | Panasa" />
-    <meta property="og:description" content="Join 300+ fintech engineers building payment platforms for global clients. Flexible work, individual L&D budgets, health insurance. Open roles in engineering, operations and strategy." />
-    <meta property="og:url" content="https://www.panasatech.com/careers" />
+    <meta property="og:title" content="Contact Panasa — Fintech Engineering Enquiries | UK & India" />
+    <meta property="og:description" content="Discuss your fintech engineering needs. Offices in Brighton (UK) and Kochi (India). Project-based, managed services and GCC delivery engagements available." />
+    <meta property="og:url" content="https://www.panasatech.com/contact" />
     <meta property="og:image" content="https://www.panasatech.com/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Fintech Engineering Careers — Kochi & Brighton | Panasa" />
-    <meta name="twitter:description" content="Join 300+ fintech engineers building payment platforms for global clients. Flexible work, individual L&D budgets, health insurance. Open roles in engineering, operations and strategy." />
+    <meta name="twitter:title" content="Contact Panasa — Fintech Engineering Enquiries | UK & India" />
+    <meta name="twitter:description" content="Discuss your fintech engineering needs. Offices in Brighton (UK) and Kochi (India). Project-based, managed services and GCC delivery engagements available." />
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
-    <link rel="canonical" href="https://www.panasatech.com/careers" />
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <link rel="canonical" href="https://www.panasatech.com/contact" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
-    <link rel="stylesheet" href="css/careers.css?v=2.1" />
+    <link rel="stylesheet" href="css/contact.css?v=2.1" />
     <link rel="stylesheet" href="css/shared-footer.css?v=2.1" media="print" onload="this.media='all'" />
-    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/careers" />
-    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/careers" />
+    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/contact" />
+    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/contact" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -64,13 +58,13 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.panasatech.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://www.panasatech.com/careers" }
+        { "@type": "ListItem", "position": 2, "name": "Contact Us", "item": "https://www.panasatech.com/contact" }
       ]
     }
     </script>
   </head>
   <body>
-    <div class="careers-page">
+    <div class="contact-page">
       <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="/" aria-label="Panasa home">
@@ -86,116 +80,139 @@
       </header>
 
       <main>
-        <section class="hero" data-animate>
-          <div class="hero-copy" data-animate>
+        <section class="contact-hero" data-animate>
+          <div class="contact-hero-copy" data-animate>
             <h1>
-              Build the Future of Fintech
-              <em>with Panasa</em>
+              <span>Let's Build Your</span>
+              <em>Fintech Platform</em>
             </h1>
             <p>
-              Join a team that builds secure, scalable payment infrastructure used by modern fintech
-              platforms. Work on real-world systems, solve complex engineering challenges, and grow your
-              career in fintech.
+              Talk to our team about engineering, operations, or scaling your payment
+              infrastructure.
+            </p>
+          </div>
+        </section>
+
+        <section class="contact-panel" data-animate>
+          <div class="contact-card" data-animate>
+            <form class="contact-form" data-contact-form>
+              <div class="contact-grid">
+                <label class="field">
+                  <span>First Name</span>
+                  <input type="text" name="firstName" placeholder="Enter First Name" required />
+                </label>
+                <label class="field">
+                  <span>Last Name</span>
+                  <input type="text" name="lastName" placeholder="Enter Last Name" required />
+                </label>
+                <label class="field">
+                  <span>Email</span>
+                  <input type="email" name="email" placeholder="Enter Email" required />
+                </label>
+                <label class="field">
+                  <span>Phone Number</span>
+                  <div class="phone-field">
+                    <div class="phone-code-wrapper">
+                      <button type="button" class="phone-code-btn" data-phone-code="+91" data-phone-name="India">
+                        <span class="phone-code-flag">🇮🇳</span>
+                        <span class="phone-code-value">+91</span>
+                        <span class="phone-code-arrow">▾</span>
+                      </button>
+                      <div class="phone-code-dropdown">
+                        <input type="text" class="phone-code-search" placeholder="Search country..." />
+                        <ul class="phone-code-list"></ul>
+                      </div>
+                    </div>
+                    <input type="tel" name="phone" placeholder="Enter Phone Number" required />
+                  </div>
+                </label>
+              </div>
+
+              <label class="field field-wide">
+                <span>How can we help?</span>
+                <textarea
+                  name="requirements"
+                  rows="5"
+                  placeholder="Enter your requirements"
+                ></textarea>
+              </label>
+
+              <button class="btn btn-submit" type="submit">Send Message</button>
+            </form>
+
+            <aside class="contact-info">
+              <h2>You can reach us anytime via</h2>
+
+              <div class="info-block">
+                <h3>Email</h3>
+                <div class="info-link-row">
+                  <a href="mailto:info@panasatech.com">info@panasatech.com</a>
+                  <button class="copy-btn" type="button" data-copy="info@panasatech.com" aria-label="Copy email address">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5.5" y="5.5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 5.5V3.5C10.5 2.67 9.83 2 9 2H3.5C2.67 2 2 2.67 2 3.5V9C2 9.83 2.67 10.5 3.5 10.5H5.5" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="info-block">
+                <h3>Contact</h3>
+                <div class="info-link-row">
+                  <a href="tel:+917594052401">+91 75940 52401</a>
+                  <button class="copy-btn" type="button" data-copy="+91 75940 52401" aria-label="Copy phone number">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5.5" y="5.5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 5.5V3.5C10.5 2.67 9.83 2 9 2H3.5C2.67 2 2 2.67 2 3.5V9C2 9.83 2.67 10.5 3.5 10.5H5.5" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                </div>
+                <div class="info-link-row">
+                  <a href="tel:+4401273977101">+44 (0) 1273 977101</a>
+                  <button class="copy-btn" type="button" data-copy="+44 (0) 1273 977101" aria-label="Copy phone number">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5.5" y="5.5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 5.5V3.5C10.5 2.67 9.83 2 9 2H3.5C2.67 2 2 2.67 2 3.5V9C2 9.83 2.67 10.5 3.5 10.5H5.5" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="locations" data-animate>
+          <div class="locations-header" data-animate>
+            <div class="locations-title">
+              <h2>
+                <span>Our Offices</span>
+                <em>Locations</em>
+              </h2>
+            </div>
+            <p>
+              Serving global fintech teams across key regions with reliable delivery and support.
             </p>
           </div>
 
-          <div class="team-photo" data-animate>
-            <img
-              src="assets/Team Photo.webp"
-              alt="Panasa team celebrating together in the office"
-              onerror="this.onerror=null;this.src='assets/placeholder-team.svg';"
-            />
-          </div>
-        </section>
+          <div class="office-grid">
+            <article class="office-card" data-animate>
+              <img src="assets/contact-office-kochi.webp" alt="Panasa Kochi office building" loading="lazy" decoding="async" />
+              <div class="office-overlay">
+                <div class="office-flag office-flag-india" aria-hidden="true"></div>
+                <div>
+                  <h3>India</h3>
+                  <p>9th Floor, Carnival Infopark Phase 2, Kakkanad, Kochi, Kerala, India 682042</p>
+                </div>
+              </div>
+            </article>
 
-        <section class="open-roles" id="open-roles" data-animate>
-          <div class="roles-header">
-            <h2>Careers at Panasa Technology</h2>
-            <div class="search-wrap">
-              <input type="search" placeholder="Search" aria-label="Search jobs" />
-            </div>
-          </div>
-
-          <div class="filters">
-            <div class="filter">
-              <label for="department">Department</label>
-              <select id="department">
-                <option>select department</option>
-                <option>Marketing</option>
-                <option>Engineering</option>
-                <option>Operations</option>
-              </select>
-            </div>
-            <div class="filter">
-              <label for="location">Location</label>
-              <select id="location">
-                <option>select location</option>
-                <option>Kochi, Kerala, India</option>
-                <option>India</option>
-                <option>Remote</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="role-list">
-            <article class="role-card" data-animate>
-              <h3>Marketing Manager <span>Job ID: 304330</span></h3>
-              <p class="role-meta">
-                <span>Marketing</span>
-                <span>In-Office</span>
-                <span>Kochi, Kerala, India</span>
-                <span>4 - 9 years</span>
-              </p>
-            </article>
-            <article class="role-card" data-animate>
-              <h3>Workforce Planner <span>Job ID: 794330</span></h3>
-              <p class="role-meta">
-                <span>Remote</span>
-                <span>India</span>
-                <span>5 - 8 years</span>
-              </p>
-            </article>
-            <article class="role-card" data-animate>
-              <h3>Senior AI Artist / AI Generative Production Specialist <span>Job ID: 234557</span></h3>
-              <p class="role-meta">
-                <span>Marketing</span>
-                <span>In-Office</span>
-                <span>Kochi, Kerala, India</span>
-                <span>3 - 8 years</span>
-              </p>
-            </article>
-            <article class="role-card" data-animate>
-              <h3>Marketing Intern <span>Job ID: 123558</span></h3>
-              <p class="role-meta">
-                <span>Marketing</span>
-                <span>Kochi, Kerala, India</span>
-                <span>0 - 1 years</span>
-              </p>
-            </article>
-            <article class="role-card" data-animate>
-              <h3>Jr. Marketing Manager <span>Job ID: 245108</span></h3>
-              <p class="role-meta">
-                <span>Marketing</span>
-                <span>Remote</span>
-                <span>India</span>
-                <span>1 - 3 years</span>
-              </p>
-            </article>
-            <article class="role-card" data-animate>
-              <h3>Creative Producer <span>Job ID: 129901</span></h3>
-              <p class="role-meta">
-                <span>Marketing</span>
-                <span>In-Office</span>
-                <span>Kochi, Kerala, India</span>
-                <span>3 - 8 years</span>
-              </p>
+            <article class="office-card" data-animate>
+              <img src="assets/contact-office-uk.webp" alt="Panasa UK office waterfront view" loading="lazy" decoding="async" />
+              <div class="office-overlay">
+                <div class="office-flag office-flag-uk" aria-hidden="true"></div>
+                <div>
+                  <h3>United Kingdom</h3>
+                  <p>Maritime House, Basin Rd North</p>
+                  <p>Brighton &amp; Hove, United Kingdom BN41 1WR</p>
+                </div>
+              </div>
             </article>
           </div>
         </section>
-
       </main>
 
-      <footer class="site-footer">
+      <footer class="contact-footer" data-animate>
         <div class="footer-card" data-animate>
           <div class="footer-main">
             <div class="footer-brand">
@@ -246,6 +263,6 @@
     </div>
 
     <script src="content/Home page/default.js" defer></script>
-    <script type="module" src="js/careers.js?v=2.1"></script>
+    <script type="module" src="js/contact.js?v=2.1"></script>
   </body>
 </html>

@@ -1,36 +1,30 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Accelerated Fintech Engineering — Card Platforms & Payment Engines | Panasa</title>
+    <?php include __DIR__ . '/partials/head-common.php'; ?>
+    <title>AI-Powered Legacy Modernisation for Fintech — Panasa</title>
     <meta
       name="description"
-      content="Build card programmes, payment engines and issuing platforms 50% faster with AI-powered engineering. Visa and Mastercard scheme integrations, open banking APIs, PCI-ready from sprint one."
+      content="Modernise legacy payment systems using AI-led code extraction, system decomposition and multi-agent validation. Migrate mainframe and monolith platforms to cloud-native architecture."
     />
+    <meta property="og:title" content="AI-Powered Legacy Modernisation for Fintech — Panasa" />
+    <meta property="og:description" content="Modernise legacy payment systems using AI-led code extraction, system decomposition and multi-agent validation. Migrate mainframe and monolith platforms to cloud-native architecture." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.panasatech.com/ai-powered-legacy-modernisation" />
     <meta property="og:site_name" content="Panasa Technology" />
-    <meta property="og:title" content="AI Accelerated Fintech Engineering — Card Platforms & Payment Engines | Panasa" />
-    <meta property="og:description" content="Build card programmes, payment engines and issuing platforms 50% faster with AI-powered engineering. Visa and Mastercard scheme integrations, open banking APIs, PCI-ready from sprint one." />
-    <meta property="og:url" content="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
     <meta property="og:image" content="https://www.panasatech.com/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI Accelerated Fintech Engineering — Card Platforms & Payment Engines | Panasa" />
-    <meta name="twitter:description" content="Build card programmes, payment engines and issuing platforms 50% faster with AI-powered engineering. Visa and Mastercard scheme integrations, open banking APIs, PCI-ready from sprint one." />
+    <meta name="twitter:title" content="AI-Powered Legacy Modernisation for Fintech — Panasa" />
+    <meta name="twitter:description" content="Modernise legacy payment systems using AI-led code extraction, system decomposition and multi-agent validation. Migrate mainframe and monolith platforms to cloud-native architecture." />
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
-    <link rel="canonical" href="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <link rel="canonical" href="https://www.panasatech.com/ai-powered-legacy-modernisation" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
     <link rel="stylesheet" href="css/services.css?v=2.1" />
     <link rel="stylesheet" href="css/shared-logo-marquee.css?v=2.1" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-footer.css?v=2.1" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/email-capture.css?v=2.1" media="print" onload="this.media='all'" />
-    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
-    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
+    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/ai-powered-legacy-modernisation" />
+    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/ai-powered-legacy-modernisation" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -64,24 +58,24 @@
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "name": "AI Accelerated Fintech Engineering",
-      "description": "AI-powered fintech development services. Build card programmes, payment engines, and issuing platforms for regulated fintechs with AI tooling that cuts delivery timelines in half.",
+      "name": "AI-Powered Legacy Modernisation",
+      "description": "Modernise legacy payment systems using AI-led code extraction, system decomposition, multi-agent validation, and cloud migration. Migrate COBOL, mainframe and monolith platforms to cloud-native architecture.",
       "provider": {
         "@type": "Organization",
         "name": "Panasa Technology",
         "url": "https://www.panasatech.com"
       },
-      "serviceType": "Fintech Software Development",
+      "serviceType": "Legacy System Modernisation",
       "areaServed": ["United Kingdom", "European Union", "Asia-Pacific"],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "AI Fintech Engineering Services",
+        "name": "Legacy Modernisation Services",
         "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Card issuing and programme management"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Authorisation and payment processing engines"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Visa and Mastercard scheme integrations"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Open banking and embedded finance APIs"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-led fintech engineering and agentic automation"}}
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Legacy code and business logic extraction"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "System decomposition and migration planning"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-assisted code generation and rebuild"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Cloud, microservices and platform migration"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Zero-loss parallel rollout and deployment"}}
         ]
       }
     }
@@ -93,7 +87,7 @@
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.panasatech.com/" },
         { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://www.panasatech.com/services" },
-        { "@type": "ListItem", "position": 3, "name": "AI Accelerated Fintech Engineering", "item": "https://www.panasatech.com/ai-accelerated-fintech-engineering" }
+        { "@type": "ListItem", "position": 3, "name": "AI Powered Legacy Modernisation", "item": "https://www.panasatech.com/ai-powered-legacy-modernisation" }
       ]
     }
     </script>
@@ -117,13 +111,13 @@
       <main>
         <section class="service-hero" data-animate>
           <div class="service-hero-copy" data-animate>
-            <span class="pill">AI Accelerated Fintech Engineering</span>
+            <span class="pill">AI POWERED LEGACY MODERNISATION</span>
             <h1>
-              <span>Ship fintech</span>
-              <em>platforms faster</em>
+              <span>Modernise legacy platforms</span>
+              <em>without losing the logic</em>
             </h1>
             <p>
-              We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half
+              Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.
             </p>
             <div class="hero-actions">
               <a class="btn btn-dark" href="contact">
@@ -138,26 +132,26 @@
           </div>
 
           <div class="trusted-logos-shell" data-animate>
-            <span class="trusted-kicker">Trusted by High-Growth Fintechs</span>
+            <span class="trusted-kicker">TRUSTED BY HIGH-GROWTH FINTECHS</span>
             <div class="trusted-logos" aria-label="Trusted fintech logos" data-service-trusted-logos></div>
           </div>
 
           <div class="hero-stats" data-animate>
             <article class="hero-stat-card">
-              <strong>50%</strong>
-              <span>Faster delivery vs traditional teams</span>
+              <strong>30-60%</strong>
+              <span>Faster migration delivery</span>
             </article>
             <article class="hero-stat-card">
-              <strong>75%</strong>
-              <span>Shorter code review cycles</span>
+              <strong>60-75%</strong>
+              <span>Shorter dev and review cycles</span>
             </article>
             <article class="hero-stat-card">
-              <strong>3x</strong>
-              <span>Engineer productivity with AI tooling</span>
+              <strong>2-3x</strong>
+              <span>Engineer productivity uplift</span>
             </article>
             <article class="hero-stat-card">
-              <strong>800M+</strong>
-              <span>Transactions managed across clients</span>
+              <strong>&gt;90%</strong>
+              <span>Business logic accuracy retained</span>
             </article>
           </div>
         </section>
@@ -167,35 +161,35 @@
             <div class="section-title">
               <span class="section-kicker">The Problem</span>
               <h2>
-                <span>Fintech teams are stuck</span>
-                <span><em>maintaining instead of building</em></span>
+                <span>Legacy migration is</span>
+                <span><em>expensive, slow, and risky</em></span>
               </h2>
             </div>
             <p>
-              Most engineering organisations we work with are spending 60-70% of their time on maintenance and compliance remediation
+              Most migration projects run over budget and over time. The business logic that took years to build.
             </p>
           </div>
 
           <div class="challenge-grid" data-animate>
             <article class="challenge-card">
               <span class="challenge-number">01</span>
-              <h3>Scale breaks manual processes</h3>
+              <h3>Business logic is scattered and undocumented</h3>
               <p>
-                What works at a million transactions falls apart at ten million. Exception handling, edge cases, and reconciliation gaps multiply faster than teams can patch them.
+                Rules live in application code, database triggers, batch scripts, and tribal knowledge. When the people who built it leave, the understanding goes with them.
               </p>
             </article>
             <article class="challenge-card">
               <span class="challenge-number">02</span>
-              <h3>Compliance slows every release</h3>
+              <h3>Traditional rewrites take too long and break things</h3>
               <p>
-                PCI recertification, scheme mandate updates, FCA reporting changes &mdash; each one adds weeks to your release cycle when bolted on at the end instead of built in from the start.
+                Eighteen-month migration timelines that slip to thirty months are common. By the time you finish, the target architecture is already dated - and you've introduced regressions the business discovers in production.
               </p>
             </article>
             <article class="challenge-card">
               <span class="challenge-number">03</span>
-              <h3>Tech debt compounds quietly</h3>
+              <h3>The longer you wait, the more expensive it gets</h3>
               <p>
-                Legacy code written three years ago now consumes most of your sprint capacity. New features get squeezed into whatever time remains, and quality suffers.
+                Maintenance costs on legacy platforms compound year over year. The engineers who can work on them become rarer and more expensive. Meanwhile, new features are impossible to ship at any reasonable pace.
               </p>
             </article>
           </div>
@@ -206,42 +200,47 @@
             <div class="section-title">
               <span class="section-kicker">How We Work</span>
               <h2>
-                <em>Five stages</em>
-                <span>continuous feedback</span>
+                <em>Six Phases</em>
+                <span>Every rule traced end to end</span>
               </h2>
             </div>
             <p>
-              No need to hire, train, and manage multiple teams. We're your end-to-end fintech engineering and operations partner.
+              We don't rewrite systems from a requirements document. We extract the actual logic from the running system, reconstruct it in a modern stack.
             </p>
           </div>
 
           <div class="domains-grid" data-animate>
             <div class="process-grid">
-              <ol class="process-flow" aria-label="Fintech engineering process">
+              <ol class="process-flow process-flow-six" aria-label="Legacy modernisation process">
                 <li class="process-flow-item">
                   <span class="process-flow-index" aria-hidden="true">1</span>
-                  <strong>Scope</strong>
-                  <p>Problem framing, acceptance criteria, scheme rules mapped to requirements</p>
+                  <strong>Extract</strong>
+                  <p>Parse source code, stored procedures, configs, and runtime behaviour into a structured knowledge base</p>
                 </li>
                 <li class="process-flow-item">
                   <span class="process-flow-index" aria-hidden="true">2</span>
-                  <strong>Prototype</strong>
-                  <p>Competing approaches built on separate branches. Working code in days, not weeks</p>
+                  <strong>Model</strong>
+                  <p>Map extracted business rules, dependencies, and data flows. Validate with SMEs to catch undocumented behaviour</p>
                 </li>
                 <li class="process-flow-item">
                   <span class="process-flow-index" aria-hidden="true">3</span>
-                  <strong>Validate</strong>
-                  <p>Automated linting, security scans, type checks. Issues caught and fixed before review</p>
+                  <strong>Decompose</strong>
+                  <p>Break the system into independent migration work units that can be built and tested in parallel</p>
                 </li>
                 <li class="process-flow-item">
                   <span class="process-flow-index" aria-hidden="true">4</span>
-                  <strong>Test</strong>
-                  <p>AI-generated test suites from acceptance criteria. 80%+ coverage enforced at the pipeline level</p>
+                  <strong>Generate</strong>
+                  <p>AI produces target code and test suites using pattern-driven templates, with business rules as context</p>
                 </li>
                 <li class="process-flow-item">
                   <span class="process-flow-index" aria-hidden="true">5</span>
-                  <strong>Deploy</strong>
-                  <p>Progressive rollout with canary releases, automated rollback triggers, and full observability</p>
+                  <strong>Validate</strong>
+                  <p>Five levels of equivalence testing - unit, integration, business process, performance, and UAT</p>
+                </li>
+                <li class="process-flow-item">
+                  <span class="process-flow-index" aria-hidden="true">6</span>
+                  <strong>Roll out</strong>
+                  <p>Phased deployment with rollback triggers, dual-run comparison, and hypercare monitoring</p>
                 </li>
               </ol>
             </div>
@@ -253,33 +252,34 @@
             <div class="section-title">
               <span class="section-kicker">What We Build</span>
               <h2>
-                <em>Payment Infrastructure</em>
-                <span>for Regulated Platforms</span>
+                <span>Platform modernisation</span>
+                <em>for regulated fintechs</em>
               </h2>
             </div>
             <p>
-              Core payment and platform capabilities delivered for issuers, programme managers, and embedded finance products.
+              We work with the kinds of legacy systems fintech companies actually run.
             </p>
           </div>
 
           <div class="engineering-build-grid" data-animate>
             <article class="engineering-build-column">
-              <h3>Payment &amp; Issuing</h3>
+              <h3>Migration patterns</h3>
               <ul class="engineering-build-list">
-                <li>Card issuing and programme management</li>
-                <li>Authorisation and payment processing engines</li>
-                <li>Visa and Mastercard scheme integrations</li>
-                <li>Tokenisation and digital wallet enablement</li>
-                <li>Open banking and embedded finance APIs</li>
+                <li>Language and framework migration (e.g., .NET Framework to .NET Core, AngularJS to React)</li>
+                <li>Platform migration - on-prem to cloud-native, monolith to microservices</li>
+                <li>Database migration - Oracle to PostgreSQL, SQL Server to Aurora</li>
+                <li>Integration modernisation - SOAP to REST, point-to-point to event-driven</li>
+                <li>UI modernisation - thick client to web, legacy frontend to modern SPA</li>
               </ul>
             </article>
             <article class="engineering-build-column">
-              <h3>Platform Architecture</h3>
+              <h3>Systems we understand from the inside</h3>
               <ul class="engineering-build-list">
-                <li>API-first microservices for composability</li>
-                <li>Event-driven workflows for real-time processing</li>
-                <li>Multi-tenant design for programme managers</li>
-                <li>Zero-trust partner integrations</li>
+                <li>Card issuing and programme management platforms</li>
+                <li>Payment processing and authorisation engines</li>
+                <li>Reconciliation and settlement workflows</li>
+                <li>Scheme integration and certification layers</li>
+                <li>Back-office operations and reporting systems</li>
               </ul>
             </article>
           </div>
@@ -287,65 +287,65 @@
           <div class="engineering-build-divider" data-animate></div>
 
           <div class="engineering-build-footer" data-animate>
-            <span class="engineering-build-kicker">What Makes Delivery Faster</span>
+            <span class="engineering-build-kicker">WHAT MAKES IT FASTER</span>
             <div class="engineering-build-cards">
               <article class="engineering-build-card">
-                <h3>Specs generated from requirements</h3>
+                <h3>Automated extraction, not manual discovery</h3>
                 <p>
-                  Business requirements become implementation-ready specs with automated consistency checks across service boundaries. Less ambiguity, fewer rounds of clarification.
+                  AI agents parse your codebase, stored procedures, and runtime behaviour to build a structured knowledge base. What traditionally takes months of SME interviews happens in weeks.
                 </p>
               </article>
               <article class="engineering-build-card">
-                <h3>Tests written alongside features</h3>
+                <h3>Parallel work units, not sequential phases</h3>
                 <p>
-                  Test suites are generated in parallel with code, not queued after it. The QA bottleneck that delays most fintech releases doesn't exist in our process.
+                  The system is decomposed into independent migration units that can be built, tested, and deployed in parallel. Five teams working simultaneously instead of one team working sequentially.
                 </p>
               </article>
               <article class="engineering-build-card">
-                <h3>Scheme playbooks, not guesswork</h3>
+                <h3>Proven equivalence, not hopeful testing</h3>
                 <p>
-                  We maintain runbooks for Visa and Mastercard certification, partner onboarding sequences, and compliance checkpoints. Repeatable process, fewer surprises.
+                  We run the legacy and migrated systems side by side on the same inputs and compare outputs. No release happens without proven behavioural equivalence across all business scenarios.
                 </p>
               </article>
             </div>
           </div>
         </section>
 
-        <section class="roadmap-section roadmap-section-engineering" data-animate>
+        <section class="roadmap-section roadmap-section-legacy" data-animate>
           <div class="section-head" data-animate>
             <div class="section-title">
               <span class="section-kicker">How We Build</span>
               <h2>
-                <em>Production-grade</em>
-                <span>from sprint one</span>
+                <span>A modern platform</span>
+                <em>not just a rewrite</em>
               </h2>
             </div>
             <p>
-              We don't build prototypes that need to be rebuilt for production. Every platform is architected for the transaction
+              The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain faster.
             </p>
           </div>
 
-          <div class="engineering-roadmap-grid" data-animate>
-            <article class="engineering-roadmap-card">
-              <h3>High availability</h3>
+          <div class="roadmap-grid" data-animate>
+            <article class="roadmap-card">
+              <h3>Faster feature delivery</h3>
               <p>
-                Multi-region deployment, failover routing, and observability stacks that give your ops team clear signal not noise at any transaction volume.
+                Once migration completes, your engineering team can ship new features in weeks instead of months. The modern stack removes the constraints that made every change expensive.
               </p>
-              <span class="engineering-roadmap-pill">99.99% UPTIME</span>
+              <span class="roadmap-phase">POST-MIGRATION VELOCITY</span>
             </article>
-            <article class="engineering-roadmap-card">
-              <h3>Operational visibility</h3>
+            <article class="roadmap-card">
+              <h3>Lower maintenance costs</h3>
               <p>
-                Real-time dashboards, immutable audit logs, and traceable workflows. When something goes wrong at 2am, your on-call team can diagnose it in minutes.
+                Eliminate the premium you're paying for engineers who can work on legacy technology. Modern stacks have larger talent pools, better tooling, and lower operational overhead.
               </p>
-              <span class="engineering-roadmap-pill">FULL TRACEABILITY</span>
+              <span class="roadmap-phase">REDUCED SME DEPENDENCY</span>
             </article>
-            <article class="engineering-roadmap-card">
-              <h3>Compliance from day one</h3>
+            <article class="roadmap-card">
+              <h3>Zero logic loss</h3>
               <p>
-                PCI DSS controls, FCA reporting hooks, and GDPR data handling designed into the architecture not discovered as gaps during your next audit.
+                Every business rule is traced from the legacy system through extraction, generation, and validation. A complete traceability matrix is maintained throughout and delivered at the end.
               </p>
-              <span class="engineering-roadmap-pill">PCI &amp; FCA READY</span>
+              <span class="roadmap-phase">FULL AUDIT TRAIL</span>
             </article>
           </div>
         </section>
@@ -410,18 +410,18 @@
             <div class="section-title">
               <span class="section-kicker">Who This Is For</span>
               <h2>
-                <span>Built for regulated</span>
-                <em>high-growth fintechs</em>
+                <em>Fintechs that need operations</em>
+                <span>to keep pace with growth</span>
               </h2>
             </div>
             <p></p>
           </div>
 
           <div class="fit-columns" data-animate>
-            <div class="fit-item">Issuer processors scaling card programme volume</div>
-            <div class="fit-item">PSPs and acquirers modernising legacy stacks</div>
-            <div class="fit-item">Neobanks expanding into new markets and schemes</div>
-            <div class="fit-item">BaaS providers managing complex partner integrations</div>
+            <div class="fit-item">Issuer processors scaling transaction volumes and client count</div>
+            <div class="fit-item">Card platforms where fraud and disputes are growing faster than headcount</div>
+            <div class="fit-item">PSPs that need 24x7 monitoring they can't staff in-house</div>
+            <div class="fit-item">Fintechs looking to reduce ops cost without reducing service quality</div>
           </div>
 
           <div class="fit-engage" data-animate>
@@ -430,20 +430,20 @@
 
           <div class="fit-cards" data-animate>
             <article class="fit-card">
-              <h3>Engineering squads</h3>
-              <p>month-to-month, flexible</p>
+              <h3>Managed services</h3>
+              <p>full 24x7 ops with SLA-backed outcomes</p>
+            </article>
+            <article class="fit-card">
+              <h3>Team extension</h3>
+              <p>embed ops specialists into your existing team</p>
             </article>
             <article class="fit-card">
               <h3>Project-based</h3>
-              <p>fixed scope, milestone billing</p>
+              <p>set up monitoring, fraud systems, or reconciliation pipelines</p>
             </article>
             <article class="fit-card">
-              <h3>Managed services</h3>
-              <p>24x7, SLA-backed</p>
-            </article>
-            <article class="fit-card">
-              <h3>GCC delivery</h3>
-              <p>your own offshore hub</p>
+              <h3>Flex support</h3>
+              <p>shared resources, 30-day rolling, scale when ready</p>
             </article>
           </div>
         </section>

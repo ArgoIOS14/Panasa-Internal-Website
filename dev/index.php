@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <?php include __DIR__ . '/partials/head-common.php'; ?>
     <title>Panasa | AI-Native Fintech Engineering Studio — UK, EU & APAC</title>
     <meta name="description" content="Panasa builds, modernises and operates payment platforms for fintechs, processors and neobanks. AI-accelerated engineering, 24/7 ops, ISO 27001 certified. Trusted by platforms processing 10M+ transactions/month." />
     <meta property="og:type" content="website" />
@@ -112,15 +111,8 @@
       ]
     }
     </script>
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" as="style" />
-    <link rel="preload" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" as="style" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
     <link rel="stylesheet" href="css/style.css?v=2.1" />

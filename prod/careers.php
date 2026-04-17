@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <?php include __DIR__ . '/partials/head-common.php'; ?>
+    <title>Fintech Engineering Careers — Kochi & Brighton | Panasa</title>
+    <meta name="description" content="Join 300+ fintech engineers building payment platforms for global clients. Flexible work, individual L&D budgets, health insurance. Open roles in engineering, operations and strategy." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Panasa Technology" />
+    <meta property="og:title" content="Fintech Engineering Careers — Kochi & Brighton | Panasa" />
+    <meta property="og:description" content="Join 300+ fintech engineers building payment platforms for global clients. Flexible work, individual L&D budgets, health insurance. Open roles in engineering, operations and strategy." />
+    <meta property="og:url" content="https://www.panasatech.com/careers" />
+    <meta property="og:image" content="https://www.panasatech.com/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fintech Engineering Careers — Kochi & Brighton | Panasa" />
+    <meta name="twitter:description" content="Join 300+ fintech engineers building payment platforms for global clients. Flexible work, individual L&D budgets, health insurance. Open roles in engineering, operations and strategy." />
+    <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
+    <link rel="canonical" href="https://www.panasatech.com/careers" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
+    <link rel="stylesheet" href="css/careers.css?v=2.1" />
+    <link rel="stylesheet" href="css/shared-footer.css?v=2.1" media="print" onload="this.media='all'" />
+    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/careers" />
+    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/careers" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Panasa Technology",
+      "url": "https://www.panasatech.com",
+      "logo": "https://www.panasatech.com/assets/logo.svg",
+      "description": "Panasa helps fintechs launch and scale with AI-native engineering, ops, and compliance.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "info@panasatech.com",
+        "contactType": "sales"
+      },
+      "address": [
+        {
+          "@type": "PostalAddress",
+          "addressCountry": "GB",
+          "addressLocality": "Brighton & Hove",
+          "streetAddress": "Maritime House, Basin Rd North"
+        },
+        {
+          "@type": "PostalAddress",
+          "addressCountry": "IN",
+          "addressLocality": "Kochi",
+          "streetAddress": "9th Floor, Carnival Infopark Phase 2"
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.panasatech.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://www.panasatech.com/careers" }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div class="careers-page">
+      <header class="site-header" id="top" data-animate>
+        <nav class="nav">
+          <a class="brand" href="/" aria-label="Panasa home">
+            <img src="assets/logo.svg" alt="Panasa" fetchpriority="high" />
+          </a>
+          <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="nav-links" data-nav-links></ul>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" data-animate>
+          <div class="hero-copy" data-animate>
+            <h1>
+              Build the Future of Fintech
+              <em>with Panasa</em>
+            </h1>
+            <p>
+              Join a team that builds secure, scalable payment infrastructure used by modern fintech
+              platforms. Work on real-world systems, solve complex engineering challenges, and grow your
+              career in fintech.
+            </p>
+          </div>
+
+          <div class="team-photo" data-animate>
+            <img
+              src="assets/Team Photo.webp"
+              alt="Panasa team celebrating together in the office"
+              onerror="this.onerror=null;this.src='assets/placeholder-team.svg';"
+            />
+          </div>
+        </section>
+
+        <section class="open-roles" id="open-roles" data-animate>
+          <div class="roles-header">
+            <h2>Careers at Panasa Technology</h2>
+            <div class="search-wrap">
+              <input type="search" placeholder="Search" aria-label="Search jobs" />
+            </div>
+          </div>
+
+          <div class="filters">
+            <div class="filter">
+              <label for="department">Department</label>
+              <select id="department">
+                <option>select department</option>
+                <option>Marketing</option>
+                <option>Engineering</option>
+                <option>Operations</option>
+              </select>
+            </div>
+            <div class="filter">
+              <label for="location">Location</label>
+              <select id="location">
+                <option>select location</option>
+                <option>Kochi, Kerala, India</option>
+                <option>India</option>
+                <option>Remote</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="role-list">
+            <article class="role-card" data-animate>
+              <h3>Marketing Manager <span>Job ID: 304330</span></h3>
+              <p class="role-meta">
+                <span>Marketing</span>
+                <span>In-Office</span>
+                <span>Kochi, Kerala, India</span>
+                <span>4 - 9 years</span>
+              </p>
+            </article>
+            <article class="role-card" data-animate>
+              <h3>Workforce Planner <span>Job ID: 794330</span></h3>
+              <p class="role-meta">
+                <span>Remote</span>
+                <span>India</span>
+                <span>5 - 8 years</span>
+              </p>
+            </article>
+            <article class="role-card" data-animate>
+              <h3>Senior AI Artist / AI Generative Production Specialist <span>Job ID: 234557</span></h3>
+              <p class="role-meta">
+                <span>Marketing</span>
+                <span>In-Office</span>
+                <span>Kochi, Kerala, India</span>
+                <span>3 - 8 years</span>
+              </p>
+            </article>
+            <article class="role-card" data-animate>
+              <h3>Marketing Intern <span>Job ID: 123558</span></h3>
+              <p class="role-meta">
+                <span>Marketing</span>
+                <span>Kochi, Kerala, India</span>
+                <span>0 - 1 years</span>
+              </p>
+            </article>
+            <article class="role-card" data-animate>
+              <h3>Jr. Marketing Manager <span>Job ID: 245108</span></h3>
+              <p class="role-meta">
+                <span>Marketing</span>
+                <span>Remote</span>
+                <span>India</span>
+                <span>1 - 3 years</span>
+              </p>
+            </article>
+            <article class="role-card" data-animate>
+              <h3>Creative Producer <span>Job ID: 129901</span></h3>
+              <p class="role-meta">
+                <span>Marketing</span>
+                <span>In-Office</span>
+                <span>Kochi, Kerala, India</span>
+                <span>3 - 8 years</span>
+              </p>
+            </article>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-card" data-animate>
+          <div class="footer-main">
+            <div class="footer-brand">
+              <img src="assets/logo.svg" alt="Panasa" />
+              <p data-footer-brand-text>From technical leaders to operations teams, we deliver value across your entire organization.</p>
+              <div class="footer-contact" data-footer-phones>
+                <a href="tel:+4401273977101">+44 (0) 1273 977101</a>
+                <span class="footer-contact-separator">&bull;</span>
+                <a href="tel:+917594052401">+91 75940 52401</a>
+              </div>
+              <a class="footer-email" href="mailto:info@panasatech.com" data-footer-email>info@panasatech.com</a>
+              <div class="footer-socials">
+                <a href="https://www.linkedin.com/company/panasa-tech/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                <a href="https://www.facebook.com/panasatech/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="https://x.com/PANASA37191354" aria-label="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932zM17.61 20.644h2.039L6.486 3.24H4.298z"/></svg></a>
+                <a href="https://www.instagram.com/panasatech/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 100 12.324 6.162 6.162 0 100-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 11-2.882 0 1.441 1.441 0 012.882 0z"/></svg></a>
+              </div>
+            </div>
+
+            <div class="footer-links" data-footer-columns>
+              <div>
+                <h4>Company</h4>
+                <a href="/">Home</a>
+                <a href="about">About Us</a>
+                <a href="services">Services</a>
+                <a href="careers">Careers <span class="footer-link-badge footer-link-badge-hiring">HIRING!</span></a>
+                <a href="contact">Contact</a>
+              </div>
+              <div>
+                <h4>Services</h4>
+                <a href="ai-accelerated-fintech-engineering">AI Accelerated Fintech Engineering</a>
+                <a href="ai-powered-legacy-modernisation">AI Powered Legacy Modernisation</a>
+                <a href="ai-governance">AI Governance</a>
+                <a href="intelligent-operations">Intelligent Operations</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span data-footer-copyright>© 2026 Panasa Technology. All rights reserved.</span>
+            <div class="footer-meta" data-footer-legal-links>
+              <a href="privacy-policy">Privacy Policy</a>
+              <a href="privacy-policy#section-cookies" onclick="sessionStorage.setItem('privacyTab','cookies')">Cookies</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="content/Home page/default.js" defer></script>
+    <script type="module" src="js/careers.js?v=2.1"></script>
+  </body>
+</html>

@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <?php include __DIR__ . '/partials/head-common.php'; ?>
     <title>About Panasa — 300+ Fintech Engineers | Payment Platform Experts</title>
     <meta
       name="description"
@@ -19,11 +18,6 @@
     <meta name="twitter:description" content="20+ years building card platforms, payment systems and neobank infrastructure. 300+ team members. Offices in Brighton, UK and Kochi, India. ISO 27001 certified, PCI-DSS aligned." />
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
     <link rel="canonical" href="https://www.panasatech.com/about" />
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
     <link rel="stylesheet" href="css/about.css?v=2.1" />
     <link rel="stylesheet" href="css/shared-logo-marquee.css?v=2.1" media="print" onload="this.media='all'" />

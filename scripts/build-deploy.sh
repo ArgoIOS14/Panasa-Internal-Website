@@ -56,7 +56,7 @@ fi
 
 # --- Step 2: bump cache-bust version ---
 echo ""
-echo "[2/6] Bumping ?v=${VERSION} on CSS/JS links in prod/*.html..."
+echo "[2/6] Bumping ?v=${VERSION} on CSS/JS links in prod/*.html and prod/*.php..."
 python3 <<PYEOF
 import re, glob
 pattern = re.compile(r'(href=|src=)(["\'])([^"\']+\.(?:css|js)(?:\?v=[^"\']*)?)\2')
@@ -67,13 +67,13 @@ def repl(m):
     path_clean = re.sub(r'\?v=[^"\']*$', '', path)
     return f'{prefix}{quote}{path_clean}?v=${VERSION}{quote}'
 count = 0
-for f in sorted(glob.glob('prod/*.html')):
+for f in sorted(glob.glob('prod/*.html') + glob.glob('prod/*.php')):
     with open(f) as fh: c = fh.read()
     new = pattern.sub(repl, c)
     if new != c:
         with open(f, 'w') as fh: fh.write(new)
         count += 1
-print(f'  ✓  Updated {count} HTML files with ?v=${VERSION}')
+print(f'  ✓  Updated {count} page files with ?v=${VERSION}')
 PYEOF
 
 # --- Step 3: copy prod/ → build folder ---

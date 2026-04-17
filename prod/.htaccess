@@ -4,7 +4,13 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^panasatech\.com$ [NC]
 RewriteRule ^(.*)$ https://www.panasatech.com/$1 [R=301,L]
 
-# ── Clean URLs: strip .html extension ────────────────────
+# ── Clean URLs: try .php first, fall back to .html ──────
+# If the request is not a file or directory, try adding .php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L]
+
 # If the request is not a file or directory, try adding .html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -13,6 +19,10 @@ RewriteRule ^(.+)$ $1.html [L]
 
 # Redirect .html URLs to clean versions (301 for SEO)
 RewriteCond %{THE_REQUEST} \s/(.+?)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# Redirect .php URLs to clean versions (301 for SEO)
+RewriteCond %{THE_REQUEST} \s/(.+?)\.php[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L]
 
 # ── Redirect old WordPress URLs (trailing slash) ────────

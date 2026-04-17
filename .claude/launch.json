@@ -4,7 +4,7 @@
     {
       "name": "panasa-site",
       "runtimeExecutable": "/opt/homebrew/bin/php",
-      "runtimeArgs": ["-S", "localhost:8082", "-t", "dev"],
+      "runtimeArgs": ["-S", "localhost:8082", "-t", "dev", "dev/router.php"],
       "port": 8082
     }
   ]

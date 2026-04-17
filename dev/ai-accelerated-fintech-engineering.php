@@ -1,36 +1,30 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intelligent Fintech Operations — 24/7 Transaction Monitoring | Panasa</title>
+    <?php include __DIR__ . '/partials/head-common.php'; ?>
+    <title>AI Accelerated Fintech Engineering — Card Platforms & Payment Engines | Panasa</title>
     <meta
       name="description"
-      content="Managed fintech operations: 24/7 transaction monitoring, fraud detection, dispute handling, reconciliation and audit pipelines. SLA-backed, outcome-based pricing."
+      content="Build card programmes, payment engines and issuing platforms 50% faster with AI-powered engineering. Visa and Mastercard scheme integrations, open banking APIs, PCI-ready from sprint one."
     />
-    <meta property="og:title" content="Intelligent Fintech Operations — 24/7 Transaction Monitoring | Panasa" />
-    <meta property="og:description" content="Managed fintech operations: 24/7 transaction monitoring, fraud detection, dispute handling, reconciliation and audit pipelines. SLA-backed, outcome-based pricing." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.panasatech.com/intelligent-operations" />
     <meta property="og:site_name" content="Panasa Technology" />
+    <meta property="og:title" content="AI Accelerated Fintech Engineering — Card Platforms & Payment Engines | Panasa" />
+    <meta property="og:description" content="Build card programmes, payment engines and issuing platforms 50% faster with AI-powered engineering. Visa and Mastercard scheme integrations, open banking APIs, PCI-ready from sprint one." />
+    <meta property="og:url" content="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
     <meta property="og:image" content="https://www.panasatech.com/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Intelligent Fintech Operations — 24/7 Transaction Monitoring | Panasa" />
-    <meta name="twitter:description" content="Managed fintech operations: 24/7 transaction monitoring, fraud detection, dispute handling, reconciliation and audit pipelines. SLA-backed, outcome-based pricing." />
+    <meta name="twitter:title" content="AI Accelerated Fintech Engineering — Card Platforms & Payment Engines | Panasa" />
+    <meta name="twitter:description" content="Build card programmes, payment engines and issuing platforms 50% faster with AI-powered engineering. Visa and Mastercard scheme integrations, open banking APIs, PCI-ready from sprint one." />
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
-    <link rel="canonical" href="https://www.panasatech.com/intelligent-operations" />
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <link rel="canonical" href="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
     <link rel="stylesheet" href="css/services.css?v=2.1" />
     <link rel="stylesheet" href="css/shared-logo-marquee.css?v=2.1" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-footer.css?v=2.1" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/email-capture.css?v=2.1" media="print" onload="this.media='all'" />
-    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/intelligent-operations" />
-    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/intelligent-operations" />
+    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
+    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/ai-accelerated-fintech-engineering" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -64,24 +58,24 @@
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "name": "Intelligent Fintech Operations",
-      "description": "Managed fintech operations including 24/7 transaction monitoring, fraud detection workflows, dispute and chargeback handling, reconciliation pipelines, and SLA-backed operational dashboards.",
+      "name": "AI Accelerated Fintech Engineering",
+      "description": "AI-powered fintech development services. Build card programmes, payment engines, and issuing platforms for regulated fintechs with AI tooling that cuts delivery timelines in half.",
       "provider": {
         "@type": "Organization",
         "name": "Panasa Technology",
         "url": "https://www.panasatech.com"
       },
-      "serviceType": "Managed Fintech Operations",
+      "serviceType": "Fintech Software Development",
       "areaServed": ["United Kingdom", "European Union", "Asia-Pacific"],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Intelligent Operations Services",
+        "name": "AI Fintech Engineering Services",
         "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "24/7 transaction monitoring"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Fraud detection and risk management workflows"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Dispute and chargeback lifecycle handling"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Reporting, reconciliation and audit pipelines"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Operational dashboards and playbooks"}}
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Card issuing and programme management"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Authorisation and payment processing engines"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Visa and Mastercard scheme integrations"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Open banking and embedded finance APIs"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-led fintech engineering and agentic automation"}}
         ]
       }
     }
@@ -93,7 +87,7 @@
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.panasatech.com/" },
         { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://www.panasatech.com/services" },
-        { "@type": "ListItem", "position": 3, "name": "Intelligent Operations", "item": "https://www.panasatech.com/intelligent-operations" }
+        { "@type": "ListItem", "position": 3, "name": "AI Accelerated Fintech Engineering", "item": "https://www.panasatech.com/ai-accelerated-fintech-engineering" }
       ]
     }
     </script>
@@ -117,13 +111,13 @@
       <main>
         <section class="service-hero" data-animate>
           <div class="service-hero-copy" data-animate>
-            <span class="pill">INTELLIGENT OPERATIONS</span>
+            <span class="pill">AI Accelerated Fintech Engineering</span>
             <h1>
-              <span>Fintech operations that scale</span>
-              <em>without scaling headcount</em>
+              <span>Ship fintech</span>
+              <em>platforms faster</em>
             </h1>
             <p>
-              Transaction volumes double. Chargebacks, rules change quarterly. Your clients expect sub-hour response times around the clock.
+              We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half
             </p>
             <div class="hero-actions">
               <a class="btn btn-dark" href="contact">
@@ -138,26 +132,26 @@
           </div>
 
           <div class="trusted-logos-shell" data-animate>
-            <span class="trusted-kicker">TRUSTED BY HIGH-GROWTH FINTECHS</span>
+            <span class="trusted-kicker">Trusted by High-Growth Fintechs</span>
             <div class="trusted-logos" aria-label="Trusted fintech logos" data-service-trusted-logos></div>
           </div>
 
           <div class="hero-stats" data-animate>
             <article class="hero-stat-card">
-              <strong>99.99%</strong>
-              <span>System uptime maintained</span>
+              <strong>50%</strong>
+              <span>Faster delivery vs traditional teams</span>
             </article>
             <article class="hero-stat-card">
-              <strong>&lt;1hr</strong>
-              <span>P1 incident response time</span>
+              <strong>75%</strong>
+              <span>Shorter code review cycles</span>
             </article>
             <article class="hero-stat-card">
-              <strong>30-50%</strong>
-              <span>Cost reduction in-house</span>
+              <strong>3x</strong>
+              <span>Engineer productivity with AI tooling</span>
             </article>
             <article class="hero-stat-card">
               <strong>800M+</strong>
-              <span>Transactions managed</span>
+              <span>Transactions managed across clients</span>
             </article>
           </div>
         </section>
@@ -167,186 +161,185 @@
             <div class="section-title">
               <span class="section-kicker">The Problem</span>
               <h2>
-                <span>Operations gets harder every</span>
-                <span>quarter and <em>your team is already stretched</em></span>
+                <span>Fintech teams are stuck</span>
+                <span><em>maintaining instead of building</em></span>
               </h2>
             </div>
             <p>
-              Transaction volumes go up. Chargeback rules change. New scheme mandates land.
+              Most engineering organisations we work with are spending 60-70% of their time on maintenance and compliance remediation
             </p>
           </div>
 
           <div class="challenge-grid" data-animate>
             <article class="challenge-card">
               <span class="challenge-number">01</span>
-              <h3>Support tickets spike, resolution slows</h3>
+              <h3>Scale breaks manual processes</h3>
               <p>
-                As your client base grows, so does the volume of inquiries, disputes, and technical issues. Without structured L1/L2/L3 tiers and proper escalation paths, everything bottlenecks at the same small team.
+                What works at a million transactions falls apart at ten million. Exception handling, edge cases, and reconciliation gaps multiply faster than teams can patch them.
               </p>
             </article>
             <article class="challenge-card">
               <span class="challenge-number">02</span>
-              <h3>Reconciliation and reporting are manual</h3>
+              <h3>Compliance slows every release</h3>
               <p>
-                Settlements, chargebacks, scheme fees reconciled in spreadsheets, cross-checked by hand, and delivered late. One missed exception can cascade into regulatory reporting problems.
+                PCI recertification, scheme mandate updates, FCA reporting changes &mdash; each one adds weeks to your release cycle when bolted on at the end instead of built in from the start.
               </p>
             </article>
             <article class="challenge-card">
               <span class="challenge-number">03</span>
-              <h3>Fraud slips through because nobody is watching at 2am</h3>
+              <h3>Tech debt compounds quietly</h3>
               <p>
-                Fraudsters don't work business hours. Without round-the-clock monitoring, rule-based detection, and a team that can act immediately, you find out about fraud from your clients - not your systems.
+                Legacy code written three years ago now consumes most of your sprint capacity. New features get squeezed into whatever time remains, and quality suffers.
               </p>
             </article>
           </div>
         </section>
 
-        <section class="domains-section domains-section-operations" id="governance-domains" data-animate>
+        <section class="domains-section domains-section-process" id="governance-domains" data-animate>
           <div class="section-head" data-animate>
             <div class="section-title">
-              <span class="section-kicker">What We Run</span>
+              <span class="section-kicker">How We Work</span>
               <h2>
-                <em>Six Operational Domains</em>
-                <span>One Team</span>
+                <em>Five stages</em>
+                <span>continuous feedback</span>
               </h2>
             </div>
             <p>
-              We don't just monitor dashboards. We run the full back-office — from real-time transaction monitoring through to dispute resolution.
+              No need to hire, train, and manage multiple teams. We're your end-to-end fintech engineering and operations partner.
             </p>
           </div>
 
           <div class="domains-grid" data-animate>
-            <article class="domain-card">
-              <h3>Transaction monitoring and uptime</h3>
-              <p>24x7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
-            </article>
-            <article class="domain-card">
-              <h3>Fraud and risk handling</h3>
-              <p>Real-time fraud detection with rule-based engines and ML models. Fraud queues, block/unblock workflows, integration with card controls and 3DS alerts. Prevention strategies and ongoing rule tuning.</p>
-            </article>
-            <article class="domain-card">
-              <h3>Customer and cardholder support</h3>
-              <p>L1 through L3 support across voice, chat, email, and in-app channels. Inquiry handling, card status updates, dispute assistance, and social media monitoring. Feedback loop to product and analytics.</p>
-            </article>
-            <article class="domain-card">
-              <h3>Disputes and chargebacks</h3>
-              <p>Full lifecycle chargeback management — rule-based tagging, document workflows, evidence gathering, and response generation. SLA tracking and Visa/Mastercard scheme alignment.</p>
-            </article>
-            <article class="domain-card">
-              <h3>Reporting and reconciliation</h3>
-              <p>Daily reconciliation of transactions, settlements, and chargebacks. Exception logs, scheduled pipelines for audit-ready data, and integration with BI tools like Power BI.</p>
-            </article>
-            <article class="domain-card">
-              <h3>Onboarding and implementation</h3>
-              <p>Platform onboarding for new clients. Merchant setup, KYC review, operations playbook creation, and weekly/monthly reporting. Secure infrastructure with role-based access.</p>
-            </article>
+            <div class="process-grid">
+              <ol class="process-flow" aria-label="Fintech engineering process">
+                <li class="process-flow-item">
+                  <span class="process-flow-index" aria-hidden="true">1</span>
+                  <strong>Scope</strong>
+                  <p>Problem framing, acceptance criteria, scheme rules mapped to requirements</p>
+                </li>
+                <li class="process-flow-item">
+                  <span class="process-flow-index" aria-hidden="true">2</span>
+                  <strong>Prototype</strong>
+                  <p>Competing approaches built on separate branches. Working code in days, not weeks</p>
+                </li>
+                <li class="process-flow-item">
+                  <span class="process-flow-index" aria-hidden="true">3</span>
+                  <strong>Validate</strong>
+                  <p>Automated linting, security scans, type checks. Issues caught and fixed before review</p>
+                </li>
+                <li class="process-flow-item">
+                  <span class="process-flow-index" aria-hidden="true">4</span>
+                  <strong>Test</strong>
+                  <p>AI-generated test suites from acceptance criteria. 80%+ coverage enforced at the pipeline level</p>
+                </li>
+                <li class="process-flow-item">
+                  <span class="process-flow-index" aria-hidden="true">5</span>
+                  <strong>Deploy</strong>
+                  <p>Progressive rollout with canary releases, automated rollback triggers, and full observability</p>
+                </li>
+              </ol>
+            </div>
           </div>
         </section>
 
-        <section class="deliverables-section deliverables-section-operations" data-animate>
+        <section class="deliverables-section deliverables-section-engineering" data-animate>
           <div class="section-head section-head-dark" data-animate>
             <div class="section-title">
-              <span class="section-kicker">How It Works</span>
+              <span class="section-kicker">What We Build</span>
               <h2>
-                <em>Structured support tiers</em>
-                <span>not ad hoc firefighting</span>
+                <em>Payment Infrastructure</em>
+                <span>for Regulated Platforms</span>
               </h2>
             </div>
             <p>
-              We run multi-tier support with defined response times, escalation paths, and KPIs for every level.
+              Core payment and platform capabilities delivered for issuers, programme managers, and embedded finance products.
             </p>
           </div>
 
-          <div class="ops-support-grid" data-animate>
-            <article class="ops-support-card">
-              <h3>L1 operations - 24x7</h3>
-              <ul class="ops-support-list">
-                <li>Customer support - voice and non-voice</li>
-                <li>Transaction analysis and service monitoring</li>
-                <li>Fraud analysis and queue management</li>
-                <li>Implementation support and client onboarding</li>
-                <li>Initial triage and ticket prioritisation</li>
+          <div class="engineering-build-grid" data-animate>
+            <article class="engineering-build-column">
+              <h3>Payment &amp; Issuing</h3>
+              <ul class="engineering-build-list">
+                <li>Card issuing and programme management</li>
+                <li>Authorisation and payment processing engines</li>
+                <li>Visa and Mastercard scheme integrations</li>
+                <li>Tokenisation and digital wallet enablement</li>
+                <li>Open banking and embedded finance APIs</li>
               </ul>
             </article>
-            <article class="ops-support-card">
-              <h3>L2 operations - 24x7</h3>
-              <ul class="ops-support-list">
-                <li>Production support and incident management</li>
-                <li>Infrastructure and network security</li>
-                <li>DevOps pipeline management</li>
-                <li>Complex issue investigation and RCA</li>
-                <li>Security operations and compliance support</li>
+            <article class="engineering-build-column">
+              <h3>Platform Architecture</h3>
+              <ul class="engineering-build-list">
+                <li>API-first microservices for composability</li>
+                <li>Event-driven workflows for real-time processing</li>
+                <li>Multi-tenant design for programme managers</li>
+                <li>Zero-trust partner integrations</li>
               </ul>
             </article>
           </div>
 
-          <div class="delivery-cadence" data-animate>
-            <span class="delivery-cadence-kicker">AI Agents In Operations</span>
-          </div>
+          <div class="engineering-build-divider" data-animate></div>
 
-          <div class="deliverables-cards ops-agent-cards" data-animate>
-            <article class="deliverable-card">
-              <h3>Scheme Compliance Monitoring</h3>
-              <p>
-                Automatically tracks Visa and Mastercard bulletins, classifies changes as regulatory, policy, or informational, maps impact to affected business units, and generates compliance tickets in Jira. Replaces the manual process of reading circulars and emailing teams.
-              </p>
-            </article>
-            <article class="deliverable-card">
-              <h3>Incident Documentation Agent</h3>
-              <p>
-                Monitors DataDog, Prometheus, and PagerDuty to capture incidents automatically. Consolidates logs, metrics, and alerts into a unified timeline. Generates structured summaries, RCA skeletons, and client-ready status updates - so engineers resolve instead of documenting.
-              </p>
-            </article>
-            <article class="deliverable-card">
-              <h3>Client Onboarding Assistant</h3>
-              <p>
-                Ingests onboarding documents, extracts and validates configuration fields across ninety-plus parameters, and promotes settings across dev, staging, and production environments with controlled approvals. Cuts manual data entry and environment mismatches.
-              </p>
-            </article>
-            <article class="deliverable-card">
-              <h3>Due Diligence Agent</h3>
-              <p>
-                Screens entities against global sanctions, PEP watchlists, and adverse media. Generates onboarding risk summaries, maintains continuous re-screening of existing clients, and routes high-risk cases through enhanced due diligence workflows.
-              </p>
-            </article>
+          <div class="engineering-build-footer" data-animate>
+            <span class="engineering-build-kicker">What Makes Delivery Faster</span>
+            <div class="engineering-build-cards">
+              <article class="engineering-build-card">
+                <h3>Specs generated from requirements</h3>
+                <p>
+                  Business requirements become implementation-ready specs with automated consistency checks across service boundaries. Less ambiguity, fewer rounds of clarification.
+                </p>
+              </article>
+              <article class="engineering-build-card">
+                <h3>Tests written alongside features</h3>
+                <p>
+                  Test suites are generated in parallel with code, not queued after it. The QA bottleneck that delays most fintech releases doesn't exist in our process.
+                </p>
+              </article>
+              <article class="engineering-build-card">
+                <h3>Scheme playbooks, not guesswork</h3>
+                <p>
+                  We maintain runbooks for Visa and Mastercard certification, partner onboarding sequences, and compliance checkpoints. Repeatable process, fewer surprises.
+                </p>
+              </article>
+            </div>
           </div>
         </section>
 
-        <section class="roadmap-section roadmap-section-operations" data-animate>
+        <section class="roadmap-section roadmap-section-engineering" data-animate>
           <div class="section-head" data-animate>
             <div class="section-title">
-              <span class="section-kicker">What Changes</span>
+              <span class="section-kicker">How We Build</span>
               <h2>
-                <span>Operations becomes a growth</span>
-                <span>function <em>not a cost centre</em></span>
+                <em>Production-grade</em>
+                <span>from sprint one</span>
               </h2>
             </div>
             <p>
-              The point isn't just to keep things running. It's to run them well enough that operations.
+              We don't build prototypes that need to be rebuilt for production. Every platform is architected for the transaction
             </p>
           </div>
 
-          <div class="roadmap-grid" data-animate>
-            <article class="roadmap-card">
-              <h3>Scale without proportional headcount</h3>
+          <div class="engineering-roadmap-grid" data-animate>
+            <article class="engineering-roadmap-card">
+              <h3>High availability</h3>
               <p>
-                AI accelerators and automation handle the volume growth. You go from ten to fifty card programmes without a linear increase in ops cost. Outcome-based pricing means you pay for results, not seats.
+                Multi-region deployment, failover routing, and observability stacks that give your ops team clear signal not noise at any transaction volume.
               </p>
-              <span class="roadmap-phase">30-50% COST REDUCTION</span>
+              <span class="engineering-roadmap-pill">99.99% UPTIME</span>
             </article>
-            <article class="roadmap-card">
-              <h3>Faster resolution, better CSAT</h3>
+            <article class="engineering-roadmap-card">
+              <h3>Operational visibility</h3>
               <p>
-                Structured tiers, intelligent triage, and AI-assisted responses mean faster first-contact resolution. Your clients notice the difference - in response times, in accuracy, and in how quickly issues close.
+                Real-time dashboards, immutable audit logs, and traceable workflows. When something goes wrong at 2am, your on-call team can diagnose it in minutes.
               </p>
-              <span class="roadmap-phase">9/10 CLIENT CSAT</span>
+              <span class="engineering-roadmap-pill">FULL TRACEABILITY</span>
             </article>
-            <article class="roadmap-card">
-              <h3>Compliance handled, not chased</h3>
+            <article class="engineering-roadmap-card">
+              <h3>Compliance from day one</h3>
               <p>
-                Reconciliation, scheme reporting, AML / KYC workflows, and regulatory submissions happen on schedule - not as last-minute scrambles. Audit-ready data pipelines mean you're always prepared.
+                PCI DSS controls, FCA reporting hooks, and GDPR data handling designed into the architecture not discovered as gaps during your next audit.
               </p>
-              <span class="roadmap-phase">ALWAYS AUDIT-READY</span>
+              <span class="engineering-roadmap-pill">PCI &amp; FCA READY</span>
             </article>
           </div>
         </section>
@@ -411,18 +404,18 @@
             <div class="section-title">
               <span class="section-kicker">Who This Is For</span>
               <h2>
-                <em>Fintechs that need operations</em>
-                <span>to keep pace with growth</span>
+                <span>Built for regulated</span>
+                <em>high-growth fintechs</em>
               </h2>
             </div>
             <p></p>
           </div>
 
           <div class="fit-columns" data-animate>
-            <div class="fit-item">Issuer processors scaling transaction volumes and client count</div>
-            <div class="fit-item">Card platforms where fraud and disputes are growing faster than headcount</div>
-            <div class="fit-item">PSPs that need 24x7 monitoring they can't staff in-house</div>
-            <div class="fit-item">Fintechs looking to reduce ops cost without reducing service quality</div>
+            <div class="fit-item">Issuer processors scaling card programme volume</div>
+            <div class="fit-item">PSPs and acquirers modernising legacy stacks</div>
+            <div class="fit-item">Neobanks expanding into new markets and schemes</div>
+            <div class="fit-item">BaaS providers managing complex partner integrations</div>
           </div>
 
           <div class="fit-engage" data-animate>
@@ -431,20 +424,20 @@
 
           <div class="fit-cards" data-animate>
             <article class="fit-card">
-              <h3>Managed services</h3>
-              <p>full 24x7 ops with SLA-backed outcomes</p>
-            </article>
-            <article class="fit-card">
-              <h3>Team extension</h3>
-              <p>embed ops specialists into your existing team</p>
+              <h3>Engineering squads</h3>
+              <p>month-to-month, flexible</p>
             </article>
             <article class="fit-card">
               <h3>Project-based</h3>
-              <p>set up monitoring, fraud systems, or reconciliation pipelines</p>
+              <p>fixed scope, milestone billing</p>
             </article>
             <article class="fit-card">
-              <h3>Flex support</h3>
-              <p>shared resources, 30-day rolling, scale when ready</p>
+              <h3>Managed services</h3>
+              <p>24x7, SLA-backed</p>
+            </article>
+            <article class="fit-card">
+              <h3>GCC delivery</h3>
+              <p>your own offshore hub</p>
             </article>
           </div>
         </section>

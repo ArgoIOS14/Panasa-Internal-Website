@@ -1,36 +1,30 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI-Powered Legacy Modernisation for Fintech — Panasa</title>
+    <?php include __DIR__ . '/partials/head-common.php'; ?>
+    <title>Intelligent Fintech Operations — 24/7 Transaction Monitoring | Panasa</title>
     <meta
       name="description"
-      content="Modernise legacy payment systems using AI-led code extraction, system decomposition and multi-agent validation. Migrate mainframe and monolith platforms to cloud-native architecture."
+      content="Managed fintech operations: 24/7 transaction monitoring, fraud detection, dispute handling, reconciliation and audit pipelines. SLA-backed, outcome-based pricing."
     />
-    <meta property="og:title" content="AI-Powered Legacy Modernisation for Fintech — Panasa" />
-    <meta property="og:description" content="Modernise legacy payment systems using AI-led code extraction, system decomposition and multi-agent validation. Migrate mainframe and monolith platforms to cloud-native architecture." />
+    <meta property="og:title" content="Intelligent Fintech Operations — 24/7 Transaction Monitoring | Panasa" />
+    <meta property="og:description" content="Managed fintech operations: 24/7 transaction monitoring, fraud detection, dispute handling, reconciliation and audit pipelines. SLA-backed, outcome-based pricing." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.panasatech.com/ai-powered-legacy-modernisation" />
+    <meta property="og:url" content="https://www.panasatech.com/intelligent-operations" />
     <meta property="og:site_name" content="Panasa Technology" />
     <meta property="og:image" content="https://www.panasatech.com/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI-Powered Legacy Modernisation for Fintech — Panasa" />
-    <meta name="twitter:description" content="Modernise legacy payment systems using AI-led code extraction, system decomposition and multi-agent validation. Migrate mainframe and monolith platforms to cloud-native architecture." />
+    <meta name="twitter:title" content="Intelligent Fintech Operations — 24/7 Transaction Monitoring | Panasa" />
+    <meta name="twitter:description" content="Managed fintech operations: 24/7 transaction monitoring, fraud detection, dispute handling, reconciliation and audit pipelines. SLA-backed, outcome-based pricing." />
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
-    <link rel="canonical" href="https://www.panasatech.com/ai-powered-legacy-modernisation" />
-    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <link rel="canonical" href="https://www.panasatech.com/intelligent-operations" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
     <link rel="stylesheet" href="css/services.css?v=2.1" />
     <link rel="stylesheet" href="css/shared-logo-marquee.css?v=2.1" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-footer.css?v=2.1" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/email-capture.css?v=2.1" media="print" onload="this.media='all'" />
-    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/ai-powered-legacy-modernisation" />
-    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/ai-powered-legacy-modernisation" />
+    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/intelligent-operations" />
+    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/intelligent-operations" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -64,24 +58,24 @@
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "name": "AI-Powered Legacy Modernisation",
-      "description": "Modernise legacy payment systems using AI-led code extraction, system decomposition, multi-agent validation, and cloud migration. Migrate COBOL, mainframe and monolith platforms to cloud-native architecture.",
+      "name": "Intelligent Fintech Operations",
+      "description": "Managed fintech operations including 24/7 transaction monitoring, fraud detection workflows, dispute and chargeback handling, reconciliation pipelines, and SLA-backed operational dashboards.",
       "provider": {
         "@type": "Organization",
         "name": "Panasa Technology",
         "url": "https://www.panasatech.com"
       },
-      "serviceType": "Legacy System Modernisation",
+      "serviceType": "Managed Fintech Operations",
       "areaServed": ["United Kingdom", "European Union", "Asia-Pacific"],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Legacy Modernisation Services",
+        "name": "Intelligent Operations Services",
         "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Legacy code and business logic extraction"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "System decomposition and migration planning"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-assisted code generation and rebuild"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Cloud, microservices and platform migration"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Zero-loss parallel rollout and deployment"}}
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "24/7 transaction monitoring"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Fraud detection and risk management workflows"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Dispute and chargeback lifecycle handling"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Reporting, reconciliation and audit pipelines"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Operational dashboards and playbooks"}}
         ]
       }
     }
@@ -93,7 +87,7 @@
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.panasatech.com/" },
         { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://www.panasatech.com/services" },
-        { "@type": "ListItem", "position": 3, "name": "AI Powered Legacy Modernisation", "item": "https://www.panasatech.com/ai-powered-legacy-modernisation" }
+        { "@type": "ListItem", "position": 3, "name": "Intelligent Operations", "item": "https://www.panasatech.com/intelligent-operations" }
       ]
     }
     </script>
@@ -117,13 +111,13 @@
       <main>
         <section class="service-hero" data-animate>
           <div class="service-hero-copy" data-animate>
-            <span class="pill">AI POWERED LEGACY MODERNISATION</span>
+            <span class="pill">INTELLIGENT OPERATIONS</span>
             <h1>
-              <span>Modernise legacy platforms</span>
-              <em>without losing the logic</em>
+              <span>Fintech operations that scale</span>
+              <em>without scaling headcount</em>
             </h1>
             <p>
-              Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.
+              Transaction volumes double. Chargebacks, rules change quarterly. Your clients expect sub-hour response times around the clock.
             </p>
             <div class="hero-actions">
               <a class="btn btn-dark" href="contact">
@@ -144,20 +138,20 @@
 
           <div class="hero-stats" data-animate>
             <article class="hero-stat-card">
-              <strong>30-60%</strong>
-              <span>Faster migration delivery</span>
+              <strong>99.99%</strong>
+              <span>System uptime maintained</span>
             </article>
             <article class="hero-stat-card">
-              <strong>60-75%</strong>
-              <span>Shorter dev and review cycles</span>
+              <strong>&lt;1hr</strong>
+              <span>P1 incident response time</span>
             </article>
             <article class="hero-stat-card">
-              <strong>2-3x</strong>
-              <span>Engineer productivity uplift</span>
+              <strong>30-50%</strong>
+              <span>Cost reduction in-house</span>
             </article>
             <article class="hero-stat-card">
-              <strong>&gt;90%</strong>
-              <span>Business logic accuracy retained</span>
+              <strong>800M+</strong>
+              <span>Transactions managed</span>
             </article>
           </div>
         </section>
@@ -167,191 +161,186 @@
             <div class="section-title">
               <span class="section-kicker">The Problem</span>
               <h2>
-                <span>Legacy migration is</span>
-                <span><em>expensive, slow, and risky</em></span>
+                <span>Operations gets harder every</span>
+                <span>quarter and <em>your team is already stretched</em></span>
               </h2>
             </div>
             <p>
-              Most migration projects run over budget and over time. The business logic that took years to build.
+              Transaction volumes go up. Chargeback rules change. New scheme mandates land.
             </p>
           </div>
 
           <div class="challenge-grid" data-animate>
             <article class="challenge-card">
               <span class="challenge-number">01</span>
-              <h3>Business logic is scattered and undocumented</h3>
+              <h3>Support tickets spike, resolution slows</h3>
               <p>
-                Rules live in application code, database triggers, batch scripts, and tribal knowledge. When the people who built it leave, the understanding goes with them.
+                As your client base grows, so does the volume of inquiries, disputes, and technical issues. Without structured L1/L2/L3 tiers and proper escalation paths, everything bottlenecks at the same small team.
               </p>
             </article>
             <article class="challenge-card">
               <span class="challenge-number">02</span>
-              <h3>Traditional rewrites take too long and break things</h3>
+              <h3>Reconciliation and reporting are manual</h3>
               <p>
-                Eighteen-month migration timelines that slip to thirty months are common. By the time you finish, the target architecture is already dated - and you've introduced regressions the business discovers in production.
+                Settlements, chargebacks, scheme fees reconciled in spreadsheets, cross-checked by hand, and delivered late. One missed exception can cascade into regulatory reporting problems.
               </p>
             </article>
             <article class="challenge-card">
               <span class="challenge-number">03</span>
-              <h3>The longer you wait, the more expensive it gets</h3>
+              <h3>Fraud slips through because nobody is watching at 2am</h3>
               <p>
-                Maintenance costs on legacy platforms compound year over year. The engineers who can work on them become rarer and more expensive. Meanwhile, new features are impossible to ship at any reasonable pace.
+                Fraudsters don't work business hours. Without round-the-clock monitoring, rule-based detection, and a team that can act immediately, you find out about fraud from your clients - not your systems.
               </p>
             </article>
           </div>
         </section>
 
-        <section class="domains-section domains-section-process" id="governance-domains" data-animate>
+        <section class="domains-section domains-section-operations" id="governance-domains" data-animate>
           <div class="section-head" data-animate>
             <div class="section-title">
-              <span class="section-kicker">How We Work</span>
+              <span class="section-kicker">What We Run</span>
               <h2>
-                <em>Six Phases</em>
-                <span>Every rule traced end to end</span>
+                <em>Six Operational Domains</em>
+                <span>One Team</span>
               </h2>
             </div>
             <p>
-              We don't rewrite systems from a requirements document. We extract the actual logic from the running system, reconstruct it in a modern stack.
+              We don't just monitor dashboards. We run the full back-office — from real-time transaction monitoring through to dispute resolution.
             </p>
           </div>
 
           <div class="domains-grid" data-animate>
-            <div class="process-grid">
-              <ol class="process-flow process-flow-six" aria-label="Legacy modernisation process">
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">1</span>
-                  <strong>Extract</strong>
-                  <p>Parse source code, stored procedures, configs, and runtime behaviour into a structured knowledge base</p>
-                </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">2</span>
-                  <strong>Model</strong>
-                  <p>Map extracted business rules, dependencies, and data flows. Validate with SMEs to catch undocumented behaviour</p>
-                </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">3</span>
-                  <strong>Decompose</strong>
-                  <p>Break the system into independent migration work units that can be built and tested in parallel</p>
-                </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">4</span>
-                  <strong>Generate</strong>
-                  <p>AI produces target code and test suites using pattern-driven templates, with business rules as context</p>
-                </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">5</span>
-                  <strong>Validate</strong>
-                  <p>Five levels of equivalence testing - unit, integration, business process, performance, and UAT</p>
-                </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">6</span>
-                  <strong>Roll out</strong>
-                  <p>Phased deployment with rollback triggers, dual-run comparison, and hypercare monitoring</p>
-                </li>
-              </ol>
-            </div>
+            <article class="domain-card">
+              <h3>Transaction monitoring and uptime</h3>
+              <p>24x7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
+            </article>
+            <article class="domain-card">
+              <h3>Fraud and risk handling</h3>
+              <p>Real-time fraud detection with rule-based engines and ML models. Fraud queues, block/unblock workflows, integration with card controls and 3DS alerts. Prevention strategies and ongoing rule tuning.</p>
+            </article>
+            <article class="domain-card">
+              <h3>Customer and cardholder support</h3>
+              <p>L1 through L3 support across voice, chat, email, and in-app channels. Inquiry handling, card status updates, dispute assistance, and social media monitoring. Feedback loop to product and analytics.</p>
+            </article>
+            <article class="domain-card">
+              <h3>Disputes and chargebacks</h3>
+              <p>Full lifecycle chargeback management — rule-based tagging, document workflows, evidence gathering, and response generation. SLA tracking and Visa/Mastercard scheme alignment.</p>
+            </article>
+            <article class="domain-card">
+              <h3>Reporting and reconciliation</h3>
+              <p>Daily reconciliation of transactions, settlements, and chargebacks. Exception logs, scheduled pipelines for audit-ready data, and integration with BI tools like Power BI.</p>
+            </article>
+            <article class="domain-card">
+              <h3>Onboarding and implementation</h3>
+              <p>Platform onboarding for new clients. Merchant setup, KYC review, operations playbook creation, and weekly/monthly reporting. Secure infrastructure with role-based access.</p>
+            </article>
           </div>
         </section>
 
-        <section class="deliverables-section deliverables-section-engineering" data-animate>
+        <section class="deliverables-section deliverables-section-operations" data-animate>
           <div class="section-head section-head-dark" data-animate>
             <div class="section-title">
-              <span class="section-kicker">What We Build</span>
+              <span class="section-kicker">How It Works</span>
               <h2>
-                <span>Platform modernisation</span>
-                <em>for regulated fintechs</em>
+                <em>Structured support tiers</em>
+                <span>not ad hoc firefighting</span>
               </h2>
             </div>
             <p>
-              We work with the kinds of legacy systems fintech companies actually run.
+              We run multi-tier support with defined response times, escalation paths, and KPIs for every level.
             </p>
           </div>
 
-          <div class="engineering-build-grid" data-animate>
-            <article class="engineering-build-column">
-              <h3>Migration patterns</h3>
-              <ul class="engineering-build-list">
-                <li>Language and framework migration (e.g., .NET Framework to .NET Core, AngularJS to React)</li>
-                <li>Platform migration - on-prem to cloud-native, monolith to microservices</li>
-                <li>Database migration - Oracle to PostgreSQL, SQL Server to Aurora</li>
-                <li>Integration modernisation - SOAP to REST, point-to-point to event-driven</li>
-                <li>UI modernisation - thick client to web, legacy frontend to modern SPA</li>
+          <div class="ops-support-grid" data-animate>
+            <article class="ops-support-card">
+              <h3>L1 operations - 24x7</h3>
+              <ul class="ops-support-list">
+                <li>Customer support - voice and non-voice</li>
+                <li>Transaction analysis and service monitoring</li>
+                <li>Fraud analysis and queue management</li>
+                <li>Implementation support and client onboarding</li>
+                <li>Initial triage and ticket prioritisation</li>
               </ul>
             </article>
-            <article class="engineering-build-column">
-              <h3>Systems we understand from the inside</h3>
-              <ul class="engineering-build-list">
-                <li>Card issuing and programme management platforms</li>
-                <li>Payment processing and authorisation engines</li>
-                <li>Reconciliation and settlement workflows</li>
-                <li>Scheme integration and certification layers</li>
-                <li>Back-office operations and reporting systems</li>
+            <article class="ops-support-card">
+              <h3>L2 operations - 24x7</h3>
+              <ul class="ops-support-list">
+                <li>Production support and incident management</li>
+                <li>Infrastructure and network security</li>
+                <li>DevOps pipeline management</li>
+                <li>Complex issue investigation and RCA</li>
+                <li>Security operations and compliance support</li>
               </ul>
             </article>
           </div>
 
-          <div class="engineering-build-divider" data-animate></div>
+          <div class="delivery-cadence" data-animate>
+            <span class="delivery-cadence-kicker">AI Agents In Operations</span>
+          </div>
 
-          <div class="engineering-build-footer" data-animate>
-            <span class="engineering-build-kicker">WHAT MAKES IT FASTER</span>
-            <div class="engineering-build-cards">
-              <article class="engineering-build-card">
-                <h3>Automated extraction, not manual discovery</h3>
-                <p>
-                  AI agents parse your codebase, stored procedures, and runtime behaviour to build a structured knowledge base. What traditionally takes months of SME interviews happens in weeks.
-                </p>
-              </article>
-              <article class="engineering-build-card">
-                <h3>Parallel work units, not sequential phases</h3>
-                <p>
-                  The system is decomposed into independent migration units that can be built, tested, and deployed in parallel. Five teams working simultaneously instead of one team working sequentially.
-                </p>
-              </article>
-              <article class="engineering-build-card">
-                <h3>Proven equivalence, not hopeful testing</h3>
-                <p>
-                  We run the legacy and migrated systems side by side on the same inputs and compare outputs. No release happens without proven behavioural equivalence across all business scenarios.
-                </p>
-              </article>
-            </div>
+          <div class="deliverables-cards ops-agent-cards" data-animate>
+            <article class="deliverable-card">
+              <h3>Scheme Compliance Monitoring</h3>
+              <p>
+                Automatically tracks Visa and Mastercard bulletins, classifies changes as regulatory, policy, or informational, maps impact to affected business units, and generates compliance tickets in Jira. Replaces the manual process of reading circulars and emailing teams.
+              </p>
+            </article>
+            <article class="deliverable-card">
+              <h3>Incident Documentation Agent</h3>
+              <p>
+                Monitors DataDog, Prometheus, and PagerDuty to capture incidents automatically. Consolidates logs, metrics, and alerts into a unified timeline. Generates structured summaries, RCA skeletons, and client-ready status updates - so engineers resolve instead of documenting.
+              </p>
+            </article>
+            <article class="deliverable-card">
+              <h3>Client Onboarding Assistant</h3>
+              <p>
+                Ingests onboarding documents, extracts and validates configuration fields across ninety-plus parameters, and promotes settings across dev, staging, and production environments with controlled approvals. Cuts manual data entry and environment mismatches.
+              </p>
+            </article>
+            <article class="deliverable-card">
+              <h3>Due Diligence Agent</h3>
+              <p>
+                Screens entities against global sanctions, PEP watchlists, and adverse media. Generates onboarding risk summaries, maintains continuous re-screening of existing clients, and routes high-risk cases through enhanced due diligence workflows.
+              </p>
+            </article>
           </div>
         </section>
 
-        <section class="roadmap-section roadmap-section-legacy" data-animate>
+        <section class="roadmap-section roadmap-section-operations" data-animate>
           <div class="section-head" data-animate>
             <div class="section-title">
-              <span class="section-kicker">How We Build</span>
+              <span class="section-kicker">What Changes</span>
               <h2>
-                <span>A modern platform</span>
-                <em>not just a rewrite</em>
+                <span>Operations becomes a growth</span>
+                <span>function <em>not a cost centre</em></span>
               </h2>
             </div>
             <p>
-              The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain faster.
+              The point isn't just to keep things running. It's to run them well enough that operations.
             </p>
           </div>
 
           <div class="roadmap-grid" data-animate>
             <article class="roadmap-card">
-              <h3>Faster feature delivery</h3>
+              <h3>Scale without proportional headcount</h3>
               <p>
-                Once migration completes, your engineering team can ship new features in weeks instead of months. The modern stack removes the constraints that made every change expensive.
+                AI accelerators and automation handle the volume growth. You go from ten to fifty card programmes without a linear increase in ops cost. Outcome-based pricing means you pay for results, not seats.
               </p>
-              <span class="roadmap-phase">POST-MIGRATION VELOCITY</span>
+              <span class="roadmap-phase">30-50% COST REDUCTION</span>
             </article>
             <article class="roadmap-card">
-              <h3>Lower maintenance costs</h3>
+              <h3>Faster resolution, better CSAT</h3>
               <p>
-                Eliminate the premium you're paying for engineers who can work on legacy technology. Modern stacks have larger talent pools, better tooling, and lower operational overhead.
+                Structured tiers, intelligent triage, and AI-assisted responses mean faster first-contact resolution. Your clients notice the difference - in response times, in accuracy, and in how quickly issues close.
               </p>
-              <span class="roadmap-phase">REDUCED SME DEPENDENCY</span>
+              <span class="roadmap-phase">9/10 CLIENT CSAT</span>
             </article>
             <article class="roadmap-card">
-              <h3>Zero logic loss</h3>
+              <h3>Compliance handled, not chased</h3>
               <p>
-                Every business rule is traced from the legacy system through extraction, generation, and validation. A complete traceability matrix is maintained throughout and delivered at the end.
+                Reconciliation, scheme reporting, AML / KYC workflows, and regulatory submissions happen on schedule - not as last-minute scrambles. Audit-ready data pipelines mean you're always prepared.
               </p>
-              <span class="roadmap-phase">FULL AUDIT TRAIL</span>
+              <span class="roadmap-phase">ALWAYS AUDIT-READY</span>
             </article>
           </div>
         </section>
