@@ -15,7 +15,7 @@
 #
 # What it does:
 #   1. Verifies dev/ and prod/ are in sync (warns if they differ)
-#   2. Bumps ?v=<VERSION> on every CSS/JS link in prod/*.html
+#   2. Bumps ?v=<VERSION> on every CSS/JS link in prod/*.html and prod/*.php
 #   3. Copies prod/ into a temp build folder
 #   4. Ensures .env.example is present (must be — infra uses it to create .env)
 #   5. Strips any real .env file accidentally left in prod/

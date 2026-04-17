@@ -18,11 +18,16 @@ RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+)$ $1.html [L]
 
 # Redirect .html URLs to clean versions (301 for SEO)
+# Exempt /api/* so API endpoints (Zoho proxy, email proxy) still serve via their .php URL.
 RewriteCond %{THE_REQUEST} \s/(.+?)\.html[\s?] [NC]
+RewriteCond %1 !^api/ [NC]
 RewriteRule ^ /%1 [R=301,L]
 
 # Redirect .php URLs to clean versions (301 for SEO)
+# Exempt /api/* — the contact form POSTs to /api/zoho-proxy.php and a 301
+# would convert POST to GET and drop the form body.
 RewriteCond %{THE_REQUEST} \s/(.+?)\.php[\s?] [NC]
+RewriteCond %1 !^api/ [NC]
 RewriteRule ^ /%1 [R=301,L]
 
 # ── Redirect old WordPress URLs (trailing slash) ────────
