@@ -1,4 +1,5 @@
 import { initScrollAnimations } from './Home scenes/components/animations.js';
+import './smooth-scroll.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderLogoMarquee } from './Home scenes/sections/logoMarquee.js';
