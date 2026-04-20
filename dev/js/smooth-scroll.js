@@ -13,8 +13,31 @@
  * set, lerp wins. Without this explicit false, duration is silently
  * ignored and scroll uses lerp interpolation instead.
  *
+ * IMPORTANT: Lenis also requires companion CSS to override native smooth
+ * scroll and disable interfering behaviors. Without it, native scroll
+ * and Lenis end up competing and motion feels uniform / non-dynamic.
+ * We inject the required CSS on init below.
+ *
  * Skipped for touch devices and reduced-motion preference.
  */
+
+// Lenis's required CSS (from @studio-freight/lenis/dist/lenis.css)
+// Disables native smooth scroll, iframe interference, and overscroll quirks.
+const LENIS_CSS = `
+  html.lenis, html.lenis body { height: auto; }
+  html.lenis.lenis-smooth { scroll-behavior: auto !important; }
+  html.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  html.lenis.lenis-stopped { overflow: hidden; }
+  html.lenis.lenis-smooth iframe { pointer-events: none; }
+`;
+
+function injectLenisCSS() {
+  if (document.getElementById('lenis-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'lenis-styles';
+  style.textContent = LENIS_CSS;
+  document.head.appendChild(style);
+}
 
 const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const isTouchDevice = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
@@ -23,6 +46,10 @@ let lenis = null;
 
 export async function initSmoothScroll() {
   if (prefersReducedMotion || isTouchDevice) return null;
+
+  // Inject Lenis's required CSS BEFORE creating the instance so classes
+  // like .lenis-smooth have their scroll-behavior override ready.
+  injectLenisCSS();
 
   try {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
