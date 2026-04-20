@@ -23,10 +23,10 @@ export async function initSmoothScroll() {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
 
     lenis = new Lenis({
-      // Exact config from artechsoft.com (pulled from their Lenis instance):
-      //   duration: 2.5s with exponential ease-out
-      //   Their long duration + heavy initial easing gives a fast start
-      //   with a very long smooth tail.
+      // Exact config from artechsoft.com (pulled from their Lenis instance).
+      // IMPORTANT: lerp must be explicitly false — Lenis 1.1+ defaults to
+      // lerp: 0.1 and when both lerp and duration are set, lerp wins.
+      lerp: false,
       duration: 2.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
