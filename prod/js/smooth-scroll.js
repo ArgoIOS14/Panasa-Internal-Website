@@ -23,14 +23,22 @@ export async function initSmoothScroll() {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
 
     lenis = new Lenis({
-      // Exact config from artechsoft.com (pulled from their Lenis instance).
+      // Responsive-start, smooth-glide-end profile.
       // IMPORTANT: lerp must be explicitly false — Lenis 1.1+ defaults to
       // lerp: 0.1 and when both lerp and duration are set, lerp wins.
       lerp: false,
-      duration: 2.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      // Duration 1.2s: long enough for a smooth tail, short enough that
+      // each wheel tick makes visible motion in the first few frames.
+      duration: 1.2,
+      // easeOutQuint: front-loads ~83% of motion into the first 300ms,
+      // then the remaining ~17% glides over the last 900ms.
+      //   t=0.1 → 41% done   (feels instant)
+      //   t=0.3 → 83% done   (big visible scroll in 300ms)
+      //   t=0.5 → 97% done
+      //   t=1.0 → 100%       (smooth long glide to rest)
+      easing: (t) => 1 - Math.pow(1 - t, 5),
       smoothWheel: true,
-      wheelMultiplier: 0.8,
+      wheelMultiplier: 1,
       touchMultiplier: 1.5,
     });
 
