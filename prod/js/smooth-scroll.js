@@ -1,27 +1,34 @@
 /**
- * Custom velocity-based smooth scroll.
+ * Smooth scroll with spring physics.
  *
- * Feel: wheel events add directly to velocity (instant response on first
- * tick), velocity decays smoothly with friction so scrolling glides to a
- * stop naturally. At page boundaries the browser clamps scrollY, which
- * means velocity dissipates gracefully instead of hitting a hard wall.
+ * Model: each wheel event updates a virtual target position. Each frame
+ * the actual scroll position is pulled toward the target by a critically-
+ * damped spring (stiffness pulls toward target, damping prevents bounce).
  *
- * Disabled when user prefers reduced motion, on touch devices (native
- * momentum is better), and when the wheel event doesn't look like a
- * traditional mouse wheel (trackpads already provide native inertia).
+ * Feel:
+ * - Responsive start (spring accelerates into motion)
+ * - Buttery smooth middle (high-resolution interpolation)
+ * - Natural deceleration (spring settles into target)
+ * - Graceful boundary behavior (target clamps to page, spring eases to rest)
+ *
+ * Disabled for reduced-motion users and touch devices (native is better).
  */
 
 const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const isTouchDevice = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
 
-/* ─── Tuning ───────────────────────────────────────────────
-   Higher WHEEL_INTENSITY  → more distance per wheel tick (faster)
-   Higher FRICTION (<1)    → longer glide before stopping
-   ────────────────────────────────────────────────────────── */
-const WHEEL_INTENSITY = 0.9;
-const FRICTION = 0.88;
-const MIN_VELOCITY = 0.4;
+/* ─── Tuning ─────────────────────────────────────────────────
+   WHEEL_INTENSITY  — how far a wheel tick pushes the target
+   STIFFNESS        — how strongly spring pulls toward target  (0..1)
+   DAMPING          — friction on velocity each frame            (0..1)
+   Sweet spot: STIFFNESS ~0.1–0.15, DAMPING ~0.75–0.85
+   ─────────────────────────────────────────────────────────── */
+const WHEEL_INTENSITY = 1.3;
+const STIFFNESS = 0.11;
+const DAMPING = 0.82;
+const REST_THRESHOLD = 0.15;
 
+let targetY = 0;
 let velocity = 0;
 let running = false;
 let rafId = null;
@@ -32,24 +39,43 @@ export function initSmoothScroll() {
   if (active) return;
   active = true;
 
-  window.addEventListener('wheel', onWheel, { passive: false });
+  targetY = window.scrollY;
 
-  // Intercept in-page anchor links and animate them smoothly
+  window.addEventListener('wheel', onWheel, { passive: false });
+  window.addEventListener('resize', onResize);
   document.addEventListener('click', onAnchorClick);
 
   return { stop: stopSmoothScroll };
 }
 
+function onResize() {
+  targetY = Math.min(targetY, maxScroll());
+}
+
+function maxScroll() {
+  return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+}
+
+function clamp(v, lo, hi) {
+  return Math.max(lo, Math.min(hi, v));
+}
+
 function onWheel(e) {
-  // Bail out for trackpads / precision devices (small smooth deltas).
-  // They already provide native inertia; intercepting adds lag.
+  // Let trackpads / precision devices use native scroll — their deltas
+  // are already smooth and intercepting adds perceptible lag.
   if (e.deltaMode === 0 && Math.abs(e.deltaY) < 15) return;
 
-  // Respect ctrl+wheel (browser zoom) and horizontal scroll
+  // Pass through browser zoom and horizontal scroll
   if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
 
   e.preventDefault();
-  velocity += e.deltaY * WHEEL_INTENSITY;
+
+  // If the target was drifting behind the actual scroll position (e.g.
+  // user scrolled natively somehow), sync it before adding delta.
+  const currentY = window.scrollY;
+  if (Math.abs(targetY - currentY) > 200) targetY = currentY;
+
+  targetY = clamp(targetY + e.deltaY * WHEEL_INTENSITY, 0, maxScroll());
 
   if (!running) {
     running = true;
@@ -58,23 +84,29 @@ function onWheel(e) {
 }
 
 function tick() {
-  // Scroll by the current velocity, then decay it
-  if (Math.abs(velocity) < MIN_VELOCITY) {
+  const currentY = window.scrollY;
+  const delta = targetY - currentY;
+
+  // Spring physics:  a = (target - pos) * k ;  v = v*damping + a ;  pos += v
+  const acceleration = delta * STIFFNESS;
+  velocity = velocity * DAMPING + acceleration;
+
+  // Rest condition — both velocity and delta are tiny
+  if (Math.abs(velocity) < REST_THRESHOLD && Math.abs(delta) < REST_THRESHOLD) {
+    // Snap to exact target for pixel-perfect rest
+    window.scrollTo(0, Math.round(targetY));
     velocity = 0;
     running = false;
     return;
   }
 
-  const before = window.scrollY;
   window.scrollBy(0, velocity);
-  const after = window.scrollY;
 
-  // If the browser refused to scroll (we hit top/bottom), kill velocity
-  // so it doesn't linger. Otherwise decay with friction.
-  if (after === before) {
-    velocity *= 0.4; // quick kill at boundaries
-  } else {
-    velocity *= FRICTION;
+  // If the browser clamped us (hit top/bottom), realign target
+  const afterY = window.scrollY;
+  if (afterY !== currentY + velocity) {
+    targetY = afterY;
+    velocity = 0;
   }
 
   rafId = requestAnimationFrame(tick);
@@ -91,38 +123,24 @@ function onAnchorClick(e) {
   if (!target) return;
 
   e.preventDefault();
-  smoothScrollTo(target.getBoundingClientRect().top + window.scrollY - 20);
-  if (history.replaceState) history.replaceState(null, '', href);
-}
-
-/**
- * Custom animated scroll to a Y position using the same inertia model.
- * Duration is distance-proportional but capped for very long scrolls.
- */
-function smoothScrollTo(targetY) {
-  const startY = window.scrollY;
-  const distance = targetY - startY;
-  const duration = Math.min(700, Math.max(300, Math.abs(distance) * 0.5));
-  const startTime = performance.now();
-
-  // Cancel any wheel-driven velocity
-  velocity = 0;
-
-  function step(now) {
-    const elapsed = now - startTime;
-    const t = Math.min(elapsed / duration, 1);
-    // easeOutCubic — fast start, smooth deceleration (matches wheel feel)
-    const eased = 1 - Math.pow(1 - t, 3);
-    window.scrollTo(0, startY + distance * eased);
-    if (t < 1) requestAnimationFrame(step);
+  // Jump the spring target; the existing tick loop will animate toward it
+  targetY = clamp(
+    target.getBoundingClientRect().top + window.scrollY - 20,
+    0,
+    maxScroll()
+  );
+  if (!running) {
+    running = true;
+    rafId = requestAnimationFrame(tick);
   }
-  requestAnimationFrame(step);
+  if (history.replaceState) history.replaceState(null, '', href);
 }
 
 export function stopSmoothScroll() {
   if (!active) return;
   active = false;
   window.removeEventListener('wheel', onWheel);
+  window.removeEventListener('resize', onResize);
   document.removeEventListener('click', onAnchorClick);
   if (rafId) cancelAnimationFrame(rafId);
   velocity = 0;
