@@ -20,14 +20,11 @@ export async function initSmoothScroll() {
   try {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
 
-    // Default Lenis config — identical to lenis.dev:
-    //   duration: 1.2 seconds per scroll
-    //   easing:   exponential ease-out (fast start, smooth settle)
-    //   smoothWheel: true
-    //   wheelMultiplier: 1
-    //   touchMultiplier: 2
+    // Tuned for a longer, more cushioned glide (peteramayer.com feel).
+    // Duration bumped from the Lenis default of 1.2 → 1.5 for more
+    // cinematic deceleration; easing and multipliers are default.
     lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1,
