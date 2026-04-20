@@ -1,87 +1,136 @@
 /**
- * Lenis smooth scroll initialization.
+ * Custom velocity-based smooth scroll.
  *
- * - Disabled entirely when the user prefers reduced motion
- * - Disabled on touch devices (native momentum is better there)
- * - Intercepts anchor links (href="#...") and scrolls via Lenis
- * - Exposes the instance on window.lenis so scroll libraries
- *   (ScrollTrigger, scroll animations) can sync with its RAF loop
+ * Feel: wheel events add directly to velocity (instant response on first
+ * tick), velocity decays smoothly with friction so scrolling glides to a
+ * stop naturally. At page boundaries the browser clamps scrollY, which
+ * means velocity dissipates gracefully instead of hitting a hard wall.
+ *
+ * Disabled when user prefers reduced motion, on touch devices (native
+ * momentum is better), and when the wheel event doesn't look like a
+ * traditional mouse wheel (trackpads already provide native inertia).
  */
 
 const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const isTouchDevice = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
 
-let lenis = null;
+/* ─── Tuning ───────────────────────────────────────────────
+   Higher WHEEL_INTENSITY  → more distance per wheel tick (faster)
+   Higher FRICTION (<1)    → longer glide before stopping
+   ────────────────────────────────────────────────────────── */
+const WHEEL_INTENSITY = 0.9;
+const FRICTION = 0.88;
+const MIN_VELOCITY = 0.4;
 
-export async function initSmoothScroll() {
-  // Respect user preference — fall back to native scroll
+let velocity = 0;
+let running = false;
+let rafId = null;
+let active = false;
+
+export function initSmoothScroll() {
   if (prefersReducedMotion || isTouchDevice) return null;
+  if (active) return;
+  active = true;
 
-  try {
-    const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
+  window.addEventListener('wheel', onWheel, { passive: false });
 
-    lenis = new Lenis({
-      // High lerp for snappy, near-instant response on the first frame,
-      // then still eases smoothly to rest. Combined with a large wheel
-      // multiplier so each wheel tick covers meaningful ground.
-      lerp: 0.35,
-      smoothWheel: true,
-      wheelMultiplier: 2.2,
-      touchMultiplier: 2,
-      syncTouch: false,
-    });
+  // Intercept in-page anchor links and animate them smoothly
+  document.addEventListener('click', onAnchorClick);
 
-    // Drive Lenis via rAF
-    const raf = (time) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
+  return { stop: stopSmoothScroll };
+}
 
-    // Expose globally for other libraries to hook into
-    window.lenis = lenis;
+function onWheel(e) {
+  // Bail out for trackpads / precision devices (small smooth deltas).
+  // They already provide native inertia; intercepting adds lag.
+  if (e.deltaMode === 0 && Math.abs(e.deltaY) < 15) return;
 
-    // Intercept in-page anchor links so they animate via Lenis
-    document.addEventListener('click', (e) => {
-      const link = e.target.closest('a[href^="#"]');
-      if (!link) return;
-      const href = link.getAttribute('href');
-      if (!href || href === '#' || href.length < 2) return;
-      // Ignore links that open in new tab / have modifier keys
-      if (link.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  // Respect ctrl+wheel (browser zoom) and horizontal scroll
+  if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
 
-      const target = document.querySelector(href);
-      if (!target) return;
+  e.preventDefault();
+  velocity += e.deltaY * WHEEL_INTENSITY;
 
-      e.preventDefault();
-      lenis.scrollTo(target, { offset: -20, duration: 0.6 });
-      // Update URL hash without triggering native scroll
-      if (history.replaceState) history.replaceState(null, '', href);
-    });
-
-    return lenis;
-  } catch (err) {
-    console.warn('Lenis failed to load, using native scroll', err);
-    return null;
+  if (!running) {
+    running = true;
+    rafId = requestAnimationFrame(tick);
   }
 }
 
-export function getLenis() {
-  return lenis;
+function tick() {
+  // Scroll by the current velocity, then decay it
+  if (Math.abs(velocity) < MIN_VELOCITY) {
+    velocity = 0;
+    running = false;
+    return;
+  }
+
+  const before = window.scrollY;
+  window.scrollBy(0, velocity);
+  const after = window.scrollY;
+
+  // If the browser refused to scroll (we hit top/bottom), kill velocity
+  // so it doesn't linger. Otherwise decay with friction.
+  if (after === before) {
+    velocity *= 0.4; // quick kill at boundaries
+  } else {
+    velocity *= FRICTION;
+  }
+
+  rafId = requestAnimationFrame(tick);
+}
+
+function onAnchorClick(e) {
+  const link = e.target.closest('a[href^="#"]');
+  if (!link) return;
+  const href = link.getAttribute('href');
+  if (!href || href === '#' || href.length < 2) return;
+  if (link.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) return;
+
+  const target = document.querySelector(href);
+  if (!target) return;
+
+  e.preventDefault();
+  smoothScrollTo(target.getBoundingClientRect().top + window.scrollY - 20);
+  if (history.replaceState) history.replaceState(null, '', href);
+}
+
+/**
+ * Custom animated scroll to a Y position using the same inertia model.
+ * Duration is distance-proportional but capped for very long scrolls.
+ */
+function smoothScrollTo(targetY) {
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  const duration = Math.min(700, Math.max(300, Math.abs(distance) * 0.5));
+  const startTime = performance.now();
+
+  // Cancel any wheel-driven velocity
+  velocity = 0;
+
+  function step(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    // easeOutCubic — fast start, smooth deceleration (matches wheel feel)
+    const eased = 1 - Math.pow(1 - t, 3);
+    window.scrollTo(0, startY + distance * eased);
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
 }
 
 export function stopSmoothScroll() {
-  if (lenis) {
-    lenis.destroy();
-    lenis = null;
-    window.lenis = null;
-  }
+  if (!active) return;
+  active = false;
+  window.removeEventListener('wheel', onWheel);
+  document.removeEventListener('click', onAnchorClick);
+  if (rafId) cancelAnimationFrame(rafId);
+  velocity = 0;
+  running = false;
 }
 
-// Auto-initialize on import — page scripts just need
-// `import './smooth-scroll.js';` (side-effect import).
-// Guarded so multiple imports don't double-init.
-if (!window.__lenisInitAttempted) {
-  window.__lenisInitAttempted = true;
+// Auto-init on import
+if (!window.__smoothScrollInit) {
+  window.__smoothScrollInit = true;
   initSmoothScroll();
 }
