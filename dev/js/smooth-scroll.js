@@ -21,10 +21,11 @@ export async function initSmoothScroll() {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
 
     lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      // lerp mode: interpolate toward target each frame (consistent feel,
+      // no queued animations when scrolling fast). Higher = snappier.
+      lerp: 0.22,
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 1.8,
       touchMultiplier: 2,
     });
 
@@ -51,7 +52,7 @@ export async function initSmoothScroll() {
       if (!target) return;
 
       e.preventDefault();
-      lenis.scrollTo(target, { offset: -20 });
+      lenis.scrollTo(target, { offset: -20, duration: 0.6 });
       // Update URL hash without triggering native scroll
       if (history.replaceState) history.replaceState(null, '', href);
     });
