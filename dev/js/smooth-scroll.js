@@ -18,15 +18,17 @@ const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduc
 const isTouchDevice = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
 
 /* ─── Tuning ─────────────────────────────────────────────
-   VELOCITY_SCALE  — how much of the recent wheel speed carries into the glide (0..1)
-   FRICTION        — per-frame velocity decay (higher = longer glide)
-   WHEEL_STOP_MS   — how long after the last wheel event before glide kicks in
+   GLIDE_RATIO — how much additional glide distance (as fraction of
+                 the user's recent wheel scroll) to add after release.
+                 1.0 = glide covers the same distance they just scrolled.
+                 Higher = more dramatic Lenis-like carry-through.
+   FRICTION    — per-frame velocity decay. Higher = longer, smoother glide.
    ─────────────────────────────────────────────────────── */
-const VELOCITY_SCALE = 0.45;
-const FRICTION = 0.93;
-const WHEEL_STOP_MS = 70;
-const MIN_VELOCITY = 0.5;
-const TRACKPAD_THRESHOLD = 50; // deltaY below this on deltaMode=0 = trackpad
+const GLIDE_RATIO = 1.2;
+const FRICTION = 0.96;
+const WHEEL_STOP_MS = 60;
+const MIN_VELOCITY = 0.3;
+const TRACKPAD_THRESHOLD = 50;
 
 let recentEvents = [];
 let lastWheelAt = 0;
@@ -81,16 +83,15 @@ function onWheel(e) {
 function startGlide() {
   const now = performance.now();
   if (now - lastWheelAt < WHEEL_STOP_MS - 5) return;
-  if (recentEvents.length < 2) return;
+  if (recentEvents.length < 1) return;
 
-  const oldest = recentEvents[0];
-  const newest = recentEvents[recentEvents.length - 1];
-  const timeSpan = newest.time - oldest.time;
-  if (timeSpan < 10) return;
-
+  // Total pixels the user scrolled in the recent window
   const totalDelta = recentEvents.reduce((s, ev) => s + ev.delta, 0);
-  // Average pixels per 16ms frame, scaled down so glide feels subtle not bouncy
-  velocity = (totalDelta / timeSpan) * 16 * VELOCITY_SCALE;
+  // Desired additional glide distance (geometrically integrated)
+  const glideDistance = totalDelta * GLIDE_RATIO;
+  // For a geometric series v0 * r^n summing to D:  v0 = D * (1 - r)
+  // This makes the glide cover exactly glideDistance pixels over time.
+  velocity = glideDistance * (1 - FRICTION);
 
   if (Math.abs(velocity) < MIN_VELOCITY) {
     recentEvents.length = 0;
