@@ -21,12 +21,14 @@ export async function initSmoothScroll() {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
 
     lenis = new Lenis({
-      // lerp mode: interpolate toward target each frame (consistent feel,
-      // no queued animations when scrolling fast). Higher = snappier.
-      lerp: 0.22,
+      // High lerp for snappy, near-instant response on the first frame,
+      // then still eases smoothly to rest. Combined with a large wheel
+      // multiplier so each wheel tick covers meaningful ground.
+      lerp: 0.35,
       smoothWheel: true,
-      wheelMultiplier: 1.8,
+      wheelMultiplier: 2.2,
       touchMultiplier: 2,
+      syncTouch: false,
     });
 
     // Drive Lenis via rAF
