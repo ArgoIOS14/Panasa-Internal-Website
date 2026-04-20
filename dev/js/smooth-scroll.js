@@ -23,13 +23,13 @@ export async function initSmoothScroll() {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
 
     lenis = new Lenis({
-      // Lerp mode (not duration) — interpolates toward target each frame.
-      // Eliminates the "jittery / uneven" feel caused by overlapping
-      // duration animations when multiple wheel ticks fire in succession.
-      // 0.1 is the sweet spot used by most premium agency sites.
-      lerp: 0.1,
+      // Tuned to match artechsoft.com: they're 183 px/s avg vs our
+      // previous 549 px/s (we were 3× too fast). Also their motion
+      // lasts ~1854ms vs our 1507ms → slightly lower lerp for longer
+      // smooth deceleration.
+      lerp: 0.08,
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.4,
       touchMultiplier: 2,
     });
 
