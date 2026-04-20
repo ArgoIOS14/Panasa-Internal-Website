@@ -23,14 +23,15 @@ export async function initSmoothScroll() {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm');
 
     lenis = new Lenis({
-      // Tuned to match artechsoft.com: they're 183 px/s avg vs our
-      // previous 549 px/s (we were 3× too fast). Also their motion
-      // lasts ~1854ms vs our 1507ms → slightly lower lerp for longer
-      // smooth deceleration.
-      lerp: 0.08,
+      // Exact config from artechsoft.com (pulled from their Lenis instance):
+      //   duration: 2.5s with exponential ease-out
+      //   Their long duration + heavy initial easing gives a fast start
+      //   with a very long smooth tail.
+      duration: 2.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 0.4,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 1.5,
     });
 
     const raf = (time) => {
