@@ -138,6 +138,51 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - mint/green fade plus background grid boxes must be limited to the hero region only
   - the fade treatment should end around the trusted-logo loop / hero close, not continue through the rest of the page
   - all sections after the hero region should return to a plain white background unless a section-specific reference explicitly uses a different background
+- Site-header background rule (strict — never deviate):
+  - `.site-header` must have `background: transparent` on every page. The nav's dark pill (`.nav`) is the ONLY visible nav background.
+  - do NOT re-introduce a solid mint band behind the nav (e.g. `rgba(125, 211, 174, 0.88)` or any other colour) — the hero gradient + grid-line pattern is the intended background and the nav pill floats directly on top of it
+  - this applies on all pages including those without a hero; on white pages the nav pill just floats on white
+  - deviation requires explicit written user approval
+- Hero design element parity rule (strict — never deviate):
+  - the hero's mint → white gradient treatment, color stops, vertical extent, and nav-blending behaviour MUST match the treatment already established on the existing pages (Home, About, Careers, Contact, Services)
+  - new pages must NOT invent a different gradient colour scheme, a different fade length, a different end-colour, or a different relationship between the sticky nav and the hero background
+  - if a new page's hero content is shorter than Home's, extend the gradient so it still covers the nav + hero + any adjacent hero-adjacent element (e.g. a featured card directly under the hero) instead of ending abruptly on a short hero box
+  - the sticky nav must visually sit on the mint gradient at the top of the page — never on a plain white background — on any page that has a hero
+  - the sticky nav must stay pinned at `top: 0` on every page; do NOT set `--hero-top` on the page wrapper because that offsets `.site-header` upward. Only set `--hero-top` on the `.hero` element itself (as Home does) if a section inside the hero needs to reference it
+  - any deviation from the shared hero treatment requires explicit written approval from the user; otherwise treat the existing Home hero as the reference implementation
+- Hero background column-line pattern rule (strict — never deviate):
+  - every hero on every page must include the faint mint VERTICAL column lines that fade with the green gradient. This is the shared recipe used on Home, About, Careers, Contact, Services, Services Overview, and Resources:
+    ```
+    background:
+      linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px),  /* vertical column lines */
+      linear-gradient(180deg, <mint> 0%, <mint-soft>, <white-soft>, #ffffff); /* mint → white fade */
+    background-size: 72px 100%, 100% 100%;
+    background-position: 0 0, 0 0;
+    background-repeat: repeat-x, no-repeat;
+    ```
+  - ONLY vertical lines are drawn — no horizontal grid lines. The user reference is a columns treatment, not a waffle grid.
+  - column step = 72px on every page; do not change per page
+  - column colour = `rgba(22, 171, 109, 0.18)`; do not use a different colour or opacity per page
+  - a new page without this column pattern will look visibly different from the rest of the site; it is required
+  - deviation (horizontal lines, different step, different opacity, different colour) requires explicit written user approval
+- Page-specific stylesheet baseline rule (strict):
+  - every new page's stylesheet must include the same global reset used by Home / About / Careers / Contact / Services:
+    ```
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif; color: var(--text-dark); overflow-x: hidden; }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    ```
+  - without this baseline the shared nav renders with default browser `<a>` colour (purple/blue), default underlines, and default `<ul>` padding, which makes the nav look taller and differently coloured from the rest of the site
+  - any new page CSS file MUST open with this block before any page-specific styles
+- Footer design element parity rule (strict — never deviate):
+  - every page's footer treatment (outer green gradient field + dark translucent inner card + CTA row + columns + legal row) MUST be identical to the shared footer used on Home, About, Careers, Contact, Services
+  - footer link badges (e.g. `HIRING!`, `NEW`) MUST share the same shape/height/padding/border-radius/alignment/mobile scaling; only the colour may differ per badge
+  - do NOT create page-specific footer card colours, textures, typography, spacing, or badge shapes that diverge from the shared treatment
+  - if the footer treatment ever evolves, update the shared footer source (`shared-footer.css` + per-page static HTML + content JSON) so every page — existing and future — inherits the same result in a single pass
+  - any deviation from the shared footer treatment requires explicit written approval from the user
 - About page mobile direction now follows the supplied mobile screenshot:
   - tighter hero proportions
   - 2-column stat cards

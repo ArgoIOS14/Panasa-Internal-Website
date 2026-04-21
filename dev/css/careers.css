@@ -55,17 +55,15 @@ a {
 .careers-page {
   min-height: 100vh;
   background:
-    linear-gradient(rgba(22, 171, 109, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 171, 109, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px),
     linear-gradient(180deg, var(--mint-a) 0%, var(--mint-b) 18%, var(--mint-c) 36%, #ffffff 56%, #ffffff 100%);
   background-size:
-    72px 72px,
-    72px 72px,
+    72px 760px,
     100% 100%;
   background-position:
     0 0,
-    0 0,
     0 0;
+  background-repeat: repeat-x, no-repeat;
 }
 
 .btn {

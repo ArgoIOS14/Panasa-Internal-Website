@@ -90,20 +90,18 @@ textarea {
   top: -160px;
   height: clamp(420px, 52vw, 520px);
   background:
-    linear-gradient(rgba(22, 171, 109, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 171, 109, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px),
     linear-gradient(180deg, rgba(120, 214, 174, 0.92) 0%, rgba(189, 238, 215, 0.7) 34%, rgba(247, 255, 251, 0.42) 68%, rgba(255, 255, 255, 0) 100%),
     linear-gradient(180deg, #6ed0a8 0%, #cbeedf 28%, #ffffff 78%);
   background-size:
-    72px 72px,
-    72px 72px,
+    72px 100%,
     100% 100%,
     100% 100%;
   background-position:
     center top,
     center top,
-    center top,
     center top;
+  background-repeat: repeat-x, no-repeat, no-repeat;
   z-index: -1;
   pointer-events: none;
 }

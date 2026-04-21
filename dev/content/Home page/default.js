@@ -32,6 +32,28 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
+        "label": "Resources",
+        "href": "resources",
+        "children": [
+          {
+            "label": "Blogs",
+            "href": "resources?filter=blogs"
+          },
+          {
+            "label": "Insights",
+            "href": "resources?filter=insights"
+          },
+          {
+            "label": "Guides",
+            "href": "resources?filter=guides"
+          },
+          {
+            "label": "Case Studies",
+            "href": "resources?filter=case-studies"
+          }
+        ]
+      },
+      {
         "label": "Careers",
         "href": "careers"
       }
@@ -449,7 +471,7 @@ window.DEFAULT_CONTENT = {
     "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.",
     "ctaButton": "Book a Meeting",
     "ctaHref": "contact",
-    "showResources": false,
+    "showResources": true,
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "info@panasatech.com",
     "phones": [
@@ -474,7 +496,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Resources",
-            "href": "#resources",
+            "href": "resources",
             "isResourcesLink": true
           },
           {
@@ -495,29 +517,29 @@ window.DEFAULT_CONTENT = {
         "links": [
           {
             "label": "Blogs",
-            "href": "#resources",
+            "href": "resources?filter=blogs",
             "isResourcesLink": true
           },
           {
             "label": "Insights",
-            "href": "#resources",
+            "href": "resources?filter=insights",
             "isResourcesLink": true
           },
           {
             "label": "Guides",
-            "href": "#resources",
+            "href": "resources?filter=guides",
             "isResourcesLink": true
           },
           {
             "label": "Newsletter",
-            "href": "#resources",
+            "href": "resources?filter=newsletter",
             "isResourcesLink": true,
             "badge": "new",
             "badgeText": "NEW"
           },
           {
             "label": "Case Studies",
-            "href": "#resources",
+            "href": "resources?filter=case-studies",
             "isResourcesLink": true
           }
         ]
