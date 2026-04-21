@@ -1,5 +1,20 @@
 # AGENTS.md
 
+## Claude Code Subagents (project-level)
+
+Custom subagents live in `.claude/agents/` and are available in every Claude Code session opened at this repo root. **Use them proactively** — do not reimplement their roles inline.
+
+| Agent | When to use | Tools |
+|---|---|---|
+| `panasa-reviewer` | After any non-trivial change to admin modules, Firebase rules, the `/api/rebuild.php` pipeline, role-gating UI, or before publishing to production. Read-only code review tuned to this codebase (security, role leaks, dev/prod drift, rebuild pipeline integrity, a11y). | Read, Grep, Glob, Bash |
+| `panasa-tester` | After any new feature, bug fix, or refactor touching admin or public pages. Writes, runs, and maintains automated tests (Playwright E2E, Vitest unit, PHP endpoint scripts). Identifies coverage gaps proactively. Mutates `tests/` and dev-only tooling only; never touches production Firebase (uses emulator or flagged test project). | Read, Write, Edit, Grep, Glob, Bash |
+
+**How to invoke:** ask Claude Code naturally — e.g. "use panasa-reviewer to audit the invite flow" or "have panasa-reviewer check for dev/prod drift". Claude should reach for this agent automatically whenever a reasonable review opportunity arises (after a cluster of admin changes, before committing, after adding a new module).
+
+**Constraint:** the reviewer agent is read-only by design. It reports findings; the caller applies fixes. Do not expand its tool set to include Edit/Write without a discussion.
+
+**Adding more agents:** drop another `<name>.md` file into `.claude/agents/` with YAML frontmatter (`name`, `description`, `tools`) followed by the system prompt. Keep scope narrow — one agent per specialty (reviewer, migration runner, a11y auditor, etc.).
+
 ## Project Overview
 - Project name: `Panasa Internal Website`
 - Type: static marketing website (HTML/CSS/JS)

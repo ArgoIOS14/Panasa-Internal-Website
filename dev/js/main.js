@@ -11,6 +11,11 @@ import { renderTestimonials } from './Home scenes/sections/testimonials.js';
 import { renderWhy } from './Home scenes/sections/why.js';
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
 
+// Live preview — only loaded in ?preview=true mode (admin panel iframe)
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
+
 /* ── Section keys and their render functions ──────────────── */
 
 const SECTION_KEYS = ['nav', 'hero', 'services', 'why', 'caseStudies', 'testimonials', 'engagement', 'footer'];
@@ -24,6 +29,33 @@ const SECTION_RENDERERS = {
   testimonials: renderTestimonials,
   engagement: renderEngagement,
   footer: renderFooter,
+};
+
+/* ── Live preview hook (only active when ?preview=true) ────── */
+
+const _livePreviewHashes = {};
+
+window.__livePreviewRender = (content) => {
+  if (!content || typeof content !== 'object') return;
+  let anyChanged = false;
+  for (const [key, render] of Object.entries(SECTION_RENDERERS)) {
+    if (content[key] === undefined) continue;
+    const hash = JSON.stringify(content[key]);
+    if (hash === _livePreviewHashes[key]) continue;
+    try { render(content[key]); _livePreviewHashes[key] = hash; anyChanged = true; }
+    catch (e) { console.warn('[live-preview] ' + key + ' failed:', e); }
+  }
+  if (content.meta?.title && document.title !== content.meta.title) {
+    document.title = content.meta.title;
+  }
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc && content.meta?.description) {
+    metaDesc.setAttribute('content', content.meta.description);
+  }
+  if (anyChanged) {
+    try { initCarousel(); } catch (e) {}
+    try { initScrollAnimations(); } catch (e) {}
+  }
 };
 
 /* ── App init ─────────────────────────────────────────────── */

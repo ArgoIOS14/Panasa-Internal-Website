@@ -4,6 +4,11 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { firebaseConfig } from './firebase-config.js';
 
+
+// Live preview — only loaded in ?preview=true mode (admin panel iframe)
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
 function stripTags(str) { if (!str || typeof str !== 'string' || !str.includes('<')) return str || ''; const d = document.createElement('div'); d.innerHTML = str; return d.textContent || ''; }
 function deepStripTags(obj) { if (typeof obj === 'string') return stripTags(obj); if (Array.isArray(obj)) return obj.map(deepStripTags); if (obj && typeof obj === 'object') { const o = {}; for (const k of Object.keys(obj)) o[k] = deepStripTags(obj[k]); return o; } return obj; }
 
@@ -76,20 +81,30 @@ const initPrivacy = async () => {
     const app = initializeApp(firebaseConfig, 'privacy-reader');
     const db = getDatabase(app);
     const snapshot = await get(ref(db, 'pages/privacyPolicy'));
-    if (snapshot.exists()) {
-      const fb = deepStripTags(snapshot.val());
-      const h = fb.hero || {};
-      const pill = document.querySelector('.privacy-hero .pill');
-      const h1 = document.querySelector('.privacy-hero h1');
-      const heroP = document.querySelector('.privacy-hero p');
-      if (pill && h.pill) pill.textContent = h.pill;
-      if (h1 && (h.title || h.titleEmphasis)) h1.innerHTML = `<span>${h.title || ''}</span> <em>${h.titleEmphasis || ''}</em>`;
-      if (heroP && h.subtitle) heroP.textContent = h.subtitle;
-    }
+    if (snapshot.exists()) applyFirebaseData(snapshot.val());
   } catch (e) { console.warn('Firebase fetch failed for privacy policy', e); }
 };
 
+function applyFirebaseData(raw) {
+  if (!raw) return;
+  const fb = deepStripTags(raw);
+  const h = fb.hero || {};
+  const pill = document.querySelector('.privacy-hero .pill');
+  const h1 = document.querySelector('.privacy-hero h1');
+  const heroP = document.querySelector('.privacy-hero p');
+  if (pill && h.pill) pill.textContent = h.pill;
+  if (h1 && (h.title || h.titleEmphasis)) h1.innerHTML = `<span>${h.title || ''}</span> <em>${h.titleEmphasis || ''}</em>`;
+  if (heroP && h.subtitle) heroP.textContent = h.subtitle;
+}
+
 initPrivacy();
+
+// Live preview hook
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try { applyFirebaseData(data); } catch (e) { console.warn('[live-preview] privacy-policy failed:', e); }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {

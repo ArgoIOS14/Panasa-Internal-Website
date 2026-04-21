@@ -154,8 +154,11 @@ function imageInput(currentUrl, className) {
       if (existing) { existing.src = PLACEHOLDER; existing.classList.add('img-placeholder'); existing.alt = 'No image'; }
       clearBtn.style.display = 'none';
     }
-    // Dispatch change event for alt text auto-fill
-    hiddenInput.dispatchEvent(new Event('change'));
+    // Dispatch bubbling events so listeners on the editor container (live
+    // preview, autosave, etc.) pick up image changes. `input` is what
+    // regular text inputs emit; `change` is for alt-text auto-fill.
+    hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
+    hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   function showFeedback(msg, type) {
@@ -230,6 +233,11 @@ function imageInput(currentUrl, className) {
   // Apply pasted URL
   pasteApply.addEventListener('click', () => setUrl(urlText.value.trim()));
   urlText.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); setUrl(urlText.value.trim()); } });
+  // Auto-apply on blur so typed URLs aren't silently lost when user tabs away
+  urlText.addEventListener('blur', () => {
+    const val = urlText.value.trim();
+    if (val && val !== hiddenInput.value) setUrl(val);
+  });
 
   // Clear
   if (clearBtn) clearBtn.addEventListener('click', () => setUrl(''));
@@ -317,13 +325,56 @@ const SITE_PAGES = [
 
 function renderLabelHref(group, obj) {
   const row = el('div', 'card-row label-href-row');
-  const labelInput = `<input type="text" class="lh-label" value="${esc(obj.label || '')}" placeholder="Button text">`;
-  const options = SITE_PAGES.map(p =>
-    `<option value="${esc(p.value)}"${(obj.href || '') === p.value ? ' selected' : ''}>${esc(p.label)}</option>`
+  const currentHref = obj.href || '';
+  // Detect if the current value matches a known site page; if not (e.g.
+  // mailto:, tel:, #anchor, external URL), preserve it as a custom option
+  // so the user's custom URL isn't silently overwritten.
+  const isKnown = SITE_PAGES.some(p => p.value === currentHref);
+  const knownOptions = SITE_PAGES.map(p =>
+    `<option value="${esc(p.value)}"${currentHref === p.value ? ' selected' : ''}>${esc(p.label)}</option>`
   ).join('');
-  const hrefSelect = `<select class="lh-href lh-href-select">${options}</select>`;
+  const customOption = (!isKnown && currentHref)
+    ? `<option value="${esc(currentHref)}" selected>Custom: ${esc(currentHref)}</option>`
+    : '';
+  const customChoice = `<option value="__custom__">— Custom URL… —</option>`;
+  const labelInput = `<input type="text" class="lh-label" value="${esc(obj.label || '')}" placeholder="Button text">`;
+  const hrefSelect = `<select class="lh-href lh-href-select">${knownOptions}${customOption}${customChoice}</select>`;
   row.innerHTML = labelInput + hrefSelect;
   group.appendChild(row);
+
+  // Hidden custom-URL input revealed when user picks "— Custom URL… —"
+  const customRow = el('div', 'card-row lh-custom-row');
+  customRow.style.display = 'none';
+  customRow.style.marginTop = '6px';
+  customRow.innerHTML = `<input type="text" class="lh-custom-input field-input" placeholder="Custom URL (mailto:, tel:, #anchor, https://…)" value="${esc(!isKnown ? currentHref : '')}">`;
+  group.appendChild(customRow);
+
+  const select = row.querySelector('.lh-href-select');
+  const customInput = customRow.querySelector('.lh-custom-input');
+  select.addEventListener('change', () => {
+    if (select.value === '__custom__') {
+      customRow.style.display = '';
+      customInput.focus();
+    } else {
+      customRow.style.display = 'none';
+    }
+  });
+  // Mirror custom input into the select's value so readAllForms sees it
+  customInput.addEventListener('input', () => {
+    const val = customInput.value.trim();
+    if (!val) return;
+    // Keep/update a custom option on the select
+    let opt = select.querySelector('option[data-custom="1"]');
+    if (!opt) {
+      opt = document.createElement('option');
+      opt.dataset.custom = '1';
+      select.insertBefore(opt, select.querySelector('option[value="__custom__"]'));
+    }
+    opt.value = val;
+    opt.textContent = 'Custom: ' + val;
+    opt.selected = true;
+  });
+
   // Always show icon upload for CTAs (allows adding/changing button icons)
   const iconLabel = el('div', 'field-label');
   iconLabel.textContent = 'Button icon (optional)';
@@ -525,7 +576,10 @@ function renderServiceCards(group, sectionKey, arrayKey, items, ctx) {
     hrefRow.parentNode.insertBefore(imageInput(item.icon || '', 'sc-icon'), hrefRow.nextSibling);
     container.appendChild(card);
   });
-  group.appendChild(container);
+  addButton(group, container, '+ Add service card', () => {
+    ctx.data[sectionKey][arrayKey].push({ eyebrow: '', title: '', href: '', icon: '', bullets: [''] });
+    ctx.onRerender();
+  });
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
@@ -537,7 +591,10 @@ function renderWhyCards(group, sectionKey, arrayKey, cards, ctx) {
     card.appendChild(imageInput(c.image || '', 'wc-image'));
     container.appendChild(card);
   });
-  group.appendChild(container);
+  addButton(group, container, '+ Add card', () => {
+    ctx.data[sectionKey][arrayKey].push({ title: '', text: '', style: 'light', image: '', imageType: 'image' });
+    ctx.onRerender();
+  });
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
@@ -563,7 +620,10 @@ function renderCaseSlides(group, sectionKey, arrayKey, slides, ctx) {
     });
     container.appendChild(card);
   });
-  group.appendChild(container);
+  addButton(group, container, '+ Add case study', () => {
+    ctx.data[sectionKey][arrayKey].push({ eyebrow: '', title: '', text: '', image: '', cta: { label: 'Read Full Case Study', href: 'contact.html' }, metrics: [] });
+    ctx.onRerender();
+  });
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
@@ -768,10 +828,41 @@ function renderServiceBlocks(group, sectionKey, arrayKey, items, ctx) {
       <div class="card-row"><input type="text" class="sb-kicker" value="${esc(s.kicker || '')}" placeholder="Kicker"><input type="text" class="sb-heading" value="${esc(s.heading || '')}" placeholder="Heading"><button class="bullet-remove" data-idx="${i}">&times;</button></div>
       <div class="card-row"><input type="text" class="sb-href" value="${esc(s.href || '')}" placeholder="Link URL"></div>
       <div class="field-label" style="margin-top:6px">Items</div>
-      ${toArr(s.items).map(item => `<div class="card-row"><input type="text" class="sb-item" value="${esc(item)}" placeholder="Service item"></div>`).join('')}`;
+      ${toArr(s.items).map((item, bi) => `<div class="card-row"><input type="text" class="sb-item" value="${esc(item)}" placeholder="Service item"><button class="bullet-remove sb-item-rm" data-parent="${i}" data-idx="${bi}">&times;</button></div>`).join('')}`;
+    // Per-item remove buttons
+    card.querySelectorAll('.sb-item-rm').forEach(btn => {
+      btn.addEventListener('click', () => {
+        ctx_readForms();
+        const r = resolveDataRef(ctx.data, sectionKey);
+        const arr = Array.isArray(r[arrayKey]) ? r[arrayKey] : (r[arrayKey] ? Object.values(r[arrayKey]) : []);
+        if (arr[Number(btn.dataset.parent)]) {
+          arr[Number(btn.dataset.parent)].items = toArr(arr[Number(btn.dataset.parent)].items);
+          arr[Number(btn.dataset.parent)].items.splice(Number(btn.dataset.idx), 1);
+          r[arrayKey] = arr;
+        }
+        ctx.onRerender();
+      });
+    });
+    // + Add item per block
+    const addItem = el('button', 'add-bullet-btn');
+    addItem.textContent = '+ Add item';
+    addItem.addEventListener('click', () => {
+      ctx_readForms();
+      const r = resolveDataRef(ctx.data, sectionKey);
+      const arr = Array.isArray(r[arrayKey]) ? r[arrayKey] : (r[arrayKey] ? Object.values(r[arrayKey]) : []);
+      if (arr[i]) { arr[i].items = toArr(arr[i].items); arr[i].items.push(''); r[arrayKey] = arr; }
+      ctx.onRerender();
+    });
+    card.appendChild(addItem);
     container.appendChild(card);
   });
-  group.appendChild(container);
+  addButton(group, container, '+ Add block', () => {
+    const r = resolveDataRef(ctx.data, sectionKey);
+    const arr = Array.isArray(r[arrayKey]) ? r[arrayKey] : (r[arrayKey] ? Object.values(r[arrayKey]) : []);
+    arr.push({ kicker: '', heading: '', href: '', items: [''] });
+    r[arrayKey] = arr;
+    ctx.onRerender();
+  });
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
@@ -808,12 +899,23 @@ function confirmDeleteDefault(idx, sectionKey, arrayKey) {
 }
 
 function attachRemove(container, ctx, sectionKey, arrayKey) {
-  container.querySelectorAll(':scope > .nested-card > .card-row > .bullet-remove, :scope > .card-row > .bullet-remove').forEach(btn => {
+  // Only top-level card remove buttons — exclude bullet-remove buttons that
+  // are nested inside a card's inner repeatable (ec-bullet-rm, gc-bullet-rm,
+  // sb-item-rm) which have their own click handlers. Those sub-item buttons
+  // all have an extra class alongside .bullet-remove (e.g. .ec-bullet-rm)
+  // and carry a data-parent attribute to identify their parent card.
+  container.querySelectorAll(
+    ':scope > .nested-card > .card-row > .bullet-remove:not([data-parent]), ' +
+    ':scope > .card-row > .bullet-remove:not([data-parent])'
+  ).forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = Number(btn.dataset.idx);
       if (!confirmDeleteDefault(idx, sectionKey, arrayKey)) return;
       ctx.onRerender.readForms();
-      const arr = ctx.data[sectionKey]?.[arrayKey] ?? ctx.data[sectionKey];
+      const ref = resolveDataRef(ctx.data, sectionKey);
+      const arr = Array.isArray(ref[arrayKey]) ? ref[arrayKey] :
+                  Array.isArray(ref) ? ref :
+                  ref[arrayKey];
       if (Array.isArray(arr)) { arr.splice(idx, 1); ctx.onRerender(); }
     });
   });
@@ -857,7 +959,7 @@ export function readAllForms(editorSections, sections, data) {
         case 'image': { const img = group.querySelector('.field-image'); if (img) ref[field.key] = img.value; break; }
         case 'textarea': { const qw = group.querySelector('.quill-wrapper'); if (qw) { ref[field.key] = readQuillValue(qw, false); } else { const ta = group.querySelector('textarea'); if (ta) ref[field.key] = ta.value; } break; }
         case 'title': { const inputs = group.querySelectorAll('input'); if (inputs.length >= 2) ref[field.key] = [inputs[0].value, inputs[1].value]; break; }
-        case 'label-href': { const l = group.querySelector('.lh-label'); const h = group.querySelector('.lh-href'); const ic = group.querySelector('.lh-icon'); if (l && h) { const obj = { label: l.value, href: h.value }; if (ic && ic.value) obj.icon = ic.value; ref[field.key] = obj; } break; }
+        case 'label-href': { const l = group.querySelector('.lh-label'); const h = group.querySelector('.lh-href'); const ic = group.querySelector('.lh-icon'); if (l && h) { let href = h.value; if (href === '__custom__') href = group.querySelector('.lh-custom-input')?.value?.trim() || ''; const obj = { label: l.value, href }; if (ic && ic.value) obj.icon = ic.value; ref[field.key] = obj; } break; }
         case 'stats': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ value: c.querySelector('.rep-value')?.value || '', label: c.querySelector('.rep-label')?.value || '', icon: c.querySelector('.rep-icon')?.value || '' })); break; }
         case 'numbered-cards': { ref.cards = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ number: c.querySelector('.nc-number')?.value || '', title: c.querySelector('.nc-title')?.value || '', body: c.querySelector('.nc-body')?.value || '' })); break; }
         case 'stages': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ heading: c.querySelector('.rep-heading')?.value || '', description: c.querySelector('.rep-description')?.value || '' })); break; }
@@ -876,6 +978,13 @@ export function readAllForms(editorSections, sections, data) {
         case 'office-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ country: c.querySelector('.oc-country')?.value || '', address: c.querySelector('.oc-address')?.value || '' })); break; }
         case 'job-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ title: c.querySelector('.jc-title')?.value || '', jobId: c.querySelector('.jc-jobId')?.value || '', department: c.querySelector('.jc-department')?.value || '', locationType: c.querySelector('.jc-locationType')?.value || '', location: c.querySelector('.jc-location')?.value || '', experience: c.querySelector('.jc-experience')?.value || '' })); break; }
         case 'service-blocks': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = (Array.isArray(ref[field.key]) ? ref[field.key] : Object.values(ref[field.key] || {}))[i] || {}; return { ...existing, kicker: c.querySelector('.sb-kicker')?.value || '', heading: c.querySelector('.sb-heading')?.value || '', href: c.querySelector('.sb-href')?.value || '', items: Array.from(c.querySelectorAll('.sb-item')).map(b => b.value) }; }); break; }
+      }
+
+      // arrayAtRoot fix: the case handler wrote to ref[field.key], but the
+      // live site expects the array directly at data[sectionKey]. Promote
+      // the value to the right location.
+      if (field.arrayAtRoot && !nestedKey && Array.isArray(ref[field.key])) {
+        data[sectionKey] = ref[field.key];
       }
     }
   }

@@ -28,6 +28,7 @@
         </div>
         <div id="login-error" class="login-error"></div>
         <button type="submit" class="btn btn-primary" id="login-btn">Sign in</button>
+        <a href="#" id="forgot-password-link" class="forgot-link">Forgot password?</a>
       </form>
     </div>
   </div>
@@ -40,6 +41,9 @@
       <div class="admin-header-actions">
         <span id="rebuild-status" class="rebuild-badge"></span>
         <span id="admin-user" class="admin-user"></span>
+        <span id="admin-role-badge" class="admin-role-badge" style="display:none"></span>
+        <button id="reviews-btn" class="btn btn-secondary btn-small" style="display:none" data-help="Open the review queue.">Reviews <span id="reviews-badge" class="reviews-badge" style="display:none"></span></button>
+        <button id="my-submissions-btn" class="btn btn-secondary btn-small" style="display:none" data-help="View the status of content you\u2019ve submitted for review.">My Submissions</button>
         <button id="preview-toggle" class="btn btn-secondary btn-small" title="Toggle live preview" data-help="Preview your changes in a side panel before publishing.">Preview</button>
         <button id="history-btn" class="btn btn-secondary btn-small" data-help="View and restore previous published versions.">History</button>
         <div class="header-tools-menu">
@@ -48,6 +52,8 @@
             <button id="analytics-btn" class="tools-dropdown-item">Dashboard</button>
             <button id="audit-btn" class="tools-dropdown-item">Audit Log</button>
             <button id="bulk-ops-btn" class="tools-dropdown-item">Bulk Operations</button>
+            <button id="activity-btn" class="tools-dropdown-item" style="display:none">Activity Dashboard</button>
+            <button id="users-btn" class="tools-dropdown-item" style="display:none">Users &amp; Roles</button>
           </div>
         </div>
         <button id="help-btn" class="btn-help" title="Help & Tutorial" data-help="Open the help guide or restart the tutorial.">?</button>
@@ -100,6 +106,7 @@
         <div class="save-bar-center">
           <button id="save-btn" class="btn btn-primary" data-help="Save changes as a private draft. Won't affect the live site.">Save Draft <kbd></kbd></button>
           <button id="publish-btn" class="btn btn-publish" data-help="Make changes live on the website. Triggers an HTML rebuild for SEO.">Publish <kbd></kbd></button>
+          <button id="submit-review-btn" class="btn btn-publish" style="display:none" data-help="Send these changes to an approver for review.">Submit for Review</button>
           <span id="save-status" class="save-status"></span>
           <span id="autosave-status" class="autosave-status"></span>
         </div>

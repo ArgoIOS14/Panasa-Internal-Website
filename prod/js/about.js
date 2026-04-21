@@ -7,6 +7,11 @@ import { renderSharedTestimonials } from './Home scenes/sections/sharedTestimoni
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
 import { firebaseConfig } from './firebase-config.js';
 
+
+// Live preview — only loaded in ?preview=true mode (admin panel iframe)
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
 const TRUSTED_LOGOS = [
   { src: 'assets/logo-accelovate.svg', alt: 'Accelovate' },
   { src: 'assets/logo-paymentology.svg', alt: 'Paymentology' },
@@ -365,6 +370,14 @@ const initAbout = async () => {
 };
 
 initAbout();
+
+// Live preview hook
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try { applyAboutContent(data); }
+    catch (e) { console.warn('[live-preview] about failed:', e); }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {

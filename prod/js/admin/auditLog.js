@@ -5,6 +5,7 @@
 
 import { db, auth } from '../firebase-config.js';
 import { ref, set, get, query, orderByKey, limitToLast } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
+import { canReview } from './roles.js';
 
 /**
  * Log an action to the audit trail.
@@ -65,6 +66,10 @@ export async function loadAuditLog(limit = 50) {
  * Show the audit log modal.
  */
 export async function showAuditLogModal() {
+  if (!canReview()) {
+    alert('The audit log is available to approvers and super admins only.');
+    return;
+  }
   let modal = document.getElementById('audit-modal');
   if (!modal) {
     modal = createAuditModal();
@@ -154,6 +159,13 @@ function formatAction(action) {
     bulk_publish: 'Bulk Published',
     bulk_rebuild: 'Bulk Rebuilt',
     bulk_discard: 'Bulk Discarded',
+    submit_review: 'Submitted for review',
+    approve_review: 'Approved & published',
+    reject_review: 'Rejected review',
+    invite_user: 'Invited user',
+    change_role: 'Changed role',
+    deactivate_user: 'Deactivated user',
+    reactivate_user: 'Reactivated user',
   };
   return labels[action] || action;
 }
@@ -167,6 +179,13 @@ function getBadgeClass(action) {
     bulk_publish: 'audit-badge-publish',
     bulk_rebuild: 'audit-badge-draft',
     bulk_discard: 'audit-badge-revert',
+    submit_review: 'audit-badge-draft',
+    approve_review: 'audit-badge-publish',
+    reject_review: 'audit-badge-revert',
+    invite_user: 'audit-badge-restore',
+    change_role: 'audit-badge-restore',
+    deactivate_user: 'audit-badge-revert',
+    reactivate_user: 'audit-badge-publish',
   };
   return map[action] || '';
 }

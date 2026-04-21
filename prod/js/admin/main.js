@@ -23,6 +23,12 @@ import { initAutosave, stopAutosave, resetAutosaveHash } from './autosave.js';
 import { initAuditLog, logAction } from './auditLog.js';
 import { initBulkOps } from './bulkOps.js';
 
+// ── Multi-user / role modules ──
+import { canPublish, canReview, canManageUsers, isEditor, isSuperAdmin, currentRole, roleLabel, onRoleChange } from './roles.js';
+import { initReviews, submitForReview, refreshPendingBadge } from './reviews.js';
+import { initUsers } from './users.js';
+import { initActivityDashboard } from './activityDashboard.js';
+
 // ── Round 3 UI/UX modules ──
 import { showModal, hideModal, showToast, showSkeleton } from './animations.js';
 import { initTutorial } from './tutorial.js';
@@ -215,6 +221,10 @@ async function handleSave() {
 }
 
 async function handlePublish() {
+  // Editors route to the review submission flow instead of direct publish.
+  if (!canPublish()) {
+    return handleSubmitForReview();
+  }
   publishBtn.disabled = true;
   publishBtn.textContent = 'Publishing...';
   saveStatus.textContent = '';
@@ -287,6 +297,40 @@ async function handlePublish() {
   } finally {
     publishBtn.disabled = false;
     publishBtn.textContent = 'Publish';
+  }
+}
+
+/** Editor submission flow — writes to reviews/ instead of publishing directly. */
+async function handleSubmitForReview() {
+  const submitBtn = document.getElementById('submit-review-btn') || publishBtn;
+  const origText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+  saveStatus.textContent = '';
+  saveStatus.className = 'save-status';
+  try {
+    doReadForms();
+    pushUndoState(data);
+    validateAllFields();
+    const versionNoteInput = document.getElementById('version-note');
+    const versionNote = versionNoteInput?.value?.trim() || '';
+    // Also save a private draft so the editor keeps their local copy.
+    try { await saveDraft(getPage().fbPath, data); } catch (e) { /* best effort */ }
+    const reviewId = await submitForReview(currentPage, data, versionNote);
+    if (versionNoteInput) versionNoteInput.value = '';
+    clearLocalDraft();
+    saveStatus.textContent = 'Submitted for review';
+    saveStatus.classList.add('success');
+    showToast('Submitted for review \u2014 an approver will be notified.', 'success');
+    resetAutosaveHash();
+  } catch (err) {
+    console.error('Submit for review failed:', err);
+    saveStatus.textContent = 'Submit failed \u2014 ' + err.message;
+    saveStatus.classList.add('error');
+    showToast('Submit failed: ' + err.message, 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = origText;
   }
 }
 
@@ -576,8 +620,14 @@ pageSelect.addEventListener('change', async () => {
 saveBtn.addEventListener('click', handleSave);
 publishBtn.addEventListener('click', handlePublish);
 previewBtn.addEventListener('click', handlePreview);
+const submitReviewBtn = document.getElementById('submit-review-btn');
+if (submitReviewBtn) submitReviewBtn.addEventListener('click', handleSubmitForReview);
 
 revertBtn.addEventListener('click', async () => {
+  if (!canPublish()) {
+    showToast('Only approvers and super admins can revert to defaults.', 'error');
+    return;
+  }
   if (!confirm('Are you sure you want to revert ALL content on this page to the original defaults?\n\nThis will discard all your changes. The default content will be restored.\n\nThis action cannot be undone.')) return;
 
   // Save current state to history first as a backup
@@ -607,6 +657,65 @@ revertBtn.addEventListener('click', async () => {
 });
 
 /* ═══════════════════════════════════════════════
+   Role-driven UI gating
+   ═══════════════════════════════════════════════ */
+
+function applyRoleUi() {
+  const role = currentRole();
+  const reviewerUI = canReview();
+  const manageUI = canManageUsers();
+  const publishUI = canPublish();
+
+  // Publish vs Submit-for-review button swap
+  const submitBtn = document.getElementById('submit-review-btn');
+  if (publishUI) {
+    publishBtn.style.display = '';
+    publishBtn.textContent = 'Publish';
+    if (submitBtn) submitBtn.style.display = 'none';
+  } else {
+    publishBtn.style.display = 'none';
+    if (submitBtn) submitBtn.style.display = '';
+  }
+
+  // Revert is destructive — only publishers
+  if (revertBtn) revertBtn.style.display = publishUI ? '' : 'none';
+  const rebuildBtn = document.getElementById('rebuild-btn');
+  if (rebuildBtn) rebuildBtn.style.display = publishUI ? '' : 'none';
+
+  // Reviewer / super-admin nav buttons
+  const reviewsBtn = document.getElementById('reviews-btn');
+  if (reviewsBtn) reviewsBtn.style.display = reviewerUI ? '' : 'none';
+  const usersBtn = document.getElementById('users-btn');
+  if (usersBtn) usersBtn.style.display = manageUI ? '' : 'none';
+  const activityBtn = document.getElementById('activity-btn');
+  if (activityBtn) activityBtn.style.display = manageUI ? '' : 'none';
+
+  // Editor-only "My submissions"
+  const mySubsBtn = document.getElementById('my-submissions-btn');
+  if (mySubsBtn) mySubsBtn.style.display = (!publishUI) ? '' : 'none';
+
+  // Tools dropdown items that hit privileged data — editors can't read these.
+  const auditBtn = document.getElementById('audit-btn');
+  if (auditBtn) auditBtn.style.display = reviewerUI ? '' : 'none';
+  const analyticsBtn = document.getElementById('analytics-btn');
+  if (analyticsBtn) analyticsBtn.style.display = reviewerUI ? '' : 'none';
+  const bulkOpsBtn = document.getElementById('bulk-ops-btn');
+  if (bulkOpsBtn) bulkOpsBtn.style.display = publishUI ? '' : 'none';
+
+  // Search across all pages — only for reviewers/super admins.
+  const searchModeToggle = document.getElementById('search-mode-toggle');
+  if (searchModeToggle) searchModeToggle.style.display = reviewerUI ? '' : 'none';
+
+  // Role badge
+  const roleBadge = document.getElementById('admin-role-badge');
+  if (roleBadge && role) {
+    roleBadge.textContent = roleLabel(role);
+    roleBadge.dataset.role = role;
+    roleBadge.style.display = '';
+  }
+}
+
+/* ═══════════════════════════════════════════════
    Init
    ═══════════════════════════════════════════════ */
 
@@ -630,17 +739,33 @@ initAuth({
 
     initPreview(
       () => getPage().previewUrl,
-      () => saveDraft(getPage().fbPath, data)
+      () => saveDraft(getPage().fbPath, data),
+      () => { doReadForms(); return data; }  // live-preview data getter
     );
 
     initRebuildStatus();
     restoreRebuildState(currentPage);
 
-    // Manual rebuild button
+    // Manual rebuild button — gated to publishers.
     document.addEventListener('manual-rebuild', () => {
+      if (!canPublish()) {
+        showToast('Only approvers and super admins can rebuild HTML.', 'error');
+        return;
+      }
       doReadForms();
       triggerManualRebuild(currentPage, data, () => auth.currentUser?.getIdToken());
     });
+
+    // Multi-user modules
+    initReviews(PAGES, async (pageKey) => {
+      // After approval, if approver is viewing the same page, refresh its data.
+      if (pageKey === currentPage) await loadData();
+      refreshPendingBadge();
+    });
+    initUsers();
+    initActivityDashboard();
+    applyRoleUi();
+    onRoleChange(() => applyRoleUi());
 
     initHistoryDiff(async () => {
       const page = getPage();

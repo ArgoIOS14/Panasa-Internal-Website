@@ -4,8 +4,8 @@
         "description": "Panasa helps fintechs launch and scale with AI-native engineering, ops, and compliance."
     },
     "hero": {
-        "pill": "Trusted by fintechs across UK, EU & APAC",
-        "title": "Ship & Modernise Your Fintech in Weeks",
+        "pill": "Trusted by fintechs across UK, EU & APAC 123",
+        "title": "Ship & Modernise Your Fintech in Weeks 1234",
         "titleEmphasis": "Scale Without Surprises",
         "subtitle": "Your AI-Native Partner for Dev, Ops & Scale. No Handoffs.",
         "certBadges": [
@@ -96,7 +96,7 @@
                 ],
                 "eyebrow": "Core Build",
                 "href": "ai-accelerated-fintech-engineering.html",
-                "icon": "assets/home-services-slide-1.webp",
+                "icon": "assets/home-services-slide-4.webp",
                 "text": "",
                 "title": "AI Accelerated Fintech Engineering"
             },

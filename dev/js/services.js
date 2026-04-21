@@ -6,6 +6,11 @@ import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
 import { firebaseConfig } from './firebase-config.js';
 
+
+const _isPreview = new URLSearchParams(window.location.search).get('preview') === 'true';
+if (_isPreview) {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
 const _pageCache = {};
 
 async function fetchPageContent(path) {
@@ -26,8 +31,11 @@ async function fetchPageContent(path) {
 
 let _firebaseContent = null;
 let _firebaseFetched = false;
+let _livePreviewOverride = null;
 
 async function fetchFirebaseContent() {
+  // Live preview always wins over cached / fetched Firebase content
+  if (_livePreviewOverride) return _livePreviewOverride;
   if (_firebaseFetched) return _firebaseContent;
   _firebaseFetched = true;
   try {
@@ -1406,6 +1414,21 @@ const initServicesPage = async () => {
 };
 
 initServicesPage();
+
+// Live preview: expose render hook. All functions are defined by now.
+if (_isPreview) {
+  window.__livePreviewRender = async (data) => {
+    _livePreviewOverride = data;
+    try {
+      await applyServiceMode();
+      if (getServiceMode() === 'ai-accelerated-fintech-engineering') {
+        await applyAIAcceleratedPageCopy();
+      }
+    } catch (e) {
+      console.warn('[live-preview] services render failed:', e);
+    }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {

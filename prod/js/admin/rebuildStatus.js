@@ -19,6 +19,15 @@ export function initRebuildStatus() {
       document.dispatchEvent(new CustomEvent('manual-rebuild'));
     });
   }
+
+  // Click the failed badge to retry the rebuild
+  if (badgeEl) {
+    badgeEl.addEventListener('click', () => {
+      if (badgeEl.classList.contains('failed')) {
+        document.dispatchEvent(new CustomEvent('manual-rebuild'));
+      }
+    });
+  }
 }
 
 /**

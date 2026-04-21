@@ -1,6 +1,7 @@
 import { db, auth } from '../firebase-config.js';
 import { ref, get, set } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
 import { logAction } from './auditLog.js';
+import { canPublish } from './roles.js';
 
 /**
  * Bulk operations module for admin CMS.
@@ -22,6 +23,10 @@ export function initBulkOps(pageRegistry) {
   const btn = document.getElementById('bulk-ops-btn');
   if (btn) {
     btn.addEventListener('click', () => {
+      if (!canPublish()) {
+        alert('Only approvers and super admins can run bulk operations.');
+        return;
+      }
       if (panelEl && panelEl.style.display !== 'none') {
         hideBulkOpsPanel();
       } else {

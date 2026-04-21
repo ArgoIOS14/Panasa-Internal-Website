@@ -1,0 +1,92 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "users": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true",
+      "$uid": {
+        ".read": "auth != null && $uid === auth.uid",
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || (!data.exists() && auth.uid === $uid))",
+        ".validate": "newData.hasChildren(['email','role','active'])",
+        "role": { ".validate": "newData.val() === 'superadmin' || newData.val() === 'approver' || newData.val() === 'editor'" },
+        "email": { ".validate": "newData.isString()" },
+        "active": { ".validate": "newData.isBoolean()" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "lastActive": { ".validate": "newData.isNumber()" },
+        "invitedBy": { ".validate": "newData.isString()" },
+        "$other": { ".validate": true }
+      }
+    },
+
+    "invites": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'superadmin'",
+      "$key": {
+        ".read": "auth != null && data.child('email').val() === auth.token.email",
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || (data.exists() && data.child('email').val() === auth.token.email && !newData.exists()))",
+        ".validate": "newData.hasChildren(['email','role']) || !newData.exists()"
+      }
+    },
+
+    "pages": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true",
+      "$pageKey": {
+        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver')"
+      }
+    },
+
+    "drafts": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true",
+      "$pageKey": {
+        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true"
+      }
+    },
+
+    "history": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true",
+      "$pageKey": {
+        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver')"
+      }
+    },
+
+    "reviews": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver')",
+      ".indexOn": ["status", "submittedBy/uid"],
+      "$reviewId": {
+        ".read": "auth != null && data.child('submittedBy/uid').val() === auth.uid",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (!data.exists() || root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver' || data.child('submittedBy/uid').val() === auth.uid)"
+      }
+    },
+
+    "userReviews": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver')",
+        ".write": "auth != null && auth.uid === $uid",
+        "$reviewId": {
+          ".validate": "newData.isBoolean() || !newData.exists()"
+        }
+      }
+    },
+
+    "audit": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver')",
+      "$ts": {
+        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && !data.exists()"
+      }
+    },
+
+    "presence": {
+      ".read": "auth != null",
+      "$pageKey": {
+        ".write": "auth != null",
+        "$sessionId": { ".write": "auth != null" }
+      }
+    },
+
+    "content": { ".read": true },
+    "_rebuilds": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true",
+      "$ts": { ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true" }
+    }
+  }
+}

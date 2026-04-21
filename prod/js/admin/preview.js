@@ -1,22 +1,34 @@
 /**
  * Live preview panel for admin CMS.
- * Shows an iframe with the page being edited in a split view.
+ *
+ * Two update channels:
+ *  1. LIVE (primary)    — postMessage current data to the iframe on every
+ *                          field change (debounced 150ms). No reload, no
+ *                          Firebase roundtrip. Updates appear instantly.
+ *  2. FALLBACK (backup) — if the iframe doesn't have live-preview-receiver,
+ *                          fall back to save-draft + iframe reload (old
+ *                          behavior, ~1s delay). Triggered if we haven't
+ *                          heard a "ready" handshake from the iframe.
  */
 
 let previewActive = false;
 let iframe = null;
-let refreshTimer = null;
+let liveTimer = null;
+let fallbackTimer = null;
 let getUrlFn = null;
+let getDataFn = null;
 let saveFn = null;
+let livePreviewReady = false; // true once iframe sends the ready handshake
 
 /**
- * Initialize preview system.
  * @param {Function} getPreviewUrl - Returns current page's preview URL
- * @param {Function} saveDraftFn - Saves the current draft (async)
+ * @param {Function} saveDraftFn   - async: saves current draft (fallback only)
+ * @param {Function} getCurrentData - Returns the current in-memory data object
  */
-export function initPreview(getPreviewUrl, saveDraftFn) {
+export function initPreview(getPreviewUrl, saveDraftFn, getCurrentData) {
   getUrlFn = getPreviewUrl;
   saveFn = saveDraftFn;
+  getDataFn = getCurrentData;
 
   const toggleBtn = document.getElementById('preview-toggle');
   const closeBtn = document.getElementById('preview-close');
@@ -25,7 +37,6 @@ export function initPreview(getPreviewUrl, saveDraftFn) {
   if (toggleBtn) toggleBtn.addEventListener('click', togglePreview);
   if (closeBtn) closeBtn.addEventListener('click', closePreview);
 
-  // Device toggle buttons
   document.querySelectorAll('[data-device]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('[data-device]').forEach(b => b.classList.remove('active'));
@@ -36,27 +47,73 @@ export function initPreview(getPreviewUrl, saveDraftFn) {
     });
   });
 
-  // Listen for editor changes to auto-refresh preview
+  // Listen for live-preview-ready handshake from the iframe
+  window.addEventListener('message', onIframeMessage);
+
+  // Listen for editor changes
   const editor = document.querySelector('.admin-editor') || document.getElementById('editor-sections');
   if (editor) {
-    editor.addEventListener('input', debounceRefresh);
-    editor.addEventListener('change', debounceRefresh);
+    editor.addEventListener('input', onEditorChange);
+    editor.addEventListener('change', onEditorChange);
   }
 }
 
-/**
- * Toggle preview panel on/off.
- */
-export function togglePreview() {
-  if (previewActive) {
-    closePreview();
-  } else {
-    openPreview();
+function onIframeMessage(event) {
+  if (!event.data || typeof event.data !== 'object') return;
+  if (event.data.type === 'panasa-live-preview-ready') {
+    livePreviewReady = true;
+    console.log('[live-preview] Handshake received from iframe');
   }
+}
+
+function onEditorChange() {
+  if (!previewActive) return;
+
+  if (livePreviewReady) {
+    // LIVE: debounced postMessage (fast)
+    clearTimeout(liveTimer);
+    liveTimer = setTimeout(sendLiveUpdate, 150);
+  } else {
+    console.log('[live-preview] editor changed but handshake not received yet — falling back to save+reload');
+    // FALLBACK: debounced save-draft + reload (slow)
+    clearTimeout(fallbackTimer);
+    fallbackTimer = setTimeout(fallbackRefresh, 1000);
+  }
+}
+
+function sendLiveUpdate() {
+  if (!iframe || !iframe.contentWindow || !getDataFn) return;
+  try {
+    const data = getDataFn();
+    if (!data) return;
+    console.log('[live-preview] Sending update to iframe', Object.keys(data));
+    iframe.contentWindow.postMessage({
+      type: 'panasa-live-preview',
+      data,
+    }, '*');
+  } catch (e) {
+    // If postMessage fails (e.g., cross-origin), fall back
+    livePreviewReady = false;
+    fallbackRefresh();
+  }
+}
+
+async function fallbackRefresh() {
+  if (!previewActive) return;
+  if (typeof saveFn === 'function') {
+    try { await saveFn(); } catch (e) { /* non-blocking */ }
+  }
+  loadIframe();
+}
+
+export function togglePreview() {
+  if (previewActive) closePreview();
+  else openPreview();
 }
 
 function openPreview() {
   previewActive = true;
+  livePreviewReady = false; // Reset handshake; iframe will announce when ready
   document.body.classList.add('preview-active');
   const panel = document.getElementById('preview-panel');
   if (panel) panel.style.display = 'flex';
@@ -67,13 +124,13 @@ function openPreview() {
   loadIframe();
 }
 
-/**
- * Close preview panel.
- */
 export function closePreview() {
   previewActive = false;
-  clearTimeout(refreshTimer);
-  refreshTimer = null;
+  livePreviewReady = false;
+  clearTimeout(liveTimer);
+  clearTimeout(fallbackTimer);
+  liveTimer = null;
+  fallbackTimer = null;
   document.body.classList.remove('preview-active');
   const panel = document.getElementById('preview-panel');
   if (panel) panel.style.display = 'none';
@@ -84,9 +141,6 @@ export function closePreview() {
   if (iframe) iframe.src = 'about:blank';
 }
 
-/**
- * Refresh the preview iframe (debounced).
- */
 export function refreshPreview() {
   if (!previewActive) return;
   loadIframe();
@@ -94,19 +148,13 @@ export function refreshPreview() {
 
 function loadIframe() {
   if (!iframe || !getUrlFn) return;
-  const url = getUrlFn();
+  let url = getUrlFn();
   if (!url) return;
+  // Strip .html so we hit the clean-URL path directly, avoiding a redirect
+  // that could drop the query string and prevent live preview from loading.
+  url = url.replace(/\.html(?=\?|$)/, '');
   const separator = url.includes('?') ? '&' : '?';
   iframe.src = url + separator + 'preview=true&t=' + Date.now();
-}
-
-function debounceRefresh() {
-  if (!previewActive) return;
-  clearTimeout(refreshTimer);
-  refreshTimer = setTimeout(async () => {
-    if (typeof saveFn === 'function') {
-      try { await saveFn(); } catch (e) { /* non-blocking */ }
-    }
-    loadIframe();
-  }, 1000);
+  // Reset handshake — new iframe load will announce readiness
+  livePreviewReady = false;
 }

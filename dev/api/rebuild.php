@@ -167,7 +167,7 @@ try {
     // ── Phase 2.5: Validate rebuilt HTML before writing ──
 
     $originalHtml = file_get_contents($devHtmlPath);
-    $validationErrors = validateRebuiltHtml($html, $originalHtml);
+    $validationErrors = validateRebuiltHtml($html, $originalHtml, $pageKey);
 
     if (!empty($validationErrors)) {
         // Rebuild produced corrupted HTML — reject the write, keep original safe
@@ -243,7 +243,7 @@ function jsonResponse(string $status, string $message): void {
  * Validate rebuilt HTML before writing to disk.
  * Returns an array of error messages. Empty = valid.
  */
-function validateRebuiltHtml(string $newHtml, string $originalHtml): array {
+function validateRebuiltHtml(string $newHtml, string $originalHtml, string $pageKey = ''): array {
     $errors = [];
 
     // 1. Must not be empty or too small
@@ -272,10 +272,13 @@ function validateRebuiltHtml(string $newHtml, string $originalHtml): array {
         }
     }
 
-    // 5. Must still have key data attributes (not stripped by bad replacement)
-    $requiredAttrs = ['data-hero-title', 'data-services-slides', 'data-footer-cta-title'];
-    foreach ($requiredAttrs as $attr) {
-        if (strpos($newHtml, $attr) === false) {
+    // 5. Key data attributes differ per page. Only check that attributes
+    //    which existed in the ORIGINAL still exist in the new HTML.
+    $keyAttrs = ['data-hero-title', 'data-services-slides', 'data-footer-cta-title',
+                 'data-hero-cta-primary', 'data-case-slides', 'data-engagement-grid'];
+    foreach ($keyAttrs as $attr) {
+        // Only require the attribute if it existed in the original HTML
+        if (strpos($originalHtml, $attr) !== false && strpos($newHtml, $attr) === false) {
             $errors[] = "Missing key attribute: {$attr}";
         }
     }

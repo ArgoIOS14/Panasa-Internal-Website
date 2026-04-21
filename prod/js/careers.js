@@ -4,6 +4,11 @@ import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { firebaseConfig } from './firebase-config.js';
 
+
+// Live preview — only loaded in ?preview=true mode (admin panel iframe)
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
 const initFilters = () => {
   const search = document.querySelector('.search-wrap input');
   const deptSelect = document.getElementById('department');
@@ -133,6 +138,14 @@ const initCareers = async () => {
 };
 
 initCareers();
+
+// Live preview hook
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try { applyCareersContent(data ? deepStripTags(data) : null); }
+    catch (e) { console.warn('[live-preview] careers failed:', e); }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {

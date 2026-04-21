@@ -5,8 +5,8 @@ export const defaults = {
     pill: 'AI POWERED LEGACY MODERNISATION',
     title: ['Modernise legacy platforms', 'without losing the logic'],
     subtitle: 'Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.',
-    primaryCta: 'Talk to our team',
-    secondaryCta: 'View Case Studies',
+    primaryCta: { label: 'Talk to our team', href: 'contact.html' },
+    secondaryCta: { label: 'View Case Studies', href: '#careers' },
     trustedKicker: 'TRUSTED BY HIGH-GROWTH FINTECHS',
     stats: [
       { value: '30-60%', label: 'Faster migration delivery' },
@@ -108,7 +108,7 @@ export const defaults = {
 };
 
 export const sections = [
-  { key: 'hero', label: 'Hero Section', fields: [{ key: 'pill', label: 'Pill text', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'subtitle', label: 'Subtitle', type: 'textarea' }, { key: 'primaryCta', label: 'Primary CTA', type: 'text' }, { key: 'secondaryCta', label: 'Secondary CTA', type: 'text' }, { key: 'trustedKicker', label: 'Trusted kicker', type: 'text' }, { key: 'stats', label: 'Stats', type: 'stats' }] },
+  { key: 'hero', label: 'Hero Section', fields: [{ key: 'pill', label: 'Pill text', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'subtitle', label: 'Subtitle', type: 'textarea' }, { key: 'primaryCta', label: 'Primary CTA', type: 'label-href' }, { key: 'secondaryCta', label: 'Secondary CTA', type: 'label-href' }, { key: 'trustedKicker', label: 'Trusted kicker', type: 'text' }, { key: 'stats', label: 'Stats', type: 'stats' }] },
   { key: 'challenge', label: 'The Problem', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Problem cards', type: 'numbered-cards' }] },
   { key: 'howWeWork', label: 'How We Work', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'stages', label: 'Process stages', type: 'stages' }] },
   { key: 'whatWeBuild', label: 'What We Build', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'columns', label: 'Capability columns', type: 'columns' }, { key: 'deliveryKicker', label: 'Delivery kicker', type: 'text' }, { key: 'deliveryCards', label: 'Delivery cards', type: 'heading-body-cards' }] },

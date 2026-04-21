@@ -4,6 +4,11 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { firebaseConfig } from './firebase-config.js';
 
+
+// Live preview — only loaded in ?preview=true mode (admin panel iframe)
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
 const resolveToSiteHref = (href) => {
   if (href === '#contact') return 'contact.html';
   if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
@@ -384,6 +389,14 @@ const initContact = async () => {
 };
 
 initContact();
+
+// Live preview hook
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try { applyContactContent(data ? deepStripTags(data) : null); }
+    catch (e) { console.warn('[live-preview] contact failed:', e); }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {

@@ -83,14 +83,20 @@ function validateSingleField(input) {
 
 /**
  * Detect field type from context.
+ * Uses class names and input attributes rather than parent-class heuristics
+ * (parent-class matching incorrectly flagged CTA labels as URLs).
  */
 function detectFieldType(input) {
+  // Class-based — most reliable
+  if (input.classList.contains('lh-label')) return 'text';       // CTA label is free text
+  if (input.classList.contains('lh-href'))  return 'url';        // CTA URL/path field
+  if (input.classList.contains('lh-icon'))  return 'image';      // CTA icon inside image widget (skipped anyway)
+
   const name = (input.name || '').toLowerCase();
   const label = getFieldLabel(input).toLowerCase();
-  const parentClass = input.parentElement?.className || '';
 
-  if (name.includes('href') || name.includes('url') || label.includes('url') || label.includes('link') ||
-      parentClass.includes('label-href')) {
+  // Attribute / name / label heuristics
+  if (name.includes('href') || name.includes('url') || label.includes('url') || label.includes('link')) {
     return 'url';
   }
   if (name.includes('email') || label.includes('email')) {
@@ -119,14 +125,18 @@ function isRequiredField(input) {
 }
 
 /**
- * Get the label text for a field.
+ * Get the label text for a field. Fields are wrapped in .field-group
+ * with a preceding .field-label element (see fields.js renderField).
  */
 function getFieldLabel(input) {
-  const row = input.closest('.field-row');
-  if (row) {
-    const label = row.querySelector('label');
-    if (label) return label.textContent;
+  const group = input.closest('.field-group');
+  if (group) {
+    const lbl = group.querySelector('.field-label');
+    if (lbl) return lbl.textContent;
+    // Fallback: field-group's data-field-key attribute
+    if (group.dataset?.fieldKey) return group.dataset.fieldKey;
   }
+  // Fallback to placeholder / name
   return input.placeholder || input.name || '';
 }
 
