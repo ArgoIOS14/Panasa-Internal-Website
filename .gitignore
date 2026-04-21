@@ -3,3 +3,6 @@ panasa-static-site.zip
 panasa-deploy-v*.zip
 .env
 router.php
+
+# Claude Code subagents live at ~/.claude/agents/ instead.
+.claude/agents/
