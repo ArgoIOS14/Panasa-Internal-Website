@@ -57,9 +57,7 @@ a {
   position: relative;
 }
 
-/* Hero treatment — vertical column lines + mint→white fade, both fading
-   together to transparent so the page returns cleanly to white below the
-   mint zone (no lingering column lines on the white area). */
+/* Gradient layer — extends through nav + hero. */
 .careers-page::before {
   content: '';
   position: absolute;
@@ -67,18 +65,26 @@ a {
   left: 0;
   right: 0;
   height: 760px;
-  background:
-    linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px),
-    linear-gradient(180deg, var(--mint-a) 0%, var(--mint-b) 22%, var(--mint-c) 50%, rgba(255, 255, 255, 0) 100%);
-  background-size:
-    72px 100%,
-    100% 100%;
-  background-position:
-    0 0,
-    0 0;
-  background-repeat: repeat-x, no-repeat;
+  background: linear-gradient(180deg, var(--mint-a) 0%, var(--mint-b) 22%, var(--mint-c) 50%, rgba(255, 255, 255, 0) 100%);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
           mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Column-line layer — fades out BEFORE the main title. */
+.careers-page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 760px;
+  background: linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px);
+  background-size: 72px 100%;
+  background-repeat: repeat-x;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+          mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
   z-index: -1;
   pointer-events: none;
 }

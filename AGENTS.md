@@ -150,24 +150,30 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - the sticky nav must visually sit on the mint gradient at the top of the page — never on a plain white background — on any page that has a hero
   - the sticky nav must stay pinned at `top: 0` on every page; do NOT set `--hero-top` on the page wrapper because that offsets `.site-header` upward. Only set `--hero-top` on the `.hero` element itself (as Home does) if a section inside the hero needs to reference it
   - any deviation from the shared hero treatment requires explicit written approval from the user; otherwise treat the existing Home hero as the reference implementation
-- Hero background column-line pattern rule (strict — never deviate):
-  - every hero on every page must include the faint mint VERTICAL column lines that fade with the green gradient. Shared recipe:
+- Hero background layers rule (strict — never deviate):
+  - every hero on every page uses TWO separate stacking layers (typically `::before` + `::after` on a hero wrapper, each at `z-index: -1`):
+    1. **Gradient layer** — mint → transparent vertical fade. Covers nav + hero copy + any hero-adjacent element (e.g. featured card directly below hero)
+    2. **Column-line layer** — faint mint vertical columns at 72px step, `rgba(22, 171, 109, 0.18)`. **Fades out BEFORE the hero's main title so the title never sits on a striped background.**
+  - Gradient layer recipe:
     ```
-    background:
-      linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px),  /* vertical column lines */
-      linear-gradient(180deg, <mint> 0%, <mint-soft>, <white-soft>, rgba(255, 255, 255, 0) 100%); /* mint → transparent */
-    background-size: 72px 100%, 100% 100%;
-    background-repeat: repeat-x, no-repeat;
+    background: linear-gradient(180deg, <mint> 0%, …, rgba(255, 255, 255, 0) 100%);
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
             mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
     ```
+  - Column layer recipe (tight fade in pixel units, not %, so it ends reliably near the nav regardless of hero height):
+    ```
+    background: linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px);
+    background-size: 72px 100%;
+    background-repeat: repeat-x;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+            mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+    ```
+  - Column fade end-point (`transparent <N>px`) MUST sit above the hero's main title. Default `220px` from the top of the masked element works for most layouts; increase only if a specific hero puts its title lower. Never let columns render across the title area.
   - ONLY vertical lines are drawn — no horizontal grid lines
-  - column step = 72px on every page; do not change per page
-  - column colour = `rgba(22, 171, 109, 0.18)`; do not use a different colour or opacity per page
-  - the mint gradient MUST end in `rgba(255, 255, 255, 0)` (transparent) and the whole layer MUST carry the shared `mask-image` so gradient + columns fade together. Do NOT let columns paint on the white area of the page — they must disappear with the gradient
-  - the hero background layer (gradient + columns) MUST extend UP behind the sticky nav pill (typically via `top: -120px` on a `::before`, or `background-size: … 760px` starting at `0 0`). The nav must always float on the mint gradient, never on plain white
-  - any wrapper that hosts the hero `::before` must NOT set `overflow: hidden` — it will clip the gradient extension above the nav. Removing this is a one-time fix; new pages should never re-introduce it on the hero wrapper
-  - deviation (horizontal lines, different step, different opacity, different colour, no mask, gradient starting below nav) requires explicit written user approval
+  - column step = 72px and colour `rgba(22, 171, 109, 0.18)` on every page; do not change per page
+  - the gradient layer MUST extend UP behind the sticky nav pill (typically via `top: -120px` on a `::before`, or `background-size: … 760px` starting at `0 0`). The nav must always float on the mint gradient, never on plain white
+  - any wrapper that hosts the hero pseudos MUST NOT set `overflow: hidden` — it will clip the gradient extension above the nav
+  - deviation (horizontal lines, different step/colour/opacity, column layer extending past the title, no mask on either layer, gradient starting below nav) requires explicit written user approval
 - Page-specific stylesheet baseline rule (strict):
   - every new page's stylesheet must include the same global reset used by Home / About / Careers / Contact / Services:
     ```
