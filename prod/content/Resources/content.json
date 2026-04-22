@@ -14,7 +14,7 @@
     "title": "The AI Advantage: Reshaping Talent Acquisition in 2025",
     "date": "06 APR 2026",
     "author": "AUTHOR",
-    "image": "",
+    "image": "assets/resources-featured.webp",
     "href": "contact"
   },
   "filters": ["All", "Blogs", "Insights", "Guides", "Case Studies"],
@@ -30,7 +30,7 @@
       "excerpt": "Reduced transaction fraud by 62% using real-time AI-based anomaly detection across high-volume payment flows.",
       "date": "06 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     },
     {
@@ -39,7 +39,7 @@
       "excerpt": "Why embedded finance is reshaping digital ecosystems and how businesses can leverage it for growth.",
       "date": "06 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     },
     {
@@ -48,7 +48,7 @@
       "excerpt": "Avoid these critical mistakes when designing user experiences for financial products, ensuring better usability and trust.",
       "date": "07 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     },
     {
@@ -57,7 +57,7 @@
       "excerpt": "From KYC automation to fraud checks, AI is transforming onboarding flows, making them faster and more reliable.",
       "date": "07 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     },
     {
@@ -66,7 +66,7 @@
       "excerpt": "Step-by-step breakdown of architecture, APIs, and compliance requirements for modern payment systems.",
       "date": "08 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     },
     {
@@ -75,7 +75,7 @@
       "excerpt": "How we built a scalable infrastructure to handle rapid user growth while maintaining compliance and performance.",
       "date": "07 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     },
     {
@@ -84,7 +84,7 @@
       "excerpt": "How leading European fintechs are embedding compliance into every engineering decision from day one.",
       "date": "08 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     },
     {
@@ -93,7 +93,7 @@
       "excerpt": "A practical guide to building ledger systems that survive scale, failure, and regulatory audits.",
       "date": "09 APR 2026",
       "author": "AUTHOR",
-      "image": "",
+      "image": "assets/resources-card-placeholder.webp",
       "href": "contact"
     }
   ]
