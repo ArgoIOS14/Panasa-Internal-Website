@@ -68,24 +68,34 @@ ul {
 
 .resources-page {
   position: relative;
-  /* Hero treatment — matches About / Careers / Contact / Services:
-     mint → white fade PLUS subtle grid-line overlay fading away with the green.
-     The `--hero-top` override is intentionally NOT set so `.site-header` stays
-     pinned at `top: 0` like every other page. */
-  /* Shared hero pattern — vertical column lines + mint→white fade.
-     Only vertical lines are drawn (no horizontal grid). Column step = 72px.
-     Lines use mint at 0.18 alpha so they're visible over the green but
-     fade to near-invisible as the gradient whitens. */
+  min-height: 100vh;
+}
+
+/* Hero treatment — vertical column lines + mint→white fade, both fading
+   together to transparent so the page returns cleanly to white below the
+   mint zone (no lingering column lines on the white area). Matches
+   About / Careers / Contact / Services / Services-Overview. */
+.resources-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 760px;
   background:
     linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px),
-    linear-gradient(180deg, #7bd3ae 0%, #cfeee0 10%, #f7fff9 22%, #ffffff 28%);
+    linear-gradient(180deg, #7bd3ae 0%, #cfeee0 25%, #f7fff9 55%, rgba(255, 255, 255, 0) 100%);
   background-size:
-    72px 760px,
+    72px 100%,
     100% 100%;
   background-position:
     0 0,
     0 0;
   background-repeat: repeat-x, no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* ── Fade-in animations ──────────────────────────────────────────── */

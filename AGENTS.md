@@ -151,20 +151,23 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - the sticky nav must stay pinned at `top: 0` on every page; do NOT set `--hero-top` on the page wrapper because that offsets `.site-header` upward. Only set `--hero-top` on the `.hero` element itself (as Home does) if a section inside the hero needs to reference it
   - any deviation from the shared hero treatment requires explicit written approval from the user; otherwise treat the existing Home hero as the reference implementation
 - Hero background column-line pattern rule (strict — never deviate):
-  - every hero on every page must include the faint mint VERTICAL column lines that fade with the green gradient. This is the shared recipe used on Home, About, Careers, Contact, Services, Services Overview, and Resources:
+  - every hero on every page must include the faint mint VERTICAL column lines that fade with the green gradient. Shared recipe:
     ```
     background:
       linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px),  /* vertical column lines */
-      linear-gradient(180deg, <mint> 0%, <mint-soft>, <white-soft>, #ffffff); /* mint → white fade */
+      linear-gradient(180deg, <mint> 0%, <mint-soft>, <white-soft>, rgba(255, 255, 255, 0) 100%); /* mint → transparent */
     background-size: 72px 100%, 100% 100%;
-    background-position: 0 0, 0 0;
     background-repeat: repeat-x, no-repeat;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+            mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
     ```
-  - ONLY vertical lines are drawn — no horizontal grid lines. The user reference is a columns treatment, not a waffle grid.
+  - ONLY vertical lines are drawn — no horizontal grid lines
   - column step = 72px on every page; do not change per page
   - column colour = `rgba(22, 171, 109, 0.18)`; do not use a different colour or opacity per page
-  - a new page without this column pattern will look visibly different from the rest of the site; it is required
-  - deviation (horizontal lines, different step, different opacity, different colour) requires explicit written user approval
+  - the mint gradient MUST end in `rgba(255, 255, 255, 0)` (transparent) and the whole layer MUST carry the shared `mask-image` so gradient + columns fade together. Do NOT let columns paint on the white area of the page — they must disappear with the gradient
+  - the hero background layer (gradient + columns) MUST extend UP behind the sticky nav pill (typically via `top: -120px` on a `::before`, or `background-size: … 760px` starting at `0 0`). The nav must always float on the mint gradient, never on plain white
+  - any wrapper that hosts the hero `::before` must NOT set `overflow: hidden` — it will clip the gradient extension above the nav. Removing this is a one-time fix; new pages should never re-introduce it on the hero wrapper
+  - deviation (horizontal lines, different step, different opacity, different colour, no mask, gradient starting below nav) requires explicit written user approval
 - Page-specific stylesheet baseline rule (strict):
   - every new page's stylesheet must include the same global reset used by Home / About / Careers / Contact / Services:
     ```
