@@ -27,6 +27,22 @@ const tagClassFor = (category) =>
 
 const categoryLabel = (category) => (category || '').toUpperCase();
 
+/* Per-category read-more arrow — same pattern as resources.js so cards
+   rendered on the Resources page and cards rendered inside the "More X"
+   grid on detail pages stay visually aligned. */
+const READMORE_ARROW_BY_CATEGORY = {
+  'Blog':         'readmore-blog.svg',
+  'Blogs':        'readmore-blog.svg',
+  'Insights':     'readmore-insights.svg',
+  'Insight':      'readmore-insights.svg',
+  'Guide':        'readmore-guide.svg',
+  'Guides':       'readmore-guide.svg',
+  'Case Study':   'readmore-casestudies.svg',
+  'Case Studies': 'readmore-casestudies.svg',
+};
+const readMoreArrowFor = (category) =>
+  READMORE_ARROW_BY_CATEGORY[category] || 'readmore-blog.svg';
+
 /* Blog pages live one level deep (`/blog/<slug>`), so any link or asset path
    targeting a sibling (e.g. `blog/<slug>`, `contact`, `assets/foo.webp`) must
    be prefixed with `../`. Leaves already-resolved paths alone. */
@@ -78,7 +94,7 @@ const renderResourceCard = (item) => {
   body.appendChild(meta);
 
   const readMore = createEl('span', 'resource-card-read-more');
-  readMore.innerHTML = 'Read More <img src="../assets/resources-read-more-arrow.svg" alt="" aria-hidden="true" />';
+  readMore.innerHTML = `Read More <img src="../assets/${readMoreArrowFor(item.category)}" alt="" aria-hidden="true" />`;
   body.appendChild(readMore);
 
   card.appendChild(body);
@@ -105,19 +121,28 @@ const renderCallout = (block) => {
   if (block.cta?.label) {
     const btn = createEl('a', 'blog-callout-cta');
     btn.href = resolveRelativePath(block.cta.href || 'contact', '../contact');
-    btn.textContent = block.cta.label;
+
     const variant = (block.cta.variant || '').toLowerCase();
-    if (variant === 'ghost') btn.classList.add('blog-callout-cta--ghost');
-    else if (variant === 'dark') btn.classList.add('blog-callout-cta--dark');
-    else {
-      // Default heuristic: View Case Study → ghost; everything else → dark
+    let resolved = variant;
+    if (variant !== 'ghost' && variant !== 'dark') {
       const label = (block.cta.label || '').toLowerCase();
-      if (label.includes('view') || label.includes('case study')) {
-        btn.classList.add('blog-callout-cta--ghost');
-      } else {
-        btn.classList.add('blog-callout-cta--dark');
-      }
+      resolved = (label.includes('view') || label.includes('case study')) ? 'ghost' : 'dark';
     }
+    btn.classList.add(`blog-callout-cta--${resolved}`);
+
+    // Prepend matching icon. talktoteam-colored for the default CTA,
+    // casestudy-colored for the ghost "View Case Study" variant.
+    const iconFile = resolved === 'ghost' ? 'casestudy-colored.svg' : 'taltoteam-colored.svg';
+    const icon = createEl('img', 'blog-callout-cta-icon');
+    icon.src = `../assets/${iconFile}`;
+    icon.alt = '';
+    icon.setAttribute('aria-hidden', 'true');
+    btn.appendChild(icon);
+
+    const label = createEl('span', 'blog-callout-cta-label');
+    label.textContent = block.cta.label;
+    btn.appendChild(label);
+
     callout.appendChild(btn);
   }
 
@@ -182,12 +207,14 @@ const wireShare = (title) => {
         try { document.execCommand('copy'); } catch (_) {}
         document.body.removeChild(temp);
       }
-      const originalLabel = copyBtn.dataset.originalLabel || copyBtn.textContent || 'Copy Link';
+      // Update only the label span so the leading icon is preserved.
+      const labelEl = copyBtn.querySelector('[data-share-label]') || copyBtn;
+      const originalLabel = copyBtn.dataset.originalLabel || labelEl.textContent || 'Copy Link';
       copyBtn.dataset.originalLabel = originalLabel;
-      copyBtn.textContent = 'Copied ✓';
+      labelEl.textContent = 'Copied ✓';
       copyBtn.classList.add('is-copied');
       window.setTimeout(() => {
-        copyBtn.textContent = originalLabel;
+        labelEl.textContent = originalLabel;
         copyBtn.classList.remove('is-copied');
       }, 1500);
     });

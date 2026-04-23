@@ -32,6 +32,21 @@ const categoryLabel = (category) => (category || '').toUpperCase();
 const tagClassFor = (category) =>
   findByAnyLabel(category)?.tagClass || 'resource-tag-blog';
 
+/* Resolve the per-category read-more arrow asset. The 4 arrows share shape
+   and stroke width; only the stroke colour changes to match the category pill. */
+const READMORE_ARROW_BY_CATEGORY = {
+  'Blog':         'readmore-blog.svg',
+  'Blogs':        'readmore-blog.svg',
+  'Insights':     'readmore-insights.svg',
+  'Insight':      'readmore-insights.svg',
+  'Guide':        'readmore-guide.svg',
+  'Guides':       'readmore-guide.svg',
+  'Case Study':   'readmore-casestudies.svg',
+  'Case Studies': 'readmore-casestudies.svg',
+};
+const readMoreArrowFor = (category) =>
+  READMORE_ARROW_BY_CATEGORY[category] || 'readmore-blog.svg';
+
 const itemMatchesFilter = (item, filterLabel) => {
   if (filterLabel === 'All') return true;
   const cat = findByFilter(filterLabel);
@@ -214,7 +229,7 @@ export const renderResources = (data) => {
     body.appendChild(meta);
 
     const readMore = createEl('span', 'resource-card-read-more');
-    readMore.innerHTML = 'Read More <img src="assets/resources-read-more-arrow.svg" alt="" aria-hidden="true" />';
+    readMore.innerHTML = `Read More <img src="assets/${readMoreArrowFor(item.category)}" alt="" aria-hidden="true" />`;
     body.appendChild(readMore);
 
     card.appendChild(body);

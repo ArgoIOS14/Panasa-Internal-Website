@@ -166,6 +166,19 @@ ul { list-style: none; }
 
 .blog-hero-meta .dot { opacity: 0.55; }
 
+.blog-hero-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.blog-hero-meta-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  opacity: 0.85;
+}
+
 .blog-hero-image-wrap {
   position: relative;
   z-index: 1;
@@ -348,6 +361,17 @@ ul { list-style: none; }
   transform: translateY(-1px);
 }
 
+.blog-callout-cta-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.blog-callout-cta-label {
+  display: inline;
+}
+
 /* ==========================================================================
    AUTHOR + SHARE STRIP
    ========================================================================== */
@@ -420,6 +444,12 @@ ul { list-style: none; }
   background: #d5f3e3;
   color: var(--accent-2);
   border-color: var(--accent-2);
+}
+
+.blog-share-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 /* ==========================================================================
