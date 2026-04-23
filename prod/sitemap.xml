@@ -116,4 +116,10 @@
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://www.panasatech.com/guides/complete-guide-to-interchange-fees</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>

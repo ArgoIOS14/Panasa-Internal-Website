@@ -35,6 +35,16 @@
   },
   "items": [
     {
+      "category": "Guide",
+      "title": "The Complete Guide to Interchange Fees",
+      "excerpt": "How card payment economics really work — who gets paid, why merchants care, and how interchange shapes the modern payments ecosystem.",
+      "date": "21 APR 2026",
+      "author": "Panasa Team",
+      "image": "assets/resources-card-placeholder.webp",
+      "slug": "complete-guide-to-interchange-fees",
+      "href": "guides/complete-guide-to-interchange-fees"
+    },
+    {
       "category": "Insights",
       "title": "The Lifecycle of a Payment: From Tap to Everything That Follows",
       "excerpt": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
