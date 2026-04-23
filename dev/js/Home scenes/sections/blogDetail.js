@@ -1,5 +1,16 @@
 import { createEl, setText } from '../utils/dom.js';
 
+/* Blog body can contain `{type:"html", content:"…"}` blocks written by the
+   admin CMS, which are ultimately rendered via innerHTML. Sanitise every such
+   block with DOMPurify before insertion. If the sanitiser fails to load, the
+   renderer falls back to stripping all tags (fail-closed). */
+const sanitizerPromise = import('https://cdn.jsdelivr.net/npm/dompurify@3.1.6/+esm')
+  .then((mod) => mod.default || mod)
+  .catch((err) => {
+    console.warn('[blogDetail] DOMPurify failed to load; HTML blocks will render as plain text', err);
+    return null;
+  });
+
 const CATEGORY_CLASS_MAP = {
   'Blog': 'resource-tag-blog',
   'Blogs': 'resource-tag-blog',
@@ -113,11 +124,33 @@ const renderCallout = (block) => {
   return callout;
 };
 
-/* ── Rich-HTML block renderer */
-const renderHtmlBlock = (block) => {
+/* ── Rich-HTML block renderer (sanitises CMS-authored HTML) */
+const renderHtmlBlock = (block, purifier) => {
   const el = createEl('div', 'blog-body-block');
-  el.innerHTML = block.content || '';
+  const raw = block.content || '';
+  if (purifier && typeof purifier.sanitize === 'function') {
+    el.innerHTML = purifier.sanitize(raw, { USE_PROFILES: { html: true } });
+  } else {
+    // Fail-closed: strip tags rather than risk executing untrusted HTML
+    el.textContent = raw.replace(/<[^>]*>/g, '');
+  }
   return el;
+};
+
+/* Render body blocks. Awaits DOMPurify only when an `html` block is present,
+   so callout-only articles paint without the sanitiser round-trip. */
+const renderBlogBody = async (data) => {
+  const bodyEl = document.querySelector('[data-blog-body]');
+  if (!bodyEl) return;
+  const blocks = Array.isArray(data.body) ? data.body : [];
+  const hasHtml = blocks.some((b) => b?.type === 'html');
+  const purifier = hasHtml ? await sanitizerPromise : null;
+  bodyEl.innerHTML = '';
+  blocks.forEach((block) => {
+    if (!block || !block.type) return;
+    if (block.type === 'callout') bodyEl.appendChild(renderCallout(block));
+    else if (block.type === 'html') bodyEl.appendChild(renderHtmlBlock(block, purifier));
+  });
 };
 
 /* ── Share buttons */
@@ -135,6 +168,8 @@ const wireShare = (title) => {
 
   const copyBtn = document.querySelector('[data-share="copy"]');
   if (copyBtn instanceof HTMLElement) {
+    // Announce the "Copied ✓" feedback to assistive tech on change
+    copyBtn.setAttribute('aria-live', 'polite');
     copyBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(window.location.href);
@@ -371,19 +406,8 @@ export const renderBlogDetail = (data, resourcesData) => {
   setText('[data-blog-author]', data.author || 'Panasa Team');
   wireHeroImage(data);
 
-  // ── Article body
-  const bodyEl = document.querySelector('[data-blog-body]');
-  if (bodyEl) {
-    bodyEl.innerHTML = '';
-    (data.body || []).forEach((block) => {
-      if (!block || !block.type) return;
-      if (block.type === 'callout') {
-        bodyEl.appendChild(renderCallout(block));
-      } else if (block.type === 'html') {
-        bodyEl.appendChild(renderHtmlBlock(block));
-      }
-    });
-  }
+  // ── Article body (async — DOMPurify awaited only when html blocks exist)
+  renderBlogBody(data);
 
   // ── Share buttons
   wireShare(data.title);

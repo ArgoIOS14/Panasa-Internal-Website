@@ -3,7 +3,7 @@
     "title": "The Lifecycle of a Payment: From Tap to Everything That Follows | Panasa",
     "description": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
     "canonical": "https://www.panasatech.com/blog/lifecycle-of-a-payment",
-    "ogImage": "https://www.panasatech.com/assets/og-image.png"
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "lifecycle-of-a-payment",
   "category": "Insights",
@@ -35,7 +35,11 @@
       "type": "callout",
       "title": "Building a new card platform?",
       "text": "Our engineering team has done it for a dozen+ issuer processors. Let's compare notes.",
-      "cta": { "label": "Talk to our team", "href": "../contact", "variant": "dark" }
+      "cta": {
+        "label": "Talk to our team",
+        "href": "../contact",
+        "variant": "dark"
+      }
     },
     {
       "type": "html",
@@ -45,7 +49,11 @@
       "type": "callout",
       "title": "Struggling with transaction latency?",
       "text": "We've cut online processing pipelines from 900ms to under 120ms, here's how.",
-      "cta": { "label": "View Case Study", "href": "../contact", "variant": "ghost" }
+      "cta": {
+        "label": "View Case Study",
+        "href": "../contact",
+        "variant": "ghost"
+      }
     },
     {
       "type": "html",

@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "AI Fraud Detection for a Neo Banking Platform | Panasa",
-    "description": "How we reduced transaction fraud by 62% using real-time AI-based anomaly detection across high-volume payment flows."
+    "description": "How we reduced transaction fraud by 62% using real-time AI-based anomaly detection across high-volume payment flows.",
+    "canonical": "https://www.panasatech.com/blog/ai-fraud-detection-neobank",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "ai-fraud-detection-neobank",
   "tag": "CASE STUDY",
@@ -51,5 +53,14 @@
     "future-of-embedded-finance-2026",
     "5-common-mistakes-fintech-product-design",
     "ai-customer-onboarding-fintech"
+  ],
+  "category": "Case Study",
+  "datePublished": "2026-04-06",
+  "dateModified": "2026-04-06",
+  "tags": [
+    "AI fraud detection",
+    "Neobank",
+    "Real-time anomaly detection",
+    "Transaction monitoring"
   ]
 }

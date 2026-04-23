@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "Designing Fault-Tolerant Ledger Systems | Panasa",
-    "description": "A practical guide to building ledger systems that survive scale, failure, and regulatory audits."
+    "description": "A practical guide to building ledger systems that survive scale, failure, and regulatory audits.",
+    "canonical": "https://www.panasatech.com/blog/fault-tolerant-ledger-systems",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "fault-tolerant-ledger-systems",
   "tag": "GUIDE",
@@ -51,5 +53,14 @@
     "ai-fraud-detection-neobank",
     "future-of-embedded-finance-2026",
     "5-common-mistakes-fintech-product-design"
+  ],
+  "category": "Guide",
+  "datePublished": "2026-04-09",
+  "dateModified": "2026-04-09",
+  "tags": [
+    "Ledger systems",
+    "Fault tolerance",
+    "Reliability",
+    "Audits"
   ]
 }

@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "The Future of Embedded Finance in 2026 | Panasa",
-    "description": "Why embedded finance is reshaping digital ecosystems and how businesses can leverage it for growth."
+    "description": "Why embedded finance is reshaping digital ecosystems and how businesses can leverage it for growth.",
+    "canonical": "https://www.panasatech.com/blog/future-of-embedded-finance-2026",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "future-of-embedded-finance-2026",
   "tag": "INSIGHTS",
@@ -51,5 +53,14 @@
     "ai-fraud-detection-neobank",
     "5-common-mistakes-fintech-product-design",
     "ai-customer-onboarding-fintech"
+  ],
+  "category": "Insights",
+  "datePublished": "2026-04-06",
+  "dateModified": "2026-04-06",
+  "tags": [
+    "Embedded finance",
+    "BaaS",
+    "Fintech",
+    "2026 trends"
   ]
 }

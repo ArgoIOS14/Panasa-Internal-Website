@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "How to Build a Secure Payment Gateway from Scratch | Panasa",
-    "description": "Step-by-step breakdown of architecture, APIs, and compliance requirements for modern payment systems."
+    "description": "Step-by-step breakdown of architecture, APIs, and compliance requirements for modern payment systems.",
+    "canonical": "https://www.panasatech.com/blog/secure-payment-gateway-from-scratch",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "secure-payment-gateway-from-scratch",
   "tag": "GUIDE",
@@ -51,5 +53,14 @@
     "ai-fraud-detection-neobank",
     "future-of-embedded-finance-2026",
     "5-common-mistakes-fintech-product-design"
+  ],
+  "category": "Guide",
+  "datePublished": "2026-04-08",
+  "dateModified": "2026-04-08",
+  "tags": [
+    "Payment gateway",
+    "Architecture",
+    "APIs",
+    "Compliance"
   ]
 }

@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "How AI is Changing Customer Onboarding in Fintech | Panasa",
-    "description": "From KYC automation to fraud checks, AI is transforming onboarding flows, making them faster and more reliable."
+    "description": "From KYC automation to fraud checks, AI is transforming onboarding flows, making them faster and more reliable.",
+    "canonical": "https://www.panasatech.com/blog/ai-customer-onboarding-fintech",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "ai-customer-onboarding-fintech",
   "tag": "BLOG",
@@ -51,5 +53,14 @@
     "ai-fraud-detection-neobank",
     "future-of-embedded-finance-2026",
     "5-common-mistakes-fintech-product-design"
+  ],
+  "category": "Blog",
+  "datePublished": "2026-04-07",
+  "dateModified": "2026-04-07",
+  "tags": [
+    "AI onboarding",
+    "KYC",
+    "Fraud checks",
+    "Customer onboarding"
   ]
 }

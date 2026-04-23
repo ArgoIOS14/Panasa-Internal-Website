@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "5 Common Mistakes in Fintech Product Design | Panasa",
-    "description": "Avoid these critical mistakes when designing user experiences for financial products, ensuring better usability and trust."
+    "description": "Avoid these critical mistakes when designing user experiences for financial products, ensuring better usability and trust.",
+    "canonical": "https://www.panasatech.com/blog/5-common-mistakes-fintech-product-design",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "5-common-mistakes-fintech-product-design",
   "tag": "BLOG",
@@ -51,5 +53,14 @@
     "ai-fraud-detection-neobank",
     "future-of-embedded-finance-2026",
     "ai-customer-onboarding-fintech"
+  ],
+  "category": "Blog",
+  "datePublished": "2026-04-07",
+  "dateModified": "2026-04-07",
+  "tags": [
+    "Product design",
+    "Fintech UX",
+    "Trust",
+    "Usability"
   ]
 }

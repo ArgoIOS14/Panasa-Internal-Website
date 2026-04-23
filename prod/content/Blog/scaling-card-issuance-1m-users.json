@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "Scaling a Card Issuance Platform to 1M Users | Panasa",
-    "description": "How we built a scalable infrastructure to handle rapid user growth while maintaining compliance and performance."
+    "description": "How we built a scalable infrastructure to handle rapid user growth while maintaining compliance and performance.",
+    "canonical": "https://www.panasatech.com/blog/scaling-card-issuance-1m-users",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "scaling-card-issuance-1m-users",
   "tag": "CASE STUDY",
@@ -51,5 +53,14 @@
     "ai-fraud-detection-neobank",
     "future-of-embedded-finance-2026",
     "5-common-mistakes-fintech-product-design"
+  ],
+  "category": "Case Study",
+  "datePublished": "2026-04-07",
+  "dateModified": "2026-04-07",
+  "tags": [
+    "Card issuance",
+    "Scaling",
+    "Infrastructure",
+    "Compliance"
   ]
 }

@@ -1,7 +1,9 @@
 {
   "meta": {
     "title": "Compliance-First Engineering in EU Fintechs | Panasa",
-    "description": "How leading European fintechs are embedding compliance into every engineering decision from day one."
+    "description": "How leading European fintechs are embedding compliance into every engineering decision from day one.",
+    "canonical": "https://www.panasatech.com/blog/compliance-first-engineering-eu-fintechs",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
   },
   "slug": "compliance-first-engineering-eu-fintechs",
   "tag": "INSIGHTS",
@@ -51,5 +53,14 @@
     "ai-fraud-detection-neobank",
     "future-of-embedded-finance-2026",
     "5-common-mistakes-fintech-product-design"
+  ],
+  "category": "Insights",
+  "datePublished": "2026-04-08",
+  "dateModified": "2026-04-08",
+  "tags": [
+    "Compliance",
+    "EU fintech",
+    "Engineering practice",
+    "Regulatory"
   ]
 }
