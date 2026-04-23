@@ -17,13 +17,33 @@ window.DEFAULT_RESOURCES_CONTENT = {
     "image": "assets/resources-featured.webp",
     "href": "contact"
   },
-  "filters": ["All", "Blogs", "Insights", "Guides", "Case Studies"],
+  "filters": [
+    "All",
+    "Blogs",
+    "Insights",
+    "Guides",
+    "Case Studies"
+  ],
   "activeFilter": "All",
   "pagination": {
     "defaultRowsPerPage": 2,
-    "rowsPerPageOptions": [2, 4, 8]
+    "rowsPerPageOptions": [
+      2,
+      4,
+      8
+    ]
   },
   "items": [
+    {
+      "category": "Blog",
+      "title": "Anatomy of a Swipe: What Really Happens When You Tap Your Card",
+      "excerpt": "A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.",
+      "date": "16 APR 2026",
+      "author": "AUTHOR",
+      "image": "assets/resources-card-placeholder.webp",
+      "slug": "anatomy-of-a-swipe",
+      "href": "blog/anatomy-of-a-swipe"
+    },
     {
       "category": "Case Study",
       "title": "AI Fraud Detection for a Neo Banking Platform",
@@ -31,7 +51,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "06 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/ai-fraud-detection-neobank",
+      "slug": "ai-fraud-detection-neobank"
     },
     {
       "category": "Insights",
@@ -40,7 +61,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "06 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/future-of-embedded-finance-2026",
+      "slug": "future-of-embedded-finance-2026"
     },
     {
       "category": "Blog",
@@ -49,7 +71,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "07 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/5-common-mistakes-fintech-product-design",
+      "slug": "5-common-mistakes-fintech-product-design"
     },
     {
       "category": "Blog",
@@ -58,7 +81,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "07 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/ai-customer-onboarding-fintech",
+      "slug": "ai-customer-onboarding-fintech"
     },
     {
       "category": "Guide",
@@ -67,7 +91,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "08 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/secure-payment-gateway-from-scratch",
+      "slug": "secure-payment-gateway-from-scratch"
     },
     {
       "category": "Case Study",
@@ -76,7 +101,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "07 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/scaling-card-issuance-1m-users",
+      "slug": "scaling-card-issuance-1m-users"
     },
     {
       "category": "Insights",
@@ -85,7 +111,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "08 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/compliance-first-engineering-eu-fintechs",
+      "slug": "compliance-first-engineering-eu-fintechs"
     },
     {
       "category": "Guide",
@@ -94,7 +121,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "09 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "contact"
+      "href": "blog/fault-tolerant-ledger-systems",
+      "slug": "fault-tolerant-ledger-systems"
     }
   ]
 };

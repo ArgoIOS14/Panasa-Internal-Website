@@ -150,6 +150,15 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - the sticky nav must visually sit on the mint gradient at the top of the page — never on a plain white background — on any page that has a hero
   - the sticky nav must stay pinned at `top: 0` on every page; do NOT set `--hero-top` on the page wrapper because that offsets `.site-header` upward. Only set `--hero-top` on the `.hero` element itself (as Home does) if a section inside the hero needs to reference it
   - any deviation from the shared hero treatment requires explicit written approval from the user; otherwise treat the existing Home hero as the reference implementation
+- Blog Detail template rule (strict):
+  - every blog article lives at `dev/blog/<slug>.html` and pulls its content from `dev/content/Blog/<slug>.json` (fallback `dev/content/Blog/<slug>.default.js` exposing `window.DEFAULT_BLOG_CONTENT`)
+  - all 9 blog HTML files share the same skeleton — nav, hero-card, article body container, author+share strip, newsletter section, More Blogs grid, shared footer. Only the `data-blog-slug` attribute, `<title>`, JSON-LD, and default.js `<script src>` change per file
+  - page wrapper class: `.blog-detail-page` — carries the same `::before` gradient + `::after` column-fade-before-title treatment as every other hero-bearing page
+  - body is rendered from JSON `body[]` by `renderBlogDetail` — two block types: `{type: "html", content: "…"}` for rich prose, and `{type: "callout", title, text, cta}` for inline CTA cards (mint-green panel). Do NOT inline these as hardcoded HTML — the admin CMS on `br_resource` will edit them through the block model
+  - Newsletter section below the article is the INLINE variant (`components/inline-newsletter.js`), not the scroll-triggered `email-capture.js` modal. Both post to `/api/zoho-email-proxy.php` so CRM pipeline stays single-source
+  - "More Blogs" grid reuses the `.resource-card` class + `renderCard`-style markup from `sections/resources.js` — do not fork a second card component
+  - blog pages live one directory deep, so all intra-site links inside them use `../` prefixes (`../about`, `../resources?filter=blogs`, `../assets/logo.svg`). The blog-detail entry (`js/blog-detail.js`) sets `window.STRAPI_URL = '../content/Home page/content.json'` before importing `loadContent` so the shared nav+footer fetch still resolves correctly; new pages added under `/blog/` must preserve this override
+  - every new blog article requires a matching `<url>` entry in `dev/sitemap.xml` (and `prod/`) — do not ship a blog page without the sitemap entry
 - Hero background layers rule (strict — never deviate):
   - every hero on every page uses TWO separate stacking layers (typically `::before` + `::after` on a hero wrapper, each at `z-index: -1`):
     1. **Gradient layer** — mint → transparent vertical fade. Covers nav + hero copy + any hero-adjacent element (e.g. featured card directly below hero)
