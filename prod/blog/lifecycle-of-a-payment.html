@@ -3,29 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anatomy of a Swipe: What Really Happens When You Tap Your Card | Panasa</title>
-    <meta name="description" content="A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money." />
+    <title>The Lifecycle of a Payment: From Tap to Everything That Follows | Panasa</title>
+    <meta name="description" content="A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end." />
     <meta name="author" content="Panasa Team" />
-    <meta name="keywords" content="card payments, authorisation, clearing, settlement, ISO 8583, issuer processor, interchange, fintech engineering" />
+    <meta name="keywords" content="payment lifecycle, authorisation, clearing, settlement, interchange, issuer processor, chargebacks, digital wallets, open banking, embedded finance, BaaS" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Panasa Technology" />
-    <meta property="og:title" content="Anatomy of a Swipe: What Really Happens When You Tap Your Card | Panasa" />
-    <meta property="og:description" content="A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money." />
-    <meta property="og:url" content="https://www.panasatech.com/blog/anatomy-of-a-swipe" />
+    <meta property="og:title" content="The Lifecycle of a Payment: From Tap to Everything That Follows | Panasa" />
+    <meta property="og:description" content="A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end." />
+    <meta property="og:url" content="https://www.panasatech.com/blog/lifecycle-of-a-payment" />
     <meta property="og:image" content="https://www.panasatech.com/assets/og-image.png" />
-    <meta property="article:published_time" content="2026-04-16" />
-    <meta property="article:modified_time" content="2026-04-16" />
+    <meta property="article:published_time" content="2026-04-17" />
+    <meta property="article:modified_time" content="2026-04-17" />
     <meta property="article:author" content="Panasa Team" />
-    <meta property="article:section" content="Blog" />
-    <meta property="article:tag" content="Card payments" />
+    <meta property="article:section" content="Insights" />
+    <meta property="article:tag" content="Payment lifecycle" />
     <meta property="article:tag" content="Authorisation" />
-    <meta property="article:tag" content="Clearing" />
     <meta property="article:tag" content="Settlement" />
+    <meta property="article:tag" content="Interchange" />
+    <meta property="article:tag" content="Open banking" />
+    <meta property="article:tag" content="Embedded finance" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Anatomy of a Swipe: What Really Happens When You Tap Your Card | Panasa" />
-    <meta name="twitter:description" content="A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money." />
+    <meta name="twitter:title" content="The Lifecycle of a Payment: From Tap to Everything That Follows | Panasa" />
+    <meta name="twitter:description" content="A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end." />
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
-    <link rel="canonical" href="https://www.panasatech.com/blog/anatomy-of-a-swipe" />
+    <link rel="canonical" href="https://www.panasatech.com/blog/lifecycle-of-a-payment" />
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
@@ -41,7 +43,7 @@
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.panasatech.com/" },
         { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://www.panasatech.com/resources" },
-        { "@type": "ListItem", "position": 3, "name": "Anatomy of a Swipe", "item": "https://www.panasatech.com/blog/anatomy-of-a-swipe" }
+        { "@type": "ListItem", "position": 3, "name": "The Lifecycle of a Payment", "item": "https://www.panasatech.com/blog/lifecycle-of-a-payment" }
       ]
     }
     </script>
@@ -49,12 +51,12 @@
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "Anatomy of a Swipe: What Really Happens When You Tap Your Card",
-      "description": "A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.",
-      "datePublished": "2026-04-16",
-      "dateModified": "2026-04-16",
-      "articleSection": "Blog",
-      "keywords": "card payments, authorisation, clearing, settlement, ISO 8583, issuer processor, interchange",
+      "headline": "The Lifecycle of a Payment: From Tap to Everything That Follows",
+      "description": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
+      "datePublished": "2026-04-17",
+      "dateModified": "2026-04-17",
+      "articleSection": "Insights",
+      "keywords": "payment lifecycle, authorisation, clearing, settlement, interchange, issuer processor, chargebacks, open banking, embedded finance, BaaS",
       "image": "https://www.panasatech.com/assets/og-image.png",
       "author": { "@type": "Organization", "name": "Panasa Team" },
       "publisher": {
@@ -62,12 +64,12 @@
         "name": "Panasa Technology",
         "logo": { "@type": "ImageObject", "url": "https://www.panasatech.com/assets/logo.svg" }
       },
-      "mainEntityOfPage": "https://www.panasatech.com/blog/anatomy-of-a-swipe"
+      "mainEntityOfPage": "https://www.panasatech.com/blog/lifecycle-of-a-payment"
     }
     </script>
   </head>
   <body>
-    <div class="blog-detail-page" data-blog-slug="anatomy-of-a-swipe">
+    <div class="blog-detail-page" data-blog-slug="lifecycle-of-a-payment">
       <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="../" aria-label="Panasa home">
@@ -86,16 +88,16 @@
         <section class="blog-hero" data-animate>
           <div class="blog-hero-card">
             <div class="blog-hero-copy">
-              <span class="resource-tag resource-tag-blog" data-blog-tag>BLOG</span>
-              <h1 class="blog-hero-title" data-blog-title>Anatomy of a Swipe: What Really Happens When You Tap Your Card</h1>
+              <span class="resource-tag resource-tag-insights" data-blog-tag>INSIGHTS</span>
+              <h1 class="blog-hero-title" data-blog-title>The Lifecycle of a Payment: From Tap to Everything That Follows</h1>
               <div class="blog-hero-meta">
-                <span data-blog-date>16 APR 2026</span>
+                <span data-blog-date>17 APR 2026</span>
                 <span class="dot">•</span>
-                <span data-blog-read-time>20 MINS READ</span>
+                <span data-blog-read-time>13 MINS READ</span>
               </div>
             </div>
             <div class="blog-hero-image-wrap">
-              <img class="blog-hero-image" data-blog-hero-image src="../assets/blog-hero-desktop.webp" alt="Card transaction flow illustration" />
+              <img class="blog-hero-image" data-blog-hero-image src="../assets/blog-hero-desktop.webp" alt="Payment lifecycle illustration" />
             </div>
           </div>
         </section>
@@ -126,7 +128,7 @@
         </section>
 
         <section class="more-blogs" data-animate>
-          <h2>More Blogs</h2>
+          <h2>More Insights</h2>
           <div class="more-blogs-grid" data-more-blogs></div>
         </section>
       </main>
@@ -203,7 +205,7 @@
 
     <script src="../content/Home page/default.js" defer></script>
     <script src="../content/Resources/default.js" defer></script>
-    <script src="../content/Blog/anatomy-of-a-swipe.default.js" defer></script>
+    <script src="../content/Blog/lifecycle-of-a-payment.default.js" defer></script>
     <script type="module" src="../js/blog-detail.js?v=2.1"></script>
   </body>
 </html>

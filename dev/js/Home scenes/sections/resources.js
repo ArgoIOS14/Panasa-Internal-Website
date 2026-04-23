@@ -286,6 +286,16 @@ export const renderResources = (data) => {
   };
 
   // ── Filter buttons ────────────────────────────────
+  // The green "active" pill is a single ::before on the filters row driven by
+  // --filter-indicator-x / --filter-indicator-w. We measure the active button
+  // and update those vars so the pill glides to the new tab with a CSS
+  // transition, rather than the background jumping instantly.
+  const moveIndicatorTo = (btn) => {
+    if (!(btn instanceof HTMLElement) || !(filtersEl instanceof HTMLElement)) return;
+    filtersEl.style.setProperty('--filter-indicator-x', `${btn.offsetLeft}px`);
+    filtersEl.style.setProperty('--filter-indicator-w', `${btn.offsetWidth}px`);
+  };
+
   const renderFilterButtons = () => {
     filtersEl.innerHTML = '';
     filters.forEach((filter) => {
@@ -303,13 +313,34 @@ export const renderResources = (data) => {
           b.classList.toggle('active', match);
           b.setAttribute('aria-pressed', String(match));
         });
+        const nextActive = filtersEl.querySelector('.resources-filter.active');
+        moveIndicatorTo(nextActive);
         animatedRender();
       });
       filtersEl.appendChild(btn);
     });
+
+    // First paint — glide the pill in from width 0 to the active tab width.
+    const initialActive = filtersEl.querySelector('.resources-filter.active');
+    requestAnimationFrame(() => moveIndicatorTo(initialActive));
   };
 
   renderFilterButtons();
+
+  // Keep the indicator aligned if the filter row reflows (viewport resize
+  // or font-loading completes).
+  let indicatorRaf = 0;
+  const realignIndicator = () => {
+    if (indicatorRaf) cancelAnimationFrame(indicatorRaf);
+    indicatorRaf = requestAnimationFrame(() => {
+      const active = filtersEl.querySelector('.resources-filter.active');
+      if (active) moveIndicatorTo(active);
+    });
+  };
+  window.addEventListener('resize', realignIndicator);
+  if (document.fonts && typeof document.fonts.ready?.then === 'function') {
+    document.fonts.ready.then(realignIndicator);
+  }
 
   // ── Pagination controls ───────────────────────────
   if (pageFirst instanceof HTMLButtonElement) {

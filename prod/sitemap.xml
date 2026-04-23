@@ -57,6 +57,12 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://www.panasatech.com/blog/lifecycle-of-a-payment</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.panasatech.com/blog/anatomy-of-a-swipe</loc>
     <lastmod>2026-04-16</lastmod>
     <priority>0.7</priority>

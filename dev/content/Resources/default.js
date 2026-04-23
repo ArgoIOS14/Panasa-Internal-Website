@@ -35,6 +35,16 @@ window.DEFAULT_RESOURCES_CONTENT = {
   },
   "items": [
     {
+      "category": "Insights",
+      "title": "The Lifecycle of a Payment: From Tap to Everything That Follows",
+      "excerpt": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
+      "date": "17 APR 2026",
+      "author": "AUTHOR",
+      "image": "assets/resources-card-placeholder.webp",
+      "slug": "lifecycle-of-a-payment",
+      "href": "blog/lifecycle-of-a-payment"
+    },
+    {
       "category": "Blog",
       "title": "Anatomy of a Swipe: What Really Happens When You Tap Your Card",
       "excerpt": "A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.",

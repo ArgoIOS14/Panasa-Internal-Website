@@ -16,25 +16,27 @@ const tagClassFor = (category) =>
 
 const categoryLabel = (category) => (category || '').toUpperCase();
 
-/* Blog pages live one level deep (`/blog/<slug>`), so any link targeting a
-   sibling page like `blog/<slug>` or `contact` must be prefixed with `../`. */
-const resolveRelativeHref = (href) => {
-  if (!href) return '../resources';
-  if (href.startsWith('..') || href.startsWith('/') || href.startsWith('http')) return href;
-  if (href.startsWith('#')) return href;
-  return `../${href}`;
+/* Blog pages live one level deep (`/blog/<slug>`), so any link or asset path
+   targeting a sibling (e.g. `blog/<slug>`, `contact`, `assets/foo.webp`) must
+   be prefixed with `../`. Leaves already-resolved paths alone. */
+const resolveRelativePath = (path, fallback = null) => {
+  if (!path) return fallback;
+  if (path.startsWith('..') || path.startsWith('/') || path.startsWith('http')) return path;
+  if (path.startsWith('#')) return path;
+  if (path.startsWith('data:')) return path;
+  return `../${path}`;
 };
 
 /* ── Render one resource card for "More Blogs" — same visual vocabulary as
    the Resources grid. */
 const renderResourceCard = (item) => {
   const card = createEl('a', 'resource-card');
-  card.href = resolveRelativeHref(item.href || 'resources');
+  card.href = resolveRelativePath(item.href || 'resources', '../resources');
 
   const imgWrap = createEl('div', 'resource-card-image');
   if (item.image) {
     const img = createEl('img');
-    img.src = item.image;
+    img.src = resolveRelativePath(item.image, item.image);
     img.alt = item.title || '';
     imgWrap.appendChild(img);
   }
@@ -91,7 +93,7 @@ const renderCallout = (block) => {
 
   if (block.cta?.label) {
     const btn = createEl('a', 'blog-callout-cta');
-    btn.href = resolveRelativeHref(block.cta.href || 'contact');
+    btn.href = resolveRelativePath(block.cta.href || 'contact', '../contact');
     btn.textContent = block.cta.label;
     const variant = (block.cta.variant || '').toLowerCase();
     if (variant === 'ghost') btn.classList.add('blog-callout-cta--ghost');
@@ -187,7 +189,29 @@ const wireHeroImage = (data) => {
   }
 };
 
-/* ── Resolve related items from relatedSlugs[] OR fall back to latest BLOG items */
+/* Categories that an article can belong to. Keeps the related-items filter
+   and the "More X" section heading in lock-step. */
+const CATEGORY_TO_HEADING = {
+  'Blog': 'More Blogs',
+  'Blogs': 'More Blogs',
+  'Insights': 'More Insights',
+  'Insight': 'More Insights',
+  'Guide': 'More Guides',
+  'Guides': 'More Guides',
+  'Case Study': 'More Case Studies',
+  'Case Studies': 'More Case Studies',
+};
+
+const sameCategory = (a, b) => {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  // Treat Blog/Blogs, Insights/Insight, etc. as the same
+  const norm = (v) => String(v).toLowerCase().replace(/s$/, '');
+  return norm(a) === norm(b);
+};
+
+/* ── Resolve related items from relatedSlugs[] OR fall back to latest items.
+   When falling back, prefer items of the same category as the current article. */
 const resolveRelated = (blogData, resourcesData) => {
   const items = resourcesData?.items || [];
   const currentSlug = blogData.slug;
@@ -199,26 +223,147 @@ const resolveRelated = (blogData, resourcesData) => {
     if (mapped.length) return mapped.slice(0, 3);
   }
 
-  // Default: 3 most-recent items that aren't the current article
-  return items.filter((item) => item.slug !== currentSlug).slice(0, 3);
+  // Fallback: 3 most-recent items, preferring the same category, excluding self
+  const currentCategory = blogData.category || blogData.tag || 'Blog';
+  const notSelf = items.filter((item) => item.slug !== currentSlug);
+  const sameCat = notSelf.filter((item) => sameCategory(item.category, currentCategory));
+  const rest = notSelf.filter((item) => !sameCategory(item.category, currentCategory));
+  return [...sameCat, ...rest].slice(0, 3);
+};
+
+const resolveRelatedHeading = (blogData) => {
+  if (blogData.relatedHeading) return blogData.relatedHeading;
+  const cat = blogData.category || blogData.tag || 'Blog';
+  // Handle exact match first, then normalise plural/singular
+  if (CATEGORY_TO_HEADING[cat]) return CATEGORY_TO_HEADING[cat];
+  const normalised = String(cat).toLowerCase();
+  if (normalised.includes('insight')) return 'More Insights';
+  if (normalised.includes('guide')) return 'More Guides';
+  if (normalised.includes('case')) return 'More Case Studies';
+  return 'More Blogs';
+};
+
+/* ── SEO meta helpers */
+const setMeta = (selector, value) => {
+  if (!value) return;
+  const el = document.querySelector(selector);
+  if (el) el.setAttribute('content', value);
+};
+
+const ensureMeta = (attr, name, value) => {
+  if (!value) return;
+  let el = document.querySelector(`meta[${attr}="${name}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', value);
+};
+
+const setLinkRel = (rel, href) => {
+  if (!href) return;
+  let el = document.querySelector(`link[rel="${rel}"]`);
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', rel);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+};
+
+const updateSeoMeta = (data) => {
+  const title = data.meta?.title || data.title;
+  const description = data.meta?.description;
+  const url = data.meta?.canonical || window.location.href.split('#')[0].split('?')[0];
+  const image = data.meta?.ogImage || 'https://www.panasatech.com/assets/og-image.png';
+
+  if (title) {
+    document.title = title;
+    setMeta('meta[property="og:title"]', title);
+    setMeta('meta[name="twitter:title"]', title);
+  }
+  if (description) {
+    setMeta('meta[name="description"]', description);
+    setMeta('meta[property="og:description"]', description);
+    setMeta('meta[name="twitter:description"]', description);
+  }
+  setMeta('meta[property="og:url"]', url);
+  setMeta('meta[property="og:image"]', image);
+  setMeta('meta[name="twitter:image"]', image);
+  setLinkRel('canonical', url);
+
+  // Article-specific OG tags
+  ensureMeta('property', 'og:type', 'article');
+  if (data.datePublished) ensureMeta('property', 'article:published_time', data.datePublished);
+  if (data.dateModified || data.datePublished) {
+    ensureMeta('property', 'article:modified_time', data.dateModified || data.datePublished);
+  }
+  if (data.author) ensureMeta('property', 'article:author', data.author);
+  const section = data.category || data.tag;
+  if (section) ensureMeta('property', 'article:section', section);
+  if (Array.isArray(data.tags)) {
+    // Clear previous article:tag entries, then append one fresh <meta> per tag.
+    // We can't use ensureMeta here because it updates the first match instead
+    // of creating a new element, which would collapse N tags into 1.
+    document.querySelectorAll('meta[property="article:tag"]').forEach((el) => el.remove());
+    data.tags.forEach((t) => {
+      if (!t) return;
+      const m = document.createElement('meta');
+      m.setAttribute('property', 'article:tag');
+      m.setAttribute('content', t);
+      document.head.appendChild(m);
+    });
+  }
+};
+
+/* Update the JSON-LD BlogPosting block (the `type="application/ld+json"` script
+   containing `@type: "BlogPosting"`) with fresh data on render, so CMS edits
+   flow through to structured data without a rebuild. */
+const updateJsonLdBlogPosting = (data) => {
+  const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+  const match = scripts.find((s) => {
+    try {
+      const obj = JSON.parse(s.textContent || '{}');
+      return obj && (obj['@type'] === 'BlogPosting' || obj['@type'] === 'Article');
+    } catch (_) { return false; }
+  });
+  if (!match) return;
+
+  try {
+    const obj = JSON.parse(match.textContent || '{}');
+    if (data.title) obj.headline = data.title;
+    if (data.meta?.description) obj.description = data.meta.description;
+    if (data.datePublished) obj.datePublished = data.datePublished;
+    if (data.dateModified || data.datePublished) obj.dateModified = data.dateModified || data.datePublished;
+    if (data.category || data.tag) obj.articleSection = data.category || data.tag;
+    if (data.meta?.ogImage) obj.image = data.meta.ogImage;
+    const canonical = data.meta?.canonical;
+    if (canonical) obj.mainEntityOfPage = canonical;
+    if (data.author) {
+      obj.author = { '@type': 'Person', name: data.author };
+    }
+    match.textContent = JSON.stringify(obj);
+  } catch (err) {
+    console.warn('[blogDetail] could not update JSON-LD', err);
+  }
 };
 
 /* ── Main renderer */
 export const renderBlogDetail = (data, resourcesData) => {
   if (!data) return;
 
-  // ── Meta (doc title + description)
-  if (data.meta?.title) document.title = data.meta.title;
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc && data.meta?.description) {
-    metaDesc.setAttribute('content', data.meta.description);
-  }
+  // ── SEO: <title>, <meta description>, OG tags, Twitter Card, canonical,
+  //        article:* OG meta, JSON-LD BlogPosting
+  updateSeoMeta(data);
+  updateJsonLdBlogPosting(data);
 
   // ── Hero
   const tagEl = document.querySelector('[data-blog-tag]');
   if (tagEl) {
     tagEl.textContent = data.tag || 'BLOG';
-    tagEl.className = `resource-tag ${tagClassFor(data.tag === 'BLOG' ? 'Blog' : (data.tag || 'Blog'))}`;
+    const tagCategory = data.category || (data.tag === 'BLOG' ? 'Blog' : (data.tag || 'Blog'));
+    tagEl.className = `resource-tag ${tagClassFor(tagCategory)}`;
   }
   setText('[data-blog-title]', data.title);
   setText('[data-blog-date]', data.date);
@@ -243,17 +388,20 @@ export const renderBlogDetail = (data, resourcesData) => {
   // ── Share buttons
   wireShare(data.title);
 
-  // ── More Blogs
+  // ── Related articles section ("More Blogs" / "More Insights" / etc.)
   const moreBlogsEl = document.querySelector('[data-more-blogs]');
   if (moreBlogsEl) {
     moreBlogsEl.innerHTML = '';
     const related = resolveRelated(data, resourcesData);
     related.forEach((item) => moreBlogsEl.appendChild(renderResourceCard(item)));
 
-    // Hide section if no related items
     const moreBlogsSection = moreBlogsEl.closest('.more-blogs');
     if (moreBlogsSection instanceof HTMLElement) {
       moreBlogsSection.hidden = related.length === 0;
+      // Heading — e.g. "More Insights" for an Insights article. Defaults to
+      // "More Blogs" if no category is set.
+      const headingEl = moreBlogsSection.querySelector('h2');
+      if (headingEl) headingEl.textContent = resolveRelatedHeading(data);
     }
   }
 };
