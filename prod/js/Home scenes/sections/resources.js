@@ -47,6 +47,19 @@ const READMORE_ARROW_BY_CATEGORY = {
 const readMoreArrowFor = (category) =>
   READMORE_ARROW_BY_CATEGORY[category] || 'readmore-blog.svg';
 
+const CARD_MODIFIER_BY_CATEGORY = {
+  'Blog':         'blog',
+  'Blogs':        'blog',
+  'Insights':     'insights',
+  'Insight':      'insights',
+  'Guide':        'guide',
+  'Guides':       'guide',
+  'Case Study':   'case-study',
+  'Case Studies': 'case-study',
+};
+const cardModifierFor = (category) =>
+  CARD_MODIFIER_BY_CATEGORY[category] || 'blog';
+
 const itemMatchesFilter = (item, filterLabel) => {
   if (filterLabel === 'All') return true;
   const cat = findByFilter(filterLabel);
@@ -182,7 +195,15 @@ export const renderResources = (data) => {
 
   // #1 + #2: column count matches the CSS grid responsive rules
   let columns = detectColumns();
-  const itemsPerPage = () => rowsPerPage * columns;
+
+  /* On mobile each "row" is a single card, so the desktop "rows-per-page"
+     selector has no visual analogue. We hide the selector on mobile and use
+     a fixed items-per-page so the list paginates sensibly (6 cards ≈ a
+     phone-height worth of scroll). Desktop/tablet keep the selector-driven
+     rowsPerPage × columns formula. */
+  const MOBILE_ITEMS_PER_PAGE = 6;
+  const itemsPerPage = () =>
+    columns === 1 ? MOBILE_ITEMS_PER_PAGE : rowsPerPage * columns;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const OUT_MS = readMs('--motion-duration-reveal-fast', 220);
@@ -192,7 +213,7 @@ export const renderResources = (data) => {
   const filterItems = (filter) => items.filter((item) => itemMatchesFilter(item, filter));
 
   const renderCard = (item) => {
-    const card = createEl('a', 'resource-card');
+    const card = createEl('a', `resource-card resource-card--${cardModifierFor(item.category)}`);
     card.href = item.href || 'contact';
 
     const imgWrap = createEl('div', 'resource-card-image');

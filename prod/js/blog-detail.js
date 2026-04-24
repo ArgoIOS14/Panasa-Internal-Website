@@ -130,6 +130,13 @@ const initBlogDetail = async () => {
   });
 
   initScrollAnimations();
+
+  /* Body renders async (fetch → renderBlogDetail), so Lenis — which measures
+     page height at init — can end up with a stale `limit` and refuse to
+     scroll past it. Re-measure after the body is in the DOM. */
+  const syncLenis = () => window.lenis?.resize?.();
+  requestAnimationFrame(syncLenis);
+  if (document.fonts?.ready?.then) document.fonts.ready.then(syncLenis);
 };
 
 initBlogDetail();

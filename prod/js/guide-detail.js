@@ -124,6 +124,14 @@ const initGuideDetail = async () => {
   });
 
   initScrollAnimations();
+
+  /* Guide body renders async (fetch → renderGuideDetail), so Lenis — which
+     measures page height at init — ends up with a stale `limit` and refuses
+     to scroll past it. Re-measure after the body is in the DOM. A second
+     resize after fonts load catches the layout shift. */
+  const syncLenis = () => window.lenis?.resize?.();
+  requestAnimationFrame(syncLenis);
+  if (document.fonts?.ready?.then) document.fonts.ready.then(syncLenis);
 };
 
 initGuideDetail();

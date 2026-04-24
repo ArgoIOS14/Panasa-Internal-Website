@@ -38,6 +38,19 @@ const READMORE_ARROW_BY_CATEGORY = {
 const readMoreArrowFor = (category) =>
   READMORE_ARROW_BY_CATEGORY[category] || 'readmore-blog.svg';
 
+const CARD_MODIFIER_BY_CATEGORY = {
+  'Blog':         'blog',
+  'Blogs':        'blog',
+  'Insights':     'insights',
+  'Insight':      'insights',
+  'Guide':        'guide',
+  'Guides':       'guide',
+  'Case Study':   'case-study',
+  'Case Studies': 'case-study',
+};
+const cardModifierFor = (category) =>
+  CARD_MODIFIER_BY_CATEGORY[category] || 'blog';
+
 /* Guide pages live one level deep (/guides/<slug>) — same relative-path
    convention as blog detail. */
 const resolveRelativePath = (path, fallback = null) => {
@@ -51,7 +64,7 @@ const resolveRelativePath = (path, fallback = null) => {
 /* ── Shared resource card for the "More Guides" grid (same vocabulary as the
    Resources listing). */
 const renderResourceCard = (item) => {
-  const card = createEl('a', 'resource-card');
+  const card = createEl('a', `resource-card resource-card--${cardModifierFor(item.category)}`);
   card.href = resolveRelativePath(item.href || 'resources', '../resources');
 
   const imgWrap = createEl('div', 'resource-card-image');
@@ -274,6 +287,21 @@ const renderSectionTabs = (data) => {
   const inner = createEl('div', 'guide-section-tabs-inner');
   const tabsBySlug = new Map();
 
+  /* Click-scroll offset: nav (~72px) + sticky tabs (~56px) + ~30px gap.
+     Lenis honours this via `data-scroll-offset` on the anchor link (see
+     smooth-scroll.js). CSS `scroll-margin-top: 160px` on `.guide-section`
+     mirrors this for non-Lenis fallback paths and deep-linked hashes. */
+  const GUIDE_SCROLL_OFFSET = -160;
+
+  /* During a click-triggered scroll Lenis animates for ~2.5s and multiple
+     intermediate sections pass through the observer band, which causes the
+     active tab to flicker. We suppress observer-driven updates for a hair
+     longer than that duration; the click itself has already set the active
+     state synchronously. */
+  let suppressObserver = false;
+  let suppressTimer = 0;
+  const SUPPRESS_MS = 2700;
+
   const setActive = (slug) => {
     tabsBySlug.forEach((tab, s) => {
       tab.classList.toggle('is-active', s === slug);
@@ -285,6 +313,7 @@ const renderSectionTabs = (data) => {
     const tab = createEl('a', 'guide-section-tab');
     tab.href = `#${slug}`;
     tab.dataset.guideTab = slug;
+    tab.dataset.scrollOffset = String(GUIDE_SCROLL_OFFSET);
 
     const num = createEl('span', 'guide-section-tab-number');
     num.textContent = String(section.number ?? idx + 1);
@@ -292,16 +321,17 @@ const renderSectionTabs = (data) => {
     label.textContent = (section.title || '').toUpperCase();
     tab.append(num, label);
 
-    tab.addEventListener('click', (event) => {
-      event.preventDefault();
-      // Highlight immediately so the click feels responsive — observer will
-      // confirm the selection once the scroll settles.
+    tab.addEventListener('click', () => {
+      // Highlight immediately so the click feels responsive. Do NOT call
+      // preventDefault here — Lenis' document-level interceptor handles the
+      // smooth scroll using the data-scroll-offset attr set above, and needs
+      // the click to bubble to it. For environments without Lenis (touch /
+      // reduced-motion) the browser's native hash-anchor jump kicks in and
+      // `scroll-margin-top: 160px` on `.guide-section` keeps it aligned.
       setActive(slug);
-      const target = document.getElementById(slug);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        history.replaceState(null, '', `#${slug}`);
-      }
+      suppressObserver = true;
+      window.clearTimeout(suppressTimer);
+      suppressTimer = window.setTimeout(() => { suppressObserver = false; }, SUPPRESS_MS);
     });
     inner.appendChild(tab);
     tabsBySlug.set(slug, tab);
@@ -312,12 +342,11 @@ const renderSectionTabs = (data) => {
 
   setActive(sections[0].slug);
 
-  // IntersectionObserver for active-tab highlight. rootMargin top bias so
-  // the section is considered "active" slightly before its heading hits the
-  // viewport edge — matches expected reading cadence.
+  // IntersectionObserver for active-tab highlight during natural scroll.
   if (!('IntersectionObserver' in window)) return;
 
   const observer = new IntersectionObserver((entries) => {
+    if (suppressObserver) return;
     // Pick the entry closest to the top that is intersecting
     const visible = entries
       .filter((e) => e.isIntersecting)

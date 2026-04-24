@@ -43,6 +43,19 @@ const READMORE_ARROW_BY_CATEGORY = {
 const readMoreArrowFor = (category) =>
   READMORE_ARROW_BY_CATEGORY[category] || 'readmore-blog.svg';
 
+const CARD_MODIFIER_BY_CATEGORY = {
+  'Blog':         'blog',
+  'Blogs':        'blog',
+  'Insights':     'insights',
+  'Insight':      'insights',
+  'Guide':        'guide',
+  'Guides':       'guide',
+  'Case Study':   'case-study',
+  'Case Studies': 'case-study',
+};
+const cardModifierFor = (category) =>
+  CARD_MODIFIER_BY_CATEGORY[category] || 'blog';
+
 /* Blog pages live one level deep (`/blog/<slug>`), so any link or asset path
    targeting a sibling (e.g. `blog/<slug>`, `contact`, `assets/foo.webp`) must
    be prefixed with `../`. Leaves already-resolved paths alone. */
@@ -57,7 +70,7 @@ const resolveRelativePath = (path, fallback = null) => {
 /* ── Render one resource card for "More Blogs" — same visual vocabulary as
    the Resources grid. */
 const renderResourceCard = (item) => {
-  const card = createEl('a', 'resource-card');
+  const card = createEl('a', `resource-card resource-card--${cardModifierFor(item.category)}`);
   card.href = resolveRelativePath(item.href || 'resources', '../resources');
 
   const imgWrap = createEl('div', 'resource-card-image');

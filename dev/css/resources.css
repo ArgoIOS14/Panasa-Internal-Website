@@ -10,14 +10,17 @@
   --border: rgba(11, 61, 46, 0.1);
 
   /* Category pastel pills (match design reference) */
+  /* Pill bg is a light tint; pill fg matches the Read More arrow stroke
+     exactly so pill, pill text, Read More text, and arrow are one palette
+     per category. */
   --tag-case-study-bg: #d5f3e3;
   --tag-case-study-fg: #16ab6d;
-  --tag-insights-bg:   #fde5d3;
-  --tag-insights-fg:   #d46a2e;
-  --tag-blog-bg:       #fdd9dc;
-  --tag-blog-fg:       #c8395f;
+  --tag-insights-bg:   #ebdef9;
+  --tag-insights-fg:   #7b48be;
+  --tag-blog-bg:       #fde1d0;
+  --tag-blog-fg:       #f77a40;
   --tag-guide-bg:      #d6e6fb;
-  --tag-guide-fg:      #2f6fbd;
+  --tag-guide-fg:      #2a8fde;
 }
 
 /* Global reset — mirrors careers.css / about.css / contact.css / services.css
@@ -496,12 +499,20 @@ ul {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #d46a2e;
+  /* Category accent is set via a modifier class on the card itself so pill,
+     pill text, Read More text, and arrow all share one palette. Fallback is
+     the BLOG arrow colour when no modifier is applied. */
+  color: var(--card-accent, #f77a40);
   font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   padding-top: 4px;
 }
+
+.resource-card--blog       { --card-accent: #f77a40; }
+.resource-card--insights   { --card-accent: #7b48be; }
+.resource-card--guide      { --card-accent: #2a8fde; }
+.resource-card--case-study { --card-accent: #16ab6d; }
 
 .resource-card-read-more img {
   width: 14px;
@@ -759,12 +770,29 @@ ul {
     gap: 14px;
   }
 
-  .rows-per-page {
+  /* On mobile the "rows per page" selector has no visual analogue (each row
+     is one card). Hide it and let pagination use the mobile default of
+     6 items per page. See resources.js → MOBILE_ITEMS_PER_PAGE. */
+  .rows-per-page { display: none; }
+
+  /* Compact mobile pagination: keep Prev / indicator / Next; hide First/Last
+     since Prev+Next with a tappable indicator is enough. */
+  .pagination-controls {
     justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 100%;
   }
 
-  .pagination-controls {
-    justify-content: center;
-    flex-wrap: wrap;
+  .pagination-end { display: none; }
+
+  .pagination-arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .pagination-indicator {
+    flex: 1 1 auto;
+    text-align: center;
+    font-size: 0.95rem;
   }
 }

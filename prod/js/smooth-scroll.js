@@ -71,7 +71,9 @@ export async function initSmoothScroll() {
 
     window.lenis = lenis;
 
-    // Intercept anchor links
+    // Intercept anchor links. A link can opt into a custom scroll offset by
+    // setting `data-scroll-offset="-150"` on the <a> (useful when a sticky
+    // strip sits between the viewport top and the target). Defaults to -20.
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a[href^="#"]');
       if (!link) return;
@@ -83,7 +85,9 @@ export async function initSmoothScroll() {
       if (!target) return;
 
       e.preventDefault();
-      lenis.scrollTo(target, { offset: -20 });
+      const parsed = Number(link.dataset.scrollOffset);
+      const offset = Number.isFinite(parsed) ? parsed : -20;
+      lenis.scrollTo(target, { offset });
       if (history.replaceState) history.replaceState(null, '', href);
     });
 
