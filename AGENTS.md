@@ -138,6 +138,69 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
   - mint/green fade plus background grid boxes must be limited to the hero region only
   - the fade treatment should end around the trusted-logo loop / hero close, not continue through the rest of the page
   - all sections after the hero region should return to a plain white background unless a section-specific reference explicitly uses a different background
+- Site-header background rule (strict — never deviate):
+  - `.site-header` must have `background: transparent` on every page. The nav's dark pill (`.nav`) is the ONLY visible nav background.
+  - do NOT re-introduce a solid mint band behind the nav (e.g. `rgba(125, 211, 174, 0.88)` or any other colour) — the hero gradient + grid-line pattern is the intended background and the nav pill floats directly on top of it
+  - this applies on all pages including those without a hero; on white pages the nav pill just floats on white
+  - deviation requires explicit written user approval
+- Hero design element parity rule (strict — never deviate):
+  - the hero's mint → white gradient treatment, color stops, vertical extent, and nav-blending behaviour MUST match the treatment already established on the existing pages (Home, About, Careers, Contact, Services)
+  - new pages must NOT invent a different gradient colour scheme, a different fade length, a different end-colour, or a different relationship between the sticky nav and the hero background
+  - if a new page's hero content is shorter than Home's, extend the gradient so it still covers the nav + hero + any adjacent hero-adjacent element (e.g. a featured card directly under the hero) instead of ending abruptly on a short hero box
+  - the sticky nav must visually sit on the mint gradient at the top of the page — never on a plain white background — on any page that has a hero
+  - the sticky nav must stay pinned at `top: 0` on every page; do NOT set `--hero-top` on the page wrapper because that offsets `.site-header` upward. Only set `--hero-top` on the `.hero` element itself (as Home does) if a section inside the hero needs to reference it
+  - any deviation from the shared hero treatment requires explicit written approval from the user; otherwise treat the existing Home hero as the reference implementation
+- Blog Detail template rule (strict):
+  - every blog article lives at `dev/blog/<slug>.html` and pulls its content from `dev/content/Blog/<slug>.json` (fallback `dev/content/Blog/<slug>.default.js` exposing `window.DEFAULT_BLOG_CONTENT`)
+  - all 9 blog HTML files share the same skeleton — nav, hero-card, article body container, author+share strip, newsletter section, More Blogs grid, shared footer. Only the `data-blog-slug` attribute, `<title>`, JSON-LD, and default.js `<script src>` change per file
+  - page wrapper class: `.blog-detail-page` — carries the same `::before` gradient + `::after` column-fade-before-title treatment as every other hero-bearing page
+  - body is rendered from JSON `body[]` by `renderBlogDetail` — two block types: `{type: "html", content: "…"}` for rich prose, and `{type: "callout", title, text, cta}` for inline CTA cards (mint-green panel). Do NOT inline these as hardcoded HTML — the admin CMS on `br_resource` will edit them through the block model
+  - Newsletter section below the article is the INLINE variant (`components/inline-newsletter.js`), not the scroll-triggered `email-capture.js` modal. Both post to `/api/zoho-email-proxy.php` so CRM pipeline stays single-source
+  - "More Blogs" grid reuses the `.resource-card` class + `renderCard`-style markup from `sections/resources.js` — do not fork a second card component
+  - blog pages live one directory deep, so all intra-site links inside them use `../` prefixes (`../about`, `../resources?filter=blogs`, `../assets/logo.svg`). The blog-detail entry (`js/blog-detail.js`) sets `window.STRAPI_URL = '../content/Home page/content.json'` before importing `loadContent` so the shared nav+footer fetch still resolves correctly; new pages added under `/blog/` must preserve this override
+  - every new blog article requires a matching `<url>` entry in `dev/sitemap.xml` (and `prod/`) — do not ship a blog page without the sitemap entry
+- Hero background layers rule (strict — never deviate):
+  - every hero on every page uses TWO separate stacking layers (typically `::before` + `::after` on a hero wrapper, each at `z-index: -1`):
+    1. **Gradient layer** — mint → transparent vertical fade. Covers nav + hero copy + any hero-adjacent element (e.g. featured card directly below hero)
+    2. **Column-line layer** — faint mint vertical columns at 72px step, `rgba(22, 171, 109, 0.18)`. **Fades out BEFORE the hero's main title so the title never sits on a striped background.**
+  - Gradient layer recipe:
+    ```
+    background: linear-gradient(180deg, <mint> 0%, …, rgba(255, 255, 255, 0) 100%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+            mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+    ```
+  - Column layer recipe (tight fade in pixel units, not %, so it ends reliably near the nav regardless of hero height):
+    ```
+    background: linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px);
+    background-size: 72px 100%;
+    background-repeat: repeat-x;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+            mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+    ```
+  - Column fade end-point (`transparent <N>px`) MUST sit above the hero's main title. Default `220px` from the top of the masked element works for most layouts; increase only if a specific hero puts its title lower. Never let columns render across the title area.
+  - ONLY vertical lines are drawn — no horizontal grid lines
+  - column step = 72px and colour `rgba(22, 171, 109, 0.18)` on every page; do not change per page
+  - the gradient layer MUST extend UP behind the sticky nav pill (typically via `top: -120px` on a `::before`, or `background-size: … 760px` starting at `0 0`). The nav must always float on the mint gradient, never on plain white
+  - any wrapper that hosts the hero pseudos MUST NOT set `overflow: hidden` — it will clip the gradient extension above the nav
+  - deviation (horizontal lines, different step/colour/opacity, column layer extending past the title, no mask on either layer, gradient starting below nav) requires explicit written user approval
+- Page-specific stylesheet baseline rule (strict):
+  - every new page's stylesheet must include the same global reset used by Home / About / Careers / Contact / Services:
+    ```
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif; color: var(--text-dark); overflow-x: hidden; }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    ```
+  - without this baseline the shared nav renders with default browser `<a>` colour (purple/blue), default underlines, and default `<ul>` padding, which makes the nav look taller and differently coloured from the rest of the site
+  - any new page CSS file MUST open with this block before any page-specific styles
+- Footer design element parity rule (strict — never deviate):
+  - every page's footer treatment (outer green gradient field + dark translucent inner card + CTA row + columns + legal row) MUST be identical to the shared footer used on Home, About, Careers, Contact, Services
+  - footer link badges (e.g. `HIRING!`, `NEW`) MUST share the same shape/height/padding/border-radius/alignment/mobile scaling; only the colour may differ per badge
+  - do NOT create page-specific footer card colours, textures, typography, spacing, or badge shapes that diverge from the shared treatment
+  - if the footer treatment ever evolves, update the shared footer source (`shared-footer.css` + per-page static HTML + content JSON) so every page — existing and future — inherits the same result in a single pass
+  - any deviation from the shared footer treatment requires explicit written approval from the user
 - About page mobile direction now follows the supplied mobile screenshot:
   - tighter hero proportions
   - 2-column stat cards

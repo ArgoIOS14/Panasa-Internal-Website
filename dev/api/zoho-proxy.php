@@ -131,9 +131,12 @@ if ($biginError) {
 
 $biginResponse = json_decode($biginRaw, true);
 $biginStatus = $biginResponse['data'][0]['status'] ?? 'error';
+$biginCode = $biginResponse['data'][0]['code'] ?? '';
 
 if ($biginStatus === 'success') {
     echo json_encode(['status' => 'success', 'message' => 'Contact created in Bigin']);
+} elseif ($biginCode === 'DUPLICATE_DATA') {
+    echo json_encode(['status' => 'success', 'message' => 'Contact already exists']);
 } else {
     http_response_code(500);
     echo json_encode([

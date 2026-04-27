@@ -72,7 +72,7 @@ export const renderEngagement = (data) => {
 
       const btn = createEl('a', 'btn btn-dark');
       btn.textContent = item.cta;
-      btn.href = 'contact.html';
+      btn.href = 'contact';
 
       card.append(img, h3, p);
       if (suited) card.appendChild(suited);

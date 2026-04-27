@@ -48,7 +48,7 @@
   top: calc(-1 * var(--hero-top, 0px));
   z-index: 20;
   padding: 16px 0;
-  background: rgba(125, 211, 174, 0.88);
+  background: transparent; /* nav pill sits directly on the hero gradient; no solid mint band behind it */
 }
 
 .nav {
@@ -184,6 +184,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.nav-submenu .nav-submenu-parent {
+  display: none;
 }
 
 .nav-submenu a::after {
@@ -517,6 +521,7 @@
   }
 
   .nav-submenu .nav-submenu-parent {
+    display: flex;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.92);
   }

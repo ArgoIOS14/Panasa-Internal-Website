@@ -1,4 +1,5 @@
 import { initScrollAnimations } from './Home scenes/components/animations.js';
+import './smooth-scroll.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
@@ -76,7 +77,7 @@ const buildNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'services.html' : link.href,
+    href: link.label === 'Services' ? 'services' : link.href,
   })),
 });
 

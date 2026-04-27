@@ -126,9 +126,12 @@ if ($biginError) {
 }
 
 $biginData = json_decode($biginResponse, true);
+$biginCode = $biginData['data'][0]['code'] ?? '';
 
 if ($httpCode >= 200 && $httpCode < 300) {
     echo json_encode(['status' => 'success', 'message' => 'Contact created']);
+} elseif ($biginCode === 'DUPLICATE_DATA') {
+    echo json_encode(['status' => 'success', 'message' => 'Contact already exists']);
 } else {
     http_response_code($httpCode ?: 500);
     echo json_encode([

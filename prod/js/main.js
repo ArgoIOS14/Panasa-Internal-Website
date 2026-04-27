@@ -10,6 +10,7 @@ import { renderServices } from './Home scenes/sections/services.js';
 import { renderTestimonials } from './Home scenes/sections/testimonials.js';
 import { renderWhy } from './Home scenes/sections/why.js';
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
+import './smooth-scroll.js'; // side-effect: auto-initializes Lenis (falls back to native scroll on touch / reduced-motion)
 
 // Live preview — only loaded in ?preview=true mode (admin panel iframe)
 if (new URLSearchParams(window.location.search).get('preview') === 'true') {

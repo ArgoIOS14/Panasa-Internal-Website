@@ -99,7 +99,7 @@ export const initNavToggle = () => {
 
 const getCurrentPage = () => {
   const current = window.location.pathname.split('/').pop();
-  return current || 'index.html';
+  return current || '/';
 };
 
 const getCurrentRoute = () => {
@@ -108,7 +108,7 @@ const getCurrentRoute = () => {
 
 const resolveHref = (href) => {
   if (!href.startsWith('#')) return href;
-  return getCurrentPage() === 'index.html' ? href : `index.html${href}`;
+  return getCurrentPage() === '/' ? href : `/${href}`;
 };
 
 const isActiveLink = (href) => {
@@ -129,7 +129,7 @@ export const renderNav = (data) => {
 
   const mobileHead = createEl('li', 'nav-mobile-head');
   const mobileBrand = createEl('a', 'nav-mobile-brand');
-  mobileBrand.href = 'index.html';
+  mobileBrand.href = '/';
   mobileBrand.setAttribute('aria-label', 'Panasa home');
 
   const mobileLogo = createEl('img');

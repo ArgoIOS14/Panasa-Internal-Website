@@ -15,12 +15,12 @@ RewriteRule ^(.+)$ $1.html [L]
 RewriteCond %{THE_REQUEST} \s/(.+?)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L]
 
-# ── Redirect old WordPress URLs ──────────────────────────
-Redirect 301 /services/ /ai-accelerated-fintech-engineering
+# ── Redirect old WordPress URLs (trailing slash) ────────
 Redirect 301 /about/ /about
 Redirect 301 /careers/ /careers
 Redirect 301 /contact/ /contact
-Redirect 301 /privacy-policy/ /
+Redirect 301 /services/ /services
+Redirect 301 /privacy-policy/ /privacy-policy
 
 # ── Redirect old query-param service URLs ────────────────
 RewriteCond %{QUERY_STRING} service=ai-governance
@@ -34,7 +34,3 @@ RewriteRule ^services(\.html)?$ /ai-powered-legacy-modernisation? [R=301,L]
 
 RewriteCond %{QUERY_STRING} service=ai-accelerated-fintech-engineering
 RewriteRule ^services(\.html)?$ /ai-accelerated-fintech-engineering? [R=301,L]
-
-# Default services redirect
-RewriteCond %{QUERY_STRING} ^$
-RewriteRule ^services(\.html)?$ /ai-accelerated-fintech-engineering [R=301,L]

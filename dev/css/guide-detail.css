@@ -1,0 +1,343 @@
+/* ==========================================================================
+   GUIDE DETAIL PAGE
+   Layered on top of blog-detail.css — guides reuse the blog hero/body/meta/
+   newsletter/more grid primitives and add:
+     - Accent-highlighted hero title + hero description
+     - Sticky section-tabs strip (IntersectionObserver-driven)
+     - Numbered section headers
+     - Subheadings inside sections
+     - 3 note variants (KEY INSIGHT / PRACTITIONER NOTE / FROM THE FIELD)
+   ========================================================================== */
+
+:root {
+  /* Unified note callout colour — applied to all three variants
+     (key-insight, practitioner, field). The variant class is kept for
+     semantic labelling only, not visual differentiation. */
+  --note-bg:            #fbbfa8;
+  --note-fg:            var(--text-dark);
+  --guide-tab-bg:          #edefe8;
+  --guide-tab-number-fg:   #b7bbb4;
+  --guide-tab-label-fg:    #0f2c25;
+  --guide-tab-active-bg:   #ffffff;
+  --guide-tab-active-fg:   #16ab6d;
+  --guide-tab-divider:     rgba(15, 44, 37, 0.12);
+  --guide-accent:          #16ab6d;
+  --guide-sticky-top:      96px;
+}
+
+/* Shared baseline block — required per AGENTS.md when a new page CSS file is
+   introduced. This repeats the exact same reset as blog-detail.css. The
+   cascade order (shared-layout → blog-detail → guide-detail) means these
+   reset rules are idempotent. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: #ffffff; }
+
+body {
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
+  color: var(--text-dark);
+  background: transparent;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+/* ==========================================================================
+   HERO — extensions on top of .blog-hero-card
+   ========================================================================== */
+
+.guide-hero-title {
+  /* Accent span rendered on its own line via display:block on the accent */
+  display: block;
+}
+
+.guide-hero-title-accent {
+  display: block;
+  color: var(--guide-accent);
+  font-weight: 600;
+}
+
+.guide-hero-description {
+  margin-top: 4px;
+  max-width: 520px;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   SECTION-TABS STRIP (sticky scroll-spy between hero and article body)
+   ========================================================================== */
+
+.guide-section-tabs {
+  position: sticky;
+  top: var(--guide-sticky-top);
+  z-index: 5;
+  max-width: var(--page-shell);
+  margin: 6px auto 28px;
+  padding: 0 var(--page-gutter);
+}
+
+.guide-section-tabs-inner {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 6px;
+  /* Squared rounded-rectangle per the reference — no longer a full pill. */
+  border-radius: 14px;
+  background: var(--guide-tab-bg);
+  box-shadow: 0 8px 20px rgba(6, 32, 25, 0.06);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+/* Sliding active indicator — a single white bar that animates between
+   tabs as the active section changes. Replaces per-tab background. */
+.guide-section-tabs-indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 0;
+  background: var(--guide-tab-active-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(6, 32, 25, 0.08);
+  transform: translateX(0);
+  transition:
+    transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-section-tabs-indicator { transition: none; }
+}
+
+.guide-section-tabs-inner::-webkit-scrollbar { display: none; }
+
+.guide-section-tab {
+  flex: 1 1 0;
+  min-width: max-content;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--guide-tab-label-fg);
+  text-align: center;
+  transition: color 240ms ease;
+  cursor: pointer;
+  white-space: nowrap;
+  /* Sit above the indicator so the text stays visible while the white bar
+     slides into place underneath. */
+  z-index: 1;
+}
+
+/* Thin divider between adjacent tabs (stays visible even when neighbour is
+   active; the active tab's white pill sits above it at z-index 1). */
+.guide-section-tab + .guide-section-tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 1px;
+  background: var(--guide-tab-divider);
+}
+
+.guide-section-tab-number {
+  color: var(--guide-tab-number-fg);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  transition: color 240ms ease;
+}
+
+.guide-section-tab-label {
+  color: inherit;
+}
+
+.guide-section-tab:hover {
+  color: var(--text-dark);
+}
+
+.guide-section-tab.is-active {
+  /* The sliding indicator (.guide-section-tabs-indicator) draws the white bar
+     beneath this tab — only the text colour changes here. */
+  color: var(--guide-tab-active-fg);
+}
+
+.guide-section-tab.is-active .guide-section-tab-number {
+  color: var(--guide-tab-active-fg);
+}
+
+/* Hide the dividers touching the active tab so the white indicator sits
+   cleanly between its neighbours (no leftover 1px sliver). */
+.guide-section-tab.is-active::before,
+.guide-section-tab.is-active + .guide-section-tab::before {
+  opacity: 0;
+}
+
+.guide-section-tab + .guide-section-tab::before {
+  /* Dividers fade in/out with the indicator so adjacent ones disappear
+     gracefully as the white bar slides. */
+  transition: opacity 240ms ease;
+}
+
+/* ==========================================================================
+   BODY — extensions on top of .blog-body
+   ========================================================================== */
+
+.guide-body {
+  /* Inherits max-width, gutter, typography from .blog-body */
+}
+
+.guide-intro {
+  margin-bottom: 40px;
+}
+
+.guide-intro-heading {
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-dark);
+  margin-bottom: 14px;
+}
+
+.guide-section {
+  margin-top: 48px;
+  /* Offset below sticky nav + section-tabs strip so the section title lands
+     with a comfortable gap when an anchor is followed. Value mirrored in the
+     click-scroll offset in guideDetail.js (GUIDE_SCROLL_OFFSET). */
+  scroll-margin-top: 160px;
+}
+
+.guide-section-title {
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--accent-2);
+  margin-bottom: 22px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.guide-section-number {
+  color: inherit;
+  font-weight: 700;
+}
+
+.guide-subheading {
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--text-dark);
+  margin: 28px 0 12px;
+}
+
+/* The body-block renderer reuses .blog-body-block styles for prose */
+
+/* ==========================================================================
+   NOTE BLOCKS (inline practitioner-style callouts — 3 variants)
+   ========================================================================== */
+
+.guide-note {
+  margin: 24px 0;
+  padding: 18px 22px;
+  border-radius: 14px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--note-bg);
+  color: var(--note-fg);
+}
+
+.guide-note::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
+  margin-top: 7px;
+}
+
+.guide-note-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 auto;
+}
+
+.guide-note-label {
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: currentColor;
+}
+
+.guide-note-text {
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-dark);
+}
+
+/* All three variants share the same visual treatment per the reference.
+   Classes retained for semantics / CMS-side labelling. */
+.guide-note--key-insight,
+.guide-note--practitioner,
+.guide-note--field {
+  background: var(--note-bg);
+  color: var(--note-fg);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 720px) {
+  .guide-section-tabs {
+    top: 8px;
+    margin: 0 auto 20px;
+  }
+  .guide-section-tabs-inner {
+    padding: 4px;
+  }
+  .guide-section-tab {
+    padding: 8px 14px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+  .guide-section-title {
+    font-size: 1.25rem;
+  }
+  .guide-subheading {
+    font-size: 1rem;
+  }
+  .guide-note {
+    padding: 16px 18px;
+  }
+}

@@ -47,10 +47,10 @@ export const renderCaseStudies = (data) => {
 
     const cta = createEl('a', 'btn btn-dark results-cta');
     cta.textContent = slide.cta.label;
-    cta.href = 'contact.html';
+    cta.href = 'contact';
     cta.addEventListener('click', (event) => {
       event.preventDefault();
-      window.location.assign('contact.html');
+      window.location.assign('contact');
     });
 
     left.append(eyebrow, h3, p, cta);

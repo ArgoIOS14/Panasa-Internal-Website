@@ -15,7 +15,8 @@
 
 .services-overview-hero-wrap {
   position: relative;
-  overflow: hidden;
+  /* No overflow: hidden — the gradient ::before needs to extend
+     upward (top: -120px) behind the nav pill, just like other pages. */
 }
 
 .services-overview-hero-wrap::before {
@@ -24,20 +25,32 @@
   inset: -120px 0 0 0;
   height: clamp(440px, 54vw, 560px);
   background:
-    linear-gradient(rgba(22, 171, 109, 0.085) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 171, 109, 0.085) 1px, transparent 1px),
     linear-gradient(180deg, rgba(120, 214, 174, 0.92) 0%, rgba(189, 238, 215, 0.7) 34%, rgba(245, 255, 250, 0.42) 68%, rgba(255, 255, 255, 0) 100%),
-    linear-gradient(180deg, #7bd6b0 0%, #d6f2e4 38%, #ffffff 82%);
+    linear-gradient(180deg, #7bd6b0 0%, #d6f2e4 38%, rgba(255, 255, 255, 0) 82%);
   background-size:
-    76px 76px,
-    76px 76px,
     100% 100%,
     100% 100%;
   background-position:
     center top,
-    center top,
-    center top,
     center top;
+  background-repeat: no-repeat, no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Column-line layer — fades out BEFORE the main title. */
+.services-overview-hero-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -120px 0 auto 0;
+  height: clamp(440px, 54vw, 560px);
+  background: linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px);
+  background-size: 72px 100%;
+  background-repeat: repeat-x;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+          mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
   z-index: -1;
   pointer-events: none;
 }

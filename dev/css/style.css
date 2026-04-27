@@ -102,10 +102,11 @@ ul {
   margin: 0 auto;
   padding: 60px 24px 36px;
   text-align: center;
-  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 45%, #f7fff9 70%, #ffffff 100%);
   border-radius: 28px;
 }
 
+/* Gradient layer — fades to transparent well past the hero copy so the mint
+   tint covers nav + hero + hero-adjacent content. */
 .hero::before {
   content: '';
   position: absolute;
@@ -113,9 +114,31 @@ ul {
   top: calc(-1 * var(--hero-top));
   transform: translateX(-50%);
   width: 100vw;
-  height: 100%;
-  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 45%, #f7fff9 70%, #ffffff 100%);
+  height: calc(100% + var(--hero-top));
+  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 45%, #f7fff9 70%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
   z-index: -1;
+}
+
+/* Column-line layer — fades out BEFORE the hero title so the main copy sits
+   on a clean mint area, not on a striped background. Column fade runs from
+   the top of the page to ~220px down (i.e. covers the nav pill area only). */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--hero-top));
+  transform: translateX(-50%);
+  width: 100vw;
+  height: calc(100% + var(--hero-top));
+  background: linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px);
+  background-size: 72px 100%;
+  background-repeat: repeat-x;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+          mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .hero-grid {

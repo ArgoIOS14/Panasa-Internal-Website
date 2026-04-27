@@ -1,0 +1,798 @@
+/* ==========================================================================
+   RESOURCES PAGE — hero · featured card · filter tabs · card grid · pagination
+   ========================================================================== */
+
+:root {
+  --page-shell: 980px;
+  --text-dark: #0f2c25;
+  --text-muted: #5c7a6e;
+  --accent-2: #16ab6d;
+  --border: rgba(11, 61, 46, 0.1);
+
+  /* Category pastel pills (match design reference) */
+  /* Pill bg is a light tint; pill fg matches the Read More arrow stroke
+     exactly so pill, pill text, Read More text, and arrow are one palette
+     per category. */
+  --tag-case-study-bg: #d5f3e3;
+  --tag-case-study-fg: #16ab6d;
+  --tag-insights-bg:   #ebdef9;
+  --tag-insights-fg:   #7b48be;
+  --tag-blog-bg:       #fde1d0;
+  --tag-blog-fg:       #f77a40;
+  --tag-guide-bg:      #d6e6fb;
+  --tag-guide-fg:      #2a8fde;
+}
+
+/* Global reset — mirrors careers.css / about.css / contact.css / services.css
+   so the shared nav + footer render identically on this page. */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: #ffffff;
+}
+
+body {
+  font-family: 'InterVariable', 'Inter', 'DM Sans', sans-serif;
+  color: var(--text-dark);
+  background: transparent;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  color: var(--text-dark);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.resources-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Gradient layer — extends through nav + hero + featured card area. */
+.resources-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 760px;
+  background: linear-gradient(180deg, #7bd3ae 0%, #cfeee0 25%, #f7fff9 55%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Column-line layer — fades out BEFORE the main title. Runs only from the
+   top of the page to ~220px down (nav pill area only). */
+.resources-page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 760px;
+  background: linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px);
+  background-size: 72px 100%;
+  background-repeat: repeat-x;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+          mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ── Fade-in animations ──────────────────────────────────────────── */
+[data-animate] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity var(--motion-duration-reveal, 380ms) var(--motion-ease-standard, ease-out),
+    transform var(--motion-duration-reveal, 380ms) var(--motion-ease-standard, ease-out);
+  backface-visibility: hidden;
+}
+[data-animate].in-view {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ==========================================================================
+   HERO — transparent section. The mint→white gradient is painted on the
+   `.resources-page` wrapper so it covers nav + hero + featured card as one
+   continuous fade, matching the home `.hero` treatment and the design ref.
+   ========================================================================== */
+
+.resources-hero {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 60px 24px 36px;
+  text-align: center;
+  background: transparent;
+}
+
+.resources-hero-copy {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.resources-hero-copy h1 {
+  font-size: clamp(2rem, 3.8vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+}
+
+.resources-hero-copy h1 span {
+  display: block;
+}
+
+.resources-hero-copy h1 em {
+  display: block;
+  font-style: normal;
+  color: var(--accent-2);
+}
+
+.resources-hero-copy p {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(15, 44, 37, 0.62);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   FEATURED CARD
+   ========================================================================== */
+
+.resources-featured {
+  max-width: var(--page-shell);
+  margin: 32px auto 56px;
+  padding: 0 24px;
+}
+
+.resources-featured-card {
+  position: relative;
+  display: block;
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 2 / 1;
+  background: #1a1f1d;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 22px 40px rgba(8, 31, 24, 0.14);
+  transition: transform 220ms var(--motion-ease-standard, ease-out),
+              box-shadow 220ms var(--motion-ease-standard, ease-out);
+}
+
+.resources-featured-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 28px 52px rgba(8, 31, 24, 0.2);
+}
+
+.resources-featured-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.resources-featured-image:not([src]),
+.resources-featured-image[src=""] {
+  background: linear-gradient(135deg, #2b3532 0%, #1b2422 60%, #0f1716 100%);
+}
+
+.resources-featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 18, 15, 0.2) 0%, rgba(8, 18, 15, 0.5) 55%, rgba(8, 18, 15, 0.82) 100%);
+  z-index: 1;
+}
+
+.resources-featured-arrow {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  z-index: 2;
+  transition: background 200ms ease;
+}
+
+.resources-featured-card:hover .resources-featured-arrow {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.resources-featured-arrow img {
+  width: 18px;
+  height: 18px;
+}
+
+.resources-featured-body {
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  bottom: 28px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resources-featured-body h2 {
+  color: #fff;
+  font-size: clamp(1.2rem, 2.4vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  max-width: 620px;
+}
+
+.resources-featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 600;
+}
+
+.resources-featured-dot {
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   CATEGORY TAGS (shared across featured + cards)
+   ========================================================================== */
+
+.resource-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  width: max-content;
+}
+
+.resource-tag-case-study {
+  background: var(--tag-case-study-bg);
+  color: var(--tag-case-study-fg);
+}
+.resource-tag-insights {
+  background: var(--tag-insights-bg);
+  color: var(--tag-insights-fg);
+}
+.resource-tag-blog {
+  background: var(--tag-blog-bg);
+  color: var(--tag-blog-fg);
+}
+.resource-tag-guide {
+  background: var(--tag-guide-bg);
+  color: var(--tag-guide-fg);
+}
+
+/* ==========================================================================
+   RESOURCES LIST (filters, grid, pagination)
+   ========================================================================== */
+
+.resources-list {
+  max-width: var(--page-shell);
+  margin: 0 auto;
+  padding: 0 24px 72px;
+}
+
+/* ── Filter tabs ── */
+.resources-filters {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(15, 44, 37, 0.04);
+  border-radius: 999px;
+  max-width: 720px;
+  margin: 0 auto 36px;
+  /* CSS vars updated by the renderer whenever the active filter changes.
+     These drive the sliding green pill drawn via ::before. */
+  --filter-indicator-x: 0px;
+  --filter-indicator-w: 0px;
+}
+
+/* Sliding green pill that marks the active filter — glides with a
+   spring-ease curve between tabs. */
+.resources-filters::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 0;
+  height: calc(100% - 20px);
+  width: var(--filter-indicator-w);
+  transform: translateX(var(--filter-indicator-x));
+  background: var(--accent-2);
+  border-radius: 999px;
+  box-shadow: 0 10px 18px rgba(22, 171, 109, 0.28);
+  transition:
+    transform 420ms cubic-bezier(0.2, 0.85, 0.25, 1),
+    width 420ms cubic-bezier(0.2, 0.85, 0.25, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+
+.resources-filter {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-width: 88px;
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: rgba(15, 44, 37, 0.62);
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.92rem;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 260ms cubic-bezier(0.2, 0.85, 0.25, 1);
+  white-space: nowrap;
+}
+
+.resources-filter:hover { color: var(--text-dark); }
+
+.resources-filter.active { color: #ffffff; }
+.resources-filter.active:hover { color: #ffffff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .resources-filters::before,
+  .resources-filter {
+    transition: none;
+  }
+}
+
+/* ── Grid ── */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.resources-grid.is-transition-out {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.resources-grid.is-transition-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.resources-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-muted);
+  padding: 36px 0;
+  font-size: 0.95rem;
+}
+
+/* ── Resource card ── */
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text-dark);
+  transition: transform 200ms var(--motion-ease-standard, ease-out),
+              box-shadow 200ms var(--motion-ease-standard, ease-out);
+  min-height: 420px;
+}
+
+.resource-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgba(8, 31, 24, 0.12);
+}
+
+.resource-card-image {
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.06), transparent 60%),
+    linear-gradient(135deg, #23302d 0%, #141b1a 60%, #0c1312 100%);
+  position: relative;
+}
+
+.resource-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.resource-card-body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.resource-card-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text-dark);
+}
+
+.resource-card-excerpt {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(15, 44, 37, 0.64);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.resource-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(15, 44, 37, 0.56);
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.resource-card-meta-dot {
+  opacity: 0.55;
+}
+
+.resource-card-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* Category accent is set via a modifier class on the card itself so pill,
+     pill text, Read More text, and arrow all share one palette. Fallback is
+     the BLOG arrow colour when no modifier is applied. */
+  color: var(--card-accent, #f77a40);
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding-top: 4px;
+}
+
+.resource-card--blog       { --card-accent: #f77a40; }
+.resource-card--insights   { --card-accent: #7b48be; }
+.resource-card--guide      { --card-accent: #2a8fde; }
+.resource-card--case-study { --card-accent: #16ab6d; }
+
+.resource-card-read-more img {
+  width: 14px;
+  height: 14px;
+  transition: transform 180ms ease;
+}
+
+.resource-card:hover .resource-card-read-more img {
+  transform: translateX(3px);
+}
+
+/* ── Pagination ── */
+.resources-pagination {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.rows-per-page {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+}
+
+.rows-per-page label {
+  font-size: 0.85rem;
+}
+
+.rows-per-page select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 34px 8px 14px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'><path d='M1 1L5 5L9 1' stroke='%230f2c25' stroke-width='1.5' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition: border-color 180ms ease;
+}
+
+.rows-per-page select:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+
+.pagination-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-end,
+.pagination-arrow {
+  appearance: none;
+  border: none;
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, opacity 180ms ease,
+              transform 180ms ease;
+}
+
+.pagination-end {
+  background: rgba(15, 44, 37, 0.06);
+  color: var(--text-dark);
+  border-radius: 999px;
+  padding: 10px 20px;
+}
+
+.pagination-end:hover:not(:disabled) {
+  background: rgba(15, 44, 37, 0.1);
+}
+
+.pagination-end-primary {
+  background: var(--accent-2);
+  color: #ffffff;
+  box-shadow: 0 10px 18px rgba(22, 171, 109, 0.28);
+}
+
+.pagination-end-primary:hover:not(:disabled) {
+  background: #12945e;
+}
+
+.pagination-arrow {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 44, 37, 0.06);
+  color: var(--text-dark);
+  border-radius: 999px;
+}
+
+.pagination-arrow img {
+  width: 14px;
+  height: 14px;
+}
+
+.pagination-arrow:hover:not(:disabled) {
+  background: rgba(15, 44, 37, 0.12);
+}
+
+.pagination-end:disabled,
+.pagination-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-indicator {
+  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  padding: 0 6px;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .resources-list,
+  .resources-featured {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .resources-hero {
+    padding: 48px 20px 40px;
+  }
+
+  .resources-featured {
+    margin: 24px auto 40px;
+    padding: 0 20px;
+  }
+
+  .resources-featured-card {
+    aspect-ratio: 16 / 10;
+  }
+
+  .resources-featured-body {
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+  }
+
+  .resources-list {
+    padding: 0 20px 56px;
+  }
+
+  .resources-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .resource-card {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .resources-hero {
+    padding: 36px 16px 32px;
+  }
+
+  .resources-hero-copy h1 {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  .resources-hero-copy p {
+    font-size: 0.92rem;
+  }
+
+  .resources-featured {
+    margin: 20px auto 32px;
+    padding: 0 16px;
+  }
+
+  .resources-featured-card {
+    aspect-ratio: 4 / 3;
+  }
+
+  .resources-featured-arrow {
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .resources-featured-body {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    gap: 8px;
+  }
+
+  .resources-featured-body h2 {
+    font-size: 1.1rem;
+  }
+
+  .resources-list {
+    padding: 0 16px 48px;
+  }
+
+  .resources-filters {
+    gap: 4px;
+    padding: 6px;
+    overflow-x: auto;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-radius: 999px;
+  }
+
+  .resources-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .resources-filter {
+    flex: 0 0 auto;
+    min-width: 0;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .resources-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .resource-card {
+    min-height: 0;
+  }
+
+  .resources-pagination {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  /* On mobile the "rows per page" selector has no visual analogue (each row
+     is one card). Hide it and let pagination use the mobile default of
+     6 items per page. See resources.js → MOBILE_ITEMS_PER_PAGE. */
+  .rows-per-page { display: none; }
+
+  /* Compact mobile pagination: keep Prev / indicator / Next; hide First/Last
+     since Prev+Next with a tappable indicator is enough. */
+  .pagination-controls {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .pagination-end { display: none; }
+
+  .pagination-arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .pagination-indicator {
+    flex: 1 1 auto;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+}

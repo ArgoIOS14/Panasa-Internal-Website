@@ -1,4 +1,5 @@
 import { initScrollAnimations } from './Home scenes/components/animations.js';
+import './smooth-scroll.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderLogoMarquee } from './Home scenes/sections/logoMarquee.js';
@@ -846,7 +847,7 @@ const applyLegacyModernisationTextOverrides = async () => {
     if (heroSummary) heroSummary.textContent = h.subtitle || 'Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.';
     if (heroActions[0]) heroActions[0].textContent = h.primaryCta || 'Talk to our team';
     if (heroActions[1]) heroActions[1].textContent = h.secondaryCta || 'View Case Studies';
-    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'index.html#case-studies');
+    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
     if (trustKicker) trustKicker.textContent = h.trustedKicker || 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
     const heroStats = Array.isArray(h.stats) ? h.stats : (h.stats ? Object.values(h.stats) : [
@@ -958,7 +959,7 @@ const applyServiceMode = async () => {
   const heroActions = document.querySelectorAll('.service-hero .hero-action-label');
   const heroActionLinks = document.querySelectorAll('.service-hero .hero-actions a');
   if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'index.html#case-studies');
+  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
   deliverablesSection.classList.remove(
@@ -1329,9 +1330,9 @@ const applyServiceMode = async () => {
 };
 
 const resolveToSiteHref = (href) => {
-  if (href === '#about') return 'about.html';
-  if (href === '#services') return 'ai-accelerated-fintech-engineering.html';
-  if (href.startsWith('#')) return `index.html${href}`;
+  if (href === '#about') return 'about';
+  if (href === '#services') return 'ai-accelerated-fintech-engineering';
+  if (href.startsWith('#')) return `/${href}`;
   return href;
 };
 
@@ -1357,7 +1358,7 @@ const buildNav = (nav) => ({
   ...nav,
   links: nav.links.map((link) => ({
     ...link,
-    href: link.label === 'Services' ? 'services.html' : resolveToSiteHref(link.href),
+    href: link.label === 'Services' ? 'services' : resolveToSiteHref(link.href),
   })),
 });
 
