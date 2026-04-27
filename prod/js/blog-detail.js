@@ -14,13 +14,19 @@ const RESOURCES_JSON_URL = '../content/Resources/content.json';
 
 const getSlug = () =>
   document.querySelector('.blog-detail-page')?.dataset.blogSlug ||
-  (location.pathname.match(/\/blog\/([^/]+?)(?:\.html)?$/) || [])[1] ||
+  (location.pathname.match(/\/(?:blog|insights)\/([^/]+?)(?:\.html)?$/) || [])[1] ||
   '';
+
+// Blog detail pages live at /blog/<slug>; insights at /insights/<slug>.
+// They share the same renderer + JSON schema; only the source folder differs.
+const getContentFolder = () =>
+  location.pathname.includes('/insights/') ? 'Insights' : 'Blog';
 
 const loadBlogContent = async (slug) => {
   if (!slug) return null;
   try {
-    const res = await fetch(`../content/Blog/${slug}.json`);
+    const folder = getContentFolder();
+    const res = await fetch(`../content/${folder}/${slug}.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch (error) {

@@ -44,12 +44,18 @@ import * as contactPage from './pages/contact.js';
 import * as careersPage from './pages/careers.js';
 import * as servicesOverviewPage from './pages/services-overview.js';
 import * as privacyPage from './pages/privacy-policy.js';
+import * as resourcesPage from './pages/resources.js';
+import * as blogList from './pages/blogList.js';
+import * as insightsList from './pages/insightsList.js';
+import * as guideList from './pages/guideList.js';
+import * as blogArticle from './pages/blogArticle.js';
+import * as guideArticle from './pages/guideArticle.js';
 
 /* ═══════════════════════════════════════════════
    Page registry
    ═══════════════════════════════════════════════ */
 
-const PAGES = {
+const STATIC_PAGES = {
   aiAcceleratedEngineering: { label: 'AI Accelerated Engineering', ...aiEngPage, previewUrl: '/ai-accelerated-fintech-engineering.html' },
   home: { label: 'Home Page', ...homePage, previewUrl: '/index.html' },
   about: { label: 'About Us', ...aboutPage, previewUrl: '/about.html' },
@@ -60,7 +66,23 @@ const PAGES = {
   contact: { label: 'Contact', ...contactPage, previewUrl: '/contact.html' },
   careers: { label: 'Careers', ...careersPage, previewUrl: '/careers.html' },
   privacyPolicy: { label: 'Privacy Policy', ...privacyPage, previewUrl: '/privacy-policy.html' },
+  resources: { label: 'Resources Hub', ...resourcesPage, previewUrl: '/resources.html' },
+  blogList: { label: 'Blog Articles', ...blogList },
+  insightsList: { label: 'Insights Articles', ...insightsList },
+  guideList: { label: 'Guide Articles', ...guideList },
 };
+
+// Backward-compat alias
+const PAGES = STATIC_PAGES;
+
+const ARTICLE_KEY_RE = /^(blog|insights|guides):(.+)$/;
+function resolveDynamicPage(key) {
+  const m = ARTICLE_KEY_RE.exec(key);
+  if (!m) return null;
+  const [, type, slug] = m;
+  const mod = type === 'guides' ? guideArticle : blogArticle;
+  return { ...mod.configFor(type, slug) };
+}
 
 /* ═══════════════════════════════════════════════
    State
@@ -92,7 +114,11 @@ const revertBtn = document.getElementById('revert-btn');
    Helpers
    ═══════════════════════════════════════════════ */
 
-function getPage() { return PAGES[currentPage]; }
+function getPage() {
+  if (STATIC_PAGES[currentPage]) return STATIC_PAGES[currentPage];
+  const dyn = resolveDynamicPage(currentPage);
+  return dyn || STATIC_PAGES.home;
+}
 
 async function getDefaults() {
   const page = getPage();
@@ -209,6 +235,10 @@ async function handleSave() {
     showToast('Draft saved', 'success');
     resetAutosaveHash();
     logAction('save_draft', currentPage);
+    // For dynamic article pages, build a preview HTML so the live-preview iframe resolves.
+    if (/^(blog|insights|guides):/.test(currentPage)) {
+      previewArticle(currentPage, data);
+    }
   } catch (err) {
     console.error('Save failed:', err);
     saveStatus.textContent = 'Save failed — ' + err.message;
@@ -218,6 +248,19 @@ async function handleSave() {
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save Draft';
   }
+}
+
+/** Fire-and-forget preview rebuild for dynamic article pages. */
+async function previewArticle(pageKey, payload) {
+  try {
+    const token = await auth.currentUser?.getIdToken();
+    await fetch('/api/rebuild.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (token || '') },
+      body: JSON.stringify({ action: 'preview', pageKey, data: payload }),
+    });
+    refreshPreview();
+  } catch (e) { /* non-blocking */ }
 }
 
 async function handlePublish() {
@@ -527,11 +570,22 @@ function renderEditor(focusSectionKey) {
 
   editorSections.innerHTML = '';
 
+  // Custom render hook (used by article list views)
+  if (typeof page.customRender === 'function') {
+    page.customRender(editorSections, { reload: () => renderEditor() });
+    handleSearch();
+    return;
+  }
+
   for (const cfg of page.sections) {
     const sectionKey = cfg.parentKey || cfg.key;
     const nestedKey = cfg.nestedKey;
-    const section = nestedKey ? (data[sectionKey] || {})[nestedKey] || {} : data[sectionKey] || {};
+    // _root: data lives at the data root itself; use cfg.key for unique DOM lookup
+    const isRoot = sectionKey === '_root';
+    const section = isRoot ? (data || {}) : (nestedKey ? (data[sectionKey] || {})[nestedKey] || {} : data[sectionKey] || {});
     const editorKey = cfg.key;
+    const domSectionKey = isRoot ? cfg.key : sectionKey;
+    const renderSectionKey = isRoot ? cfg.key : (nestedKey ? `${sectionKey}.${nestedKey}` : sectionKey);
 
     const wrapper = el('div', 'editor-section');
     wrapper.dataset.editorKey = editorKey;
@@ -546,7 +600,7 @@ function renderEditor(focusSectionKey) {
     wrapper.appendChild(header);
 
     const body = el('div', 'editor-section-body');
-    body.dataset.sectionKey = sectionKey;
+    body.dataset.sectionKey = domSectionKey;
     if (nestedKey) body.dataset.nestedKey = nestedKey;
 
     // Inner wrapper for smooth accordion animation (grid-template-rows transition)
@@ -554,7 +608,7 @@ function renderEditor(focusSectionKey) {
     for (const field of cfg.fields) {
       const rerender = (focusKey) => { renderEditor(focusKey || editorKey); };
       rerender.readForms = doReadForms;
-      bodyInner.appendChild(renderField(nestedKey ? `${sectionKey}.${nestedKey}` : sectionKey, field, section[field.key], data, rerender));
+      bodyInner.appendChild(renderField(renderSectionKey, field, section[field.key], data, rerender));
     }
     body.appendChild(bodyInner);
 

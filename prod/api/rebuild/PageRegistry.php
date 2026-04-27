@@ -57,17 +57,45 @@ class PageRegistry {
             'htmlFile' => 'privacy-policy.html',
             'tier'     => self::TIER_META_ONLY,
         ],
+        'resources' => [
+            'fbPath'   => 'pages/resources',
+            'htmlFile' => 'resources.html',
+            'tier'     => self::TIER_META_ONLY,
+        ],
     ];
 
     public static function get(string $pageKey): ?array {
-        return self::$pages[$pageKey] ?? null;
+        if (isset(self::$pages[$pageKey])) return self::$pages[$pageKey];
+        return self::resolveDynamic($pageKey);
     }
 
     public static function isValid(string $pageKey): bool {
-        return isset(self::$pages[$pageKey]);
+        if (isset(self::$pages[$pageKey])) return true;
+        return self::resolveDynamic($pageKey) !== null;
     }
 
     public static function allKeys(): array {
         return array_keys(self::$pages);
+    }
+
+    /**
+     * Dynamic article keys: blog:<slug>, insights:<slug>, guides:<slug>
+     */
+    public static function resolveDynamic(string $pageKey): ?array {
+        if (!preg_match('/^(blog|insights|guides):([a-z0-9]+(?:-[a-z0-9]+)*)$/', $pageKey, $m)) return null;
+        $type = $m[1];
+        $slug = $m[2];
+        $folderUrl = $type === 'blog' ? 'blog' : ($type === 'insights' ? 'insights' : 'guides');
+        $folderJson = $type === 'blog' ? 'Blog' : ($type === 'insights' ? 'Insights' : 'Guide');
+        return [
+            'type'        => 'article',
+            'articleType' => $type,
+            'slug'        => $slug,
+            'fbPath'      => "pages/articles/{$type}/{$slug}",
+            'htmlFile'    => "{$folderUrl}/{$slug}.html",
+            'jsonFile'    => "content/{$folderJson}/{$slug}.json",
+            'jsFile'      => "content/{$folderJson}/{$slug}.default.js",
+            'tier'        => self::TIER_FULL,
+        ];
     }
 }

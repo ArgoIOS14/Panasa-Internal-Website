@@ -115,8 +115,41 @@ const detectColumns = () => {
   return 3;
 };
 
-export const renderResources = (data) => {
+/* Fetch the auto-derived articles index. Falls back to data.items if missing. */
+const loadArticlesIndex = async () => {
+  try {
+    const res = await fetch('content/Resources/articles-index.json', { cache: 'no-store' });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (_) { return null; }
+};
+
+const resolveFeaturedFromRef = (featured, indexItems) => {
+  if (!featured?.ref) return featured;
+  const { type, slug } = featured.ref;
+  if (!type || !slug) return featured;
+  const found = (indexItems || []).find((it) => it.slug === slug);
+  if (!found) return featured;
+  return {
+    ...featured,
+    tag: featured.tag || (found.category || '').toUpperCase(),
+    tagClass: featured.tagClass || '',
+    title: featured.title || found.title,
+    date: featured.date || found.date,
+    author: featured.author || found.author,
+    image: featured.image || found.image,
+    href: featured.href || found.href,
+  };
+};
+
+export const renderResources = async (data) => {
   if (!data) return;
+
+  // Auto-derive items from the articles index when present
+  const idx = await loadArticlesIndex();
+  if (idx && Array.isArray(idx.items) && idx.items.length) {
+    data = { ...data, items: idx.items };
+  }
 
   // ── Hero ──────────────────────────────────────────
   setText('[data-resources-hero-line1]', data.hero?.titleLine1);
@@ -124,7 +157,7 @@ export const renderResources = (data) => {
   setText('[data-resources-hero-subtitle]', data.hero?.subtitle);
 
   // ── Featured card ─────────────────────────────────
-  const featured = data.featured || {};
+  const featured = resolveFeaturedFromRef(data.featured || {}, data.items || []);
   const featuredCard = document.querySelector('[data-featured-card]');
   if (featuredCard instanceof HTMLAnchorElement && featured.href) {
     featuredCard.href = featured.href;

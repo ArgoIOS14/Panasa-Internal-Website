@@ -30,10 +30,21 @@ function textInput(value, placeholder) {
 
 const _quillInstances = [];
 
-function textArea(value) {
+function textArea(value, opts = {}) {
   const wrapper = el('div', 'quill-wrapper');
   const editorDiv = el('div', 'quill-editor-container');
   wrapper.appendChild(editorDiv);
+
+  const fullToolbar = [
+    [{ header: [2, 3, false] }],
+    ['bold', 'italic'],
+    ['blockquote', 'code-block'],
+    ['link', 'image'],
+    ['code'],
+    [{ list: 'bullet' }, { list: 'ordered' }],
+  ];
+  const inlineToolbar = [['bold', 'italic'], ['link'], [{ list: 'bullet' }, { list: 'ordered' }]];
+  const toolbar = opts.inline ? inlineToolbar : fullToolbar;
 
   // Initialize Quill after DOM insertion — use setTimeout to ensure element is in DOM
   setTimeout(() => {
@@ -41,11 +52,32 @@ function textArea(value) {
     try {
       const quill = new Quill(editorDiv, {
         theme: 'snow',
-        modules: {
-          toolbar: [['bold', 'italic'], ['link'], [{ list: 'bullet' }, { list: 'ordered' }]],
-        },
+        modules: { toolbar },
         placeholder: 'Enter text...',
       });
+      // Custom image handler — opens existing gallery modal and inserts URL via insertEmbed.
+      // Capture insertion index BEFORE the modal opens (modal steals focus, invalidating
+      // selection). Fall back to end-of-doc if Quill had no selection.
+      const tb = quill.getModule('toolbar');
+      if (tb && typeof tb.addHandler === 'function') {
+        tb.addHandler('image', () => {
+          const sel = quill.getSelection(true);
+          const insertIndex = sel ? sel.index : quill.getLength();
+          window._galleryCallback = (url) => {
+            window._galleryCallback = null;
+            if (!url) return;
+            try {
+              quill.insertEmbed(insertIndex, 'image', url, 'user');
+              quill.setSelection(insertIndex + 1, 0, 'user');
+            } catch (err) {
+              console.warn('Quill image insert failed:', err);
+            }
+          };
+          const modal = document.getElementById('gallery-modal');
+          if (modal) modal.dispatchEvent(new Event('open'));
+          else console.warn('gallery-modal element not found in admin page');
+        });
+      }
       if (value && value.trim()) {
         if (value.includes('<') && value.includes('>')) {
           quill.root.innerHTML = value;
@@ -259,6 +291,16 @@ if (typeof window !== 'undefined') {
   import('./animations.js').then(m => { window.showToast = m.showToast; }).catch(() => {});
 }
 
+// ── YouTube helpers ──
+const YOUTUBE_ID_RE = /^[A-Za-z0-9_-]{11}$/;
+export function extractYouTubeId(input) {
+  if (!input) return '';
+  const s = String(input).trim();
+  if (YOUTUBE_ID_RE.test(s)) return s;
+  const m = s.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : '';
+}
+
 // ── Render a single field ──
 
 export function renderField(sectionKey, field, value, data, onRerender) {
@@ -297,6 +339,10 @@ export function renderField(sectionKey, field, value, data, onRerender) {
     case 'office-cards': renderOfficeCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'job-cards': renderJobCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'service-blocks': renderServiceBlocks(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'blocks': renderBlocks(group, sectionKey, field.key, toArr(value), ctx, field.allowedTypes || ['html', 'callout', 'youtube']); break;
+    case 'guide-sections': renderGuideSections(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'article-picker': renderArticlePicker(group, field.key, value || {}, ctx); break;
+    case 'related-articles': renderRelatedArticles(group, field.key, toArr(value), ctx); break;
   }
 
   return group;
@@ -879,6 +925,650 @@ function addButton(group, container, text, onClick) {
 let ctx_readForms = () => {};
 export function setReadForms(fn) { ctx_readForms = fn; }
 
+/* ═══════════════════════════════════════════════
+   blocks — typed body block list (HTML / Callout / Note / Subheading / YouTube)
+   ═══════════════════════════════════════════════ */
+
+const BLOCK_TYPE_LABELS = {
+  html: 'Rich Text',
+  callout: 'Callout',
+  note: 'Note',
+  subheading: 'Subheading',
+  youtube: 'YouTube Video',
+};
+
+const NOTE_VARIANTS = [
+  { value: 'key-insight',  label: 'Key Insight' },
+  { value: 'practitioner', label: 'Practitioner' },
+  { value: 'field',        label: 'From the Field' },
+];
+
+const CALLOUT_VARIANTS = [
+  { value: 'dark',  label: 'Dark (filled)' },
+  { value: 'ghost', label: 'Ghost (outline)' },
+];
+
+// Common destinations for callout CTAs on article pages (one level deep, so '../').
+const ARTICLE_CTA_HREFS = [
+  { value: '../contact', label: 'Contact' },
+  { value: '../about', label: 'About Us' },
+  { value: '../services', label: 'Services Overview' },
+  { value: '../resources', label: 'Resources' },
+  { value: '../careers', label: 'Careers' },
+  { value: '../ai-accelerated-fintech-engineering', label: 'AI Accelerated Fintech Engineering' },
+  { value: '../ai-powered-legacy-modernisation', label: 'AI Powered Legacy Modernisation' },
+  { value: '../ai-governance', label: 'AI Governance' },
+  { value: '../intelligent-operations', label: 'Intelligent Operations' },
+];
+
+function newBlock(type) {
+  switch (type) {
+    case 'html':       return { type: 'html', content: '' };
+    case 'callout':    return { type: 'callout', title: '', text: '', cta: { label: '', href: '../contact', variant: 'dark' } };
+    case 'note':       return { type: 'note', variant: 'key-insight', label: '', text: '' };
+    case 'subheading': return { type: 'subheading', text: '' };
+    case 'youtube':    return { type: 'youtube', videoId: '', caption: '' };
+    default:           return { type };
+  }
+}
+
+function renderBlockCard(block, idx, allowedTypes, total) {
+  const card = el('div', 'block-card nested-card');
+  card.dataset.blockIdx = String(idx);
+  card.dataset.blockType = block.type;
+
+  // Header: position + badge + move up/down + drag handle + delete
+  const header = el('div', 'block-card-header');
+  header.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;';
+
+  const position = el('span', 'block-card-position');
+  position.style.cssText = 'font-size:12px;color:#6b7280;font-weight:600;min-width:48px;';
+  position.textContent = total ? `${idx + 1} / ${total}` : `#${idx + 1}`;
+  header.appendChild(position);
+
+  const badge = el('span', 'block-card-badge');
+  badge.style.cssText = 'background:#1f2937;color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.4px;';
+  badge.textContent = BLOCK_TYPE_LABELS[block.type] || block.type;
+  header.appendChild(badge);
+
+  const spacer = el('span', '');
+  spacer.style.cssText = 'flex:1;';
+  header.appendChild(spacer);
+
+  const upBtn = el('button', 'block-move-up');
+  upBtn.type = 'button';
+  upBtn.dataset.idx = String(idx);
+  upBtn.title = 'Move up';
+  upBtn.disabled = idx === 0;
+  upBtn.style.cssText = 'background:none;border:1px solid #ddd;border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:13px;color:#374151;line-height:1;padding:0;';
+  upBtn.innerHTML = '&#9650;';
+  header.appendChild(upBtn);
+
+  const downBtn = el('button', 'block-move-down');
+  downBtn.type = 'button';
+  downBtn.dataset.idx = String(idx);
+  downBtn.title = 'Move down';
+  downBtn.disabled = total != null && idx >= total - 1;
+  downBtn.style.cssText = 'background:none;border:1px solid #ddd;border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:13px;color:#374151;line-height:1;padding:0;';
+  downBtn.innerHTML = '&#9660;';
+  header.appendChild(downBtn);
+
+  const drag = el('span', 'block-drag-handle');
+  drag.setAttribute('data-reorder-handle', '');
+  drag.title = 'Drag to reorder';
+  drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;padding:0 4px;';
+  drag.textContent = '⠿';
+  header.appendChild(drag);
+
+  const del = el('button', 'bullet-remove block-delete');
+  del.type = 'button';
+  del.dataset.idx = String(idx);
+  del.innerHTML = '&times;';
+  header.appendChild(del);
+  card.appendChild(header);
+
+  // Body — type-specific
+  const body = el('div', 'block-card-body');
+  if (block.type === 'html') {
+    const ta = textArea(block.content || '');
+    ta.classList.add('blk-html');
+    body.appendChild(ta);
+  } else if (block.type === 'callout') {
+    body.appendChild(labelInput('Title', textInput(block.title || '', 'Callout title'), 'blk-callout-title'));
+    body.appendChild(labelInput('Text', plainTextarea(block.text || '', 'Callout body'), 'blk-callout-text'));
+    body.appendChild(labelInput('CTA label', textInput(block.cta?.label || '', 'CTA button text'), 'blk-callout-cta-label'));
+    body.appendChild(renderHrefSelect('CTA href', block.cta?.href || '../contact', 'blk-callout-cta-href'));
+    body.appendChild(labelSelect('CTA variant', CALLOUT_VARIANTS, block.cta?.variant || 'dark', 'blk-callout-cta-variant'));
+  } else if (block.type === 'note') {
+    body.appendChild(labelSelect('Variant', NOTE_VARIANTS, block.variant || 'key-insight', 'blk-note-variant'));
+    body.appendChild(labelInput('Label', textInput(block.label || '', 'e.g. KEY INSIGHT'), 'blk-note-label'));
+    body.appendChild(labelInput('Text', plainTextarea(block.text || '', 'Note body'), 'blk-note-text'));
+  } else if (block.type === 'subheading') {
+    body.appendChild(labelInput('Subheading', textInput(block.text || '', 'Subheading text'), 'blk-sub-text'));
+  } else if (block.type === 'youtube') {
+    body.appendChild(renderYouTubeWidget(block));
+  }
+  card.appendChild(body);
+  return card;
+}
+
+function plainTextarea(value, placeholder) {
+  const ta = document.createElement('textarea');
+  ta.className = 'field-input';
+  ta.rows = 3;
+  ta.value = value || '';
+  if (placeholder) ta.placeholder = placeholder;
+  return ta;
+}
+
+function labelInput(labelText, inputEl, className) {
+  const wrap = el('div', 'blk-row');
+  wrap.style.cssText = 'margin:6px 0;';
+  const lbl = el('div', 'field-label');
+  lbl.style.cssText = 'font-size:12px;margin-bottom:2px;';
+  lbl.textContent = labelText;
+  wrap.appendChild(lbl);
+  inputEl.classList.add(className);
+  wrap.appendChild(inputEl);
+  return wrap;
+}
+
+function labelSelect(labelText, options, current, className) {
+  const wrap = el('div', 'blk-row');
+  wrap.style.cssText = 'margin:6px 0;';
+  const lbl = el('div', 'field-label');
+  lbl.style.cssText = 'font-size:12px;margin-bottom:2px;';
+  lbl.textContent = labelText;
+  wrap.appendChild(lbl);
+  const sel = document.createElement('select');
+  sel.className = `field-input ${className}`;
+  options.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = o.value;
+    opt.textContent = o.label;
+    if (o.value === current) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  wrap.appendChild(sel);
+  return wrap;
+}
+
+/**
+ * HREF dropdown — common article-page destinations + a "Custom URL" fallback
+ * with a hidden text input revealed when the user picks "Custom".
+ */
+function renderHrefSelect(labelText, currentHref, className) {
+  const wrap = el('div', 'blk-row');
+  wrap.style.cssText = 'margin:6px 0;';
+  const lbl = el('div', 'field-label');
+  lbl.style.cssText = 'font-size:12px;margin-bottom:2px;';
+  lbl.textContent = labelText;
+  wrap.appendChild(lbl);
+
+  const sel = document.createElement('select');
+  sel.className = `field-input ${className}`;
+  const isKnown = ARTICLE_CTA_HREFS.some((p) => p.value === currentHref);
+  ARTICLE_CTA_HREFS.forEach((o) => {
+    const opt = document.createElement('option');
+    opt.value = o.value;
+    opt.textContent = o.label;
+    if (o.value === currentHref) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  if (!isKnown && currentHref) {
+    const opt = document.createElement('option');
+    opt.value = currentHref;
+    opt.textContent = `Custom: ${currentHref}`;
+    opt.dataset.custom = '1';
+    opt.selected = true;
+    sel.appendChild(opt);
+  }
+  const customChoice = document.createElement('option');
+  customChoice.value = '__custom__';
+  customChoice.textContent = '— Custom URL… —';
+  sel.appendChild(customChoice);
+  wrap.appendChild(sel);
+
+  const customRow = el('div', '');
+  customRow.style.cssText = `margin-top:6px;display:${(!isKnown && currentHref) ? 'block' : 'none'};`;
+  const customIn = textInput(!isKnown ? currentHref : '', 'Custom URL (../path, mailto:, https://…)');
+  customIn.classList.add(`${className}-custom`);
+  customRow.appendChild(customIn);
+  wrap.appendChild(customRow);
+
+  sel.addEventListener('change', () => {
+    if (sel.value === '__custom__') {
+      customRow.style.display = '';
+      customIn.focus();
+    } else {
+      customRow.style.display = 'none';
+    }
+  });
+  customIn.addEventListener('input', () => {
+    const val = customIn.value.trim();
+    if (!val) return;
+    let opt = sel.querySelector('option[data-custom="1"]');
+    if (!opt) {
+      opt = document.createElement('option');
+      opt.dataset.custom = '1';
+      sel.insertBefore(opt, sel.querySelector('option[value="__custom__"]'));
+    }
+    opt.value = val;
+    opt.textContent = `Custom: ${val}`;
+    opt.selected = true;
+  });
+
+  return wrap;
+}
+
+function renderYouTubeWidget(block) {
+  const wrap = el('div', 'yt-widget');
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
+  const lbl = el('div', 'field-label');
+  lbl.style.cssText = 'font-size:12px;';
+  lbl.textContent = 'YouTube URL or 11-character video ID';
+  wrap.appendChild(lbl);
+  const input = textInput(block.videoId || '', 'https://www.youtube.com/watch?v=… or 11-char ID');
+  input.classList.add('blk-yt-input');
+  wrap.appendChild(input);
+  const captionLbl = el('div', 'field-label');
+  captionLbl.style.cssText = 'font-size:12px;';
+  captionLbl.textContent = 'Caption (optional)';
+  wrap.appendChild(captionLbl);
+  const cap = textInput(block.caption || '', 'Optional caption shown below the video');
+  cap.classList.add('blk-yt-caption');
+  wrap.appendChild(cap);
+  // Preview iframe
+  const previewWrap = el('div', 'yt-preview');
+  previewWrap.style.cssText = 'margin-top:6px;aspect-ratio:16/9;background:#111;border-radius:6px;overflow:hidden;display:none;';
+  wrap.appendChild(previewWrap);
+  const updatePreview = () => {
+    const id = extractYouTubeId(input.value);
+    previewWrap.innerHTML = '';
+    if (id) {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}`;
+      iframe.style.cssText = 'width:100%;height:100%;border:0;';
+      iframe.loading = 'lazy';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      previewWrap.appendChild(iframe);
+      previewWrap.style.display = '';
+    } else {
+      previewWrap.style.display = 'none';
+    }
+  };
+  input.addEventListener('blur', updatePreview);
+  input.addEventListener('change', updatePreview);
+  if (block.videoId) setTimeout(updatePreview, 0);
+  return wrap;
+}
+
+function readBlockCard(card) {
+  const type = card.dataset.blockType;
+  const block = { type };
+  if (type === 'html') {
+    const qw = card.querySelector('.blk-html');
+    block.content = qw ? readQuillValue(qw, true) : '';
+  } else if (type === 'callout') {
+    const sel = card.querySelector('.blk-callout-cta-href');
+    let href = sel?.value || '';
+    if (href === '__custom__') {
+      href = card.querySelector('.blk-callout-cta-href-custom')?.value?.trim() || '';
+    }
+    block.title = card.querySelector('.blk-callout-title')?.value || '';
+    block.text = card.querySelector('.blk-callout-text')?.value || '';
+    block.cta = {
+      label: card.querySelector('.blk-callout-cta-label')?.value || '',
+      href,
+      variant: card.querySelector('.blk-callout-cta-variant')?.value || 'dark',
+    };
+  } else if (type === 'note') {
+    block.variant = card.querySelector('.blk-note-variant')?.value || 'key-insight';
+    block.label = card.querySelector('.blk-note-label')?.value || '';
+    block.text = card.querySelector('.blk-note-text')?.value || '';
+  } else if (type === 'subheading') {
+    block.text = card.querySelector('.blk-sub-text')?.value || '';
+  } else if (type === 'youtube') {
+    block.videoId = extractYouTubeId(card.querySelector('.blk-yt-input')?.value || '');
+    block.caption = card.querySelector('.blk-yt-caption')?.value || '';
+  }
+  return block;
+}
+
+/**
+ * Resolve the array that a `blocks` field writes into. Handles two shapes:
+ *  - Root field: data[arrayKey] IS the array (sectionKey === arrayKey).
+ *  - Nested field: data[sectionKey][arrayKey].
+ */
+function resolveBlocksArray(ctx, sectionKey, arrayKey) {
+  if (sectionKey === arrayKey) {
+    if (!Array.isArray(ctx.data[sectionKey])) ctx.data[sectionKey] = [];
+    return ctx.data[sectionKey];
+  }
+  const ref = resolveDataRef(ctx.data, sectionKey);
+  if (!Array.isArray(ref[arrayKey])) ref[arrayKey] = [];
+  return ref[arrayKey];
+}
+
+function renderBlocks(group, sectionKey, arrayKey, blocks, ctx, allowedTypes) {
+  const list = el('div', 'block-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+  list.dataset.section = sectionKey;
+  list.dataset.array = arrayKey;
+  const total = blocks.length;
+  blocks.forEach((b, i) => list.appendChild(renderBlockCard(b, i, allowedTypes, total)));
+  group.appendChild(list);
+
+  // Add-block toolbar
+  const addRow = el('div', 'block-add-row');
+  addRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;';
+  allowedTypes.forEach((t) => {
+    const btn = el('button', 'add-bullet-btn');
+    btn.type = 'button';
+    btn.textContent = `+ ${BLOCK_TYPE_LABELS[t] || t}`;
+    btn.title = `Add a new ${BLOCK_TYPE_LABELS[t] || t} block at the end (use ▲▼ or drag to reposition)`;
+    btn.addEventListener('click', () => {
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      arr.push(newBlock(t));
+      ctx.onRerender();
+    });
+    addRow.appendChild(btn);
+  });
+  const hint = el('span', '');
+  hint.style.cssText = 'font-size:12px;color:#6b7280;margin-left:8px;';
+  hint.textContent = total
+    ? `New blocks add at the end (position ${total + 1}). Use ▲▼ or drag to reorder.`
+    : 'Click a button above to add the first block.';
+  addRow.appendChild(hint);
+  group.appendChild(addRow);
+
+  // Wire delete buttons (re-render after splice)
+  list.querySelectorAll('.block-delete').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this block?')) return;
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      if (idx < arr.length) {
+        arr.splice(idx, 1);
+        ctx.onRerender();
+      }
+    });
+  });
+
+  // Wire move up/down buttons
+  list.querySelectorAll('.block-move-up').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (idx <= 0) return;
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+      ctx.onRerender();
+    });
+  });
+  list.querySelectorAll('.block-move-down').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      if (idx >= arr.length - 1) return;
+      [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
+      ctx.onRerender();
+    });
+  });
+}
+
+/* ── Numbered guide sections (each contains its own blocks list) ── */
+function renderGuideSections(group, sectionKey, arrayKey, sections, ctx) {
+  const container = el('div', 'guide-sections-container repeatable-container');
+  container.setAttribute('data-reorder-list', '');
+  sections.forEach((section, i) => {
+    const card = el('div', 'guide-section-card section-card');
+    card.style.cssText = 'border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:12px;';
+    card.dataset.sectionIdx = String(i);
+
+    const header = el('div', 'gs-header');
+    header.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;';
+    const badge = el('span', 'gs-badge');
+    badge.style.cssText = 'background:#0ea5e9;color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;';
+    badge.textContent = `SECTION ${section.number || (i + 1)}`;
+    header.appendChild(badge);
+    const drag = el('span', '');
+    drag.setAttribute('data-reorder-handle', '');
+    drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;margin-left:auto;';
+    drag.textContent = '⠿';
+    header.appendChild(drag);
+    const del = el('button', 'bullet-remove gs-delete');
+    del.type = 'button';
+    del.dataset.idx = String(i);
+    del.innerHTML = '&times;';
+    header.appendChild(del);
+    card.appendChild(header);
+
+    const numRow = el('div', 'card-row');
+    numRow.style.cssText = 'display:grid;grid-template-columns:80px 1fr;gap:8px;margin-bottom:8px;';
+    const numIn = textInput(String(section.number || (i + 1)), 'No.');
+    numIn.classList.add('gs-number');
+    numIn.type = 'number';
+    numRow.appendChild(numIn);
+    const titleIn = textInput(section.title || '', 'Section title');
+    titleIn.classList.add('gs-title');
+    numRow.appendChild(titleIn);
+    card.appendChild(numRow);
+
+    // Hidden slug — auto-derived from title; never shown to the user
+    const slugIn = document.createElement('input');
+    slugIn.type = 'hidden';
+    slugIn.className = 'gs-slug';
+    slugIn.value = section.slug || slugify(section.title || '');
+    card.appendChild(slugIn);
+
+    titleIn.addEventListener('input', () => {
+      slugIn.value = slugify(titleIn.value);
+    });
+
+    // Embedded blocks list
+    const blocksLabel = el('div', 'field-label');
+    blocksLabel.textContent = 'Blocks';
+    blocksLabel.style.cssText = 'margin-top:6px;';
+    card.appendChild(blocksLabel);
+
+    const blocksGroup = el('div', '');
+    const subBlocks = Array.isArray(section.blocks) ? section.blocks : [];
+    const subList = el('div', 'block-list repeatable-container');
+    subList.setAttribute('data-reorder-list', '');
+    subBlocks.forEach((b, j) => subList.appendChild(renderBlockCard(b, j, ['html', 'callout', 'note', 'subheading', 'youtube'], subBlocks.length)));
+    blocksGroup.appendChild(subList);
+
+    const addRow = el('div', 'block-add-row');
+    addRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;';
+    ['html', 'callout', 'note', 'subheading', 'youtube'].forEach((t) => {
+      const btn = el('button', 'add-bullet-btn');
+      btn.type = 'button';
+      btn.textContent = `+ ${BLOCK_TYPE_LABELS[t]}`;
+      btn.addEventListener('click', () => {
+        ctx_readForms();
+        const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+        if (!arr[i]) arr[i] = { slug: '', number: i + 1, title: '', blocks: [] };
+        if (!Array.isArray(arr[i].blocks)) arr[i].blocks = [];
+        arr[i].blocks.push(newBlock(t));
+        ctx.onRerender();
+      });
+      addRow.appendChild(btn);
+    });
+    blocksGroup.appendChild(addRow);
+    card.appendChild(blocksGroup);
+
+    // Wire sub-block delete
+    subList.querySelectorAll('.block-delete').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = Number(btn.dataset.idx);
+        if (!confirm('Delete this block?')) return;
+        ctx_readForms();
+        const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+        if (arr[i] && Array.isArray(arr[i].blocks)) {
+          arr[i].blocks.splice(idx, 1);
+          ctx.onRerender();
+        }
+      });
+    });
+    // Wire sub-block move up/down
+    subList.querySelectorAll('.block-move-up').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = Number(btn.dataset.idx);
+        if (idx <= 0) return;
+        ctx_readForms();
+        const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+        if (!arr[i]?.blocks) return;
+        const blocks = arr[i].blocks;
+        [blocks[idx - 1], blocks[idx]] = [blocks[idx], blocks[idx - 1]];
+        ctx.onRerender();
+      });
+    });
+    subList.querySelectorAll('.block-move-down').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = Number(btn.dataset.idx);
+        ctx_readForms();
+        const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+        if (!arr[i]?.blocks) return;
+        const blocks = arr[i].blocks;
+        if (idx >= blocks.length - 1) return;
+        [blocks[idx], blocks[idx + 1]] = [blocks[idx + 1], blocks[idx]];
+        ctx.onRerender();
+      });
+    });
+
+    container.appendChild(card);
+  });
+  group.appendChild(container);
+
+  // Wire section-level delete
+  container.querySelectorAll('.gs-delete').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this section?')) return;
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      if (idx < arr.length) {
+        arr.splice(idx, 1);
+        ctx.onRerender();
+      }
+    });
+  });
+
+  // Add section button
+  const add = el('button', 'add-bullet-btn');
+  add.type = 'button';
+  add.textContent = '+ Add section';
+  add.addEventListener('click', () => {
+    ctx_readForms();
+    const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+    arr.push({ slug: '', number: arr.length + 1, title: '', blocks: [] });
+    ctx.onRerender();
+  });
+  group.appendChild(add);
+}
+
+/* ── Related articles multi-select (pick by title, store slugs) ── */
+function renderRelatedArticles(group, fieldKey, currentSlugs, ctx) {
+  const wrap = el('div', 'related-articles');
+  wrap.style.cssText = 'border:1px solid #e5e7eb;border-radius:8px;padding:10px;background:#fafbfc;';
+  const help = el('div', '');
+  help.style.cssText = 'font-size:12px;color:#6b7280;margin-bottom:8px;';
+  help.textContent = 'Loading published articles…';
+  wrap.appendChild(help);
+
+  const list = el('div', 'related-articles-list');
+  list.style.cssText = 'display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;';
+  wrap.appendChild(list);
+
+  fetch('content/Resources/articles-index.json', { cache: 'no-store' })
+    .then((r) => r.ok ? r.json() : { items: [] })
+    .then((idx) => {
+      const items = (idx.items || []).filter((it) => it.slug);
+      if (!items.length) {
+        help.textContent = 'No published articles yet — once you publish some, they\'ll appear here.';
+        return;
+      }
+      help.textContent = `Tick the articles you want to feature in the "More …" section at the bottom of this article.`;
+      const selected = new Set(currentSlugs);
+      items.forEach((it) => {
+        const row = el('label', 'related-articles-row');
+        row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;cursor:pointer;background:#fff;border:1px solid #eee;';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'related-article-cb';
+        cb.value = it.slug;
+        cb.checked = selected.has(it.slug);
+        const label = el('span', '');
+        const cat = it.category || '';
+        label.innerHTML = `<strong>${esc(it.title || '(untitled)')}</strong> <span style="color:#6b7280;font-size:12px;">— ${esc(cat)}${it.date ? ' · ' + esc(it.date) : ''}</span>`;
+        row.appendChild(cb);
+        row.appendChild(label);
+        list.appendChild(row);
+      });
+    })
+    .catch(() => {
+      help.textContent = 'Could not load articles list.';
+    });
+
+  group.appendChild(wrap);
+}
+
+/* ── Article picker (Resources featured card) ── */
+export function slugify(s) {
+  return String(s || '').toLowerCase().trim()
+    .replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+export const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+function renderArticlePicker(group, fieldKey, value, ctx) {
+  const wrap = el('div', 'article-picker');
+  const sel = document.createElement('select');
+  sel.className = 'field-input article-picker-select';
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = '— Select an article —';
+  sel.appendChild(placeholder);
+  wrap.appendChild(sel);
+  const note = el('div', '');
+  note.style.cssText = 'font-size:12px;color:#666;margin-top:4px;';
+  note.textContent = 'Loading articles…';
+  wrap.appendChild(note);
+
+  const currentValue = (value && value.type && value.slug) ? `${value.type}:${value.slug}` : '';
+
+  // Load index from articles-index.json (synced by rebuild.php)
+  fetch('content/Resources/articles-index.json', { cache: 'no-store' })
+    .then((r) => r.ok ? r.json() : { items: [] })
+    .then((idx) => {
+      const items = (idx.items || []).filter(Boolean);
+      if (!items.length) {
+        note.textContent = 'No published articles yet. Publish one to populate this list.';
+        return;
+      }
+      items.forEach((it) => {
+        const opt = document.createElement('option');
+        const type = it.href?.startsWith('blog/') ? 'blog' : it.href?.startsWith('insights/') ? 'insights' : it.href?.startsWith('guides/') ? 'guides' : '';
+        if (!type || !it.slug) return;
+        opt.value = `${type}:${it.slug}`;
+        opt.textContent = `[${it.category || type}] ${it.title} ${it.date ? '(' + it.date + ')' : ''}`;
+        if (opt.value === currentValue) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      note.textContent = '';
+    })
+    .catch(() => {
+      note.textContent = 'Could not load articles index.';
+    });
+
+  group.appendChild(wrap);
+}
+
 function isDefaultItem(sectionKey, arrayKey, idx) {
   try {
     const defaults = window._adminCurrentDefaults?.();
@@ -945,10 +1635,12 @@ export function readAllForms(editorSections, sections, data) {
   for (const cfg of sections) {
     const sectionKey = cfg.parentKey || cfg.key;
     const nestedKey = cfg.nestedKey;
-    const body = editorSections.querySelector(`[data-section-key="${sectionKey}"]${nestedKey ? `[data-nested-key="${nestedKey}"]` : ':not([data-nested-key])'}`);
+    // _root: section body is identified by cfg.key in the DOM but writes to data root
+    const queryKey = sectionKey === '_root' ? cfg.key : sectionKey;
+    const body = editorSections.querySelector(`[data-section-key="${queryKey}"]${nestedKey ? `[data-nested-key="${nestedKey}"]` : ':not([data-nested-key])'}`);
     if (!body) continue;
 
-    const ref = resolveDataRef(data, sectionKey, nestedKey);
+    const ref = sectionKey === '_root' ? data : resolveDataRef(data, sectionKey, nestedKey);
 
     for (const field of cfg.fields) {
       const group = body.querySelector(`[data-field-key="${field.key}"]`);
@@ -978,6 +1670,35 @@ export function readAllForms(editorSections, sections, data) {
         case 'office-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ country: c.querySelector('.oc-country')?.value || '', address: c.querySelector('.oc-address')?.value || '' })); break; }
         case 'job-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ title: c.querySelector('.jc-title')?.value || '', jobId: c.querySelector('.jc-jobId')?.value || '', department: c.querySelector('.jc-department')?.value || '', locationType: c.querySelector('.jc-locationType')?.value || '', location: c.querySelector('.jc-location')?.value || '', experience: c.querySelector('.jc-experience')?.value || '' })); break; }
         case 'service-blocks': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = (Array.isArray(ref[field.key]) ? ref[field.key] : Object.values(ref[field.key] || {}))[i] || {}; return { ...existing, kicker: c.querySelector('.sb-kicker')?.value || '', heading: c.querySelector('.sb-heading')?.value || '', href: c.querySelector('.sb-href')?.value || '', items: Array.from(c.querySelectorAll('.sb-item')).map(b => b.value) }; }); break; }
+        case 'blocks': {
+          const list = group.querySelector('.block-list');
+          if (list) ref[field.key] = Array.from(list.querySelectorAll(':scope > .block-card')).map((c) => readBlockCard(c));
+          break;
+        }
+        case 'guide-sections': {
+          ref[field.key] = Array.from(group.querySelectorAll('.guide-section-card')).map((c, i) => {
+            const list = c.querySelector('.block-list');
+            const blocks = list ? Array.from(list.querySelectorAll(':scope > .block-card')).map((b) => readBlockCard(b)) : [];
+            return {
+              slug: c.querySelector('.gs-slug')?.value || '',
+              number: Number(c.querySelector('.gs-number')?.value || (i + 1)),
+              title: c.querySelector('.gs-title')?.value || '',
+              blocks,
+            };
+          });
+          break;
+        }
+        case 'article-picker': {
+          const sel = group.querySelector('.article-picker-select');
+          const v = sel?.value || '';
+          const m = v ? v.split(':') : [];
+          ref[field.key] = m.length === 2 ? { type: m[0], slug: m[1] } : null;
+          break;
+        }
+        case 'related-articles': {
+          ref[field.key] = Array.from(group.querySelectorAll('.related-article-cb:checked')).map((cb) => cb.value);
+          break;
+        }
       }
 
       // arrayAtRoot fix: the case handler wrote to ref[field.key], but the

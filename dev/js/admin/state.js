@@ -8,6 +8,17 @@ export function normalizeData(raw, sections, defaults) {
   const out = {};
   for (const cfg of sections) {
     const sectionKey = cfg.parentKey || cfg.key;
+    // _root: read/write fields directly at the data root (used for article identity fields)
+    if (sectionKey === '_root') {
+      for (const f of cfg.fields) {
+        let val = raw?.[f.key];
+        if (val === undefined || val === null) {
+          val = JSON.parse(JSON.stringify(defaults[f.key] ?? ''));
+        }
+        out[f.key] = val;
+      }
+      continue;
+    }
     const section = raw?.[sectionKey];
     if (!section) {
       out[sectionKey] = JSON.parse(JSON.stringify(defaults[sectionKey] || {}));

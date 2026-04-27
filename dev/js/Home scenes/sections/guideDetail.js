@@ -153,16 +153,66 @@ const renderCallout = (block) => {
   return callout;
 };
 
+/* Rewrite relative paths inside a CMS-authored HTML block so they resolve
+   from the guide URL one level deep (e.g. /guides/<slug>.html). */
+const REL_PATH_PREFIX = '../';
+const isRelativeRef = (v) =>
+  v && !v.startsWith('http') && !v.startsWith('//') && !v.startsWith('/') &&
+  !v.startsWith('..') && !v.startsWith('#') && !v.startsWith('mailto:') &&
+  !v.startsWith('tel:') && !v.startsWith('data:');
+
+const rewriteRelativePaths = (rootEl) => {
+  rootEl.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src');
+    if (isRelativeRef(src)) img.setAttribute('src', REL_PATH_PREFIX + src);
+  });
+  rootEl.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (isRelativeRef(href)) a.setAttribute('href', REL_PATH_PREFIX + href);
+  });
+};
+
 /* ── Rich-HTML block (sanitised) */
 const renderHtmlBlock = (block, purifier) => {
   const el = createEl('div', 'blog-body-block');
   const raw = block.content || '';
   if (purifier && typeof purifier.sanitize === 'function') {
     el.innerHTML = purifier.sanitize(raw, { USE_PROFILES: { html: true } });
+    rewriteRelativePaths(el);
   } else {
     el.textContent = raw.replace(/<[^>]*>/g, '');
   }
   return el;
+};
+
+/* ── YouTube embed block. Built via createElement so DOMPurify never sees it. */
+const YOUTUBE_ID_RE = /^[A-Za-z0-9_-]{11}$/;
+const extractYouTubeId = (input) => {
+  if (!input) return '';
+  const s = String(input).trim();
+  if (YOUTUBE_ID_RE.test(s)) return s;
+  const m = s.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : '';
+};
+const renderYouTube = (block) => {
+  const id = extractYouTubeId(block.videoId || block.url || '');
+  if (!id) return null;
+  const wrap = createEl('figure', 'video-embed');
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://www.youtube-nocookie.com/embed/${id}`;
+  iframe.title = block.caption || 'YouTube video player';
+  iframe.loading = 'lazy';
+  iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  iframe.allowFullscreen = true;
+  iframe.setAttribute('frameborder', '0');
+  wrap.appendChild(iframe);
+  if (block.caption) {
+    const cap = createEl('figcaption', 'video-embed-caption');
+    cap.textContent = block.caption;
+    wrap.appendChild(cap);
+  }
+  return wrap;
 };
 
 /* ── Subheading and note variants (guide-specific primitives) */
@@ -206,6 +256,7 @@ const renderInlineBlock = (block, purifier) => {
     case 'callout':     return renderCallout(block);
     case 'note':        return renderNote(block);
     case 'subheading':  return renderSubheading(block);
+    case 'youtube':     return renderYouTube(block);
     default:            return null;
   }
 };

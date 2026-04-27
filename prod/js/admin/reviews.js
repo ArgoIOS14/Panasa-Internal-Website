@@ -9,7 +9,7 @@
  */
 
 import { db, auth } from '../firebase-config.js';
-import { ref, push, set, update, get, query, orderByChild, equalTo } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
+import { ref, push, set, update, get, remove, query, orderByChild, equalTo } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
 import { publishToLive, saveHistory, normalizeData } from './state.js';
 import { logAction } from './auditLog.js';
 import { renderDiffView } from './historyDiff.js';
@@ -60,7 +60,17 @@ export async function submitForReview(pageKey, proposedData, note) {
   const record = currentUserRecord();
   if (!user || !record) throw new Error('Not signed in');
 
-  const page = _pagesRegistry[pageKey];
+  let page = _pagesRegistry[pageKey];
+  // Dynamic article keys are not in the static registry — synthesise a thin config
+  if (!page && /^(blog|insights|guides):/.test(pageKey)) {
+    const [type, slug] = pageKey.split(':');
+    page = {
+      label: `${type[0].toUpperCase() + type.slice(1)}: ${slug}`,
+      fbPath: `pages/articles/${type}/${slug}`,
+      sections: [],
+      defaults: {},
+    };
+  }
   if (!page) throw new Error('Unknown page: ' + pageKey);
 
   // Snapshot the LIVE published content as the baseline. We must not use
@@ -72,7 +82,7 @@ export async function submitForReview(pageKey, proposedData, note) {
     const defaults = typeof page.getDefaults === 'function' ? await page.getDefaults() : page.defaults;
     const liveSnap = await get(ref(db, page.fbPath));
     const raw = liveSnap.exists() ? liveSnap.val() : {};
-    baseData = normalizeData(raw, page.sections, defaults);
+    baseData = (page.sections && page.sections.length) ? normalizeData(raw, page.sections, defaults) : raw;
   } catch (e) { /* best effort */ }
 
   const payload = {
@@ -421,13 +431,76 @@ function countChangedSections(base, proposed) {
 }
 
 async function approveReview(review, note) {
-  const page = _pagesRegistry[review.pageKey];
-  if (!page) { showToast('Unknown page.', 'error'); return; }
   const user = auth.currentUser;
   const data = review.proposedData || {};
+  const isDelete = data && data._action === 'delete';
+  const isArticleKey = /^(blog|insights|guides):/.test(review.pageKey || '');
+
+  // Delete action: remove via rebuild.php and Firebase nodes; skip publishToLive/saveHistory
+  if (isDelete) {
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      const res = await fetch('/api/rebuild.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (token || '') },
+        body: JSON.stringify({ action: 'delete', pageKey: review.pageKey }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || json.status === 'error') {
+        showToast('Delete via review failed: ' + (json.message || res.statusText), 'error');
+        return;
+      }
+      // Tear down Firebase nodes for the article
+      if (isArticleKey) {
+        const [type, slug] = review.pageKey.split(':');
+        await Promise.all([
+          remove(ref(db, `pages/articles/${type}/${slug}`)),
+          remove(ref(db, `drafts/articles/${type}/${slug}`)),
+          remove(ref(db, `pages/articlesIndex/${type}/${slug}`)),
+        ]);
+      }
+      await update(ref(db, `reviews/${review.id}`), {
+        status: 'approved',
+        reviewedBy: { uid: user.uid, email: user.email },
+        reviewedAt: Date.now(),
+        reviewNote: note || '',
+      });
+      logAction('approve_review_delete', review.pageKey, { reviewId: review.id });
+      showToast('Article deleted.', 'success');
+      refreshPendingBadge();
+      if (typeof _onApproved === 'function') _onApproved(review.pageKey);
+    } catch (err) {
+      console.error('Delete approve failed:', err);
+      showToast('Delete approve failed: ' + err.message, 'error');
+    }
+    return;
+  }
+
+  // Resolve fbPath: static registry first, then dynamic article keys
+  let fbPath = _pagesRegistry[review.pageKey]?.fbPath;
+  if (!fbPath && isArticleKey) {
+    const [type, slug] = review.pageKey.split(':');
+    fbPath = `pages/articles/${type}/${slug}`;
+  }
+  if (!fbPath) { showToast('Unknown page.', 'error'); return; }
 
   try {
-    await publishToLive(page.fbPath, data);
+    await publishToLive(fbPath, data);
+    // Update articlesIndex summary for article keys
+    if (isArticleKey) {
+      const [type, slug] = review.pageKey.split(':');
+      const summary = {
+        title: data.title || '',
+        slug,
+        category: data.category || '',
+        author: data.author || '',
+        date: data.date || '',
+        datePublished: data.datePublished || '',
+        status: 'published',
+        updatedAt: Date.now(),
+      };
+      await set(ref(db, `pages/articlesIndex/${type}/${slug}`), summary);
+    }
     await saveHistory(review.pageKey, data, `Approved: ${review.title || ''} (by ${review.submittedBy?.email || 'editor'})`);
     await update(ref(db, `reviews/${review.id}`), {
       status: 'approved',

@@ -89,8 +89,9 @@ if (!$body || empty($body['pageKey'])) {
 
 $pageKey = $body['pageKey'];
 $data    = $body['data'] ?? null;
+$action  = $body['action'] ?? null;
 
-if (!$data || !is_array($data)) {
+if ($action !== 'delete' && (!$data || !is_array($data))) {
     http_response_code(400);
     jsonResponse('error', 'Missing or invalid data in request body');
 }
@@ -101,6 +102,7 @@ require_once __DIR__ . '/rebuild/PageRegistry.php';
 require_once __DIR__ . '/rebuild/MetaUpdater.php';
 require_once __DIR__ . '/rebuild/HtmlRebuilder.php';
 require_once __DIR__ . '/rebuild/HomepageUpdater.php';
+require_once __DIR__ . '/rebuild/ArticleRebuilder.php';
 
 // ── Validate page key ──
 
@@ -120,6 +122,12 @@ $prodDir = realpath(__DIR__ . '/../../prod');
 
 $devHtmlPath  = $devDir  . '/' . $htmlFile;
 $prodHtmlPath = $prodDir ? $prodDir . '/' . $htmlFile : null;
+
+// ── Article path: handle separately and exit early ──
+if (($pageConfig['type'] ?? null) === 'article') {
+    handleArticleRebuild($pageConfig, $action, $data, $devDir, $prodDir, $startTime);
+    exit;
+}
 
 if (!file_exists($devHtmlPath)) {
     http_response_code(500);
@@ -289,4 +297,140 @@ function validateRebuiltHtml(string $newHtml, string $originalHtml, string $page
     }
 
     return $errors;
+}
+
+/**
+ * Article-specific handler.
+ * Publish: render template, write HTML/JSON/JS, refresh index + sitemap.
+ * Delete: remove all article files, refresh index + sitemap.
+ */
+function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, string $devDir, ?string $prodDir, float $startTime): void {
+    $type = $pageConfig['articleType'];
+    $slug = $pageConfig['slug'];
+    $htmlFile = $pageConfig['htmlFile'];
+    $jsonFile = $pageConfig['jsonFile'];
+    $jsFile   = $pageConfig['jsFile'];
+
+    // Cross-cutting index lock to serialise concurrent article writes.
+    $lockDir = sys_get_temp_dir() . '/panasa_rebuild_locks/';
+    if (!is_dir($lockDir)) @mkdir($lockDir, 0755, true);
+    $perKeyLockFile = $lockDir . str_replace([':', '/'], '_', $pageConfig['fbPath']) . '.lock';
+    $perKeyLock = fopen($perKeyLockFile, 'w');
+    if (!flock($perKeyLock, LOCK_EX | LOCK_NB)) {
+        fclose($perKeyLock);
+        http_response_code(409);
+        jsonResponse('error', 'Rebuild already in progress for this article');
+    }
+
+    try {
+        $rebuilt = [];
+
+        // Ensure target directories exist (insights/ may not exist on first publish)
+        @mkdir(dirname($devDir . '/' . $htmlFile), 0755, true);
+        if ($prodDir) @mkdir(dirname($prodDir . '/' . $htmlFile), 0755, true);
+        @mkdir(dirname($devDir . '/' . $jsonFile), 0755, true);
+        if ($prodDir) @mkdir(dirname($prodDir . '/' . $jsonFile), 0755, true);
+
+        if ($action === 'delete') {
+            $paths = [$devDir . '/' . $htmlFile, $devDir . '/' . $jsonFile, $devDir . '/' . $jsFile];
+            if ($prodDir) $paths = array_merge($paths, [$prodDir . '/' . $htmlFile, $prodDir . '/' . $jsonFile, $prodDir . '/' . $jsFile]);
+            foreach ($paths as $p) {
+                if (file_exists($p)) { @unlink($p); $rebuilt[] = 'deleted: ' . str_replace([$devDir, (string)$prodDir], ['dev', 'prod'], $p); }
+            }
+        } elseif ($action === 'preview') {
+            // Preview: render template + write HTML/JSON/JS to dev only (no prod, no index, no sitemap)
+            $tplPath = __DIR__ . "/../templates/{$type}.html";
+            if (!file_exists($tplPath)) {
+                throw new RuntimeException("Template not found: templates/{$type}.html");
+            }
+            $tpl = file_get_contents($tplPath);
+            $html = ArticleRebuilder::renderTemplate($tpl, $data, $type, $slug);
+
+            file_put_contents($devDir . '/' . $htmlFile, $html, LOCK_EX);
+            $rebuilt[] = 'dev/' . $htmlFile;
+
+            $jsonStr = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            file_put_contents($devDir . '/' . $jsonFile, $jsonStr, LOCK_EX);
+            $rebuilt[] = 'dev/' . $jsonFile;
+
+            $varName = $type === 'guides' ? 'DEFAULT_GUIDE_CONTENT' : 'DEFAULT_BLOG_CONTENT';
+            file_put_contents($devDir . '/' . $jsFile, "window.{$varName} = {$jsonStr};\n", LOCK_EX);
+            $rebuilt[] = 'dev/' . $jsFile;
+
+            flock($perKeyLock, LOCK_UN); fclose($perKeyLock);
+            $durationMs = round((microtime(true) - $startTime) * 1000);
+            echo json_encode(['status' => 'success', 'preview' => true, 'rebuilt' => $rebuilt, 'duration_ms' => $durationMs]);
+            exit;
+        } else {
+            // Publish: render template
+            $tplPath = __DIR__ . "/../templates/{$type}.html";
+            if (!file_exists($tplPath)) {
+                throw new RuntimeException("Template not found: templates/{$type}.html");
+            }
+            $tpl = file_get_contents($tplPath);
+            $html = ArticleRebuilder::renderTemplate($tpl, $data, $type, $slug);
+
+            // Validate
+            $errors = validateRebuiltHtml($html, $tpl, $pageConfig['fbPath']);
+            if (!empty($errors)) {
+                flock($perKeyLock, LOCK_UN); fclose($perKeyLock);
+                echo json_encode(['status' => 'error', 'message' => 'Article HTML validation failed', 'errors' => $errors]);
+                exit;
+            }
+
+            // Backup if existing
+            if (file_exists($devDir . '/' . $htmlFile)) @copy($devDir . '/' . $htmlFile, $devDir . '/' . $htmlFile . '.bak');
+            file_put_contents($devDir . '/' . $htmlFile, $html, LOCK_EX);
+            $rebuilt[] = 'dev/' . $htmlFile;
+            if ($prodDir) {
+                if (file_exists($prodDir . '/' . $htmlFile)) @copy($prodDir . '/' . $htmlFile, $prodDir . '/' . $htmlFile . '.bak');
+                file_put_contents($prodDir . '/' . $htmlFile, $html, LOCK_EX);
+                $rebuilt[] = 'prod/' . $htmlFile;
+            }
+
+            // JSON sidecar
+            $jsonStr = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            file_put_contents($devDir . '/' . $jsonFile, $jsonStr, LOCK_EX);
+            $rebuilt[] = 'dev/' . $jsonFile;
+            if ($prodDir) {
+                file_put_contents($prodDir . '/' . $jsonFile, $jsonStr, LOCK_EX);
+                $rebuilt[] = 'prod/' . $jsonFile;
+            }
+
+            // default.js
+            $varName = $type === 'guides' ? 'DEFAULT_GUIDE_CONTENT' : 'DEFAULT_BLOG_CONTENT';
+            $jsStr = "window.{$varName} = {$jsonStr};\n";
+            file_put_contents($devDir . '/' . $jsFile, $jsStr, LOCK_EX);
+            $rebuilt[] = 'dev/' . $jsFile;
+            if ($prodDir) {
+                file_put_contents($prodDir . '/' . $jsFile, $jsStr, LOCK_EX);
+                $rebuilt[] = 'prod/' . $jsFile;
+            }
+        }
+
+        // Refresh cross-cutting articles index + sitemap
+        $idxLockFile = $lockDir . '_articles_index.lock';
+        $idxLock = fopen($idxLockFile, 'w');
+        flock($idxLock, LOCK_EX);
+        try {
+            ArticleRebuilder::rebuildArticlesIndex($devDir, $prodDir);
+            ArticleRebuilder::rebuildSitemap($devDir, $prodDir);
+        } finally {
+            flock($idxLock, LOCK_UN);
+            fclose($idxLock);
+        }
+        $rebuilt[] = 'dev/content/Resources/articles-index.json';
+        $rebuilt[] = 'dev/sitemap.xml';
+
+        flock($perKeyLock, LOCK_UN);
+        fclose($perKeyLock);
+
+        $durationMs = round((microtime(true) - $startTime) * 1000);
+        echo json_encode(['status' => 'success', 'rebuilt' => $rebuilt, 'duration_ms' => $durationMs]);
+    } catch (Throwable $e) {
+        flock($perKeyLock, LOCK_UN);
+        fclose($perKeyLock);
+        http_response_code(500);
+        jsonResponse('error', 'Article rebuild failed: ' . $e->getMessage());
+    }
 }
