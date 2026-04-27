@@ -71,6 +71,20 @@ export async function initSmoothScroll() {
 
     window.lenis = lenis;
 
+    /* Keep Lenis' internal `limit` in sync with the document height. Pages
+       that fetch + render content async (blog detail, guide detail) or that
+       lazy-load images can grow taller after Lenis' initial measurement,
+       which silently caps scrollTo at the stale limit. ResizeObserver on
+       body fires on every height change and is cheap. */
+    if ('ResizeObserver' in window) {
+      let resizeRaf = 0;
+      const ro = new ResizeObserver(() => {
+        if (resizeRaf) cancelAnimationFrame(resizeRaf);
+        resizeRaf = requestAnimationFrame(() => lenis.resize());
+      });
+      ro.observe(document.body);
+    }
+
     // Intercept anchor links. A link can opt into a custom scroll offset by
     // setting `data-scroll-offset="-150"` on the <a> (useful when a sticky
     // strip sits between the viewport top and the target). Defaults to -20.

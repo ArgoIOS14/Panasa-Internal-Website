@@ -272,20 +272,38 @@ const renderGuideBody = async (data) => {
   });
 };
 
+/* AbortController held across renderSectionTabs() calls so that a
+   subsequent render (e.g. fresh CMS fetch landing after the fallback
+   already painted) cleans up the previous batch's window-level listeners.
+   Without this each render leaks one scroll + one resize listener bound
+   to a stale tabsBySlug map. */
+let tabsAbortController = null;
+
 /* ── Sticky section-tabs strip: renders tabs from the sections array and
-   wires click-to-scroll + IntersectionObserver-driven active highlight. */
+   wires click-to-scroll + scroll-driven active highlight. Idempotent —
+   safe to call repeatedly when content re-renders. */
 const renderSectionTabs = (data) => {
   const tabsEl = document.querySelector('[data-guide-tabs]');
   if (!tabsEl) return;
   const sections = Array.isArray(data.sections) ? data.sections : [];
+
+  // Clean up listeners from any previous render before wiring fresh ones.
+  if (tabsAbortController) tabsAbortController.abort();
+  tabsAbortController = new AbortController();
+  const { signal } = tabsAbortController;
+
   if (!sections.length) {
     tabsEl.hidden = true;
+    tabsEl.innerHTML = '';
     return;
   }
   tabsEl.hidden = false;
 
   const inner = createEl('div', 'guide-section-tabs-inner');
+  const indicator = createEl('div', 'guide-section-tabs-indicator');
+  inner.appendChild(indicator);
   const tabsBySlug = new Map();
+  let currentSlug = null;
 
   /* Click-scroll offset: nav (~72px) + sticky tabs (~56px) + ~30px gap.
      Lenis honours this via `data-scroll-offset` on the anchor link (see
@@ -302,10 +320,24 @@ const renderSectionTabs = (data) => {
   let suppressTimer = 0;
   const SUPPRESS_MS = 2700;
 
+  /* Position the sliding indicator under the active tab. Called from both
+     setActive() and the resize listener so the white bar tracks layout
+     reflows (font load, viewport changes). Uses offsetLeft/offsetWidth so
+     the calculation is unaffected by the parent's scroll position. */
+  const positionIndicator = (slug) => {
+    const tab = tabsBySlug.get(slug);
+    if (!tab) return;
+    indicator.style.transform = `translateX(${tab.offsetLeft}px)`;
+    indicator.style.width = `${tab.offsetWidth}px`;
+  };
+
   const setActive = (slug) => {
+    if (slug === currentSlug) return;
+    currentSlug = slug;
     tabsBySlug.forEach((tab, s) => {
       tab.classList.toggle('is-active', s === slug);
     });
+    positionIndicator(slug);
   };
 
   sections.forEach((section, idx) => {
@@ -331,7 +363,13 @@ const renderSectionTabs = (data) => {
       setActive(slug);
       suppressObserver = true;
       window.clearTimeout(suppressTimer);
-      suppressTimer = window.setTimeout(() => { suppressObserver = false; }, SUPPRESS_MS);
+      suppressTimer = window.setTimeout(() => {
+        suppressObserver = false;
+        // Re-evaluate after the smooth scroll has settled so the active tab
+        // matches whatever section the user actually landed on (handles cases
+        // where they kept scrolling during the animation).
+        if (typeof evaluateActive === 'function') evaluateActive();
+      }, SUPPRESS_MS);
     });
     inner.appendChild(tab);
     tabsBySlug.set(slug, tab);
@@ -340,30 +378,70 @@ const renderSectionTabs = (data) => {
   tabsEl.innerHTML = '';
   tabsEl.appendChild(inner);
 
-  setActive(sections[0].slug);
+  // Initial position — wait for layout/fonts so the indicator measurement
+  // is accurate. requestAnimationFrame catches the first layout pass.
+  requestAnimationFrame(() => setActive(sections[0].slug));
+  if (document.fonts?.ready?.then) {
+    document.fonts.ready.then(() => positionIndicator(currentSlug || sections[0].slug));
+  }
 
-  // IntersectionObserver for active-tab highlight during natural scroll.
-  if (!('IntersectionObserver' in window)) return;
+  // Reposition the indicator on viewport resize so it tracks tab widths.
+  let resizeRaf = 0;
+  window.addEventListener('resize', () => {
+    if (resizeRaf) cancelAnimationFrame(resizeRaf);
+    resizeRaf = requestAnimationFrame(() => {
+      if (currentSlug) positionIndicator(currentSlug);
+    });
+  }, { signal });
 
-  const observer = new IntersectionObserver((entries) => {
+  /* Scroll-driven scroll-spy. We use a scroll listener instead of
+     IntersectionObserver because the observer only fires on intersection
+     state CHANGES — if a scroll happens during the click-suppression window
+     (e.g. user clicks then keeps scrolling) the next state change can be
+     missed and the active tab stalls. A scroll listener is rock-solid.
+
+     The "active section" is the last one whose top has crossed the reading
+     line (30% of viewport from top). This matches the user's mental model
+     of "what am I currently reading". */
+  const READING_LINE_PCT = 0.3;
+
+  const evaluateActive = () => {
     if (suppressObserver) return;
-    // Pick the entry closest to the top that is intersecting
-    const visible = entries
-      .filter((e) => e.isIntersecting)
-      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-    if (visible[0]) {
-      const slug = visible[0].target.getAttribute('data-guide-section');
-      if (slug) setActive(slug);
+    const lineY = window.innerHeight * READING_LINE_PCT;
+    let active = sections[0].slug;
+    for (const section of sections) {
+      const el = document.getElementById(section.slug);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top <= lineY) active = section.slug;
     }
-  }, {
-    rootMargin: '-20% 0px -60% 0px',
-    threshold: 0,
-  });
+    setActive(active);
+  };
 
-  sections.forEach((section) => {
-    const el = document.getElementById(section.slug);
-    if (el) observer.observe(el);
-  });
+  let scrollRaf = 0;
+  const onScroll = () => {
+    if (scrollRaf) return;
+    scrollRaf = requestAnimationFrame(() => {
+      scrollRaf = 0;
+      evaluateActive();
+    });
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true, signal });
+
+  /* Watch the body for height changes (image lazy-load, CMS content swap,
+     fonts loading) so the indicator + active section recalculate against
+     the new layout. Lenis' own limit is kept in sync globally by
+     smooth-scroll.js; here we only care about the tab-strip state. */
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(() => {
+      if (currentSlug) positionIndicator(currentSlug);
+      evaluateActive();
+    });
+    ro.observe(document.body);
+    signal.addEventListener('abort', () => ro.disconnect());
+  }
+
+  evaluateActive();
 };
 
 /* ── Share buttons (same pattern as blog detail) */

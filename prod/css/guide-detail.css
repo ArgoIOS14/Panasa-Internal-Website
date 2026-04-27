@@ -85,6 +85,7 @@ ul { list-style: none; }
 }
 
 .guide-section-tabs-inner {
+  position: relative;
   display: flex;
   align-items: stretch;
   gap: 0;
@@ -95,6 +96,29 @@ ul { list-style: none; }
   box-shadow: 0 8px 20px rgba(6, 32, 25, 0.06);
   overflow-x: auto;
   scrollbar-width: none;
+}
+
+/* Sliding active indicator — a single white bar that animates between
+   tabs as the active section changes. Replaces per-tab background. */
+.guide-section-tabs-indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 0;
+  background: var(--guide-tab-active-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(6, 32, 25, 0.08);
+  transform: translateX(0);
+  transition:
+    transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-section-tabs-indicator { transition: none; }
 }
 
 .guide-section-tabs-inner::-webkit-scrollbar { display: none; }
@@ -108,8 +132,6 @@ ul { list-style: none; }
   justify-content: center;
   gap: 8px;
   padding: 10px 18px;
-  /* Active state uses a white rectangular bar; slight corner radius keeps it
-     consistent with the outer container rounding. */
   border-radius: 10px;
   font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
   font-size: 11px;
@@ -118,9 +140,12 @@ ul { list-style: none; }
   text-transform: uppercase;
   color: var(--guide-tab-label-fg);
   text-align: center;
-  transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  transition: color 240ms ease;
   cursor: pointer;
   white-space: nowrap;
+  /* Sit above the indicator so the text stays visible while the white bar
+     slides into place underneath. */
+  z-index: 1;
 }
 
 /* Thin divider between adjacent tabs (stays visible even when neighbour is
@@ -140,7 +165,7 @@ ul { list-style: none; }
   font-weight: 600;
   letter-spacing: 0;
   font-variant-numeric: tabular-nums;
-  transition: color 180ms ease;
+  transition: color 240ms ease;
 }
 
 .guide-section-tab-label {
@@ -152,21 +177,26 @@ ul { list-style: none; }
 }
 
 .guide-section-tab.is-active {
-  background: var(--guide-tab-active-bg);
+  /* The sliding indicator (.guide-section-tabs-indicator) draws the white bar
+     beneath this tab — only the text colour changes here. */
   color: var(--guide-tab-active-fg);
-  box-shadow: 0 2px 6px rgba(6, 32, 25, 0.08);
-  z-index: 1;
 }
 
 .guide-section-tab.is-active .guide-section-tab-number {
   color: var(--guide-tab-active-fg);
 }
 
-/* Hide the dividers touching the active tab so the white bg sits clean
-   between its neighbours (no leftover 1px sliver). */
+/* Hide the dividers touching the active tab so the white indicator sits
+   cleanly between its neighbours (no leftover 1px sliver). */
 .guide-section-tab.is-active::before,
 .guide-section-tab.is-active + .guide-section-tab::before {
-  display: none;
+  opacity: 0;
+}
+
+.guide-section-tab + .guide-section-tab::before {
+  /* Dividers fade in/out with the indicator so adjacent ones disappear
+     gracefully as the white bar slides. */
+  transition: opacity 240ms ease;
 }
 
 /* ==========================================================================
