@@ -1,0 +1,170 @@
+{
+    "items": [
+        {
+            "category": "Blog",
+            "title": "Sample Blog: All Block Types",
+            "excerpt": "A test article exercising every supported body block: rich text with H2/H3/code/blockquote, callout, and YouTube.",
+            "date": "27 APR 2026",
+            "datePublished": "2026-04-27",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "sample-all-blocks",
+            "href": "blog/sample-all-blocks"
+        },
+        {
+            "category": "Blog",
+            "title": "Test Blog",
+            "excerpt": "",
+            "date": "27 APR 2026",
+            "datePublished": "2026-04-27",
+            "author": "Panasa Team",
+            "image": "",
+            "slug": "test-blog",
+            "href": "blog/test-blog"
+        },
+        {
+            "category": "Insights",
+            "title": "Sample Insight: All Block Types",
+            "excerpt": "A test article exercising every supported body block: rich text with H2/H3/code/blockquote, callout, and YouTube.",
+            "date": "27 APR 2026",
+            "datePublished": "2026-04-27",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "sample-all-blocks",
+            "href": "insights/sample-all-blocks"
+        },
+        {
+            "category": "Guide",
+            "title": "Sample Guide to Block Types",
+            "excerpt": "A test guide exercising intro, numbered sections, callouts, notes (3 variants), subheadings, and YouTube.",
+            "date": "27 APR 2026",
+            "datePublished": "2026-04-27",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "sample-all-blocks",
+            "href": "guides/sample-all-blocks"
+        },
+        {
+            "category": "Guide",
+            "title": "The Complete Guide to Interchange Fees",
+            "excerpt": "How card payment economics really work — who gets paid, why merchants care, and how interchange shapes the modern payments ecosystem.",
+            "date": "21 APR 2026",
+            "datePublished": "2026-04-21",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "complete-guide-to-interchange-fees",
+            "href": "guides/complete-guide-to-interchange-fees"
+        },
+        {
+            "category": "Insights",
+            "title": "The Lifecycle of a Payment: From Tap to Everything That Follows",
+            "excerpt": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
+            "date": "17 APR 2026",
+            "datePublished": "2026-04-17",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "lifecycle-of-a-payment",
+            "href": "blog/lifecycle-of-a-payment"
+        },
+        {
+            "category": "Blog",
+            "title": "Anatomy of a Swipe: What Really Happens When You Tap Your Card",
+            "excerpt": "A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.",
+            "date": "16 APR 2026",
+            "datePublished": "2026-04-16",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "anatomy-of-a-swipe",
+            "href": "blog/anatomy-of-a-swipe"
+        },
+        {
+            "category": "Guide",
+            "title": "Designing Fault-Tolerant Ledger Systems",
+            "excerpt": "A practical guide to building ledger systems that survive scale, failure, and regulatory audits.",
+            "date": "09 APR 2026",
+            "datePublished": "2026-04-09",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "fault-tolerant-ledger-systems",
+            "href": "blog/fault-tolerant-ledger-systems"
+        },
+        {
+            "category": "Insights",
+            "title": "Compliance-First Engineering in EU Fintechs",
+            "excerpt": "How leading European fintechs are embedding compliance into every engineering decision from day one.",
+            "date": "08 APR 2026",
+            "datePublished": "2026-04-08",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "compliance-first-engineering-eu-fintechs",
+            "href": "blog/compliance-first-engineering-eu-fintechs"
+        },
+        {
+            "category": "Guide",
+            "title": "How to Build a Secure Payment Gateway from Scratch",
+            "excerpt": "Step-by-step breakdown of architecture, APIs, and compliance requirements for modern payment systems.",
+            "date": "08 APR 2026",
+            "datePublished": "2026-04-08",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "secure-payment-gateway-from-scratch",
+            "href": "blog/secure-payment-gateway-from-scratch"
+        },
+        {
+            "category": "Blog",
+            "title": "5 Common Mistakes in Fintech Product Design",
+            "excerpt": "Avoid these critical mistakes when designing user experiences for financial products, ensuring better usability and trust.",
+            "date": "07 APR 2026",
+            "datePublished": "2026-04-07",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "5-common-mistakes-fintech-product-design",
+            "href": "blog/5-common-mistakes-fintech-product-design"
+        },
+        {
+            "category": "Blog",
+            "title": "How AI is Changing Customer Onboarding in Fintech",
+            "excerpt": "From KYC automation to fraud checks, AI is transforming onboarding flows, making them faster and more reliable.",
+            "date": "07 APR 2026",
+            "datePublished": "2026-04-07",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "ai-customer-onboarding-fintech",
+            "href": "blog/ai-customer-onboarding-fintech"
+        },
+        {
+            "category": "Case Study",
+            "title": "Scaling a Card Issuance Platform to 1M Users",
+            "excerpt": "How we built a scalable infrastructure to handle rapid user growth while maintaining compliance and performance.",
+            "date": "07 APR 2026",
+            "datePublished": "2026-04-07",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "scaling-card-issuance-1m-users",
+            "href": "blog/scaling-card-issuance-1m-users"
+        },
+        {
+            "category": "Case Study",
+            "title": "AI Fraud Detection for a Neo Banking Platform",
+            "excerpt": "How we reduced transaction fraud by 62% using real-time AI-based anomaly detection across high-volume payment flows.",
+            "date": "06 APR 2026",
+            "datePublished": "2026-04-06",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "ai-fraud-detection-neobank",
+            "href": "blog/ai-fraud-detection-neobank"
+        },
+        {
+            "category": "Insights",
+            "title": "The Future of Embedded Finance in 2026",
+            "excerpt": "Why embedded finance is reshaping digital ecosystems and how businesses can leverage it for growth.",
+            "date": "06 APR 2026",
+            "datePublished": "2026-04-06",
+            "author": "Panasa Team",
+            "image": "assets/blog-hero-desktop.webp",
+            "slug": "future-of-embedded-finance-2026",
+            "href": "blog/future-of-embedded-finance-2026"
+        }
+    ],
+    "updatedAt": "2026-04-29T05:08:40+00:00"
+}

@@ -1,0 +1,52 @@
+{
+    "meta": {
+        "title": "Sample Insight: All Block Types",
+        "description": "A test article exercising every supported body block: rich text with H2/H3/code/blockquote, callout, and YouTube.",
+        "canonical": "https://www.panasatech.com/insights/sample-all-blocks",
+        "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
+    },
+    "slug": "sample-all-blocks",
+    "category": "Insights",
+    "tag": "INSIGHTS",
+    "title": "Sample Insight: All Block Types",
+    "date": "27 APR 2026",
+    "datePublished": "2026-04-27",
+    "dateModified": "2026-04-27",
+    "readTime": "6 MINS READ",
+    "author": "Panasa Team",
+    "tags": [
+        "Sample",
+        "Blocks",
+        "Test"
+    ],
+    "heroImage": "../assets/blog-hero-desktop.webp",
+    "heroImageTablet": "../assets/blog-hero-tablet.webp",
+    "heroImageMobile": "../assets/blog-hero-mobile.webp",
+    "heroImageAlt": "Sample article hero",
+    "body": [
+        {
+            "type": "html",
+            "content": "<p>This paragraph opens the article. Inline <strong>bold</strong>, <em>italic</em>, and a <a href=\"../resources\">link to Resources</a>.</p><h2>Heading 2 — Section</h2><p>Now a paragraph with more detail.</p><h3>Heading 3 — Subsection</h3><ul><li>Bulleted item one</li><li>Bulleted item two</li></ul><ol><li>Numbered first</li><li>Numbered second</li></ol><blockquote>\"A quote from a customer or expert.\"</blockquote><p>Inline <code>monospace code</code> within prose.</p><pre><code>// A code block\\nfunction add(a, b) {\\n  return a + b;\\n}</code></pre>"
+        },
+        {
+            "type": "callout",
+            "title": "Struggling with transaction latency?",
+            "text": "We've cut online processing pipelines from 900ms to under 120ms, here's how.",
+            "cta": {
+                "label": "View Case Study",
+                "href": "../contact",
+                "variant": "ghost"
+            }
+        },
+        {
+            "type": "youtube",
+            "videoId": "dQw4w9WgXcQ",
+            "caption": "Sample video — replace with a real fintech walkthrough."
+        },
+        {
+            "type": "html",
+            "content": "<p>A closing paragraph after the video to ensure ordering renders correctly.</p>"
+        }
+    ],
+    "relatedSlugs": []
+}
