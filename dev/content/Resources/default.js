@@ -35,6 +35,16 @@ window.DEFAULT_RESOURCES_CONTENT = {
   },
   "items": [
     {
+      "category": "Case Study",
+      "title": "Reinventing Family Banking Through Compliance, Trust, and Experience",
+      "excerpt": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform — open banking, SCA & 3DS, monitoring, and brand tie-ups.",
+      "date": "30 APR 2026",
+      "author": "Panasa Team",
+      "image": "assets/case-study-card-2.webp",
+      "href": "case-studies/osper-family-banking",
+      "slug": "osper-family-banking"
+    },
+    {
       "category": "Guide",
       "title": "The Complete Guide to Interchange Fees",
       "excerpt": "How card payment economics really work — who gets paid, why merchants care, and how interchange shapes the modern payments ecosystem.",
@@ -71,7 +81,7 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "06 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/ai-fraud-detection-neobank",
+      "href": "case-studies/ai-fraud-detection-neobank",
       "slug": "ai-fraud-detection-neobank"
     },
     {
@@ -121,7 +131,7 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "date": "07 APR 2026",
       "author": "AUTHOR",
       "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/scaling-card-issuance-1m-users",
+      "href": "case-studies/scaling-card-issuance-1m-users",
       "slug": "scaling-card-issuance-1m-users"
     },
     {
