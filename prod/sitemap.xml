@@ -69,12 +69,6 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.panasatech.com/blog/ai-fraud-detection-neobank</loc>
-    <lastmod>2026-04-06</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
     <loc>https://www.panasatech.com/blog/future-of-embedded-finance-2026</loc>
     <lastmod>2026-04-06</lastmod>
     <priority>0.7</priority>
@@ -99,12 +93,6 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.panasatech.com/blog/scaling-card-issuance-1m-users</loc>
-    <lastmod>2026-04-07</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
     <loc>https://www.panasatech.com/blog/compliance-first-engineering-eu-fintechs</loc>
     <lastmod>2026-04-08</lastmod>
     <priority>0.7</priority>
@@ -119,6 +107,24 @@
   <url>
     <loc>https://www.panasatech.com/guides/complete-guide-to-interchange-fees</loc>
     <lastmod>2026-04-21</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.panasatech.com/case-studies/osper-family-banking</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.panasatech.com/case-studies/ai-fraud-detection-neobank</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.panasatech.com/case-studies/scaling-card-issuance-1m-users</loc>
+    <lastmod>2026-04-30</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
