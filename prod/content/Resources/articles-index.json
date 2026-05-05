@@ -9,18 +9,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "sample-all-blocks",
-            "href": "blog/sample-all-blocks"
-        },
-        {
-            "category": "Blog",
-            "title": "Test Blog",
-            "excerpt": "",
-            "date": "27 APR 2026",
-            "datePublished": "2026-04-27",
-            "author": "Panasa Team",
-            "image": "",
-            "slug": "test-blog",
-            "href": "blog/test-blog"
+            "href": "blog/sample-all-blocks",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Insights",
@@ -31,7 +25,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "sample-all-blocks",
-            "href": "insights/sample-all-blocks"
+            "href": "insights/sample-all-blocks",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Guide",
@@ -42,7 +41,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "sample-all-blocks",
-            "href": "guides/sample-all-blocks"
+            "href": "guides/sample-all-blocks",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Guide",
@@ -53,7 +57,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "complete-guide-to-interchange-fees",
-            "href": "guides/complete-guide-to-interchange-fees"
+            "href": "guides/complete-guide-to-interchange-fees",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Insights",
@@ -64,7 +73,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "lifecycle-of-a-payment",
-            "href": "blog/lifecycle-of-a-payment"
+            "href": "blog/lifecycle-of-a-payment",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Blog",
@@ -75,7 +89,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "anatomy-of-a-swipe",
-            "href": "blog/anatomy-of-a-swipe"
+            "href": "blog/anatomy-of-a-swipe",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Guide",
@@ -86,7 +105,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "fault-tolerant-ledger-systems",
-            "href": "blog/fault-tolerant-ledger-systems"
+            "href": "blog/fault-tolerant-ledger-systems",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Insights",
@@ -97,7 +121,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "compliance-first-engineering-eu-fintechs",
-            "href": "blog/compliance-first-engineering-eu-fintechs"
+            "href": "blog/compliance-first-engineering-eu-fintechs",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Guide",
@@ -108,7 +137,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "secure-payment-gateway-from-scratch",
-            "href": "blog/secure-payment-gateway-from-scratch"
+            "href": "blog/secure-payment-gateway-from-scratch",
+            "sitemap": {
+                "includeInSitemap": false,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Blog",
@@ -119,7 +153,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "5-common-mistakes-fintech-product-design",
-            "href": "blog/5-common-mistakes-fintech-product-design"
+            "href": "blog/5-common-mistakes-fintech-product-design",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Blog",
@@ -130,7 +169,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "ai-customer-onboarding-fintech",
-            "href": "blog/ai-customer-onboarding-fintech"
+            "href": "blog/ai-customer-onboarding-fintech",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Case Study",
@@ -141,7 +185,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "scaling-card-issuance-1m-users",
-            "href": "blog/scaling-card-issuance-1m-users"
+            "href": "blog/scaling-card-issuance-1m-users",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Case Study",
@@ -152,7 +201,12 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "ai-fraud-detection-neobank",
-            "href": "blog/ai-fraud-detection-neobank"
+            "href": "blog/ai-fraud-detection-neobank",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         },
         {
             "category": "Insights",
@@ -163,8 +217,61 @@
             "author": "Panasa Team",
             "image": "assets/blog-hero-desktop.webp",
             "slug": "future-of-embedded-finance-2026",
-            "href": "blog/future-of-embedded-finance-2026"
+            "href": "blog/future-of-embedded-finance-2026",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
+        },
+        {
+            "category": "Case Study",
+            "title": "AI Fraud Detection for a Neo Banking Platform",
+            "excerpt": "Reduced transaction fraud by 62% using real-time AI-based anomaly detection across high-volume payment flows.",
+            "date": "",
+            "datePublished": "",
+            "author": "",
+            "image": "assets/case-study-card-3.webp",
+            "slug": "ai-fraud-detection-neobank",
+            "href": "case-studies/ai-fraud-detection-neobank",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
+        },
+        {
+            "category": "Case Study",
+            "title": "Reinventing Family Banking Through Compliance, Trust, and Experience",
+            "excerpt": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform — open banking integration, SCA & 3DS, monitoring, and brand tie-ups across four countries.",
+            "date": "",
+            "datePublished": "",
+            "author": "",
+            "image": "assets/cs-osper-cover.webp",
+            "slug": "osper-family-banking",
+            "href": "case-studies/osper-family-banking",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
+        },
+        {
+            "category": "Case Study",
+            "title": "Scaling a Card Issuance Platform to 1M Users",
+            "excerpt": "How we built a scalable infrastructure to handle rapid user growth while maintaining compliance and performance.",
+            "date": "",
+            "datePublished": "",
+            "author": "",
+            "image": "assets/case-study-card-2.webp",
+            "slug": "scaling-card-issuance-1m-users",
+            "href": "case-studies/scaling-card-issuance-1m-users",
+            "sitemap": {
+                "includeInSitemap": true,
+                "sitemapPriority": "",
+                "sitemapChangefreq": ""
+            }
         }
     ],
-    "updatedAt": "2026-04-29T05:08:40+00:00"
+    "updatedAt": "2026-05-04T12:12:59+00:00"
 }

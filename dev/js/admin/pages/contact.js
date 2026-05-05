@@ -1,6 +1,23 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'pages/contact';
 
 export const defaults = {
+  meta: {
+    title: 'Contact Panasa | Build Your Fintech Platform',
+    description: 'Talk to our team about engineering, operations, or scaling your payment infrastructure.',
+    keywords: [],
+    canonical: '',
+    robots: 'index,follow',
+    ogImage: '',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    includeInSitemap: true,
+    sitemapPriority: '',
+    sitemapChangefreq: '',
+    hreflang: [],
+  },
   hero: {
     title: "Let's Build Your",
     titleEmphasis: 'Fintech Platform',
@@ -29,6 +46,11 @@ export const defaults = {
 };
 
 export const sections = [
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   { key: 'hero', label: 'Hero Section', fields: [
     { key: 'title', label: 'Title', type: 'text' },
     { key: 'titleEmphasis', label: 'Title emphasis', type: 'text' },
@@ -51,4 +73,5 @@ export const sections = [
     { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
     { key: 'offices', label: 'Offices', type: 'office-cards' },
   ]},
+  STRUCTURED_DATA_SECTION,
 ];

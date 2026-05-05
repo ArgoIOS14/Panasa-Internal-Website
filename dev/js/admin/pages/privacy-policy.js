@@ -1,6 +1,23 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'pages/privacyPolicy';
 
 export const defaults = {
+  meta: {
+    title: 'Privacy & Cookies Policy | Panasa',
+    description: 'How we collect, use, and protect your data. Your privacy matters to us.',
+    keywords: [],
+    canonical: '',
+    robots: 'index,follow',
+    ogImage: '',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    includeInSitemap: true,
+    sitemapPriority: '',
+    sitemapChangefreq: '',
+    hreflang: [],
+  },
   hero: {
     pill: 'Legal',
     title: 'Privacy & Cookies',
@@ -79,6 +96,11 @@ function policySections(tabKey, sections) {
 }
 
 export const sections = [
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   // Hero
   { key: 'hero', label: 'Hero Section', fields: [
     { key: 'pill', label: 'Pill badge', type: 'text' },
@@ -159,4 +181,5 @@ export const sections = [
   { key: 'cp_storing', label: 'CP: Storing Data', parentKey: 'campaign', nestedKey: 'storing', fields: [{ key: 'heading', label: 'Heading', type: 'text' }, { key: 'body', label: 'Body', type: 'textarea' }] },
   { key: 'cp_thirdParty', label: 'CP: Third Party Links', parentKey: 'campaign', nestedKey: 'thirdParty', fields: [{ key: 'heading', label: 'Heading', type: 'text' }, { key: 'body', label: 'Body', type: 'textarea' }] },
   { key: 'cp_contact', label: 'CP: Contact', parentKey: 'campaign', nestedKey: 'contact', fields: [{ key: 'heading', label: 'Heading', type: 'text' }, { key: 'body', label: 'Body', type: 'textarea' }] },
+  STRUCTURED_DATA_SECTION,
 ];

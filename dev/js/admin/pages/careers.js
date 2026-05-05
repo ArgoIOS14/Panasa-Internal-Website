@@ -1,6 +1,23 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'pages/careers';
 
 export const defaults = {
+  meta: {
+    title: 'Careers | Panasa',
+    description: 'Join a team that builds secure, scalable payment infrastructure used by modern fintech platforms. Work on real-world systems and grow your career in fintech.',
+    keywords: [],
+    canonical: '',
+    robots: 'index,follow',
+    ogImage: '',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    includeInSitemap: true,
+    sitemapPriority: '',
+    sitemapChangefreq: '',
+    hreflang: [],
+  },
   hero: {
     title: 'Build the Future of Fintech',
     titleEmphasis: 'with Panasa',
@@ -21,6 +38,11 @@ export const defaults = {
 };
 
 export const sections = [
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   { key: 'hero', label: 'Hero Section', fields: [
     { key: 'title', label: 'Title', type: 'text' },
     { key: 'titleEmphasis', label: 'Title emphasis', type: 'text' },
@@ -31,4 +53,5 @@ export const sections = [
     { key: 'heading', label: 'Section heading', type: 'text' },
     { key: 'jobs', label: 'Job listings', type: 'job-cards' },
   ]},
+  STRUCTURED_DATA_SECTION,
 ];

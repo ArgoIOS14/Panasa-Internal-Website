@@ -31,6 +31,9 @@ export function initAuth({ onLogin, onLogout }) {
   const forgotLink = document.getElementById('forgot-password-link');
 
   onAuthStateChanged(auth, async (user) => {
+    /* Stash the signed-in user globally so helpers (e.g. articleHelpers.js
+       resolveDefaultAuthor) can read displayName/email without an import cycle. */
+    if (typeof globalThis !== 'undefined') globalThis.__panasaAuthUser = user || null;
     if (user) {
       try {
         const record = await loadUserRole(user);

@@ -1,6 +1,23 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'content';
 
 export const defaults = {
+  meta: {
+    title: 'AI Accelerated Fintech Engineering | Panasa',
+    description: 'We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half.',
+    keywords: [],
+    canonical: '',
+    robots: 'index,follow',
+    ogImage: '',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    includeInSitemap: true,
+    sitemapPriority: '',
+    sitemapChangefreq: '',
+    hreflang: [],
+  },
   hero: { pill: 'AI Accelerated Fintech Engineering', title: ['Ship fintech', 'platforms faster'], subtitle: 'We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half', primaryCta: { label: 'Talk to our team', href: 'contact.html' }, secondaryCta: { label: 'View Case Studies', href: '#careers' }, trustedKicker: 'Trusted by High-Growth Fintechs', stats: [{ value: '50%', label: 'Faster delivery vs traditional teams' }, { value: '75%', label: 'Shorter code review cycles' }, { value: '3x', label: 'Engineer productivity with AI tooling' }, { value: '800M+', label: 'Transactions managed across clients' }] },
   challenge: { kicker: 'The Problem', title: ['Fintech teams are stuck', 'maintaining instead of building'], summary: 'Most engineering organisations we work with are spending 60-70% of their time on maintenance and compliance remediation', cards: [{ number: '01', title: 'Scale breaks manual processes', body: 'What works at a million transactions falls apart at ten million. Exception handling, edge cases, and reconciliation gaps multiply faster than teams can patch them.' }, { number: '02', title: 'Compliance slows every release', body: 'PCI recertification, scheme mandate updates, FCA reporting changes — each one adds weeks to your release cycle when bolted on at the end instead of built in from the start.' }, { number: '03', title: 'Tech debt compounds quietly', body: 'Legacy code written three years ago now consumes most of your sprint capacity. New features get squeezed into whatever time remains, and quality suffers.' }] },
   howWeWork: { kicker: 'How We Work', title: ['Five stages', 'continuous feedback'], summary: "No need to hire, train, and manage multiple teams. We're your end-to-end fintech engineering and operations partner.", stages: [{ heading: 'Scope', description: 'Problem framing, acceptance criteria, scheme rules mapped to requirements' }, { heading: 'Prototype', description: 'Competing approaches built on separate branches. Working code in days, not weeks' }, { heading: 'Validate', description: 'Automated linting, security scans, type checks. Issues caught and fixed before review' }, { heading: 'Test', description: 'AI-generated test suites from acceptance criteria. 80%+ coverage enforced at the pipeline level' }, { heading: 'Deploy', description: 'Progressive rollout with canary releases, automated rollback triggers, and full observability' }] },
@@ -13,6 +30,11 @@ export const defaults = {
 };
 
 export const sections = [
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   { key: 'hero', label: 'Hero Section', fields: [{ key: 'pill', label: 'Pill text', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'subtitle', label: 'Subtitle', type: 'textarea' }, { key: 'primaryCta', label: 'Primary CTA', type: 'label-href' }, { key: 'secondaryCta', label: 'Secondary CTA', type: 'label-href' }, { key: 'trustedKicker', label: 'Trusted kicker', type: 'text' }, { key: 'stats', label: 'Stats', type: 'stats' }] },
   { key: 'challenge', label: 'The Problem', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Problem cards', type: 'numbered-cards' }] },
   { key: 'howWeWork', label: 'How We Work', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'stages', label: 'Process stages', type: 'stages' }] },
@@ -22,4 +44,5 @@ export const sections = [
   { key: 'fit', label: 'Who This Is For', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'bullets', label: 'Audience bullets', type: 'string-list' }, { key: 'engageKicker', label: 'Engage kicker', type: 'text' }, { key: 'engageCards', label: 'Engagement models', type: 'heading-body-cards' }] },
   { key: 'footerCta', label: 'Footer CTA', fields: [{ key: 'title', label: 'CTA title', type: 'text' }] },
   { key: 'emailCapture', label: 'Email Capture Popup', fields: [{ key: 'promptHeading', label: 'Heading', type: 'text' }, { key: 'promptSubtext', label: 'Subtext', type: 'text' }, { key: 'buttonLabel', label: 'Button label', type: 'text' }] },
+  STRUCTURED_DATA_SECTION,
 ];

@@ -10,6 +10,12 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderBlogDetail } from './Home scenes/sections/blogDetail.js';
 import { initInlineNewsletter } from './Home scenes/components/inline-newsletter.js';
 
+// Live preview — only loaded in ?preview=true mode (admin panel iframe).
+// Used by both Blog AND Insights articles since they share this script.
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
+
 const RESOURCES_JSON_URL = '../content/Resources/content.json';
 
 const getSlug = () =>
@@ -146,6 +152,28 @@ const initBlogDetail = async () => {
 };
 
 initBlogDetail();
+
+/* Live preview render handler — called by live-preview-receiver on every
+   admin edit. Re-renders the blog/insight article with the in-flight admin
+   data (meta, hero image, title, body blocks, related-slugs). */
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try {
+      if (data) {
+        const resources = window.DEFAULT_RESOURCES_CONTENT || null;
+        renderBlogDetail(data, resources);
+        if (data.meta?.title) document.title = data.meta.title;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && data.meta?.description) {
+          metaDesc.setAttribute('content', data.meta.description);
+        }
+        initScrollAnimations();
+      }
+    } catch (e) {
+      console.warn('[live-preview] blog/insights render failed:', e);
+    }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) initScrollAnimations();

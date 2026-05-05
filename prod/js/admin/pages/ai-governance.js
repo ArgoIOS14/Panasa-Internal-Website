@@ -1,6 +1,23 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'pages/aiGovernance';
 
 export const defaults = {
+  meta: {
+    title: 'AI Governance | Panasa',
+    description: 'Move from scattered AI use to visible controls, clear ownership, and audit-ready governance designed for regulated fintech environments.',
+    keywords: [],
+    canonical: '',
+    robots: 'index,follow',
+    ogImage: '',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    includeInSitemap: true,
+    sitemapPriority: '',
+    sitemapChangefreq: '',
+    hreflang: [],
+  },
   hero: {
     pill: 'AI Governance',
     title: ['AI governance for teams', "that can't afford to guess"],
@@ -58,9 +75,15 @@ export const defaults = {
 };
 
 export const sections = [
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   { key: 'hero', label: 'Hero Section', fields: [{ key: 'pill', label: 'Pill text', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'subtitle', label: 'Subtitle', type: 'textarea' }, { key: 'primaryCta', label: 'Primary CTA', type: 'label-href' }, { key: 'secondaryCta', label: 'Secondary CTA', type: 'label-href' }, { key: 'trustedKicker', label: 'Trusted kicker', type: 'text' }, { key: 'stats', label: 'Stats', type: 'stats' }] },
   { key: 'challenge', label: 'The Problem', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Problem cards', type: 'numbered-cards' }] },
   { key: 'why', label: 'Why Panasa', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Reason cards', type: 'heading-body-cards' }] },
   { key: 'fit', label: 'Who This Is For', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'bullets', label: 'Audience bullets', type: 'string-list' }, { key: 'engageKicker', label: 'Engage kicker', type: 'text' }, { key: 'engageCards', label: 'Engagement models', type: 'heading-body-cards' }] },
   { key: 'footerCta', label: 'Footer CTA', fields: [{ key: 'title', label: 'CTA title', type: 'text' }] },
+  STRUCTURED_DATA_SECTION,
 ];

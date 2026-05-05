@@ -79,14 +79,16 @@ class PageRegistry {
     }
 
     /**
-     * Dynamic article keys: blog:<slug>, insights:<slug>, guides:<slug>
+     * Dynamic article keys: blog:<slug>, insights:<slug>, guides:<slug>, case-studies:<slug>
      */
     public static function resolveDynamic(string $pageKey): ?array {
-        if (!preg_match('/^(blog|insights|guides):([a-z0-9]+(?:-[a-z0-9]+)*)$/', $pageKey, $m)) return null;
+        if (!preg_match('/^(blog|insights|guides|case-studies):([a-z0-9]+(?:-[a-z0-9]+)*)$/', $pageKey, $m)) return null;
         $type = $m[1];
         $slug = $m[2];
-        $folderUrl = $type === 'blog' ? 'blog' : ($type === 'insights' ? 'insights' : 'guides');
-        $folderJson = $type === 'blog' ? 'Blog' : ($type === 'insights' ? 'Insights' : 'Guide');
+        if ($type === 'blog') { $folderUrl = 'blog'; $folderJson = 'Blog'; }
+        elseif ($type === 'insights') { $folderUrl = 'insights'; $folderJson = 'Insights'; }
+        elseif ($type === 'case-studies') { $folderUrl = 'case-studies'; $folderJson = 'Case Studies'; }
+        else { $folderUrl = 'guides'; $folderJson = 'Guide'; }
         return [
             'type'        => 'article',
             'articleType' => $type,

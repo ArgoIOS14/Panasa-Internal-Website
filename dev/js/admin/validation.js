@@ -33,6 +33,14 @@ function validateSingleField(input) {
     return null;
   }
 
+  // Skip empty inputs whose field-group is explicitly marked required —
+  // those are reported by the dedicated required-field pass in
+  // `validateAllFields`, and we don't want to double-render the message.
+  const group = input.closest('.field-group');
+  if (group?.dataset.required === '1' && !input.value.trim()) {
+    return null;
+  }
+
   const type = detectFieldType(input);
   const value = input.value.trim();
   let error = null;
@@ -165,19 +173,55 @@ function clearFieldError(input) {
 
 /**
  * Validate all visible fields and return array of issues.
- * @returns {Array<{field: string, message: string}>}
+ *
+ * In addition to the per-field type checks (URL/email/phone/image regexes),
+ * this scans every `.field-group[data-required="1"]` and reports any whose
+ * bound value is empty (empty string, empty array, or null/undefined). Each
+ * empty required field gets an inline `.field-error` message and the
+ * `.has-error` class on its field-group.
+ *
+ * @returns {Array<{sectionKey: string, fieldKey: string, field: string, message: string}>}
  */
 export function validateAllFields() {
   const issues = [];
   const editor = document.querySelector('.admin-editor') || document.getElementById('editor-sections');
   if (!editor) return issues;
 
+  // ── 1. Required-field check (data-required="1" on .field-group) ──
+  editor.querySelectorAll('.field-group[data-required="1"]').forEach(group => {
+    if (group.offsetParent === null) return; // skip hidden groups
+    if (!isFieldGroupEmpty(group)) {
+      group.classList.remove('has-error');
+      const existing = group.querySelector(':scope > .field-error.required-error');
+      if (existing) existing.remove();
+      return;
+    }
+    group.classList.add('has-error');
+    // Avoid stacking duplicate messages on repeated calls
+    let errEl = group.querySelector(':scope > .field-error.required-error');
+    if (!errEl) {
+      errEl = document.createElement('div');
+      errEl.className = 'field-error required-error';
+      errEl.textContent = 'This field is required';
+      group.appendChild(errEl);
+    }
+    issues.push({
+      sectionKey: group.dataset.sectionKey || '',
+      fieldKey:   group.dataset.fieldKey   || '',
+      field:      getFieldGroupLabel(group),
+      message:    'This field is required',
+    });
+  });
+
+  // ── 2. Per-input format checks (URL/email/phone/image) ──
   editor.querySelectorAll('input[type="text"], input[type="url"], input[type="email"], textarea').forEach(input => {
     // Skip hidden inputs
     if (input.offsetParent === null) return;
     const error = validateSingleField(input);
     if (error) {
       issues.push({
+        sectionKey: input.closest('.field-group')?.dataset.sectionKey || '',
+        fieldKey:   input.closest('.field-group')?.dataset.fieldKey   || '',
         field: getFieldLabel(input) || 'Unknown field',
         message: error,
       });
@@ -185,6 +229,59 @@ export function validateAllFields() {
   });
 
   return issues;
+}
+
+/**
+ * Determine if a field-group's bound value is empty, using the same DOM
+ * conventions as `readAllForms` in fields.js.
+ */
+function isFieldGroupEmpty(group) {
+  // Text input
+  const txt = group.querySelector(':scope > input[type="text"], :scope > input[type="url"], :scope > input[type="email"]');
+  if (txt) return !txt.value || !txt.value.trim();
+
+  // Plain textarea (rare — most are Quill)
+  const ta = group.querySelector(':scope > textarea');
+  if (ta) return !ta.value || !ta.value.trim();
+
+  // Quill-backed textarea
+  const quill = group.querySelector(':scope > .quill-wrapper');
+  if (quill) {
+    const ed = quill.querySelector('.ql-editor');
+    if (!ed) return true;
+    const text = (ed.textContent || '').trim();
+    return text.length === 0;
+  }
+
+  // Image input widget — value lives in .field-image hidden input
+  const img = group.querySelector('.field-image');
+  if (img) return !img.value || !img.value.trim();
+
+  // Title pair — both lines must be present? Treat as empty only if both blank.
+  const titleInputs = group.querySelectorAll(':scope > input');
+  if (titleInputs.length >= 2) {
+    return Array.from(titleInputs).every(i => !i.value || !i.value.trim());
+  }
+
+  // String / repeatable lists — empty if no cards / rows
+  const cards = group.querySelectorAll('.nested-card, .card-row, .section-card, .image-list-card, .guide-section-card, .block-card');
+  if (cards.length > 0) return false;
+
+  // Fallback — look for ANY input with a value
+  const anyInput = group.querySelector('input, textarea');
+  if (anyInput) return !anyInput.value || !anyInput.value.trim();
+
+  return true;
+}
+
+/** Get the field-group's label text (without the required asterisk). */
+function getFieldGroupLabel(group) {
+  const lbl = group.querySelector(':scope > .field-label');
+  if (!lbl) return group.dataset.fieldKey || 'Unknown field';
+  // Clone to strip the asterisk before reading text
+  const clone = lbl.cloneNode(true);
+  clone.querySelectorAll('.field-required-star').forEach(s => s.remove());
+  return clone.textContent.trim();
 }
 
 /**

@@ -1,0 +1,4 @@
+{
+  "rules": [],
+  "_comment": "Admin-managed 301/302 redirects. Edit via the admin Redirects page (do not hand-edit). dev/router.php and prod/router-redirects.php read this file before serving static content. Each rule shape: { \"from\": \"/old-path\", \"to\": \"/new-path-or-https-url\", \"status\": 301|302|307|308, \"exact\": true|false }."
+}

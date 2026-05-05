@@ -1,6 +1,23 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'pages/about';
 
 export const defaults = {
+  meta: {
+    title: 'About Panasa | Trusted Fintech Tech Partner',
+    description: 'Trusted by both established institutions and fast-moving new-age card platforms to engineer, operate, and scale modern payment systems.',
+    keywords: [],
+    canonical: '',
+    robots: 'index,follow',
+    ogImage: '',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    includeInSitemap: true,
+    sitemapPriority: '',
+    sitemapChangefreq: '',
+    hreflang: [],
+  },
   hero: {
     pill: 'Trusted Fintech Tech Partner',
     title: 'Building Secure & Scalable',
@@ -68,6 +85,11 @@ export const defaults = {
 };
 
 export const sections = [
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   { key: 'hero', label: 'Hero Section', fields: [
     { key: 'pill', label: 'Pill badge', type: 'text' },
     { key: 'title', label: 'Title', type: 'text' },
@@ -106,4 +128,5 @@ export const sections = [
     { key: 'items', label: 'FAQ items', type: 'faq-items' },
   ]},
   { key: 'emailCapture', label: 'Email Capture Popup', fields: [{ key: 'promptHeading', label: 'Heading', type: 'text' }, { key: 'promptSubtext', label: 'Subtext', type: 'text' }, { key: 'buttonLabel', label: 'Button label', type: 'text' }] },
+  STRUCTURED_DATA_SECTION,
 ];

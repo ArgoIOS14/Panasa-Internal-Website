@@ -103,6 +103,28 @@ require_once __DIR__ . '/rebuild/MetaUpdater.php';
 require_once __DIR__ . '/rebuild/HtmlRebuilder.php';
 require_once __DIR__ . '/rebuild/HomepageUpdater.php';
 require_once __DIR__ . '/rebuild/ArticleRebuilder.php';
+require_once __DIR__ . '/rebuild/SiteSeoApplier.php';
+require_once __DIR__ . '/rebuild/StructuredDataApplier.php';
+
+/**
+ * Fetch the site-wide SEO settings node from Firebase RTDB using the caller's
+ * already-validated ID token. Returns [] on missing or auth failure (the rebuild
+ * should not fail just because site SEO isn't configured yet).
+ */
+function fetchSiteSEO(string $idToken): array {
+    $url = 'https://panasa-cms-default-rtdb.europe-west1.firebasedatabase.app/pages/siteSEO.json'
+         . '?auth=' . urlencode($idToken);
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 5,
+    ]);
+    $resp = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if ($code !== 200 || !$resp) return [];
+    $data = json_decode($resp, true);
+    return is_array($data) ? $data : [];
+}
 
 // ── Validate page key ──
 
@@ -125,7 +147,7 @@ $prodHtmlPath = $prodDir ? $prodDir . '/' . $htmlFile : null;
 
 // ── Article path: handle separately and exit early ──
 if (($pageConfig['type'] ?? null) === 'article') {
-    handleArticleRebuild($pageConfig, $action, $data, $devDir, $prodDir, $startTime);
+    handleArticleRebuild($pageConfig, $action, $data, $devDir, $prodDir, $startTime, $idToken);
     exit;
 }
 
@@ -157,11 +179,23 @@ try {
         throw new RuntimeException('Failed to read ' . $devHtmlPath);
     }
 
-    // ── Phase 1: Update meta tags (all pages) ──
+    // ── Phase 1a: Apply site-wide SEO defaults (Twitter, OG locale, verification, analytics, Org JSON-LD)
+    //              Runs BEFORE the per-page MetaUpdater so per-page values can override fallbacks. ──
+    $siteSEO = fetchSiteSEO($idToken);
+    if (!empty($siteSEO)) {
+        $html = SiteSeoApplier::apply($html, $siteSEO);
+    }
+
+    // ── Phase 1b: Update per-page meta tags ──
     $meta = $data['meta'] ?? [];
     if (!empty($meta)) {
         $html = MetaUpdater::update($html, $meta);
     }
+
+    // ── Phase 1c: Inject per-page Schema.org JSON-LD (BreadcrumbList, FAQPage, custom). ──
+    $structuredData = $data['structuredData'] ?? [];
+    $canonicalUrl   = $meta['canonical'] ?? '';
+    $html = StructuredDataApplier::apply($html, $structuredData, $canonicalUrl);
 
     // ── Phase 2: Update body content (full-tier pages only) ──
     if ($tier === PageRegistry::TIER_FULL) {
@@ -304,7 +338,7 @@ function validateRebuiltHtml(string $newHtml, string $originalHtml, string $page
  * Publish: render template, write HTML/JSON/JS, refresh index + sitemap.
  * Delete: remove all article files, refresh index + sitemap.
  */
-function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, string $devDir, ?string $prodDir, float $startTime): void {
+function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, string $devDir, ?string $prodDir, float $startTime, string $idToken = ''): void {
     $type = $pageConfig['articleType'];
     $slug = $pageConfig['slug'];
     $htmlFile = $pageConfig['htmlFile'];
@@ -346,6 +380,16 @@ function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, 
             $tpl = file_get_contents($tplPath);
             $html = ArticleRebuilder::renderTemplate($tpl, $data, $type, $slug);
 
+            // SEO chain: site-wide defaults → per-page meta → structured data.
+            // Article templates already substitute most per-page meta via {{TOKENS}}, so
+            // MetaUpdater::update() is a no-op here for those tags but still handles
+            // anything the template doesn't carry (keywords, robots, og:locale, etc.).
+            $siteSEO = $idToken !== '' ? fetchSiteSEO($idToken) : [];
+            if (!empty($siteSEO)) $html = SiteSeoApplier::apply($html, $siteSEO);
+            if (!empty($data['meta']))           $html = MetaUpdater::update($html, $data['meta']);
+            $canonical = $data['meta']['canonical'] ?? '';
+            $html = StructuredDataApplier::apply($html, $data['structuredData'] ?? [], $canonical);
+
             file_put_contents($devDir . '/' . $htmlFile, $html, LOCK_EX);
             $rebuilt[] = 'dev/' . $htmlFile;
 
@@ -353,7 +397,9 @@ function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, 
             file_put_contents($devDir . '/' . $jsonFile, $jsonStr, LOCK_EX);
             $rebuilt[] = 'dev/' . $jsonFile;
 
-            $varName = $type === 'guides' ? 'DEFAULT_GUIDE_CONTENT' : 'DEFAULT_BLOG_CONTENT';
+            if ($type === 'guides') $varName = 'DEFAULT_GUIDE_CONTENT';
+            elseif ($type === 'case-studies') $varName = 'DEFAULT_CASE_STUDY_CONTENT';
+            else $varName = 'DEFAULT_BLOG_CONTENT';
             file_put_contents($devDir . '/' . $jsFile, "window.{$varName} = {$jsonStr};\n", LOCK_EX);
             $rebuilt[] = 'dev/' . $jsFile;
 
@@ -369,6 +415,14 @@ function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, 
             }
             $tpl = file_get_contents($tplPath);
             $html = ArticleRebuilder::renderTemplate($tpl, $data, $type, $slug);
+
+            // SEO chain: site-wide defaults → per-page meta → structured data.
+            // Same chain as preview, just runs before validation + dev/prod write.
+            $siteSEO = $idToken !== '' ? fetchSiteSEO($idToken) : [];
+            if (!empty($siteSEO)) $html = SiteSeoApplier::apply($html, $siteSEO);
+            if (!empty($data['meta']))           $html = MetaUpdater::update($html, $data['meta']);
+            $canonical = $data['meta']['canonical'] ?? '';
+            $html = StructuredDataApplier::apply($html, $data['structuredData'] ?? [], $canonical);
 
             // Validate
             $errors = validateRebuiltHtml($html, $tpl, $pageConfig['fbPath']);
@@ -398,7 +452,9 @@ function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, 
             }
 
             // default.js
-            $varName = $type === 'guides' ? 'DEFAULT_GUIDE_CONTENT' : 'DEFAULT_BLOG_CONTENT';
+            if ($type === 'guides') $varName = 'DEFAULT_GUIDE_CONTENT';
+            elseif ($type === 'case-studies') $varName = 'DEFAULT_CASE_STUDY_CONTENT';
+            else $varName = 'DEFAULT_BLOG_CONTENT';
             $jsStr = "window.{$varName} = {$jsonStr};\n";
             file_put_contents($devDir . '/' . $jsFile, $jsStr, LOCK_EX);
             $rebuilt[] = 'dev/' . $jsFile;
@@ -414,7 +470,11 @@ function handleArticleRebuild(array $pageConfig, ?string $action, ?array $data, 
         flock($idxLock, LOCK_EX);
         try {
             ArticleRebuilder::rebuildArticlesIndex($devDir, $prodDir);
-            ArticleRebuilder::rebuildSitemap($devDir, $prodDir);
+            // Pass through any extra URLs configured in Site SEO so they show up
+            // in sitemap.xml after the auto-generated entries.
+            $siteSEO = $idToken !== '' ? fetchSiteSEO($idToken) : [];
+            $extras = is_array($siteSEO['extraSitemapUrls'] ?? null) ? $siteSEO['extraSitemapUrls'] : [];
+            ArticleRebuilder::rebuildSitemap($devDir, $prodDir, $extras);
         } finally {
             flock($idxLock, LOCK_UN);
             fclose($idxLock);

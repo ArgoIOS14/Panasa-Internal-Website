@@ -11,6 +11,13 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderCaseStudyDetail } from './Home scenes/sections/caseStudyDetail.js';
 import { initInlineNewsletter } from './Home scenes/components/inline-newsletter.js';
 
+// Live preview — only loaded in ?preview=true mode (admin panel iframe).
+// The receiver installs a postMessage listener that calls window.__livePreviewRender
+// (registered at the bottom of this file) on every admin edit.
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
+
 const RESOURCES_JSON_URL = '../content/Resources/content.json';
 
 const getSlug = () =>
@@ -123,6 +130,29 @@ const initCaseStudyDetail = async () => {
 };
 
 initCaseStudyDetail();
+
+/* Live preview render handler — called by live-preview-receiver on every
+   admin edit. Re-renders the case study with the in-flight admin data
+   (title, hero, meta tiles, all 9 section types, differentiator bento,
+   newsletter, related-slugs). */
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try {
+      if (data) {
+        const resources = window.DEFAULT_RESOURCES_CONTENT || null;
+        renderCaseStudyDetail(data, resources);
+        if (data.meta?.title) document.title = data.meta.title;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && data.meta?.description) {
+          metaDesc.setAttribute('content', data.meta.description);
+        }
+        initScrollAnimations();
+      }
+    } catch (e) {
+      console.warn('[live-preview] case-study render failed:', e);
+    }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) initScrollAnimations();

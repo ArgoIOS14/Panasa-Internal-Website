@@ -6,34 +6,49 @@
 class ArticleRebuilder {
 
     public static function tagClassFor(string $type): string {
-        return $type === 'blog' ? 'resource-tag-blog'
-             : ($type === 'insights' ? 'resource-tag-insights'
-                : 'resource-tag-guide');
+        if ($type === 'blog') return 'resource-tag-blog';
+        if ($type === 'insights') return 'resource-tag-insights';
+        if ($type === 'case-studies') return 'resource-tag-case-study';
+        return 'resource-tag-guide';
     }
 
     public static function categoryPlural(string $type): string {
-        return $type === 'blog' ? 'Blogs'
-             : ($type === 'insights' ? 'Insights' : 'Guides');
+        if ($type === 'blog') return 'Blogs';
+        if ($type === 'insights') return 'Insights';
+        if ($type === 'case-studies') return 'Case Studies';
+        return 'Guides';
     }
 
     public static function categoryLabel(string $type): string {
-        return $type === 'blog' ? 'Blog'
-             : ($type === 'insights' ? 'Insights' : 'Guide');
+        if ($type === 'blog') return 'Blog';
+        if ($type === 'insights') return 'Insights';
+        if ($type === 'case-studies') return 'Case Study';
+        return 'Guide';
     }
 
     public static function defaultTagText(string $type): string {
-        return $type === 'blog' ? 'BLOG'
-             : ($type === 'insights' ? 'INSIGHTS' : 'GUIDE');
+        if ($type === 'blog') return 'BLOG';
+        if ($type === 'insights') return 'INSIGHTS';
+        if ($type === 'case-studies') return 'CASE STUDY';
+        return 'GUIDE';
     }
 
     /**
      * Render an HTML template by replacing {{TOKEN}} placeholders.
      */
     public static function renderTemplate(string $template, array $data, string $type, string $slug): string {
-        $title = $data['title'] ?? '(untitled)';
+        // Case studies put the human title under hero.title; fall back to top-level title for blog/insights/guides.
+        $title = $data['title'] ?? ($data['hero']['title'] ?? '(untitled)');
+        if ($type === 'case-studies' && !empty($data['hero']['title'])) {
+            $accent = trim((string)($data['hero']['titleAccent'] ?? ''));
+            $title = trim($data['hero']['title'] . ($accent !== '' ? ' ' . $accent : ''));
+        }
         $description = $data['meta']['description'] ?? ($data['description'] ?? '');
         $canonicalBase = 'https://www.panasatech.com';
-        $folder = $type === 'blog' ? 'blog' : ($type === 'insights' ? 'insights' : 'guides');
+        if ($type === 'blog') $folder = 'blog';
+        elseif ($type === 'insights') $folder = 'insights';
+        elseif ($type === 'case-studies') $folder = 'case-studies';
+        else $folder = 'guides';
         $canonical = $data['meta']['canonical'] ?? "{$canonicalBase}/{$folder}/{$slug}";
         $ogImage = $data['meta']['ogImage'] ?? '';
         if (empty($ogImage)) {
@@ -61,7 +76,10 @@ class ArticleRebuilder {
         foreach ($tags as $t) {
             $tagsMeta .= '<meta property="article:tag" content="' . htmlspecialchars((string)$t, ENT_QUOTES) . '" />' . "\n    ";
         }
-        $jsFile = "content/" . ($type === 'blog' ? 'Blog' : ($type === 'insights' ? 'Insights' : 'Guide')) . "/{$slug}.default.js";
+        $jsFolder = $type === 'blog' ? 'Blog'
+                  : ($type === 'insights' ? 'Insights'
+                  : ($type === 'case-studies' ? 'Case Studies' : 'Guide'));
+        $jsFile = "content/{$jsFolder}/{$slug}.default.js";
         $titleHighlightHtml = '';
         if ($type === 'guides' && !empty($data['titleHighlight'])) {
             $highlight = $data['titleHighlight'];
@@ -104,11 +122,22 @@ class ArticleRebuilder {
     }
 
     /**
-     * Glob article JSONs in dev/content/{Blog,Insights,Guide} and rebuild
+     * Glob article JSONs in dev/content/{Blog,Insights,Guide,Case Studies} and rebuild
      * dev/content/Resources/articles-index.json (and prod mirror).
      */
     public static function rebuildArticlesIndex(string $devDir, ?string $prodDir): void {
-        $folders = ['blog' => 'Blog', 'insights' => 'Insights', 'guides' => 'Guide'];
+        $folders = [
+            'blog' => 'Blog',
+            'insights' => 'Insights',
+            'guides' => 'Guide',
+            'case-studies' => 'Case Studies',
+        ];
+        $urlPrefixes = [
+            'blog' => 'blog',
+            'insights' => 'insights',
+            'guides' => 'guides',
+            'case-studies' => 'case-studies',
+        ];
         $items = [];
         foreach ($folders as $type => $folder) {
             $glob = glob($devDir . "/content/{$folder}/*.json");
@@ -116,17 +145,45 @@ class ArticleRebuilder {
             foreach ($glob as $f) {
                 $j = @json_decode((string)@file_get_contents($f), true);
                 if (!$j || empty($j['slug'])) continue;
-                $folderUrl = $type === 'blog' ? 'blog' : ($type === 'insights' ? 'insights' : 'guides');
+                $folderUrl = $urlPrefixes[$type];
+                // Case studies put the user-facing title under hero.title; merge with titleAccent.
+                if ($type === 'case-studies') {
+                    $title = trim(($j['hero']['title'] ?? '') . ' ' . ($j['hero']['titleAccent'] ?? ''));
+                    if ($title === '') $title = $j['title'] ?? '';
+                } else {
+                    $title = $j['title'] ?? '';
+                }
+                // Image source preference: explicit heroImage (blog/guide), else meta.ogImage (case studies).
+                $image = '';
+                if (!empty($j['heroImage'])) {
+                    $image = str_replace('../', '', $j['heroImage']);
+                } elseif (!empty($j['meta']['ogImage'])) {
+                    $og = $j['meta']['ogImage'];
+                    if (str_starts_with($og, 'https://www.panasatech.com/')) {
+                        $image = substr($og, strlen('https://www.panasatech.com/'));
+                    } elseif (!str_starts_with($og, 'http')) {
+                        $image = ltrim($og, '/');
+                    }
+                }
+                /* Capture sitemap-relevant meta so rebuildSitemap can honour per-page
+                   includeInSitemap toggles + priority/changefreq overrides without
+                   re-reading every article's full JSON. */
+                $metaIn = is_array($j['meta'] ?? null) ? $j['meta'] : [];
                 $items[] = [
                     'category' => $j['category'] ?? self::categoryLabel($type),
-                    'title'    => $j['title'] ?? '',
+                    'title'    => $title,
                     'excerpt'  => $j['meta']['description'] ?? ($j['description'] ?? ''),
                     'date'     => $j['date'] ?? '',
                     'datePublished' => $j['datePublished'] ?? '',
                     'author'   => $j['author'] ?? '',
-                    'image'    => $j['heroImage'] ? str_replace('../', '', $j['heroImage']) : '',
+                    'image'    => $image,
                     'slug'     => $j['slug'],
                     'href'     => "{$folderUrl}/{$j['slug']}",
+                    'sitemap'  => [
+                        'includeInSitemap'  => array_key_exists('includeInSitemap', $metaIn) ? (bool)$metaIn['includeInSitemap'] : true,
+                        'sitemapPriority'   => trim((string)($metaIn['sitemapPriority'] ?? '')),
+                        'sitemapChangefreq' => trim((string)($metaIn['sitemapChangefreq'] ?? '')),
+                    ],
                 ];
             }
         }
@@ -150,29 +207,86 @@ class ArticleRebuilder {
 
     /**
      * Rebuild dev/sitemap.xml + prod/sitemap.xml with static URLs + all article URLs.
+     *
+     * Honours per-article overrides captured in articles-index.json's `sitemap`
+     * sub-object (includeInSitemap / sitemapPriority / sitemapChangefreq).
+     *
+     * @param string      $devDir
+     * @param string|null $prodDir
+     * @param array       $extras  Extra URLs from Site SEO. Each entry:
+     *                              ['loc' => 'https://…', 'lastmod' => 'YYYY-MM-DD',
+     *                               'priority' => '0.7', 'changefreq' => 'monthly']
      */
-    public static function rebuildSitemap(string $devDir, ?string $prodDir): void {
+    public static function rebuildSitemap(string $devDir, ?string $prodDir, array $extras = []): void {
         $base = 'https://www.panasatech.com';
-        $static = ['/', '/about', '/services', '/resources', '/contact', '/careers', '/privacy-policy',
-                   '/ai-accelerated-fintech-engineering', '/ai-powered-legacy-modernisation',
-                   '/ai-governance', '/intelligent-operations'];
+        // Static pages with their per-page priority (changefreq only on /resources).
+        $static = [
+            ['/',                                       '1.0', null],
+            ['/about',                                  '0.8', null],
+            ['/contact',                                '0.8', null],
+            ['/careers',                                '0.7', null],
+            ['/services',                               '0.9', null],
+            ['/ai-accelerated-fintech-engineering',     '0.9', null],
+            ['/ai-governance',                          '0.9', null],
+            ['/intelligent-operations',                 '0.9', null],
+            ['/ai-powered-legacy-modernisation',        '0.9', null],
+            ['/privacy-policy',                         '0.4', null],
+            ['/resources',                              '0.8', 'weekly'],
+        ];
         $idxPath = $devDir . '/content/Resources/articles-index.json';
         $articles = [];
         if (file_exists($idxPath)) {
             $idx = @json_decode((string)file_get_contents($idxPath), true) ?: [];
             $articles = $idx['items'] ?? [];
         }
+        // Article href prefix → priority. Case studies and guides get 0.8; blog/insights 0.7.
+        $articlePriority = function (string $href): string {
+            if (str_starts_with($href, 'case-studies/')) return '0.8';
+            if (str_starts_with($href, 'guides/'))       return '0.8';
+            return '0.7';
+        };
         $today = date('Y-m-d');
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-        foreach ($static as $p) {
-            $xml .= "  <url><loc>{$base}{$p}</loc><lastmod>{$today}</lastmod></url>\n";
+        foreach ($static as [$path, $priority, $changefreq]) {
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>{$base}{$path}</loc>\n";
+            $xml .= "    <lastmod>{$today}</lastmod>\n";
+            $xml .= "    <priority>{$priority}</priority>\n";
+            if ($changefreq) $xml .= "    <changefreq>{$changefreq}</changefreq>\n";
+            $xml .= "  </url>\n";
         }
         foreach ($articles as $a) {
             $href = $a['href'] ?? '';
             if (!$href) continue;
-            $lastmod = $a['datePublished'] ?: $today;
-            $xml .= "  <url><loc>{$base}/{$href}</loc><lastmod>" . htmlspecialchars($lastmod, ENT_XML1) . "</lastmod></url>\n";
+            // Honour per-article sitemap settings authored via the admin meta section.
+            $sitemap = is_array($a['sitemap'] ?? null) ? $a['sitemap'] : [];
+            if (array_key_exists('includeInSitemap', $sitemap) && $sitemap['includeInSitemap'] === false) {
+                continue; // editor opted out of sitemap inclusion for this article
+            }
+            $lastmod    = $a['datePublished'] ?: $today;
+            $priority   = !empty($sitemap['sitemapPriority']) ? $sitemap['sitemapPriority'] : $articlePriority($href);
+            $changefreq = !empty($sitemap['sitemapChangefreq']) ? $sitemap['sitemapChangefreq'] : 'monthly';
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>{$base}/{$href}</loc>\n";
+            $xml .= "    <lastmod>" . htmlspecialchars($lastmod, ENT_XML1) . "</lastmod>\n";
+            $xml .= "    <priority>" . htmlspecialchars($priority, ENT_XML1) . "</priority>\n";
+            $xml .= "    <changefreq>" . htmlspecialchars($changefreq, ENT_XML1) . "</changefreq>\n";
+            $xml .= "  </url>\n";
+        }
+        // Editor-managed extras from Site SEO (out-of-band URLs, e.g. subdomain pages).
+        foreach ($extras as $extra) {
+            $loc = trim((string)($extra['loc'] ?? ''));
+            if ($loc === '') continue;
+            $lastmod    = trim((string)($extra['lastmod'] ?? '')) ?: $today;
+            $priority   = trim((string)($extra['priority'] ?? '')) ?: '0.5';
+            $changefreq = trim((string)($extra['changefreq'] ?? '')) ?: 'monthly';
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>" . htmlspecialchars($loc, ENT_XML1) . "</loc>\n";
+            $xml .= "    <lastmod>" . htmlspecialchars($lastmod, ENT_XML1) . "</lastmod>\n";
+            $xml .= "    <priority>" . htmlspecialchars($priority, ENT_XML1) . "</priority>\n";
+            $xml .= "    <changefreq>" . htmlspecialchars($changefreq, ENT_XML1) . "</changefreq>\n";
+            $xml .= "  </url>\n";
         }
         $xml .= '</urlset>';
         file_put_contents($devDir . '/sitemap.xml', $xml, LOCK_EX);

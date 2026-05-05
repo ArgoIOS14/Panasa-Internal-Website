@@ -1,6 +1,23 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'pages/servicesOverview';
 
 export const defaults = {
+  meta: {
+    title: 'Services Overview | Panasa',
+    description: "Whether you're building new infrastructure, modernising what you have, governing the AI models you use, or running operations at scale, we have a team that has done it before.",
+    keywords: [],
+    canonical: '',
+    robots: 'index,follow',
+    ogImage: '',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    includeInSitemap: true,
+    sitemapPriority: '',
+    sitemapChangefreq: '',
+    hreflang: [],
+  },
   hero: {
     pill: 'Our Services',
     title: 'Four ways we work with',
@@ -46,6 +63,11 @@ export const defaults = {
 };
 
 export const sections = [
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   { key: 'hero', label: 'Hero Section', fields: [
     { key: 'pill', label: 'Pill badge', type: 'text' },
     { key: 'title', label: 'Title', type: 'text' },
@@ -74,4 +96,5 @@ export const sections = [
     { key: 'button', label: 'Button label', type: 'text' },
   ]},
   { key: 'emailCapture', label: 'Email Capture Popup', fields: [{ key: 'promptHeading', label: 'Heading', type: 'text' }, { key: 'promptSubtext', label: 'Subtext', type: 'text' }, { key: 'buttonLabel', label: 'Button label', type: 'text' }] },
+  STRUCTURED_DATA_SECTION,
 ];

@@ -2,8 +2,10 @@ import { createEl } from '../utils/dom.js';
 
 /* Mixed-media bento grid that lays out 1–5 tiles correctly at every count.
    Tile kinds: 'image' | 'chart' | 'stat'.
-   - 'image' / 'chart' render an <img> with optional <figcaption>.
-   - 'stat' renders a small card with title + metric + label.
+   - 'image' / 'chart' render with eyebrow + title + description at the top
+      and an image filling the bottom of the card. (Pre-existing tiles using
+      a `caption` field still render — `description` is preferred when both exist.)
+   - 'stat' renders a small card with eyebrow + title + metric + label.
    The grid layout (grid-template-areas per data-count) lives in
    case-study-detail.css so the same component can be styled in context. */
 
@@ -15,25 +17,39 @@ const resolveAsset = (path) => {
 
 const renderImageTile = (tile) => {
   const fig = createEl('figure', `bento-tile bento-tile--${tile.kind}`);
-  const img = createEl('img', 'bento-tile-img');
-  img.src = resolveAsset(tile.src);
-  img.alt = tile.alt || tile.caption || tile.title || '';
-  fig.appendChild(img);
 
-  if (tile.caption || tile.title) {
-    const cap = createEl('figcaption', 'bento-tile-caption');
-    if (tile.title) {
-      const t = createEl('span', 'bento-tile-caption-title');
-      t.textContent = tile.title;
-      cap.appendChild(t);
-    }
-    if (tile.caption) {
-      const c = createEl('span', 'bento-tile-caption-text');
-      c.textContent = tile.caption;
-      cap.appendChild(c);
-    }
-    fig.appendChild(cap);
+  /* Top: text content (eyebrow → title → description). */
+  const text = createEl('div', 'bento-tile-text');
+  if (tile.eyebrow) {
+    const eb = createEl('span', 'bento-tile-eyebrow');
+    eb.textContent = tile.eyebrow;
+    text.appendChild(eb);
   }
+  if (tile.title) {
+    const t = createEl('h3', 'bento-tile-title');
+    t.textContent = tile.title;
+    text.appendChild(t);
+  }
+  /* `description` is the primary long-form copy; fall back to `caption` for
+     content authored under the older schema. */
+  const desc = tile.description || tile.caption;
+  if (desc) {
+    const p = createEl('p', 'bento-tile-desc');
+    p.textContent = desc;
+    text.appendChild(p);
+  }
+  if (text.children.length) fig.appendChild(text);
+
+  /* Bottom: image (fills remaining vertical space). */
+  if (tile.src) {
+    const wrap = createEl('div', 'bento-tile-img-wrap');
+    const img = createEl('img', 'bento-tile-img');
+    img.src = resolveAsset(tile.src);
+    img.alt = tile.alt || tile.title || '';
+    wrap.appendChild(img);
+    fig.appendChild(wrap);
+  }
+
   return fig;
 };
 

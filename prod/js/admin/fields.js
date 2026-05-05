@@ -1,5 +1,6 @@
 import { getAuth } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js';
 import { auth } from '../firebase-config.js';
+import { attachCharCounter } from './charCounter.js';
 
 async function getAuthToken() {
   const user = auth.currentUser;
@@ -26,6 +27,488 @@ function textInput(value, placeholder) {
   input.value = value;
   if (placeholder) input.placeholder = placeholder;
   return input;
+}
+
+/* Native date picker. Stores value as YYYY-MM-DD (the ISO format the rebuild
+   pipeline expects for datePublished / dateModified). If the incoming value
+   is not a valid YYYY-MM-DD, the input renders empty and the editor picks one. */
+function dateInput(value) {
+  const input = document.createElement('input');
+  input.type = 'date';
+  input.className = 'field-input field-date';
+  input.value = /^\d{4}-\d{2}-\d{2}$/.test(value || '') ? value : '';
+  input.style.maxWidth = '200px';
+  return input;
+}
+
+/* Simple <select> dropdown. Accepts options as either ['a','b'] or [{value,label}]. */
+function selectInput(options, current) {
+  const sel = document.createElement('select');
+  sel.className = 'field-input field-select';
+  sel.style.maxWidth = '320px';
+  const opts = Array.isArray(options) ? options : [];
+  opts.forEach((o) => {
+    const opt = document.createElement('option');
+    if (typeof o === 'string') {
+      opt.value = o;
+      opt.textContent = o;
+    } else if (o && typeof o === 'object') {
+      opt.value = o.value ?? '';
+      opt.textContent = o.label ?? o.value ?? '';
+    }
+    if (opt.value === current) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  return sel;
+}
+
+/* Boolean toggle styled as a checkbox. Stored as true/false. */
+function toggleInput(value) {
+  const wrap = el('label', 'field-toggle');
+  wrap.style.cssText = 'display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;';
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+  input.className = 'field-toggle-input';
+  input.checked = value === true || value === 'true' || value === 1;
+  input.style.cssText = 'width:18px;height:18px;cursor:pointer;';
+  wrap.appendChild(input);
+  const lbl = el('span', '');
+  lbl.style.cssText = 'font-size:13px;color:#374151;';
+  lbl.textContent = input.checked ? 'On' : 'Off';
+  input.addEventListener('change', () => { lbl.textContent = input.checked ? 'On' : 'Off'; });
+  wrap.appendChild(lbl);
+  return wrap;
+}
+
+/* Composite postal-address field. Five sub-inputs. Stored as an object. */
+function addressInput(value) {
+  const wrap = el('div', 'field-address');
+  wrap.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:540px;';
+  const v = value && typeof value === 'object' ? value : {};
+  const sub = (cls, placeholder, current, span) => {
+    const cell = el('div', '');
+    if (span) cell.style.gridColumn = '1 / -1';
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = `field-input ${cls}`;
+    inp.placeholder = placeholder;
+    inp.value = current || '';
+    cell.appendChild(inp);
+    return cell;
+  };
+  wrap.appendChild(sub('addr-street',  'Street address',           v.street,  true));
+  wrap.appendChild(sub('addr-city',    'City',                     v.city,    false));
+  wrap.appendChild(sub('addr-region',  'Region / State',           v.region,  false));
+  wrap.appendChild(sub('addr-postal',  'Postal code',              v.postal,  false));
+  wrap.appendChild(sub('addr-country', 'Country (e.g. United Kingdom)', v.country, false));
+  return wrap;
+}
+
+/* Hreflang alternates: repeatable rows of {locale, url}. */
+function renderHreflangList(group, sectionKey, arrayKey, items, ctx) {
+  const list = el('div', 'hreflang-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+  items.forEach((item, idx) => {
+    const row = el('div', 'nested-card hreflang-row');
+    row.dataset.itemIdx = String(idx);
+    row.style.cssText = 'display:grid;grid-template-columns:140px 1fr auto;gap:8px;align-items:center;border:1px solid #e5e7eb;border-radius:6px;padding:6px;margin-bottom:6px;background:#fff;';
+    const loc = textInput(item.locale || '', 'en-GB');
+    loc.classList.add('hl-locale');
+    row.appendChild(loc);
+    const url = textInput(item.url || '', 'https://www.panasatech.com/de/');
+    url.classList.add('hl-url');
+    row.appendChild(url);
+    const del = el('button', 'hl-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete alternate');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:24px;height:24px;cursor:pointer;font-weight:700;';
+    row.appendChild(del);
+    list.appendChild(row);
+  });
+  group.appendChild(list);
+
+  list.querySelectorAll('.hl-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      arr.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  const add = el('button', 'add-bullet-btn');
+  add.type = 'button';
+  add.textContent = '+ Add alternate';
+  add.addEventListener('click', () => {
+    ctx_readForms();
+    const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+    arr.push({ locale: '', url: '' });
+    ctx.onRerender();
+  });
+  group.appendChild(add);
+}
+
+/* FAQPage Q&A pairs. Repeatable rows of {question, answer}. */
+function renderFaqPairs(group, sectionKey, arrayKey, items, ctx) {
+  const list = el('div', 'faq-pairs-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+  items.forEach((item, idx) => {
+    const row = el('div', 'nested-card faq-pair');
+    row.dataset.itemIdx = String(idx);
+    row.style.cssText = 'border:1px solid #e5e7eb;border-radius:6px;padding:8px;margin-bottom:8px;background:#fff;';
+
+    const head = el('div', '');
+    head.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:6px;';
+    const num = el('span', '');
+    num.style.cssText = 'font-size:12px;font-weight:600;color:#6b7280;';
+    num.textContent = `Q${idx + 1}`;
+    head.appendChild(num);
+    const drag = el('span', '');
+    drag.setAttribute('data-reorder-handle', '');
+    drag.setAttribute('role', 'button');
+    drag.setAttribute('aria-label', 'Drag to reorder');
+    drag.tabIndex = 0;
+    drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;margin-left:auto;';
+    drag.textContent = '⠿';
+    head.appendChild(drag);
+    const del = el('button', 'faq-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete FAQ');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:22px;height:22px;cursor:pointer;font-weight:700;';
+    head.appendChild(del);
+    row.appendChild(head);
+
+    row.appendChild(labelInput('Question', textInput(item.question || ''), 'faq-q'));
+    row.appendChild(labelInput('Answer',   plainTextarea(item.answer || ''), 'faq-a'));
+    list.appendChild(row);
+  });
+  group.appendChild(list);
+
+  list.querySelectorAll('.faq-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this FAQ entry?')) return;
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      arr.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  const add = el('button', 'add-bullet-btn');
+  add.type = 'button';
+  add.textContent = '+ Add FAQ';
+  add.addEventListener('click', () => {
+    ctx_readForms();
+    const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+    arr.push({ question: '', answer: '' });
+    ctx.onRerender();
+  });
+  group.appendChild(add);
+}
+
+/* Sitemap extras: repeatable {loc, lastmod, priority, changefreq} rows. */
+function renderSitemapExtras(group, sectionKey, arrayKey, items, ctx) {
+  const list = el('div', 'sitemap-extras-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+
+  items.forEach((item, idx) => {
+    const row = el('div', 'nested-card sitemap-extra');
+    row.dataset.itemIdx = String(idx);
+    row.style.cssText = 'display:grid;grid-template-columns:2.4fr 1fr 0.7fr 1fr auto;gap:6px;align-items:center;border:1px solid #e5e7eb;border-radius:6px;padding:6px;margin-bottom:6px;background:#fff;';
+
+    const loc = textInput(item.loc || '', 'https://www.panasatech.com/sub/page');
+    loc.classList.add('se-loc');
+    row.appendChild(loc);
+
+    const lastmod = textInput(item.lastmod || '', 'YYYY-MM-DD');
+    lastmod.classList.add('se-lastmod');
+    row.appendChild(lastmod);
+
+    const priority = selectInput(['', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0'], String(item.priority || ''));
+    priority.classList.add('se-priority');
+    row.appendChild(priority);
+
+    const changefreq = selectInput(['', 'never', 'yearly', 'monthly', 'weekly', 'daily', 'always'], String(item.changefreq || ''));
+    changefreq.classList.add('se-changefreq');
+    row.appendChild(changefreq);
+
+    const del = el('button', 'se-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete URL');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:24px;height:24px;cursor:pointer;font-weight:700;';
+    row.appendChild(del);
+
+    list.appendChild(row);
+  });
+  group.appendChild(list);
+
+  list.querySelectorAll('.se-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      arr.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  const add = el('button', 'add-bullet-btn');
+  add.type = 'button';
+  add.textContent = '+ Add URL';
+  add.addEventListener('click', () => {
+    ctx_readForms();
+    const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+    arr.push({ loc: '', lastmod: '', priority: '0.5', changefreq: 'monthly' });
+    ctx.onRerender();
+  });
+  group.appendChild(add);
+}
+
+/* Robots.txt rule card. Each rule = { userAgent, allow:[], disallow:[], crawlDelay? }.
+   `allow` and `disallow` are textareas, one path per line — the reader splits by newline. */
+function renderRobotsRules(group, sectionKey, arrayKey, rules, ctx) {
+  const list = el('div', 'robots-rules-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+
+  rules.forEach((rule, idx) => {
+    const card = el('div', 'nested-card robots-rule');
+    card.dataset.itemIdx = String(idx);
+    card.style.cssText = 'border:1px solid #e5e7eb;border-radius:6px;padding:10px;margin-bottom:10px;background:#fff;';
+
+    const head = el('div', '');
+    head.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;';
+    const num = el('span', '');
+    num.style.cssText = 'font-size:11px;font-weight:700;color:#6b7280;';
+    num.textContent = `Rule ${idx + 1}`;
+    head.appendChild(num);
+    const drag = el('span', '');
+    drag.setAttribute('data-reorder-handle', '');
+    drag.setAttribute('role', 'button');
+    drag.setAttribute('aria-label', 'Drag to reorder');
+    drag.tabIndex = 0;
+    drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;margin-left:auto;';
+    drag.textContent = '⠿';
+    head.appendChild(drag);
+    const del = el('button', 'rr-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete rule');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:22px;height:22px;cursor:pointer;font-weight:700;';
+    head.appendChild(del);
+    card.appendChild(head);
+
+    card.appendChild(labelInput('User-agent', textInput(rule.userAgent || '*', '* (all bots) or e.g. GPTBot'), 'rr-ua'));
+    card.appendChild(labelInput('Allow paths — one per line', plainTextarea((rule.allow || []).join('\n'), '/'), 'rr-allow'));
+    card.appendChild(labelInput('Disallow paths — one per line', plainTextarea((rule.disallow || []).join('\n'), '/admin\n/api'), 'rr-disallow'));
+    card.appendChild(labelInput('Crawl-delay (optional, seconds)', textInput(rule.crawlDelay ? String(rule.crawlDelay) : '', '5'), 'rr-crawl'));
+
+    list.appendChild(card);
+  });
+  group.appendChild(list);
+
+  list.querySelectorAll('.rr-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this rule?')) return;
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      arr.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  const add = el('button', 'add-bullet-btn');
+  add.type = 'button';
+  add.textContent = '+ Add rule';
+  add.addEventListener('click', () => {
+    ctx_readForms();
+    const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+    arr.push({ userAgent: '*', allow: ['/'], disallow: [], crawlDelay: '' });
+    ctx.onRerender();
+  });
+  group.appendChild(add);
+}
+
+/* Read-only preview of the generated robots.txt. The robotsTxt page mounts this
+   alongside the rules editor; main.js wires a re-render listener so this updates
+   live as rules change. */
+function robotsPreview(value) {
+  const ta = document.createElement('textarea');
+  ta.readOnly = true;
+  ta.className = 'field-input field-robots-preview';
+  ta.rows = 14;
+  ta.spellcheck = false;
+  ta.value = value || '# Save and republish — preview will appear here.';
+  ta.style.cssText = 'font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#f9fafb;color:#111827;';
+  return ta;
+}
+
+/* Redirect rule card. Each rule = { from, to, status (301|302|307|308), exact? }. */
+function renderRedirectRules(group, sectionKey, arrayKey, rules, ctx) {
+  const list = el('div', 'redirect-rules-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+
+  rules.forEach((rule, idx) => {
+    const card = el('div', 'nested-card redirect-rule');
+    card.dataset.itemIdx = String(idx);
+    card.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 110px 90px auto;gap:8px;align-items:center;border:1px solid #e5e7eb;border-radius:6px;padding:8px;margin-bottom:8px;background:#fff;';
+
+    const fromIn = textInput(rule.from || '', 'From: /old-path');
+    fromIn.classList.add('rd-from');
+    card.appendChild(fromIn);
+
+    const toIn = textInput(rule.to || '', 'To: /new-path or https://…');
+    toIn.classList.add('rd-to');
+    card.appendChild(toIn);
+
+    const statusSel = selectInput([
+      { value: '301', label: '301 Permanent' },
+      { value: '302', label: '302 Temporary' },
+      { value: '307', label: '307 Temporary (preserve method)' },
+      { value: '308', label: '308 Permanent (preserve method)' },
+    ], String(rule.status || '301'));
+    statusSel.classList.add('rd-status');
+    card.appendChild(statusSel);
+
+    const exactWrap = el('label', '');
+    exactWrap.style.cssText = 'display:inline-flex;align-items:center;gap:4px;font-size:12px;';
+    const exactCb = document.createElement('input');
+    exactCb.type = 'checkbox';
+    exactCb.className = 'rd-exact';
+    exactCb.checked = rule.exact !== false; // default true
+    exactWrap.appendChild(exactCb);
+    const exactLbl = el('span', '');
+    exactLbl.textContent = 'Exact match';
+    exactWrap.appendChild(exactLbl);
+    card.appendChild(exactWrap);
+
+    const del = el('button', 'rd-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete redirect');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:24px;height:24px;cursor:pointer;font-weight:700;';
+    card.appendChild(del);
+
+    list.appendChild(card);
+  });
+  group.appendChild(list);
+
+  list.querySelectorAll('.rd-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this redirect?')) return;
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      arr.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  const add = el('button', 'add-bullet-btn');
+  add.type = 'button';
+  add.textContent = '+ Add redirect';
+  add.addEventListener('click', () => {
+    ctx_readForms();
+    const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+    arr.push({ from: '/', to: '/', status: 301, exact: true });
+    ctx.onRerender();
+  });
+  group.appendChild(add);
+}
+
+/* Raw JSON-LD textarea (for advanced editors). Live-validates JSON and shows
+   a small inline error indicator when the text doesn't parse. The save reader
+   stores the trimmed text — StructuredDataApplier validates again server-side
+   and silently drops invalid JSON to avoid breaking the page. */
+function jsonLdTextarea(value, field) {
+  const wrap = el('div', 'field-jsonld');
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
+
+  const ta = document.createElement('textarea');
+  ta.className = 'field-input field-jsonld-input';
+  ta.rows = 8;
+  ta.spellcheck = false;
+  ta.value = value || '';
+  ta.placeholder = `e.g.
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Panasa Engineering Squad"
+}`;
+  ta.style.cssText = 'font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.45;tab-size:2;';
+  wrap.appendChild(ta);
+
+  const status = el('div', 'field-jsonld-status');
+  status.style.cssText = 'font-size:11px;color:#6b7280;';
+  wrap.appendChild(status);
+
+  const validate = () => {
+    const v = ta.value.trim();
+    if (v === '') {
+      status.textContent = 'Empty — no custom JSON-LD will be emitted.';
+      status.style.color = '#6b7280';
+      ta.style.borderColor = '';
+      return;
+    }
+    try {
+      JSON.parse(v);
+      status.textContent = '✓ Valid JSON.';
+      status.style.color = '#059669';
+      ta.style.borderColor = '#10b981';
+    } catch (e) {
+      status.textContent = '⚠ Invalid JSON — block will be dropped on save: ' + e.message;
+      status.style.color = '#b91c1c';
+      ta.style.borderColor = '#dc2626';
+    }
+  };
+  validate();
+  ta.addEventListener('input', validate);
+  return wrap;
+}
+
+/* Inline help icon ("?") that surfaces field-level guidance for non-technical
+   editors. Hover shows a native title tooltip; click toggles a small expanded
+   panel beneath the field label so the text stays visible while editing. */
+function renderHelpIcon(text) {
+  const wrap = el('span', 'field-help-wrap');
+  wrap.style.cssText = 'display:inline-flex;align-items:center;margin-left:6px;vertical-align:middle;';
+
+  const btn = el('button', 'field-help-btn');
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Show help for this field');
+  btn.title = text;
+  btn.style.cssText = 'background:#e0e7ff;color:#1e40af;border:0;width:18px;height:18px;border-radius:50%;font-size:11px;font-weight:700;cursor:pointer;line-height:1;display:inline-flex;align-items:center;justify-content:center;padding:0;';
+  btn.textContent = '?';
+  wrap.appendChild(btn);
+
+  const panel = el('div', 'field-help-panel');
+  panel.style.cssText = 'display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 10px;margin:6px 0;font-size:12px;color:#1e3a8a;line-height:1.5;font-weight:400;';
+  panel.textContent = text;
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    /* Insert the panel right after the label (which contains this icon). */
+    const label = btn.closest('.field-label');
+    if (!label) return;
+    if (panel.parentNode) {
+      panel.remove();
+    } else {
+      label.insertAdjacentElement('afterend', panel);
+    }
+  });
+
+  return wrap;
 }
 
 const _quillInstances = [];
@@ -307,17 +790,48 @@ export function renderField(sectionKey, field, value, data, onRerender) {
   const group = el('div', 'field-group');
   group.dataset.sectionKey = sectionKey;
   group.dataset.fieldKey = field.key;
+  if (field.advancedOnly) group.dataset.advancedOnly = '1';
+  if (field.required === true) group.dataset.required = '1';
 
   const label = el('label', 'field-label');
   label.textContent = field.label;
+  if (field.required === true) {
+    /* Red asterisk after the label. The renderField output gets aria-hidden
+       on this glyph because validation already announces "This field is
+       required" via the inline error message. */
+    const star = el('span', 'field-required-star');
+    star.textContent = ' *';
+    star.setAttribute('aria-hidden', 'true');
+    label.appendChild(star);
+  }
+  if (field.advancedOnly) {
+    const tag = el('span', 'field-adv-tag');
+    tag.style.cssText = 'background:#312e81;color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:3px;margin-left:6px;letter-spacing:0.4px;';
+    tag.textContent = 'ADV';
+    label.appendChild(tag);
+  }
+  if (field.help) label.appendChild(renderHelpIcon(field.help));
   group.appendChild(label);
 
   const ctx = { data, sectionKey, onRerender };
+  /* Track the primary input element for char-counter wiring (text + textarea only). */
+  let primaryInputEl = null;
 
   switch (field.type) {
-    case 'text': group.appendChild(textInput(value || '')); break;
+    case 'text': { const input = textInput(value || ''); group.appendChild(input); primaryInputEl = input; break; }
+    case 'date': group.appendChild(dateInput(value || '')); break;
     case 'image': group.appendChild(imageInput(value || '', 'field-image')); break;
-    case 'textarea': group.appendChild(textArea(value || '')); break;
+    case 'textarea': { const wrap = textArea(value || ''); group.appendChild(wrap); primaryInputEl = wrap; break; }
+    case 'select': group.appendChild(selectInput(field.options || [], value || '')); break;
+    case 'toggle': group.appendChild(toggleInput(value)); break;
+    case 'address': group.appendChild(addressInput(value || {})); break;
+    case 'hreflang-list': renderHreflangList(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'faq-pairs': renderFaqPairs(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'json-ld-textarea': group.appendChild(jsonLdTextarea(value || '', field)); break;
+    case 'robots-rules': renderRobotsRules(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'robots-preview': group.appendChild(robotsPreview(value || '')); break;
+    case 'redirect-rules': renderRedirectRules(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'sitemap-extras': renderSitemapExtras(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'title': group.appendChild(textInput(value?.[0] || '', 'Line 1 (highlighted)')); group.appendChild(textInput(value?.[1] || '', 'Line 2')); break;
     case 'label-href': renderLabelHref(group, value || {}); break;
     case 'stats': renderStats(group, sectionKey, field.key, toArr(value), ctx); break;
@@ -341,8 +855,17 @@ export function renderField(sectionKey, field, value, data, onRerender) {
     case 'service-blocks': renderServiceBlocks(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'blocks': renderBlocks(group, sectionKey, field.key, toArr(value), ctx, field.allowedTypes || ['html', 'callout', 'youtube']); break;
     case 'guide-sections': renderGuideSections(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'case-sections': renderCaseSections(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'meta-tiles': renderMetaTiles(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'article-picker': renderArticlePicker(group, field.key, value || {}, ctx); break;
     case 'related-articles': renderRelatedArticles(group, field.key, toArr(value), ctx); break;
+  }
+
+  /* Optional character counter — wired only for text + textarea fields whose
+     schema declares { charCount: { min, max } }. The counter element renders
+     directly under the input and colours green/amber/red against the bounds. */
+  if (field.charCount && primaryInputEl) {
+    try { attachCharCounter(primaryInputEl, field.charCount); } catch (_) { /* non-critical */ }
   }
 
   return group;
@@ -499,6 +1022,7 @@ function renderColumns(group, sectionKey, columns, ctx) {
       const removeBtn = document.createElement('button');
       removeBtn.className = 'bullet-remove';
       removeBtn.innerHTML = '&times;';
+      removeBtn.setAttribute('aria-label', 'Delete bullet');
       removeBtn.addEventListener('click', () => { if (!confirmDeleteDefault(bi, sectionKey, 'columns')) return; ctx.onRerender.readForms(); ctx.data[sectionKey].columns[ci].bullets.splice(bi, 1); ctx.onRerender(); });
       row.appendChild(removeBtn);
       bulletsDiv.appendChild(row);
@@ -999,6 +1523,7 @@ function renderBlockCard(block, idx, allowedTypes, total) {
   upBtn.type = 'button';
   upBtn.dataset.idx = String(idx);
   upBtn.title = 'Move up';
+  upBtn.setAttribute('aria-label', 'Move block up');
   upBtn.disabled = idx === 0;
   upBtn.style.cssText = 'background:none;border:1px solid #ddd;border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:13px;color:#374151;line-height:1;padding:0;';
   upBtn.innerHTML = '&#9650;';
@@ -1008,6 +1533,7 @@ function renderBlockCard(block, idx, allowedTypes, total) {
   downBtn.type = 'button';
   downBtn.dataset.idx = String(idx);
   downBtn.title = 'Move down';
+  downBtn.setAttribute('aria-label', 'Move block down');
   downBtn.disabled = total != null && idx >= total - 1;
   downBtn.style.cssText = 'background:none;border:1px solid #ddd;border-radius:4px;width:26px;height:26px;cursor:pointer;font-size:13px;color:#374151;line-height:1;padding:0;';
   downBtn.innerHTML = '&#9660;';
@@ -1015,6 +1541,9 @@ function renderBlockCard(block, idx, allowedTypes, total) {
 
   const drag = el('span', 'block-drag-handle');
   drag.setAttribute('data-reorder-handle', '');
+  drag.setAttribute('role', 'button');
+  drag.setAttribute('aria-label', 'Drag to reorder');
+  drag.tabIndex = 0;
   drag.title = 'Drag to reorder';
   drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;padding:0 4px;';
   drag.textContent = '⠿';
@@ -1024,6 +1553,7 @@ function renderBlockCard(block, idx, allowedTypes, total) {
   del.type = 'button';
   del.dataset.idx = String(idx);
   del.innerHTML = '&times;';
+  del.setAttribute('aria-label', 'Delete block');
   header.appendChild(del);
   card.appendChild(header);
 
@@ -1242,6 +1772,14 @@ function readBlockCard(card) {
  *  - Nested field: data[sectionKey][arrayKey].
  */
 function resolveBlocksArray(ctx, sectionKey, arrayKey) {
+  /* `_root` sentinel: the section was authored with parentKey:'_root', meaning
+     the field writes directly to data root. Match readAllForms which also
+     treats '_root' as data itself. Returning ctx.data[arrayKey] keeps Add
+     buttons + re-render in sync (both read/write the same root path). */
+  if (sectionKey === '_root') {
+    if (!Array.isArray(ctx.data[arrayKey])) ctx.data[arrayKey] = [];
+    return ctx.data[arrayKey];
+  }
   if (sectionKey === arrayKey) {
     if (!Array.isArray(ctx.data[sectionKey])) ctx.data[sectionKey] = [];
     return ctx.data[sectionKey];
@@ -1338,6 +1876,9 @@ function renderGuideSections(group, sectionKey, arrayKey, sections, ctx) {
     header.appendChild(badge);
     const drag = el('span', '');
     drag.setAttribute('data-reorder-handle', '');
+    drag.setAttribute('role', 'button');
+    drag.setAttribute('aria-label', 'Drag to reorder');
+    drag.tabIndex = 0;
     drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;margin-left:auto;';
     drag.textContent = '⠿';
     header.appendChild(drag);
@@ -1345,6 +1886,7 @@ function renderGuideSections(group, sectionKey, arrayKey, sections, ctx) {
     del.type = 'button';
     del.dataset.idx = String(i);
     del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete section');
     header.appendChild(del);
     card.appendChild(header);
 
@@ -1467,6 +2009,984 @@ function renderGuideSections(group, sectionKey, arrayKey, sections, ctx) {
     ctx_readForms();
     const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
     arr.push({ slug: '', number: arr.length + 1, title: '', blocks: [] });
+    ctx.onRerender();
+  });
+  group.appendChild(add);
+}
+
+/* ═══════════════════════════════════════════════
+   case-sections — typed section list for Case Study articles.
+   Section types: overview, cardGrid, pillarGrid, callout, approach,
+   techStack, impactGrid, differentiators, conclusion.
+   ═══════════════════════════════════════════════ */
+
+const CASE_SECTION_TYPES = [
+  'overview', 'cardGrid', 'pillarGrid', 'callout',
+  'approach', 'techStack', 'impactGrid', 'differentiators', 'conclusion',
+];
+
+const CASE_SECTION_LABELS = {
+  overview:        'Overview',
+  cardGrid:        'Card Grid',
+  pillarGrid:      'Pillar Grid',
+  callout:         'Callout',
+  approach:        'Approach',
+  techStack:       'Tech Stack',
+  impactGrid:      'Impact Grid',
+  differentiators: 'Differentiators',
+  conclusion:      'Conclusion',
+};
+
+const CASE_SECTION_BADGE = {
+  overview:        '#0ea5e9',
+  cardGrid:        '#0284c7',
+  pillarGrid:      '#0369a1',
+  callout:         '#16a34a',
+  approach:        '#7c3aed',
+  techStack:       '#475569',
+  impactGrid:      '#dc2626',
+  differentiators: '#d97706',
+  conclusion:      '#1f2937',
+};
+
+const CASE_CALLOUT_VARIANTS = [
+  { value: 'mint',   label: 'Mint (with optional CTA)' },
+  { value: 'salmon', label: 'Salmon (no CTA)' },
+];
+
+const CASE_CALLOUT_CTA_VARIANTS = [
+  { value: 'dark',  label: 'Dark (filled)' },
+  { value: 'ghost', label: 'Ghost (outline)' },
+];
+
+const CASE_APPROACH_RENDER_MODES = [
+  { value: 'steps', label: 'Steps (numbered horizontal strip)' },
+  { value: 'bento', label: 'Bento (mixed-media grid)' },
+];
+
+const BENTO_KINDS = [
+  { value: 'image', label: 'Image' },
+  { value: 'stat',  label: 'Stat' },
+];
+
+function newCaseSection(type) {
+  switch (type) {
+    case 'overview':        return { type, title: 'Overview', body: '' };
+    case 'conclusion':      return { type, title: 'Conclusion', body: '' };
+    case 'cardGrid':        return { type, title: '', summary: '', items: [] };
+    case 'pillarGrid':      return { type, title: '', summary: '', items: [] };
+    case 'callout':         return { type, variant: 'mint', title: '', text: '', cta: { label: '', href: '../contact', variant: 'dark' } };
+    case 'approach':        return { type, title: '', renderMode: 'steps', cardEyebrow: '', cardSummary: '', steps: [], bento: [] };
+    case 'techStack':       return { type, title: '', groups: [] };
+    case 'impactGrid':      return { type, title: '', summary: '', items: [] };
+    case 'differentiators': return { type, title: '', summary: '', tiles: [] };
+    default:                return { type };
+  }
+}
+
+function newBentoTile(kind = 'image') {
+  if (kind === 'stat') return { kind: 'stat', eyebrow: '', title: '', metric: '', label: '' };
+  return { kind, src: '', alt: '', title: '', caption: '' };
+}
+
+/* Resolve the case-sections array from the data tree. The case-sections field
+   always lives at data[sectionKey][arrayKey] OR data[sectionKey] when sectionKey===arrayKey
+   (matching how guide-sections / blocks resolve). */
+function resolveCaseSectionsArray(ctx, sectionKey, arrayKey) {
+  return resolveBlocksArray(ctx, sectionKey, arrayKey);
+}
+
+/* ── Per-type body renderers ── */
+
+function csHeading(text) {
+  const h = el('div', 'field-label');
+  h.style.cssText = 'margin-top:8px;font-weight:600;font-size:12px;color:#374151;';
+  h.textContent = text;
+  return h;
+}
+
+/* overview / conclusion: title + Quill body */
+function renderCaseProseBody(body, section) {
+  body.appendChild(labelInput('Title', textInput(section.title || '', 'Section title'), 'cs-title'));
+  body.appendChild(csHeading('Body (rich text — sanitised on render)'));
+  const ta = textArea(section.body || '');
+  ta.classList.add('cs-body-quill');
+  body.appendChild(ta);
+}
+
+/* repeatable item-row helper used by cardGrid / pillarGrid / impactGrid items
+   and also by techStack groups + tech-group logos. Each row is a `.nested-card`
+   so the existing dragReorder utility picks it up automatically. */
+function renderCaseItemRows(host, items, fields, addLabel, onAddItem, onDeleteItem) {
+  const list = el('div', 'cs-item-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+
+  items.forEach((item, idx) => {
+    const row = el('div', 'nested-card cs-item');
+    row.dataset.itemIdx = String(idx);
+    row.style.cssText = 'border:1px solid #e5e7eb;border-radius:6px;padding:8px;margin-bottom:8px;background:#fff;';
+
+    const head = el('div', '');
+    head.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:6px;';
+    const pos = el('span', '');
+    pos.style.cssText = 'font-size:12px;color:#6b7280;font-weight:600;';
+    pos.textContent = `${idx + 1}`;
+    head.appendChild(pos);
+    const drag = el('span', '');
+    drag.setAttribute('data-reorder-handle', '');
+    drag.setAttribute('role', 'button');
+    drag.setAttribute('aria-label', 'Drag to reorder');
+    drag.tabIndex = 0;
+    drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;margin-left:auto;';
+    drag.textContent = '⠿';
+    head.appendChild(drag);
+    const del = el('button', 'cs-item-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete item');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:22px;height:22px;cursor:pointer;font-weight:700;';
+    head.appendChild(del);
+    row.appendChild(head);
+
+    fields(row, item, idx);
+    list.appendChild(row);
+  });
+  host.appendChild(list);
+
+  list.querySelectorAll('.cs-item-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this item?')) return;
+      onDeleteItem(idx);
+    });
+  });
+
+  const addBtn = el('button', 'add-bullet-btn');
+  addBtn.type = 'button';
+  addBtn.textContent = addLabel;
+  addBtn.addEventListener('click', () => onAddItem());
+  host.appendChild(addBtn);
+}
+
+/* cardGrid: title, summary, items[] of {icon (image), title, body} */
+function renderCaseCardGridBody(body, section, sectionIdx, ctx, sectionKey, arrayKey) {
+  body.appendChild(labelInput('Title', textInput(section.title || ''), 'cs-title'));
+  body.appendChild(labelInput('Summary', plainTextarea(section.summary || ''), 'cs-summary'));
+  body.appendChild(csHeading('Cards'));
+
+  const items = Array.isArray(section.items) ? section.items : [];
+  renderCaseItemRows(body, items, (row, item) => {
+    const iconWrap = el('div', '');
+    iconWrap.style.cssText = 'margin:6px 0;';
+    const iconLbl = el('div', 'field-label');
+    iconLbl.style.cssText = 'font-size:12px;margin-bottom:2px;';
+    iconLbl.textContent = 'Icon';
+    iconWrap.appendChild(iconLbl);
+    const ic = imageInput(item.icon || '', 'cs-cg-icon');
+    iconWrap.appendChild(ic);
+    row.appendChild(iconWrap);
+
+    row.appendChild(labelInput('Title', textInput(item.title || ''), 'cs-cg-title'));
+    row.appendChild(labelInput('Body', plainTextarea(item.body || ''), 'cs-cg-body'));
+  }, '+ Add Card', () => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    if (!Array.isArray(arr[sectionIdx].items)) arr[sectionIdx].items = [];
+    arr[sectionIdx].items.push({ icon: '', title: '', body: '' });
+    ctx.onRerender();
+  }, (idx) => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    arr[sectionIdx].items.splice(idx, 1);
+    ctx.onRerender();
+  });
+}
+
+/* pillarGrid: title, summary, items[] of {label, title, body} */
+function renderCasePillarGridBody(body, section, sectionIdx, ctx, sectionKey, arrayKey) {
+  body.appendChild(labelInput('Title', textInput(section.title || ''), 'cs-title'));
+  body.appendChild(labelInput('Summary', plainTextarea(section.summary || ''), 'cs-summary'));
+  body.appendChild(csHeading('Pillars'));
+
+  const items = Array.isArray(section.items) ? section.items : [];
+  renderCaseItemRows(body, items, (row, item, idx) => {
+    const placeholder = `PILLAR ${String(idx + 1).padStart(2, '0')}`;
+    row.appendChild(labelInput('Label (blank → auto)', textInput(item.label || '', placeholder), 'cs-pg-label'));
+    row.appendChild(labelInput('Title', textInput(item.title || ''), 'cs-pg-title'));
+    row.appendChild(labelInput('Body', plainTextarea(item.body || ''), 'cs-pg-body'));
+  }, '+ Add Pillar', () => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    if (!Array.isArray(arr[sectionIdx].items)) arr[sectionIdx].items = [];
+    arr[sectionIdx].items.push({ label: '', title: '', body: '' });
+    ctx.onRerender();
+  }, (idx) => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    arr[sectionIdx].items.splice(idx, 1);
+    ctx.onRerender();
+  });
+}
+
+/* callout: variant (mint|salmon), title, text, cta.{label,href,variant}.
+   Salmon hides the CTA fields (renderer drops them). Toggling variant back
+   to mint re-shows them with their previous values preserved. */
+function renderCaseCalloutBody(body, section, sectionIdx, ctx, sectionKey, arrayKey) {
+  const variantSel = labelSelect('Variant', CASE_CALLOUT_VARIANTS, section.variant || 'mint', 'cs-cl-variant');
+  body.appendChild(variantSel);
+  body.appendChild(labelInput('Title', textInput(section.title || ''), 'cs-cl-title'));
+  body.appendChild(labelInput('Text (optional)', plainTextarea(section.text || ''), 'cs-cl-text'));
+
+  const ctaWrap = el('div', 'cs-cl-cta-wrap');
+  ctaWrap.style.cssText = 'border-top:1px dashed #e5e7eb;margin-top:8px;padding-top:8px;';
+  ctaWrap.appendChild(csHeading('CTA (mint variant only — salmon drops the button)'));
+  const cta = section.cta || {};
+  ctaWrap.appendChild(labelInput('CTA label', textInput(cta.label || ''), 'cs-cl-cta-label'));
+  ctaWrap.appendChild(renderHrefSelect('CTA href', cta.href || '../contact', 'cs-cl-cta-href'));
+  ctaWrap.appendChild(labelSelect('CTA variant', CASE_CALLOUT_CTA_VARIANTS, cta.variant || 'dark', 'cs-cl-cta-variant'));
+  body.appendChild(ctaWrap);
+
+  const applyVariantVisibility = () => {
+    const sel = variantSel.querySelector('select');
+    ctaWrap.style.display = sel && sel.value === 'salmon' ? 'none' : '';
+  };
+  applyVariantVisibility();
+  variantSel.querySelector('select')?.addEventListener('change', applyVariantVisibility);
+}
+
+/* approach: title, renderMode (steps|bento), cardEyebrow, cardSummary,
+   steps[] of {index,title,body}, bento[] of bento tiles (max 5).
+   Both editors always rendered so toggling renderMode preserves data. */
+function renderCaseApproachBody(body, section, sectionIdx, ctx, sectionKey, arrayKey) {
+  body.appendChild(labelInput('Title', textInput(section.title || ''), 'cs-title'));
+  body.appendChild(labelSelect('Render mode', CASE_APPROACH_RENDER_MODES, section.renderMode || 'steps', 'cs-ap-mode'));
+  body.appendChild(labelInput('Card eyebrow (steps mode)', textInput(section.cardEyebrow || ''), 'cs-ap-eyebrow'));
+  body.appendChild(labelInput('Card summary (steps mode)', plainTextarea(section.cardSummary || ''), 'cs-ap-summary'));
+
+  /* Steps editor */
+  const stepsHost = el('div', 'cs-ap-steps-host');
+  stepsHost.style.cssText = 'border:1px dashed #d1d5db;border-radius:6px;padding:8px;margin-top:8px;';
+  stepsHost.appendChild(csHeading('Steps (renderMode = steps)'));
+  const steps = Array.isArray(section.steps) ? section.steps : [];
+  renderCaseItemRows(stepsHost, steps, (row, step) => {
+    row.appendChild(labelInput('Index', textInput(step.index || ''), 'cs-ap-step-index'));
+    row.appendChild(labelInput('Title', textInput(step.title || ''), 'cs-ap-step-title'));
+    row.appendChild(labelInput('Body', plainTextarea(step.body || ''), 'cs-ap-step-body'));
+  }, '+ Add Step', () => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    if (!Array.isArray(arr[sectionIdx].steps)) arr[sectionIdx].steps = [];
+    const n = arr[sectionIdx].steps.length + 1;
+    arr[sectionIdx].steps.push({ index: String(n).padStart(2, '0'), title: '', body: '' });
+    ctx.onRerender();
+  }, (idx) => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    arr[sectionIdx].steps.splice(idx, 1);
+    ctx.onRerender();
+  });
+  body.appendChild(stepsHost);
+
+  /* Bento editor (capped at 5) */
+  const bentoHost = el('div', 'cs-ap-bento-host');
+  bentoHost.style.cssText = 'border:1px dashed #d1d5db;border-radius:6px;padding:8px;margin-top:8px;';
+  bentoHost.appendChild(csHeading('Bento tiles (renderMode = bento, max 5)'));
+  renderBentoTilesEditor(bentoHost, section.bento || [], 'bento', sectionIdx, ctx, sectionKey, arrayKey);
+  body.appendChild(bentoHost);
+}
+
+/* techStack: title, groups[] of {label, logos[] of {src,alt}} */
+function renderCaseTechStackBody(body, section, sectionIdx, ctx, sectionKey, arrayKey) {
+  body.appendChild(labelInput('Title', textInput(section.title || ''), 'cs-title'));
+  body.appendChild(csHeading('Groups'));
+
+  const groups = Array.isArray(section.groups) ? section.groups : [];
+  renderCaseItemRows(body, groups, (row, group, gIdx) => {
+    row.appendChild(labelInput('Label', textInput(group.label || ''), 'cs-ts-group-label'));
+    const logosHost = el('div', '');
+    logosHost.style.cssText = 'margin-top:6px;padding-left:8px;border-left:2px solid #e5e7eb;';
+    const logosLbl = el('div', 'field-label');
+    logosLbl.style.cssText = 'font-size:12px;color:#374151;margin-bottom:4px;';
+    logosLbl.textContent = 'Logos';
+    logosHost.appendChild(logosLbl);
+
+    const logos = Array.isArray(group.logos) ? group.logos : [];
+    const logosList = el('div', 'cs-ts-logos-list repeatable-container');
+    logosList.setAttribute('data-reorder-list', '');
+    logos.forEach((logo, lIdx) => {
+      const lrow = el('div', 'nested-card cs-ts-logo');
+      lrow.dataset.itemIdx = String(lIdx);
+      lrow.style.cssText = 'border:1px solid #f3f4f6;border-radius:4px;padding:6px;margin-bottom:6px;background:#fafbfc;display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center;';
+      const srcWrap = el('div', '');
+      srcWrap.appendChild(imageInput(logo.src || '', 'cs-ts-logo-src'));
+      lrow.appendChild(srcWrap);
+      const altIn = textInput(logo.alt || '', 'Alt');
+      altIn.classList.add('cs-ts-logo-alt');
+      lrow.appendChild(altIn);
+      const ldel = el('button', 'cs-ts-logo-del');
+      ldel.type = 'button';
+      ldel.dataset.gIdx = String(gIdx);
+      ldel.dataset.lIdx = String(lIdx);
+      ldel.innerHTML = '&times;';
+      ldel.setAttribute('aria-label', 'Delete logo');
+      ldel.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:24px;height:24px;cursor:pointer;';
+      lrow.appendChild(ldel);
+      logosList.appendChild(lrow);
+    });
+    logosHost.appendChild(logosList);
+
+    const addLogo = el('button', 'add-bullet-btn');
+    addLogo.type = 'button';
+    addLogo.textContent = '+ Add logo';
+    addLogo.addEventListener('click', () => {
+      ctx_readForms();
+      const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+      if (!Array.isArray(arr[sectionIdx].groups[gIdx].logos)) arr[sectionIdx].groups[gIdx].logos = [];
+      arr[sectionIdx].groups[gIdx].logos.push({ src: '', alt: '' });
+      ctx.onRerender();
+    });
+    logosHost.appendChild(addLogo);
+
+    logosList.querySelectorAll('.cs-ts-logo-del').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (!confirm('Delete this logo?')) return;
+        ctx_readForms();
+        const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+        const lIdx = Number(btn.dataset.lIdx);
+        arr[sectionIdx].groups[gIdx].logos.splice(lIdx, 1);
+        ctx.onRerender();
+      });
+    });
+
+    row.appendChild(logosHost);
+  }, '+ Add Group', () => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    if (!Array.isArray(arr[sectionIdx].groups)) arr[sectionIdx].groups = [];
+    arr[sectionIdx].groups.push({ label: '', logos: [] });
+    ctx.onRerender();
+  }, (idx) => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    arr[sectionIdx].groups.splice(idx, 1);
+    ctx.onRerender();
+  });
+}
+
+/* impactGrid: title, summary, items[] of {title, metric, label, tag} */
+function renderCaseImpactGridBody(body, section, sectionIdx, ctx, sectionKey, arrayKey) {
+  body.appendChild(labelInput('Title', textInput(section.title || ''), 'cs-title'));
+  body.appendChild(labelInput('Summary', plainTextarea(section.summary || ''), 'cs-summary'));
+  body.appendChild(csHeading('Impact items'));
+
+  const items = Array.isArray(section.items) ? section.items : [];
+  renderCaseItemRows(body, items, (row, item) => {
+    row.appendChild(labelInput('Title', textInput(item.title || ''), 'cs-ig-title'));
+    row.appendChild(labelInput('Metric', textInput(item.metric || ''), 'cs-ig-metric'));
+    row.appendChild(labelInput('Label', plainTextarea(item.label || ''), 'cs-ig-label'));
+    row.appendChild(labelInput('Tag (chip)', textInput(item.tag || ''), 'cs-ig-tag'));
+  }, '+ Add Impact', () => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    if (!Array.isArray(arr[sectionIdx].items)) arr[sectionIdx].items = [];
+    arr[sectionIdx].items.push({ title: '', metric: '', label: '', tag: '' });
+    ctx.onRerender();
+  }, (idx) => {
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    arr[sectionIdx].items.splice(idx, 1);
+    ctx.onRerender();
+  });
+}
+
+/* differentiators: title, summary, tiles[] (bento, max 5) */
+function renderCaseDifferentiatorsBody(body, section, sectionIdx, ctx, sectionKey, arrayKey) {
+  body.appendChild(labelInput('Title', textInput(section.title || ''), 'cs-title'));
+  body.appendChild(labelInput('Summary', plainTextarea(section.summary || ''), 'cs-summary'));
+  body.appendChild(csHeading('Bento tiles (max 5)'));
+  renderBentoTilesEditor(body, section.tiles || [], 'tiles', sectionIdx, ctx, sectionKey, arrayKey);
+}
+
+/* Bento tiles editor — used by approach.bento and differentiators.tiles.
+   The `arrayName` is either 'bento' or 'tiles' (key on the section object). */
+function renderBentoTilesEditor(host, tiles, arrayName, sectionIdx, ctx, sectionKey, arrayKey) {
+  const list = el('div', 'cs-bento-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+  list.dataset.bentoArray = arrayName;
+
+  tiles.forEach((tile, idx) => {
+    const row = el('div', 'nested-card cs-bento-tile');
+    row.dataset.itemIdx = String(idx);
+    row.dataset.tileKind = tile.kind || 'image';
+    row.style.cssText = 'border:1px solid #e5e7eb;border-radius:6px;padding:8px;margin-bottom:8px;background:#fff;';
+
+    const head = el('div', '');
+    head.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:6px;';
+    const pos = el('span', '');
+    pos.style.cssText = 'font-size:12px;color:#6b7280;font-weight:600;';
+    pos.textContent = `${idx + 1} / ${tiles.length}`;
+    head.appendChild(pos);
+    const drag = el('span', '');
+    drag.setAttribute('data-reorder-handle', '');
+    drag.setAttribute('role', 'button');
+    drag.setAttribute('aria-label', 'Drag to reorder');
+    drag.tabIndex = 0;
+    drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;margin-left:auto;';
+    drag.textContent = '⠿';
+    head.appendChild(drag);
+    const del = el('button', 'cs-bento-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete tile');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:22px;height:22px;cursor:pointer;font-weight:700;';
+    head.appendChild(del);
+    row.appendChild(head);
+
+    const kindSel = labelSelect('Kind', BENTO_KINDS, tile.kind || 'image', 'cs-bento-kind');
+    row.appendChild(kindSel);
+
+    /* Image/chart sub-fields. Tile content stacks at the top of the rendered
+       card (eyebrow → title → description), with the source image filling the
+       bottom of the tile. The legacy `caption` field is kept for backward
+       compatibility but new content should use `description`. */
+    const imageWrap = el('div', 'cs-bento-image-fields');
+    imageWrap.appendChild(labelInput('Eyebrow (small uppercase tag at the top)', textInput(tile.eyebrow || '', 'e.g. UNIFIED MONITORING'), 'cs-bento-img-eyebrow'));
+    imageWrap.appendChild(labelInput('Title', textInput(tile.title || '', 'Tile heading'), 'cs-bento-title'));
+    imageWrap.appendChild(labelInput('Description', plainTextarea(tile.description || tile.caption || '', 'Short paragraph explaining the tile'), 'cs-bento-desc'));
+    const ic = el('div', '');
+    ic.style.cssText = 'margin:6px 0;';
+    const icLbl = el('div', 'field-label');
+    icLbl.style.cssText = 'font-size:12px;margin-bottom:2px;';
+    icLbl.textContent = 'Source image (renders at the bottom of the tile)';
+    ic.appendChild(icLbl);
+    ic.appendChild(imageInput(tile.src || '', 'cs-bento-src'));
+    imageWrap.appendChild(ic);
+    imageWrap.appendChild(labelInput('Alt text', textInput(tile.alt || ''), 'cs-bento-alt'));
+    row.appendChild(imageWrap);
+
+    /* Stat sub-fields */
+    const statWrap = el('div', 'cs-bento-stat-fields');
+    statWrap.appendChild(labelInput('Eyebrow', textInput(tile.eyebrow || ''), 'cs-bento-eyebrow'));
+    statWrap.appendChild(labelInput('Title', textInput(tile.title || ''), 'cs-bento-stat-title'));
+    statWrap.appendChild(labelInput('Metric', textInput(tile.metric || ''), 'cs-bento-metric'));
+    statWrap.appendChild(labelInput('Label', plainTextarea(tile.label || ''), 'cs-bento-stat-label'));
+    row.appendChild(statWrap);
+
+    const applyKindVisibility = () => {
+      const sel = kindSel.querySelector('select');
+      const k = sel ? sel.value : 'image';
+      row.dataset.tileKind = k;
+      imageWrap.style.display = k === 'stat' ? 'none' : '';
+      statWrap.style.display  = k === 'stat' ? '' : 'none';
+    };
+    applyKindVisibility();
+    kindSel.querySelector('select')?.addEventListener('change', applyKindVisibility);
+
+    list.appendChild(row);
+  });
+  host.appendChild(list);
+
+  list.querySelectorAll('.cs-bento-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this tile?')) return;
+      ctx_readForms();
+      const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+      const target = arr[sectionIdx][arrayName];
+      if (Array.isArray(target)) target.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  const addRow = el('div', '');
+  addRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px;';
+  const addLbl = el('span', '');
+  addLbl.style.cssText = 'font-size:12px;color:#6b7280;';
+  addLbl.textContent = '+ Add tile:';
+  addRow.appendChild(addLbl);
+  ['image', 'stat'].forEach((k) => {
+    const btn = el('button', 'add-bullet-btn');
+    btn.type = 'button';
+    btn.textContent = k.charAt(0).toUpperCase() + k.slice(1);
+    btn.addEventListener('click', () => {
+      ctx_readForms();
+      const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+      if (!Array.isArray(arr[sectionIdx][arrayName])) arr[sectionIdx][arrayName] = [];
+      if (arr[sectionIdx][arrayName].length >= 5) {
+        alert('Bento grid is capped at 5 tiles. Remove one before adding another.');
+        return;
+      }
+      arr[sectionIdx][arrayName].push(newBentoTile(k));
+      ctx.onRerender();
+    });
+    addRow.appendChild(btn);
+  });
+  host.appendChild(addRow);
+}
+
+/* Read a single bento tile back from a `.cs-bento-tile` row. */
+function readBentoTile(row) {
+  const kind = row.querySelector('.cs-bento-kind')?.value || 'image';
+  if (kind === 'stat') {
+    return {
+      kind: 'stat',
+      eyebrow: row.querySelector('.cs-bento-eyebrow')?.value || '',
+      title:   row.querySelector('.cs-bento-stat-title')?.value || '',
+      metric:  row.querySelector('.cs-bento-metric')?.value || '',
+      label:   row.querySelector('.cs-bento-stat-label')?.value || '',
+    };
+  }
+  return {
+    kind,
+    eyebrow:     row.querySelector('.cs-bento-img-eyebrow')?.value || '',
+    title:       row.querySelector('.cs-bento-title')?.value || '',
+    description: row.querySelector('.cs-bento-desc')?.value || '',
+    src:         row.querySelector('.cs-bento-src')?.value || '',
+    alt:         row.querySelector('.cs-bento-alt')?.value || '',
+  };
+}
+
+/* Read a single case-section card back. */
+function readCaseSection(card) {
+  const type = card.dataset.sectionType;
+  switch (type) {
+    case 'overview':
+    case 'conclusion': {
+      const qw = card.querySelector('.cs-body-quill.quill-wrapper, .cs-body-quill');
+      const body = qw ? readQuillValue(qw, false) : '';
+      return {
+        type,
+        title: card.querySelector('.cs-title')?.value || '',
+        body,
+      };
+    }
+    case 'cardGrid': {
+      const items = Array.from(card.querySelectorAll('.cs-item-list > .cs-item')).map((row) => ({
+        icon:  row.querySelector('.cs-cg-icon')?.value || '',
+        title: row.querySelector('.cs-cg-title')?.value || '',
+        body:  row.querySelector('.cs-cg-body')?.value || '',
+      }));
+      return {
+        type,
+        title:   card.querySelector('.cs-title')?.value || '',
+        summary: card.querySelector('.cs-summary')?.value || '',
+        items,
+      };
+    }
+    case 'pillarGrid': {
+      const items = Array.from(card.querySelectorAll('.cs-item-list > .cs-item')).map((row) => ({
+        label: row.querySelector('.cs-pg-label')?.value || '',
+        title: row.querySelector('.cs-pg-title')?.value || '',
+        body:  row.querySelector('.cs-pg-body')?.value || '',
+      }));
+      return {
+        type,
+        title:   card.querySelector('.cs-title')?.value || '',
+        summary: card.querySelector('.cs-summary')?.value || '',
+        items,
+      };
+    }
+    case 'callout': {
+      const variant = card.querySelector('.cs-cl-variant')?.value || 'mint';
+      const result = {
+        type,
+        variant,
+        title: card.querySelector('.cs-cl-title')?.value || '',
+        text:  card.querySelector('.cs-cl-text')?.value || '',
+      };
+      // Always preserve CTA fields in the data so toggling variant doesn't destroy them.
+      const ctaHrefSel = card.querySelector('.cs-cl-cta-href');
+      let ctaHref = ctaHrefSel?.value || '';
+      if (ctaHref === '__custom__') ctaHref = card.querySelector('.cs-cl-cta-href-custom')?.value?.trim() || '';
+      result.cta = {
+        label:   card.querySelector('.cs-cl-cta-label')?.value || '',
+        href:    ctaHref,
+        variant: card.querySelector('.cs-cl-cta-variant')?.value || 'dark',
+      };
+      return result;
+    }
+    case 'approach': {
+      const stepsHost = card.querySelector('.cs-ap-steps-host');
+      const steps = stepsHost
+        ? Array.from(stepsHost.querySelectorAll('.cs-item-list > .cs-item')).map((row) => ({
+            index: row.querySelector('.cs-ap-step-index')?.value || '',
+            title: row.querySelector('.cs-ap-step-title')?.value || '',
+            body:  row.querySelector('.cs-ap-step-body')?.value || '',
+          }))
+        : [];
+      const bentoHost = card.querySelector('.cs-ap-bento-host');
+      const bento = bentoHost
+        ? Array.from(bentoHost.querySelectorAll('.cs-bento-list > .cs-bento-tile')).map(readBentoTile)
+        : [];
+      return {
+        type,
+        title:        card.querySelector('.cs-title')?.value || '',
+        renderMode:   card.querySelector('.cs-ap-mode')?.value || 'steps',
+        cardEyebrow:  card.querySelector('.cs-ap-eyebrow')?.value || '',
+        cardSummary:  card.querySelector('.cs-ap-summary')?.value || '',
+        steps,
+        bento,
+      };
+    }
+    case 'techStack': {
+      const groups = Array.from(card.querySelectorAll('.cs-item-list > .cs-item')).map((row) => ({
+        label: row.querySelector('.cs-ts-group-label')?.value || '',
+        logos: Array.from(row.querySelectorAll('.cs-ts-logos-list > .cs-ts-logo')).map((lrow) => ({
+          src: lrow.querySelector('.cs-ts-logo-src')?.value || '',
+          alt: lrow.querySelector('.cs-ts-logo-alt')?.value || '',
+        })),
+      }));
+      return {
+        type,
+        title:  card.querySelector('.cs-title')?.value || '',
+        groups,
+      };
+    }
+    case 'impactGrid': {
+      const items = Array.from(card.querySelectorAll('.cs-item-list > .cs-item')).map((row) => ({
+        title:  row.querySelector('.cs-ig-title')?.value || '',
+        metric: row.querySelector('.cs-ig-metric')?.value || '',
+        label:  row.querySelector('.cs-ig-label')?.value || '',
+        tag:    row.querySelector('.cs-ig-tag')?.value || '',
+      }));
+      return {
+        type,
+        title:   card.querySelector('.cs-title')?.value || '',
+        summary: card.querySelector('.cs-summary')?.value || '',
+        items,
+      };
+    }
+    case 'differentiators': {
+      const tiles = Array.from(card.querySelectorAll('.cs-bento-list > .cs-bento-tile')).map(readBentoTile);
+      return {
+        type,
+        title:   card.querySelector('.cs-title')?.value || '',
+        summary: card.querySelector('.cs-summary')?.value || '',
+        tiles,
+      };
+    }
+    default:
+      return { type };
+  }
+}
+
+function renderCaseSectionCard(section, idx, sectionKey, arrayKey, ctx) {
+  const card = el('div', 'case-section-card section-card');
+  card.dataset.sectionIdx = String(idx);
+  card.dataset.sectionType = section.type;
+  card.style.cssText = 'border:1px solid #d1d5db;border-radius:8px;padding:12px;margin-bottom:12px;background:#fafbfc;';
+
+  const header = el('div', 'cs-card-header');
+  header.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;';
+  const badge = el('span', 'cs-badge');
+  const badgeColor = CASE_SECTION_BADGE[section.type] || '#1f2937';
+  badge.style.cssText = `background:${badgeColor};color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;`;
+  badge.textContent = CASE_SECTION_LABELS[section.type] || section.type;
+  header.appendChild(badge);
+  const pos = el('span', '');
+  pos.style.cssText = 'font-size:12px;color:#6b7280;font-weight:600;margin-left:6px;';
+  pos.textContent = `#${idx + 1}`;
+  header.appendChild(pos);
+  const drag = el('span', '');
+  drag.setAttribute('data-reorder-handle', '');
+  drag.setAttribute('role', 'button');
+  drag.setAttribute('aria-label', 'Drag to reorder');
+  drag.tabIndex = 0;
+  drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;margin-left:auto;';
+  drag.textContent = '⠿';
+  header.appendChild(drag);
+  const del = el('button', 'cs-section-del');
+  del.type = 'button';
+  del.dataset.idx = String(idx);
+  del.innerHTML = '&times;';
+  del.setAttribute('aria-label', 'Delete section');
+  del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:24px;height:24px;cursor:pointer;font-weight:700;';
+  header.appendChild(del);
+  card.appendChild(header);
+
+  const body = el('div', 'cs-card-body');
+  switch (section.type) {
+    case 'overview':
+    case 'conclusion':
+      renderCaseProseBody(body, section);
+      break;
+    case 'cardGrid':
+      renderCaseCardGridBody(body, section, idx, ctx, sectionKey, arrayKey);
+      break;
+    case 'pillarGrid':
+      renderCasePillarGridBody(body, section, idx, ctx, sectionKey, arrayKey);
+      break;
+    case 'callout':
+      renderCaseCalloutBody(body, section, idx, ctx, sectionKey, arrayKey);
+      break;
+    case 'approach':
+      renderCaseApproachBody(body, section, idx, ctx, sectionKey, arrayKey);
+      break;
+    case 'techStack':
+      renderCaseTechStackBody(body, section, idx, ctx, sectionKey, arrayKey);
+      break;
+    case 'impactGrid':
+      renderCaseImpactGridBody(body, section, idx, ctx, sectionKey, arrayKey);
+      break;
+    case 'differentiators':
+      renderCaseDifferentiatorsBody(body, section, idx, ctx, sectionKey, arrayKey);
+      break;
+  }
+  card.appendChild(body);
+  return card;
+}
+
+/* One-line, plain-English description of each section type. Surfaced in the
+   "+ Add section" picker modal so non-technical editors know what to pick. */
+const CASE_SECTION_DESCRIPTIONS = {
+  overview:        'Short intro paragraph at the top. Plain rich text — bold, links, lists supported.',
+  cardGrid:        '3–4 icon cards. Used for "Business Challenge" or feature grids.',
+  pillarGrid:      '4 numbered pillars labelled PILLAR 01..04 (auto-padded if you leave the label blank).',
+  callout:         'Banner with a title + optional body. Mint = green with a CTA button. Salmon = warm, no button (use as a pull-quote).',
+  approach:        'Either a numbered horizontal strip OR a bento grid (toggle anytime). Both editors stay in sync so you can switch without losing data.',
+  techStack:       'Grouped logo rows. One label per group, multiple logos per row.',
+  impactGrid:      'KPI tiles with title + metric + description + tag chip. 1–6 tiles work.',
+  differentiators: 'Mixed-media bento grid (1–5 tiles). Mix images and stat cards.',
+  conclusion:      'Closing paragraph at the end of the case study.',
+};
+
+/* Open a modal that lets the editor pick a section type. Resolves with the
+   chosen type or null if the user cancels. */
+function openCaseSectionPicker() {
+  return new Promise((resolve) => {
+    const overlay = el('div', 'cs-picker-overlay');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100050;display:flex;align-items:center;justify-content:center;padding:24px;';
+
+    const card = el('div', 'cs-picker-card');
+    card.style.cssText = 'background:#fff;border-radius:12px;max-width:720px;width:100%;max-height:80vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,0.25);';
+
+    const head = el('div', '');
+    head.style.cssText = 'padding:18px 24px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:12px;';
+    const h = el('h3', '');
+    h.style.cssText = 'margin:0;font-size:18px;color:#111827;flex:1;';
+    h.textContent = 'Add a section';
+    head.appendChild(h);
+    const closeBtn = el('button', '');
+    closeBtn.type = 'button';
+    closeBtn.setAttribute('aria-label', 'Close dialog');
+    closeBtn.style.cssText = 'background:transparent;border:0;font-size:22px;line-height:1;cursor:pointer;color:#6b7280;padding:0 8px;';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.title = 'Close';
+    head.appendChild(closeBtn);
+    card.appendChild(head);
+
+    const sub = el('p', '');
+    sub.style.cssText = 'margin:0;padding:12px 24px 0;font-size:13px;color:#6b7280;';
+    sub.textContent = 'Pick a section type to insert. You can drag-reorder or delete sections after adding.';
+    card.appendChild(sub);
+
+    const grid = el('div', 'cs-picker-grid');
+    grid.style.cssText = 'padding:16px 24px 24px;display:grid;grid-template-columns:1fr 1fr;gap:10px;';
+
+    CASE_SECTION_TYPES.forEach((t) => {
+      const item = el('button', 'cs-picker-item');
+      item.type = 'button';
+      item.style.cssText = 'text-align:left;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:6px;font-family:inherit;transition:border-color 0.15s, box-shadow 0.15s;';
+      item.addEventListener('mouseenter', () => {
+        item.style.borderColor = CASE_SECTION_BADGE[t] || '#0ea5e9';
+        item.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+      });
+      item.addEventListener('mouseleave', () => {
+        item.style.borderColor = '#e5e7eb';
+        item.style.boxShadow = 'none';
+      });
+
+      const headRow = el('div', '');
+      headRow.style.cssText = 'display:flex;align-items:center;gap:8px;';
+      const swatch = el('span', '');
+      swatch.style.cssText = `display:inline-block;width:10px;height:10px;border-radius:50%;background:${CASE_SECTION_BADGE[t] || '#1f2937'};flex-shrink:0;`;
+      headRow.appendChild(swatch);
+      const name = el('strong', '');
+      name.style.cssText = 'font-size:14px;color:#111827;';
+      name.textContent = CASE_SECTION_LABELS[t];
+      headRow.appendChild(name);
+      item.appendChild(headRow);
+
+      const desc = el('span', '');
+      desc.style.cssText = 'font-size:12px;color:#4b5563;line-height:1.4;';
+      desc.textContent = CASE_SECTION_DESCRIPTIONS[t] || '';
+      item.appendChild(desc);
+
+      item.addEventListener('click', () => {
+        cleanup();
+        resolve(t);
+      });
+      grid.appendChild(item);
+    });
+    card.appendChild(grid);
+
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+
+    const cleanup = () => {
+      overlay.removeEventListener('click', onOverlayClick);
+      closeBtn.removeEventListener('click', onCancel);
+      document.removeEventListener('keydown', onKey);
+      overlay.remove();
+    };
+    const onOverlayClick = (e) => { if (e.target === overlay) onCancel(); };
+    const onCancel = () => { cleanup(); resolve(null); };
+    const onKey = (e) => { if (e.key === 'Escape') onCancel(); };
+
+    overlay.addEventListener('click', onOverlayClick);
+    closeBtn.addEventListener('click', onCancel);
+    document.addEventListener('keydown', onKey);
+  });
+}
+
+function renderCaseSections(group, sectionKey, arrayKey, sections, ctx) {
+  const container = el('div', 'case-sections-container repeatable-container');
+  container.setAttribute('data-reorder-list', '');
+  container.dataset.section = sectionKey;
+  container.dataset.array = arrayKey;
+  sections.forEach((section, i) => {
+    if (!section || !section.type) return;
+    container.appendChild(renderCaseSectionCard(section, i, sectionKey, arrayKey, ctx));
+  });
+  group.appendChild(container);
+
+  container.querySelectorAll(':scope > .case-section-card > .cs-card-header > .cs-section-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this section?')) return;
+      ctx_readForms();
+      const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+      arr.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  /* Empty-state guidance — appears when the editor hasn't added any sections yet. */
+  if (!sections.length) {
+    const empty = el('div', 'cs-empty-state');
+    empty.style.cssText = 'border:1px dashed #d1d5db;border-radius:10px;padding:18px;background:#fffbeb;margin-bottom:8px;';
+    const h = el('div', '');
+    h.style.cssText = 'font-size:14px;font-weight:600;color:#92400e;margin-bottom:6px;';
+    h.textContent = 'No sections yet';
+    empty.appendChild(h);
+    const p = el('div', '');
+    p.style.cssText = 'font-size:13px;color:#78350f;line-height:1.5;margin-bottom:10px;';
+    p.innerHTML = 'A typical case study starts with an <strong>Overview</strong>, then a <strong>Card Grid</strong> for the business challenge, then a <strong>Pillar Grid</strong> for your solution. Use the picker below to begin.';
+    empty.appendChild(p);
+    const quick = el('button', 'add-bullet-btn');
+    quick.type = 'button';
+    quick.textContent = '+ Add Overview';
+    quick.style.cssText = 'background:#16a34a;color:#fff;border:0;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px;';
+    quick.addEventListener('click', () => {
+      ctx_readForms();
+      const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+      arr.push(newCaseSection('overview'));
+      ctx.onRerender();
+    });
+    empty.appendChild(quick);
+    group.appendChild(empty);
+  }
+
+  /* Single "+ Add section" button → opens the picker modal. Replaces the
+     old wall of 9 buttons. */
+  const addRow = el('div', 'cs-add-row');
+  addRow.style.cssText = 'display:flex;gap:8px;align-items:center;margin-top:8px;';
+  const addBtn = el('button', '');
+  addBtn.type = 'button';
+  addBtn.style.cssText = 'background:#0ea5e9;color:#fff;border:0;padding:9px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px;';
+  addBtn.textContent = '+ Add section';
+  addBtn.title = 'Pick a section type from the modal';
+  addBtn.addEventListener('click', async () => {
+    const chosen = await openCaseSectionPicker();
+    if (!chosen) return;
+    ctx_readForms();
+    const arr = resolveCaseSectionsArray(ctx, sectionKey, arrayKey);
+    arr.push(newCaseSection(chosen));
+    ctx.onRerender();
+  });
+  addRow.appendChild(addBtn);
+  const hint = el('span', '');
+  hint.style.cssText = 'font-size:12px;color:#6b7280;';
+  hint.textContent = sections.length
+    ? 'New sections are added at the bottom — use the drag handle to reorder.'
+    : 'Or click "+ Add section" to choose a different section type.';
+  addRow.appendChild(hint);
+  group.appendChild(addRow);
+}
+
+/* ═══════════════════════════════════════════════
+   meta-tiles — drag-reorder list of {icon, label, value}, capped at 5.
+   Used by the Case Study hero strip.
+   ═══════════════════════════════════════════════ */
+
+function renderMetaTiles(group, sectionKey, arrayKey, items, ctx) {
+  const list = el('div', 'meta-tiles-list repeatable-container');
+  list.setAttribute('data-reorder-list', '');
+  list.dataset.section = sectionKey;
+  list.dataset.array = arrayKey;
+
+  items.forEach((item, idx) => {
+    const row = el('div', 'nested-card meta-tile-row');
+    row.dataset.itemIdx = String(idx);
+    row.style.cssText = 'border:1px solid #e5e7eb;border-radius:6px;padding:8px;margin-bottom:8px;background:#fff;display:grid;grid-template-columns:auto 1fr 1fr 1fr auto;gap:8px;align-items:center;';
+
+    const drag = el('span', '');
+    drag.setAttribute('data-reorder-handle', '');
+    drag.setAttribute('role', 'button');
+    drag.setAttribute('aria-label', 'Drag to reorder');
+    drag.tabIndex = 0;
+    drag.style.cssText = 'cursor:grab;color:#888;font-size:18px;line-height:1;user-select:none;';
+    drag.textContent = '⠿';
+    row.appendChild(drag);
+
+    const iconWrap = el('div', '');
+    iconWrap.appendChild(imageInput(item.icon || '', 'mt-icon'));
+    row.appendChild(iconWrap);
+
+    const lblIn = textInput(item.label || '', 'LABEL');
+    lblIn.classList.add('mt-label');
+    row.appendChild(lblIn);
+
+    const valIn = textInput(item.value || '', 'Value');
+    valIn.classList.add('mt-value');
+    row.appendChild(valIn);
+
+    const del = el('button', 'mt-del');
+    del.type = 'button';
+    del.dataset.idx = String(idx);
+    del.innerHTML = '&times;';
+    del.setAttribute('aria-label', 'Delete tile');
+    del.style.cssText = 'background:#fee2e2;color:#b91c1c;border:0;border-radius:4px;width:24px;height:24px;cursor:pointer;font-weight:700;';
+    row.appendChild(del);
+
+    list.appendChild(row);
+  });
+  group.appendChild(list);
+
+  list.querySelectorAll('.mt-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      if (!confirm('Delete this meta tile?')) return;
+      ctx_readForms();
+      const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+      arr.splice(idx, 1);
+      ctx.onRerender();
+    });
+  });
+
+  const add = el('button', 'add-bullet-btn');
+  add.type = 'button';
+  add.textContent = '+ Add tile';
+  add.addEventListener('click', () => {
+    ctx_readForms();
+    const arr = resolveBlocksArray(ctx, sectionKey, arrayKey);
+    if (arr.length >= 5) {
+      alert('Meta tiles strip is capped at 5. Remove one before adding another.');
+      return;
+    }
+    arr.push({ icon: '', label: '', value: '' });
     ctx.onRerender();
   });
   group.appendChild(add);
@@ -1648,6 +3168,70 @@ export function readAllForms(editorSections, sections, data) {
 
       switch (field.type) {
         case 'text': { const input = group.querySelector('input'); if (input) ref[field.key] = input.value; break; }
+        case 'date': { const input = group.querySelector('.field-date'); if (input) ref[field.key] = input.value; break; }
+        case 'select': { const sel = group.querySelector('.field-select'); if (sel) ref[field.key] = sel.value; break; }
+        case 'toggle': { const cb = group.querySelector('.field-toggle-input'); if (cb) ref[field.key] = !!cb.checked; break; }
+        case 'address': {
+          ref[field.key] = {
+            street:  group.querySelector('.addr-street')?.value || '',
+            city:    group.querySelector('.addr-city')?.value || '',
+            region:  group.querySelector('.addr-region')?.value || '',
+            postal:  group.querySelector('.addr-postal')?.value || '',
+            country: group.querySelector('.addr-country')?.value || '',
+          };
+          break;
+        }
+        case 'hreflang-list': {
+          ref[field.key] = Array.from(group.querySelectorAll('.hreflang-row')).map((r) => ({
+            locale: r.querySelector('.hl-locale')?.value || '',
+            url:    r.querySelector('.hl-url')?.value || '',
+          })).filter((e) => e.locale || e.url);
+          break;
+        }
+        case 'faq-pairs': {
+          ref[field.key] = Array.from(group.querySelectorAll('.faq-pair')).map((r) => ({
+            question: r.querySelector('.faq-q')?.value || '',
+            answer:   r.querySelector('.faq-a')?.value || '',
+          })).filter((e) => e.question || e.answer);
+          break;
+        }
+        case 'json-ld-textarea': {
+          const ta = group.querySelector('.field-jsonld-input');
+          ref[field.key] = ta ? ta.value : '';
+          break;
+        }
+        case 'robots-rules': {
+          const splitLines = (s) => String(s || '').split('\n').map((l) => l.trim()).filter(Boolean);
+          ref[field.key] = Array.from(group.querySelectorAll('.robots-rule')).map((c) => ({
+            userAgent: c.querySelector('.rr-ua')?.value?.trim() || '*',
+            allow:    splitLines(c.querySelector('.rr-allow')?.value),
+            disallow: splitLines(c.querySelector('.rr-disallow')?.value),
+            crawlDelay: c.querySelector('.rr-crawl')?.value?.trim() || '',
+          }));
+          break;
+        }
+        case 'robots-preview': {
+          /* Read-only — never written back. */
+          break;
+        }
+        case 'redirect-rules': {
+          ref[field.key] = Array.from(group.querySelectorAll('.redirect-rule')).map((c) => ({
+            from:   c.querySelector('.rd-from')?.value?.trim() || '',
+            to:     c.querySelector('.rd-to')?.value?.trim() || '',
+            status: Number(c.querySelector('.rd-status')?.value || 301),
+            exact:  !!c.querySelector('.rd-exact')?.checked,
+          })).filter((r) => r.from || r.to);
+          break;
+        }
+        case 'sitemap-extras': {
+          ref[field.key] = Array.from(group.querySelectorAll('.sitemap-extra')).map((r) => ({
+            loc:        r.querySelector('.se-loc')?.value?.trim() || '',
+            lastmod:    r.querySelector('.se-lastmod')?.value?.trim() || '',
+            priority:   r.querySelector('.se-priority')?.value || '',
+            changefreq: r.querySelector('.se-changefreq')?.value || '',
+          })).filter((e) => e.loc);
+          break;
+        }
         case 'image': { const img = group.querySelector('.field-image'); if (img) ref[field.key] = img.value; break; }
         case 'textarea': { const qw = group.querySelector('.quill-wrapper'); if (qw) { ref[field.key] = readQuillValue(qw, false); } else { const ta = group.querySelector('textarea'); if (ta) ref[field.key] = ta.value; } break; }
         case 'title': { const inputs = group.querySelectorAll('input'); if (inputs.length >= 2) ref[field.key] = [inputs[0].value, inputs[1].value]; break; }
@@ -1686,6 +3270,21 @@ export function readAllForms(editorSections, sections, data) {
               blocks,
             };
           });
+          break;
+        }
+        case 'case-sections': {
+          const container = group.querySelector('.case-sections-container');
+          if (container) {
+            ref[field.key] = Array.from(container.querySelectorAll(':scope > .case-section-card')).map(readCaseSection);
+          }
+          break;
+        }
+        case 'meta-tiles': {
+          ref[field.key] = Array.from(group.querySelectorAll('.meta-tile-row')).map((row) => ({
+            icon:  row.querySelector('.mt-icon')?.value || '',
+            label: row.querySelector('.mt-label')?.value || '',
+            value: row.querySelector('.mt-value')?.value || '',
+          }));
           break;
         }
         case 'article-picker': {

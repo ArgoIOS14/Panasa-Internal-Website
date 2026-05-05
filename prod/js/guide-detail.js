@@ -9,6 +9,11 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderGuideDetail } from './Home scenes/sections/guideDetail.js';
 import { initInlineNewsletter } from './Home scenes/components/inline-newsletter.js';
 
+// Live preview — only loaded in ?preview=true mode (admin panel iframe).
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
+
 const RESOURCES_JSON_URL = '../content/Resources/content.json';
 
 const getSlug = () =>
@@ -135,6 +140,28 @@ const initGuideDetail = async () => {
 };
 
 initGuideDetail();
+
+/* Live preview render handler — called by live-preview-receiver on every
+   admin edit. Re-renders the guide with the in-flight admin data
+   (meta, hero, title + accent, intro, sticky-bar sections, related). */
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try {
+      if (data) {
+        const resources = window.DEFAULT_RESOURCES_CONTENT || null;
+        renderGuideDetail(data, resources);
+        if (data.meta?.title) document.title = data.meta.title;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && data.meta?.description) {
+          metaDesc.setAttribute('content', data.meta.description);
+        }
+        initScrollAnimations();
+      }
+    } catch (e) {
+      console.warn('[live-preview] guide render failed:', e);
+    }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) initScrollAnimations();

@@ -11,18 +11,27 @@ export function slugify(s) {
     .replace(/^-|-$/g, '');
 }
 
-export const ARTICLE_TYPES = ['blog', 'insights', 'guides'];
+export const ARTICLE_TYPES = ['blog', 'insights', 'guides', 'case-studies'];
 
 export function typeLabel(type) {
-  return type === 'blog' ? 'Blog' : type === 'insights' ? 'Insight' : 'Guide';
+  if (type === 'blog') return 'Blog';
+  if (type === 'insights') return 'Insight';
+  if (type === 'case-studies') return 'Case Study';
+  return 'Guide';
 }
 
 export function typeFolder(type) {
-  return type === 'blog' ? 'Blog' : type === 'insights' ? 'Insights' : 'Guide';
+  if (type === 'blog') return 'Blog';
+  if (type === 'insights') return 'Insights';
+  if (type === 'case-studies') return 'Case Studies';
+  return 'Guide';
 }
 
 export function typeUrlPrefix(type) {
-  return type === 'blog' ? 'blog' : type === 'insights' ? 'insights' : 'guides';
+  if (type === 'blog') return 'blog';
+  if (type === 'insights') return 'insights';
+  if (type === 'case-studies') return 'case-studies';
+  return 'guides';
 }
 
 export async function loadArticleSummaries(type) {
@@ -55,12 +64,64 @@ export async function isSlugUnique(type, slug, ignoreCurrent = '') {
   }
 }
 
+/**
+ * Resolve the best author name for new articles.
+ *  1. firebase auth currentUser.displayName (set by us when the editor signs in)
+ *  2. friendly form of the email local-part if displayName is unset (e.g. "Aria Khan" from "aria.khan@…")
+ *  3. fallback "Panasa Team"
+ */
+function resolveDefaultAuthor() {
+  try {
+    // Lazy-import auth so this helper is callable from non-browser contexts
+    const u = (typeof globalThis !== 'undefined' && globalThis.__panasaAuthUser) || null;
+    if (u?.displayName) return u.displayName;
+    if (u?.email) {
+      const local = u.email.split('@')[0] || '';
+      if (local) {
+        return local
+          .split(/[._-]+/)
+          .filter(Boolean)
+          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+          .join(' ');
+      }
+    }
+  } catch (_) { /* ignore */ }
+  return 'Panasa Team';
+}
+
 export function newArticleDefaults(type, slug = '') {
-  const isGuide = type === 'guides';
-  const tag = type === 'blog' ? 'BLOG' : type === 'insights' ? 'INSIGHTS' : 'GUIDE';
   const today = new Date();
   const dateIso = today.toISOString().slice(0, 10);
   const dateDisplay = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+  const author = resolveDefaultAuthor();
+
+  if (type === 'case-studies') {
+    return {
+      meta: { title: '', description: '', canonical: '', ogImage: '' },
+      slug: slug || '',
+      category: 'Case Study',
+      tag: 'CASE STUDY',
+      title: '',
+      date: dateDisplay,
+      datePublished: dateIso,
+      dateModified: dateIso,
+      readTime: '5 MINS READ',
+      author,
+      tags: [],
+      hero: { eyebrow: 'CASE STUDY', title: '', titleAccent: '', logo: '', logoAlt: '' },
+      metaTiles: [],
+      sections: [],
+      newsletter: {
+        title: 'Enjoyed this Case Study?',
+        subtitle: 'Due to insight in our newsletters simplifying the intricacies of the payments ecosystem, from authorisation flow to disputes.',
+        placeholder: 'Enter Email Address',
+      },
+      relatedSlugs: [],
+    };
+  }
+
+  const isGuide = type === 'guides';
+  const tag = type === 'blog' ? 'BLOG' : type === 'insights' ? 'INSIGHTS' : 'GUIDE';
   const base = {
     meta: { title: '', description: '', canonical: '', ogImage: '' },
     slug: slug || '',
@@ -71,7 +132,7 @@ export function newArticleDefaults(type, slug = '') {
     datePublished: dateIso,
     dateModified: dateIso,
     readTime: '5 MINS READ',
-    author: 'Panasa Team',
+    author,
     tags: [],
     heroImage: '',
     heroImageTablet: '',

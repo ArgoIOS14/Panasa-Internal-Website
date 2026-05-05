@@ -48,8 +48,14 @@ import * as resourcesPage from './pages/resources.js';
 import * as blogList from './pages/blogList.js';
 import * as insightsList from './pages/insightsList.js';
 import * as guideList from './pages/guideList.js';
+import * as caseStudyList from './pages/caseStudyList.js';
 import * as blogArticle from './pages/blogArticle.js';
 import * as guideArticle from './pages/guideArticle.js';
+import * as caseStudyArticle from './pages/caseStudyArticle.js';
+import * as siteSeo from './pages/siteSeo.js';
+import * as robotsTxt from './pages/robotsTxt.js';
+import * as redirects from './pages/redirects.js';
+import { onAdvancedToggle, mountAdvancedToggle } from './advancedToggle.js';
 
 /* ═══════════════════════════════════════════════
    Page registry
@@ -70,17 +76,23 @@ const STATIC_PAGES = {
   blogList: { label: 'Blog Articles', ...blogList },
   insightsList: { label: 'Insights Articles', ...insightsList },
   guideList: { label: 'Guide Articles', ...guideList },
+  caseStudyList: { label: 'Case Study Articles', ...caseStudyList },
+  siteSeo: { label: 'Site SEO', ...siteSeo, previewUrl: '/index.html' },
+  robotsTxt: { label: 'Robots.txt', ...robotsTxt, previewUrl: '/robots.txt' },
+  redirects: { label: 'Redirects', ...redirects, previewUrl: '/index.html' },
 };
 
 // Backward-compat alias
 const PAGES = STATIC_PAGES;
 
-const ARTICLE_KEY_RE = /^(blog|insights|guides):(.+)$/;
+const ARTICLE_KEY_RE = /^(blog|insights|guides|case-studies):(.+)$/;
 function resolveDynamicPage(key) {
   const m = ARTICLE_KEY_RE.exec(key);
   if (!m) return null;
   const [, type, slug] = m;
-  const mod = type === 'guides' ? guideArticle : blogArticle;
+  const mod = type === 'guides' ? guideArticle
+            : type === 'case-studies' ? caseStudyArticle
+            : blogArticle;
   return { ...mod.configFor(type, slug) };
 }
 
@@ -152,8 +164,35 @@ function updatePageStatus() {
 
 let autoSaveTimer = null;
 
+/* "Unsaved changes" pulsing dot on the Save Draft button. We track a hash of
+   the data object as of the last successful save/load, then on every input
+   compare to detect drift. The .is-dirty class on #save-btn drives a CSS
+   pulse animation. */
+let _lastSavedHash = '';
+function snapshotSavedHash() {
+  try { _lastSavedHash = JSON.stringify(data); } catch (_) { _lastSavedHash = ''; }
+  const btn = document.getElementById('save-btn');
+  if (btn) btn.classList.remove('is-dirty');
+}
+function refreshDirtyState() {
+  const btn = document.getElementById('save-btn');
+  if (!btn) return;
+  let now = '';
+  try { now = JSON.stringify(data); } catch (_) {}
+  if (now && _lastSavedHash && now !== _lastSavedHash) {
+    btn.classList.add('is-dirty');
+  } else {
+    btn.classList.remove('is-dirty');
+  }
+}
+
 function scheduleAutoSave() {
   clearTimeout(autoSaveTimer);
+  /* Refresh the dirty-dot synchronously on every input — avoids a 2s lag
+     between typing and visual feedback. The auto-save timer below still
+     runs at 2s for the localStorage write. */
+  doReadForms();
+  refreshDirtyState();
   autoSaveTimer = setTimeout(() => {
     doReadForms();
     const key = `panasa_admin_draft_${currentPage}`;
@@ -212,6 +251,9 @@ async function loadData() {
   checkLocalDraft();
   clearUndoHistory();
   pushUndoState(data);
+  /* Capture the freshly-loaded data shape so the unsaved-changes dot only
+     pulses when the editor actually drifts from this baseline. */
+  snapshotSavedHash();
 }
 
 // Make defaults available globally for fields.js delete confirmations
@@ -230,13 +272,14 @@ async function handleSave() {
     dataSource = 'draft';
     updatePageStatus();
     clearLocalDraft();
+    snapshotSavedHash();
     saveStatus.textContent = 'Draft saved' + (issues.length ? ` (${issues.length} warnings)` : '');
     saveStatus.classList.add('success');
     showToast('Draft saved', 'success');
     resetAutosaveHash();
     logAction('save_draft', currentPage);
     // For dynamic article pages, build a preview HTML so the live-preview iframe resolves.
-    if (/^(blog|insights|guides):/.test(currentPage)) {
+    if (/^(blog|insights|guides|case-studies):/.test(currentPage)) {
       previewArticle(currentPage, data);
     }
   } catch (err) {
@@ -277,6 +320,36 @@ async function handlePublish() {
     pushUndoState(data);
     const issues = validateAllFields();
 
+    /* Block publish on required-field errors. Scroll the first one into view,
+       focus its input, and surface a red toast. Required fields don't gate Save
+       Draft — drafts are allowed to be partial. */
+    const requiredErrors = (issues || []).filter((i) => i && i.message === 'This field is required');
+    if (requiredErrors.length > 0) {
+      const first = requiredErrors[0];
+      const firstGroup = document.querySelector(
+        `.field-group[data-section-key="${cssEscape(first.sectionKey || '')}"][data-field-key="${cssEscape(first.fieldKey || '')}"]`
+      ) || document.querySelector('.field-group.has-error');
+      if (firstGroup) {
+        firstGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const focusable = firstGroup.querySelector('input, textarea, select, .ql-editor');
+        if (focusable) setTimeout(() => { try { focusable.focus(); } catch (_) {} }, 350);
+      }
+      const msg = requiredErrors.length === 1
+        ? `Cannot publish: a required field is empty.`
+        : `Cannot publish: ${requiredErrors.length} required fields are empty.`;
+      try {
+        const { toast } = await import('./toast.js');
+        toast.error(msg, { detail: 'Fill the highlighted fields and try again.' });
+      } catch (_) {
+        if (typeof showToast === 'function') showToast(msg, 'error', 5000); else alert(msg);
+      }
+      saveStatus.textContent = msg;
+      saveStatus.classList.add('error');
+      publishBtn.disabled = false;
+      publishBtn.textContent = 'Publish';
+      return;
+    }
+
     // Check for conflicts before publishing
     const conflictCheck = await checkForConflicts(currentPage);
     if (conflictCheck.hasConflict) {
@@ -299,27 +372,54 @@ async function handlePublish() {
     clearSearchCache();
     if (versionNoteInput) versionNoteInput.value = '';
 
-    // Trigger static HTML rebuild for SEO
+    // Trigger static HTML rebuild for SEO. Some pages (Site Settings — Robots.txt,
+    // Redirects, Site SEO) hit dedicated endpoints instead of the generic rebuild.
     setRebuildState('rebuilding', currentPage);
     try {
       const token = await auth.currentUser?.getIdToken();
-      const rebuildRes = await fetch('/api/rebuild.php', {
+      const rebuildEndpoint = (
+        currentPage === 'robotsTxt'  ? '/api/robots-txt.php'
+      : currentPage === 'redirects'  ? '/api/redirects.php'
+      : currentPage === 'siteSeo'    ? '/api/rebuild-all.php'
+                                     : '/api/rebuild.php'
+      );
+      const rebuildBody = (
+        currentPage === 'robotsTxt' || currentPage === 'redirects'
+          ? data                                /* the page schema IS the payload */
+          : { pageKey: currentPage, data }      /* generic rebuild contract */
+      );
+      const rebuildRes = await fetch(rebuildEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + (token || ''),
         },
-        body: JSON.stringify({ pageKey: currentPage, data }),
+        body: JSON.stringify(rebuildBody),
       });
       const rebuildResult = await rebuildRes.json();
       if (rebuildResult.status === 'success') {
         setRebuildState('success', currentPage);
+      } else if (rebuildResult.code === 'NEEDS_CONFIRM') {
+        // Robots.txt site-killer guard — re-submit with confirm:true after operator OK.
+        if (confirm(rebuildResult.message + '\n\nProceed anyway?')) {
+          const confirmedRes = await fetch(rebuildEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (token || '') },
+            body: JSON.stringify({ ...rebuildBody, confirm: true }),
+          });
+          const confirmedJson = await confirmedRes.json();
+          setRebuildState(confirmedJson.status === 'success' ? 'success' : 'failed', currentPage);
+        } else {
+          setRebuildState('failed', currentPage);
+          showToast('Publish cancelled — robots.txt unchanged.', 'info', 4000);
+        }
       } else {
         setRebuildState('failed', currentPage);
-        // Show validation errors if any
         if (rebuildResult.errors?.length) {
           console.warn('HTML rebuild validation failed:', rebuildResult.errors);
           showToast('HTML rebuild blocked: validation failed. Original file preserved.', 'error', 5000);
+        } else if (rebuildResult.message) {
+          showToast(rebuildResult.message, 'error', 5000);
         }
       }
     } catch (rebuildErr) {
@@ -327,6 +427,7 @@ async function handlePublish() {
       setRebuildState('failed', currentPage);
     }
 
+    snapshotSavedHash();
     saveStatus.textContent = 'Published successfully' + (issues.length ? ` (${issues.length} warnings)` : '');
     saveStatus.classList.add('success');
     showToast('Published successfully!', 'success');
@@ -558,6 +659,49 @@ historyBtn.addEventListener('click', async () => {
    ═══════════════════════════════════════════════ */
 
 let _openSections = new Set();
+/* Set by renderEditor before the DOM rebuild; called at the end of renderEditor
+   to restore window scroll + focus + selection on the new DOM. Module-local
+   because renderEditor runs synchronously and we want a clean handoff. */
+let __pendingRestore = null;
+
+function cssEscape(s) {
+  if (window.CSS && CSS.escape) return CSS.escape(s);
+  return String(s).replace(/"/g, '\\"');
+}
+
+/* Derive a coarse "fill state" for a section so the editor sees at-a-glance
+   which sections still need work. Three states:
+     is-empty   — every field is blank (no required field is set, no optional is touched)
+     is-draft   — at least one required field is empty AND some content has been added
+                  (or no required fields and section is fully blank but has been opened)
+     is-filled  — every required field has a value (or no required fields + at least
+                  one optional field set)
+   Heuristic only — best-effort; aimed at surface signal not strict validation. */
+function deriveSectionStatus(cfg, section) {
+  const isBlank = (v) => v === undefined || v === null || v === ''
+    || (Array.isArray(v) && v.length === 0)
+    || (typeof v === 'object' && !Array.isArray(v) && Object.keys(v || {}).length === 0);
+  const fields = Array.isArray(cfg.fields) ? cfg.fields : [];
+  let anyFilled = false;
+  let requiredMissing = 0;
+  let requiredCount = 0;
+  for (const f of fields) {
+    const v = section ? section[f.key] : undefined;
+    const blank = isBlank(v);
+    if (!blank) anyFilled = true;
+    if (f.required === true) {
+      requiredCount++;
+      if (blank) requiredMissing++;
+    }
+  }
+  if (requiredCount > 0) {
+    if (requiredMissing === 0) return 'is-filled';
+    if (anyFilled) return 'is-draft';
+    return 'is-empty';
+  }
+  /* No required fields — section is "filled" if any optional content present. */
+  return anyFilled ? 'is-filled' : 'is-empty';
+}
 
 function renderEditor(focusSectionKey) {
   const page = getPage();
@@ -568,12 +712,114 @@ function renderEditor(focusSectionKey) {
   });
   if (currentOpen.size > 0) _openSections = currentOpen;
 
+  /* Preserve scroll position + focused field across the DOM rebuild. Without
+     this, every Add/delete/reorder click jumps the editor back to the top —
+     the #1 source of "the admin feels janky" feedback. We snapshot the
+     scrollY of window AND the editor pane, plus enough about the focused
+     element to re-find it after rerender (its data-section-key + data-field-key
+     + a node index inside any repeatable container).
+
+     Restoration runs in two passes: an immediate scroll set (catches most
+     cases) plus an rAF-deferred re-set (catches layout-shift after fields
+     finish mounting like Quill editors that take a tick to initialise).
+
+     We ALSO detect newly-inserted repeatable rows: snapshot each repeatable
+     container's row count, then after render compare; any container whose
+     count grew gets its NEW last child marked `.is-fresh` (CSS spotlights it)
+     and smooth-scrolled into view + first input focused. That gives Add
+     buttons a clear "your row is here, focus is in the right place" feel
+     without every Add handler needing to opt in. */
+  const _focused = document.activeElement;
+  const _focusedFieldKey   = _focused?.closest?.('[data-field-key]')?.dataset?.fieldKey || null;
+  const _focusedSectionKey = _focused?.closest?.('[data-section-key]')?.dataset?.sectionKey || null;
+  const _focusedTag = _focused?.tagName?.toLowerCase() || '';
+  const _focusedSelectionStart = (_focusedTag === 'input' || _focusedTag === 'textarea') ? _focused.selectionStart : null;
+  const _focusedSelectionEnd   = (_focusedTag === 'input' || _focusedTag === 'textarea') ? _focused.selectionEnd   : null;
+  const _scrollY = window.scrollY;
+  const _editorScrollTop = editorSections.scrollTop;
+
+  /* Snapshot of pre-render repeatable container counts, keyed by their
+     section-path → field-key. Any container whose count grows after render
+     gets its new last child highlighted. */
+  const _preRowCounts = new Map();
+  editorSections.querySelectorAll('.repeatable-container').forEach((container) => {
+    const fieldGroup = container.closest('[data-field-key]');
+    const sectionBody = container.closest('[data-section-key]');
+    const key = (sectionBody?.dataset?.sectionKey || '') + '::' + (fieldGroup?.dataset?.fieldKey || '');
+    if (!_preRowCounts.has(key)) _preRowCounts.set(key, container.children.length);
+  });
+
   editorSections.innerHTML = '';
+
+  /* Schedule restoration after the new tree mounts. We use TWO requestAnimationFrame
+     callbacks: first catches the synchronous render; second catches deferred work
+     like Quill editor initialisation that runs in setTimeout(0). */
+  const restoreAfterRender = () => {
+    requestAnimationFrame(() => {
+      // Pass 1 — restore scroll immediately so users don't see a jump.
+      if (typeof _scrollY === 'number') window.scrollTo({ top: _scrollY, behavior: 'auto' });
+      if (typeof _editorScrollTop === 'number') editorSections.scrollTop = _editorScrollTop;
+
+      /* Detect newly-inserted repeatable rows by comparing container child
+         counts pre/post render. Mark the new last child .is-fresh + smooth-scroll
+         it into view + focus its first input. */
+      let freshRow = null;
+      editorSections.querySelectorAll('.repeatable-container').forEach((container) => {
+        const fieldGroup = container.closest('[data-field-key]');
+        const sectionBody = container.closest('[data-section-key]');
+        const key = (sectionBody?.dataset?.sectionKey || '') + '::' + (fieldGroup?.dataset?.fieldKey || '');
+        const before = _preRowCounts.has(key) ? _preRowCounts.get(key) : container.children.length;
+        const after = container.children.length;
+        if (after > before && after > 0) {
+          const last = container.children[after - 1];
+          if (last instanceof HTMLElement) {
+            last.classList.add('is-fresh');
+            // Auto-clear the .is-fresh class after the animation finishes (CSS keyframes are 1100ms).
+            setTimeout(() => last.classList.remove('is-fresh'), 1200);
+            freshRow = last;
+          }
+        }
+      });
+
+      // If a new row was just added, that takes priority over focus restoration —
+      // scroll it into view + focus its first input.
+      if (freshRow) {
+        const focusable = freshRow.querySelector('input, textarea, select, .ql-editor');
+        if (focusable) {
+          try { focusable.focus({ preventScroll: true }); } catch (_) { focusable.focus(); }
+        }
+        try { freshRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
+      } else if (_focusedFieldKey && _focusedSectionKey) {
+        // Otherwise restore focus to whatever the user was editing before the rerender.
+        const sel = `[data-section-key="${cssEscape(_focusedSectionKey)}"] [data-field-key="${cssEscape(_focusedFieldKey)}"]`;
+        const group = document.querySelector(sel);
+        const inner = group?.querySelector('input, textarea, select, .ql-editor');
+        if (inner) {
+          try { inner.focus({ preventScroll: true }); } catch (_) { inner.focus(); }
+          if (_focusedSelectionStart != null && (inner.tagName === 'INPUT' || inner.tagName === 'TEXTAREA')) {
+            try { inner.setSelectionRange(_focusedSelectionStart, _focusedSelectionEnd); } catch (_) {}
+          }
+        }
+      }
+
+      // Pass 2 — fix any deferred layout shift after Quill etc. finish mounting.
+      requestAnimationFrame(() => {
+        if (!freshRow && typeof _scrollY === 'number') window.scrollTo({ top: _scrollY, behavior: 'auto' });
+      });
+    });
+  };
+  // Stash the callback on a module-local for the bottom of renderEditor.
+  __pendingRestore = restoreAfterRender;
 
   // Custom render hook (used by article list views)
   if (typeof page.customRender === 'function') {
     page.customRender(editorSections, { reload: () => renderEditor() });
     handleSearch();
+    if (typeof __pendingRestore === 'function') {
+      const fn = __pendingRestore;
+      __pendingRestore = null;
+      fn();
+    }
     return;
   }
 
@@ -585,13 +831,26 @@ function renderEditor(focusSectionKey) {
     const section = isRoot ? (data || {}) : (nestedKey ? (data[sectionKey] || {})[nestedKey] || {} : data[sectionKey] || {});
     const editorKey = cfg.key;
     const domSectionKey = isRoot ? cfg.key : sectionKey;
-    const renderSectionKey = isRoot ? cfg.key : (nestedKey ? `${sectionKey}.${nestedKey}` : sectionKey);
+    /* Pass the literal '_root' sentinel to renderField for parentKey:'_root' sections.
+       Field renderers + helpers (resolveBlocksArray, etc.) detect this and write
+       directly to the data root — keeping in sync with readAllForms which also
+       treats '_root' as data itself. Without this, Add buttons inside _root
+       sections would push into data[cfg.key][field.key] while readAllForms
+       writes to data[field.key], causing the row to "disappear" on re-render. */
+    const renderSectionKey = isRoot ? '_root' : (nestedKey ? `${sectionKey}.${nestedKey}` : sectionKey);
 
     const wrapper = el('div', 'editor-section');
     wrapper.dataset.editorKey = editorKey;
     const header = el('button', 'editor-section-toggle');
     header.type = 'button';
-    header.innerHTML = `<span>${cfg.label}</span><span class="toggle-arrow">&#9660;</span>`;
+    /* Status pill: derived from required-field presence across this section's
+       fields. Empty = nothing filled. Draft = some filled, some required missing.
+       Filled = every required field has a value (or section has no required fields
+       and at least one optional field is set). Non-required sections that are
+       fully blank read as Empty. */
+    const status = deriveSectionStatus(cfg, section);
+    const pillLabel = status === 'is-filled' ? 'Filled' : status === 'is-draft' ? 'Draft' : 'Empty';
+    header.innerHTML = `<span>${cfg.label}</span><span class="section-status-pill ${status}">${pillLabel}</span><span class="toggle-arrow">&#9660;</span>`;
     header.addEventListener('click', () => {
       wrapper.classList.toggle('is-open');
       if (wrapper.classList.contains('is-open')) _openSections.add(editorKey);
@@ -643,6 +902,16 @@ function renderEditor(focusSectionKey) {
   initA11y();
   initValidation();
   updateSectionBadges();
+
+  // Restore scroll + focus + selection from the snapshot taken at the top of
+  // this function. Runs after every render, including the customRender path
+  // for list views (those don't take this branch but their render is fully
+  // re-entrant via reload(), which is fine).
+  if (typeof __pendingRestore === 'function') {
+    const fn = __pendingRestore;
+    __pendingRestore = null;
+    fn();
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -673,6 +942,49 @@ pageSelect.addEventListener('change', async () => {
 
 saveBtn.addEventListener('click', handleSave);
 publishBtn.addEventListener('click', handlePublish);
+
+/* Sticky save bar wiring. The bar lives at the viewport bottom and only pins
+   when the original .save-bar has scrolled out of view — saves a long scroll
+   back to the top of a tall case-study editor every time the user wants to
+   hit Save Draft. */
+const stickyBar = document.getElementById('sticky-save-bar');
+const stickySaveBtn = document.getElementById('sticky-save-btn');
+const stickyPublishBtn = document.getElementById('sticky-publish-btn');
+if (stickySaveBtn) stickySaveBtn.addEventListener('click', handleSave);
+if (stickyPublishBtn) stickyPublishBtn.addEventListener('click', handlePublish);
+const originalSaveBar = document.querySelector('.save-bar');
+if (stickyBar && originalSaveBar && 'IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    /* Pin the sticky bar when the original save bar has scrolled below the
+       viewport (or above it — but in practice the save-bar lives near the top
+       of the page so out-of-view means the user has scrolled down). */
+    const entry = entries[0];
+    /* Don't pin while the admin panel is hidden (login screen showing). The
+       original .save-bar reads as "not intersecting" because its parent is
+       display:none — without this guard the sticky bar would appear on the
+       login screen. */
+    const panelHidden = document.getElementById('admin-panel')?.classList.contains('admin-hidden');
+    if (panelHidden) {
+      stickyBar.classList.remove('is-pinned');
+      return;
+    }
+    if (entry && !entry.isIntersecting) {
+      stickyBar.classList.add('is-pinned');
+    } else {
+      stickyBar.classList.remove('is-pinned');
+    }
+  }, { threshold: 0 });
+  observer.observe(originalSaveBar);
+}
+/* Mirror the dirty-state class onto the sticky save button so the pulsing
+   dot follows the user wherever they're saving from. */
+const _origSaveBtn = document.getElementById('save-btn');
+if (_origSaveBtn && stickySaveBtn) {
+  const mo = new MutationObserver(() => {
+    stickySaveBtn.classList.toggle('is-dirty', _origSaveBtn.classList.contains('is-dirty'));
+  });
+  mo.observe(_origSaveBtn, { attributes: true, attributeFilter: ['class'] });
+}
 previewBtn.addEventListener('click', handlePreview);
 const submitReviewBtn = document.getElementById('submit-review-btn');
 if (submitReviewBtn) submitReviewBtn.addEventListener('click', handleSubmitForReview);
@@ -799,6 +1111,15 @@ initAuth({
 
     initRebuildStatus();
     restoreRebuildState(currentPage);
+
+    // Advanced-mode toggle in the toolbar; hide/show fields with data-advanced-only
+    const advancedSlot = document.getElementById('advanced-toggle-slot');
+    if (advancedSlot) mountAdvancedToggle(advancedSlot);
+    onAdvancedToggle((on) => {
+      document.querySelectorAll('.field-group[data-advanced-only="1"]').forEach((g) => {
+        g.style.display = on ? '' : 'none';
+      });
+    });
 
     // Manual rebuild button — gated to publishers.
     document.addEventListener('manual-rebuild', () => {

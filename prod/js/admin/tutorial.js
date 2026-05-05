@@ -12,6 +12,27 @@ const STEPS = [
   { target: '#history-btn', title: 'Version History', text: 'Every time you publish, a snapshot is saved. You can view and restore any previous version from here.', position: 'bottom' },
 ];
 
+// New tour for Case Study Articles list \u2014 4 steps. Triggered from the list
+// view's customRender once the table has mounted.
+const CASE_STUDY_LIST_TOUR = [
+  { target: '.new-article-btn',
+    title: 'Start a new case study',
+    text: 'Click here to start from scratch. We\'ll auto-derive the slug from your title.',
+    position: 'bottom' },
+  { target: '.refill-btn',
+    title: 'Or load the bundled examples',
+    text: 'Refill examples copies the Osper, AI Fraud, and Scaling Card case studies into the list. Click any of them to see how a real case study is structured.',
+    position: 'bottom' },
+  { target: '.btn-edit',
+    title: 'Open the editor',
+    text: 'Click Edit on any row to open the full case-study form \u2014 hero, sections, differentiators, the lot.',
+    position: 'right' },
+  { target: '#preview-toggle',
+    title: 'Watch your changes live',
+    text: 'Open the preview pane to see the published page update on every keystroke.',
+    position: 'bottom' },
+];
+
 const HELP_SECTIONS = [
   { title: 'Getting Started', body: 'Choose a page from the dropdown, expand sections to edit, save as draft or publish live.' },
   { title: 'Editing Content', body: 'Text fields support rich formatting. Use the toolbar for bold, italic, links, and lists.' },
@@ -23,10 +44,13 @@ const HELP_SECTIONS = [
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Walkthrough                                                        */
+/*  Walkthrough engine (shared by global and per-list tours)           */
 /* ------------------------------------------------------------------ */
 
-let currentStep = 0;
+/* Single-tour-at-a-time model: only one set of overlay/spotlight/tooltip
+   exists in the DOM at any time. Each tour gets its own runner, but they
+   all draw through these shared element refs and the renderTourStep
+   primitive below. */
 let overlayEl = null;
 let spotlightEl = null;
 let tooltipEl = null;
@@ -37,28 +61,16 @@ function clearWalkthrough() {
   if (tooltipEl) { tooltipEl.remove(); tooltipEl = null; }
 }
 
-function finishWalkthrough() {
-  clearWalkthrough();
-  localStorage.setItem('panasa_tutorial_complete', 'true');
-}
-
-function showStep(index) {
+/* Renders a single step's spotlight + tooltip. Returns true on success,
+   false if the target isn't in the DOM. The caller decides what to do
+   on miss (skip-and-advance vs. bail-and-defer). */
+function renderTourStep(step, { stepLabel, isLast, onSkip, onNext, skipLabel = 'Skip tutorial' }) {
   clearWalkthrough();
 
-  // Skip missing targets until we find one or exhaust the list
-  while (index < STEPS.length && !document.querySelector(STEPS[index].target)) {
-    index++;
-  }
-  if (index >= STEPS.length) {
-    finishWalkthrough();
-    return;
-  }
-  currentStep = index;
-  const step = STEPS[currentStep];
   const targetEl = document.querySelector(step.target);
-  const rect = targetEl.getBoundingClientRect();
+  if (!targetEl) return false;
 
-  // Scroll target into view if needed
+  const rect = targetEl.getBoundingClientRect();
   targetEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
   // Overlay
@@ -86,21 +98,17 @@ function showStep(index) {
   // Tooltip card
   tooltipEl = document.createElement('div');
   tooltipEl.className = 'tutorial-tooltip';
-
-  const isLast = currentStep === STEPS.length - 1;
   tooltipEl.innerHTML = `
     <h3>${step.title}</h3>
     <p>${step.text}</p>
     <div class="tutorial-tooltip-footer">
-      <span class="tutorial-step-counter">Step ${currentStep + 1} of ${STEPS.length}</span>
+      <span class="tutorial-step-counter">${stepLabel}</span>
       <div class="tutorial-tooltip-actions">
-        <button class="btn btn-text tutorial-skip">Skip tutorial</button>
+        <button class="btn btn-text tutorial-skip">${skipLabel}</button>
         <button class="btn btn-primary tutorial-next">${isLast ? 'Done \u2713' : 'Next \u2192'}</button>
       </div>
     </div>
   `;
-
-  // Position tooltip relative to target
   Object.assign(tooltipEl.style, {
     position: 'fixed',
     zIndex: '100002',
@@ -109,13 +117,21 @@ function showStep(index) {
 
   // Calculate position after tooltip is in the DOM so we can measure it
   requestAnimationFrame(() => {
+    if (!tooltipEl) return;
     const tipRect = tooltipEl.getBoundingClientRect();
     let top, left;
 
     if (step.position === 'bottom') {
       top = rect.bottom + pad + 12;
       left = rect.left + rect.width / 2 - tipRect.width / 2;
+    } else if (step.position === 'right') {
+      top = rect.top + rect.height / 2 - tipRect.height / 2;
+      left = rect.right + pad + 12;
+    } else if (step.position === 'left') {
+      top = rect.top + rect.height / 2 - tipRect.height / 2;
+      left = rect.left - pad - 12 - tipRect.width;
     } else {
+      // 'top' default
       top = rect.top - pad - 12 - tipRect.height;
       left = rect.left + rect.width / 2 - tipRect.width / 2;
     }
@@ -129,19 +145,107 @@ function showStep(index) {
   });
 
   // Button handlers
-  tooltipEl.querySelector('.tutorial-skip').addEventListener('click', finishWalkthrough);
-  tooltipEl.querySelector('.tutorial-next').addEventListener('click', () => {
-    if (isLast) {
-      finishWalkthrough();
-    } else {
-      showStep(currentStep + 1);
-    }
+  tooltipEl.querySelector('.tutorial-skip').addEventListener('click', onSkip);
+  tooltipEl.querySelector('.tutorial-next').addEventListener('click', onNext);
+  return true;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Global walkthrough                                                  */
+/* ------------------------------------------------------------------ */
+
+let currentStep = 0;
+
+function finishWalkthrough() {
+  clearWalkthrough();
+  localStorage.setItem('panasa_tutorial_complete', 'true');
+}
+
+function showStep(index) {
+  // Skip missing targets until we find one or exhaust the list
+  while (index < STEPS.length && !document.querySelector(STEPS[index].target)) {
+    index++;
+  }
+  if (index >= STEPS.length) {
+    finishWalkthrough();
+    return;
+  }
+  currentStep = index;
+  const step = STEPS[currentStep];
+  const isLast = currentStep === STEPS.length - 1;
+
+  renderTourStep(step, {
+    stepLabel: `Step ${currentStep + 1} of ${STEPS.length}`,
+    isLast,
+    onSkip: finishWalkthrough,
+    onNext: () => {
+      if (isLast) finishWalkthrough();
+      else showStep(currentStep + 1);
+    },
+    skipLabel: 'Skip tutorial',
   });
 }
 
 function startWalkthrough() {
   currentStep = 0;
   showStep(0);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Case Study list tour                                                */
+/* ------------------------------------------------------------------ */
+
+const CASE_STUDY_LIST_TOUR_KEY = 'panasa_tour_caseStudyList';
+
+function finishCaseStudyListTour() {
+  clearWalkthrough();
+  localStorage.setItem(CASE_STUDY_LIST_TOUR_KEY, 'done');
+}
+
+function showCaseStudyListStep(index) {
+  // Skip missing targets after the first step (those have already been
+  // verified by the gate in runCaseStudyListTour). For later steps, a
+  // missing target just means that flavour of UI isn't present (e.g.
+  // .refill-btn only renders for superadmins) \u2014 silently skip it.
+  while (index < CASE_STUDY_LIST_TOUR.length && !document.querySelector(CASE_STUDY_LIST_TOUR[index].target)) {
+    index++;
+  }
+  if (index >= CASE_STUDY_LIST_TOUR.length) {
+    finishCaseStudyListTour();
+    return;
+  }
+  const step = CASE_STUDY_LIST_TOUR[index];
+  const isLast = index === CASE_STUDY_LIST_TOUR.length - 1;
+
+  renderTourStep(step, {
+    stepLabel: `Step ${index + 1} of ${CASE_STUDY_LIST_TOUR.length}`,
+    isLast,
+    onSkip: finishCaseStudyListTour,
+    onNext: () => {
+      if (isLast) finishCaseStudyListTour();
+      else showCaseStudyListStep(index + 1);
+    },
+    skipLabel: 'Skip tour',
+  });
+}
+
+export function runCaseStudyListTour({ force = false } = {}) {
+  if (!force && localStorage.getItem(CASE_STUDY_LIST_TOUR_KEY) === 'done') return;
+  // Don't stomp an in-progress global walkthrough.
+  if (!force && document.querySelector('.tutorial-tooltip')) return;
+  // Gate on the first step's target \u2014 if it isn't there, the list view
+  // hasn't fully mounted yet. Bail cleanly; the caller's requestAnimationFrame
+  // will retry the next time customRender runs.
+  const firstTarget = CASE_STUDY_LIST_TOUR[0]?.target;
+  if (!firstTarget || !document.querySelector(firstTarget)) {
+    console.warn('[tutorial] case-study list tour: first target not in DOM, deferring');
+    return;
+  }
+  showCaseStudyListStep(0);
+}
+
+export function relaunchCaseStudyListTour() {
+  runCaseStudyListTour({ force: true });
 }
 
 /* ------------------------------------------------------------------ */
@@ -178,6 +282,7 @@ function openHelpModal() {
         ${accordionHTML}
       </div>
       <button class="btn btn-secondary" id="restart-tutorial">Restart Tutorial</button>
+      <button class="btn btn-secondary" id="restart-case-study-tour" style="margin-left:8px;">Take the Case Studies tour</button>
     </div>
   `;
 
@@ -220,6 +325,17 @@ function openHelpModal() {
     localStorage.removeItem('panasa_tutorial_complete');
     startWalkthrough();
   });
+
+  // Replay the Case Study list tour. If we're not currently on that list,
+  // the first-target gate will warn-and-bail; the user can navigate there
+  // and re-trigger via the help button.
+  const csBtn = modal.querySelector('#restart-case-study-tour');
+  if (csBtn) {
+    csBtn.addEventListener('click', () => {
+      modal.remove();
+      relaunchCaseStudyListTour();
+    });
+  }
 }
 
 /* ------------------------------------------------------------------ */

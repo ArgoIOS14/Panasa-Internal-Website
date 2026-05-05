@@ -62,10 +62,13 @@ export async function submitForReview(pageKey, proposedData, note) {
 
   let page = _pagesRegistry[pageKey];
   // Dynamic article keys are not in the static registry — synthesise a thin config
-  if (!page && /^(blog|insights|guides):/.test(pageKey)) {
+  if (!page && /^(blog|insights|guides|case-studies):/.test(pageKey)) {
     const [type, slug] = pageKey.split(':');
+    const label = type === 'case-studies'
+      ? `Case Study: ${slug}`
+      : `${type[0].toUpperCase() + type.slice(1)}: ${slug}`;
     page = {
-      label: `${type[0].toUpperCase() + type.slice(1)}: ${slug}`,
+      label,
       fbPath: `pages/articles/${type}/${slug}`,
       sections: [],
       defaults: {},
@@ -434,7 +437,7 @@ async function approveReview(review, note) {
   const user = auth.currentUser;
   const data = review.proposedData || {};
   const isDelete = data && data._action === 'delete';
-  const isArticleKey = /^(blog|insights|guides):/.test(review.pageKey || '');
+  const isArticleKey = /^(blog|insights|guides|case-studies):/.test(review.pageKey || '');
 
   // Delete action: remove via rebuild.php and Firebase nodes; skip publishToLive/saveHistory
   if (isDelete) {

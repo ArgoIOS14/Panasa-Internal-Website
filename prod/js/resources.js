@@ -5,6 +5,13 @@ import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderResources } from './Home scenes/sections/resources.js';
 
+// Live preview — only loaded in ?preview=true mode (admin panel iframe).
+// The receiver module installs a `postMessage` listener that dispatches admin
+// edits to `window.__livePreviewRender` (defined at the bottom of this file).
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
+}
+
 const RESOURCES_JSON_URL = 'content/Resources/content.json';
 
 const loadResourcesContent = async () => {
@@ -75,6 +82,29 @@ const initResources = async () => {
 };
 
 initResources();
+
+/* Live preview hook — when the page is opened in the admin's iframe with
+   ?preview=true, register a render handler that the live-preview-receiver
+   dispatches to on every postMessage from the admin. Mirrors the pattern in
+   contact.js / about.js / services.js / etc. */
+if (new URLSearchParams(window.location.search).get('preview') === 'true') {
+  window.__livePreviewRender = (data) => {
+    try {
+      if (data) {
+        renderResources(data);
+        if (data.meta?.title) document.title = data.meta.title;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && data.meta?.description) {
+          metaDesc.setAttribute('content', data.meta.description);
+        }
+        // Re-run animations so newly-inserted resource cards fade-in cleanly.
+        initScrollAnimations();
+      }
+    } catch (e) {
+      console.warn('[live-preview] resources render failed:', e);
+    }
+  };
+}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {

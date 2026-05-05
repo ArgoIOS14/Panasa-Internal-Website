@@ -1,3 +1,6 @@
+import { SEO_META_EXTRAS } from './seoMetaFields.js';
+import { STRUCTURED_DATA_SECTION } from './structuredDataSection.js';
+
 export const fbPath = 'pages/home';
 
 let _defaults = null;
@@ -17,7 +20,11 @@ export async function getDefaults() {
 export const defaults = null; // loaded async via getDefaults()
 
 export const sections = [
-  { key: 'meta', label: 'Meta / SEO', fields: [{ key: 'title', label: 'Page title', type: 'text' }, { key: 'description', label: 'Meta description', type: 'textarea' }] },
+  { key: 'meta', label: 'SEO Meta', fields: [
+    { key: 'title', label: 'Meta title', type: 'text' },
+    { key: 'description', label: 'Meta description', type: 'textarea' },
+    ...SEO_META_EXTRAS,
+  ]},
   { key: 'hero', label: 'Hero Section', fields: [{ key: 'pill', label: 'Pill text', type: 'text' }, { key: 'title', label: 'Title', type: 'text' }, { key: 'titleEmphasis', label: 'Title emphasis line', type: 'text' }, { key: 'subtitle', label: 'Subtitle', type: 'textarea' }] },
   { key: 'hero_ctas', label: 'Hero CTAs', parentKey: 'hero', fields: [{ key: 'primaryCta', label: 'Primary CTA', type: 'label-href' }, { key: 'secondaryCta', label: 'Secondary CTA', type: 'label-href' }] },
   { key: 'hero_trusted', label: 'Hero Trusted Logos', parentKey: 'hero', fields: [{ key: 'trustedLabel', label: 'Trusted label', type: 'text' }, { key: 'trustedLogos', label: 'Logo images', type: 'image-list' }] },
@@ -32,4 +39,5 @@ export const sections = [
   { key: 'footer_social', label: 'Footer Social Links', parentKey: 'footer', fields: [{ key: 'linkedin', label: 'LinkedIn URL', type: 'text' }, { key: 'facebook', label: 'Facebook URL', type: 'text' }, { key: 'twitter', label: 'X (Twitter) URL', type: 'text' }, { key: 'instagram', label: 'Instagram URL', type: 'text' }] },
   { key: 'footer_legal', label: 'Footer Legal', parentKey: 'footer', fields: [{ key: 'copyright', label: 'Copyright text', type: 'text' }] },
   { key: 'emailCapture', label: 'Email Capture Popup', fields: [{ key: 'promptHeading', label: 'Heading', type: 'text' }, { key: 'promptSubtext', label: 'Subtext', type: 'text' }, { key: 'buttonLabel', label: 'Button label', type: 'text' }] },
+  STRUCTURED_DATA_SECTION,
 ];
