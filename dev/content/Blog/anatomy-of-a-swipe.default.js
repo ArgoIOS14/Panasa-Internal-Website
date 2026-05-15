@@ -48,8 +48,8 @@ window.DEFAULT_BLOG_CONTENT = {
     }
   ],
   "relatedSlugs": [
-    "5-common-mistakes-fintech-product-design",
-    "fault-tolerant-ledger-systems",
-    "ai-customer-onboarding-fintech"
+    "lifecycle-of-a-payment",
+    "3d-secure-authentication-card-program",
+    "card-controls-fraud-prevention"
   ]
 };

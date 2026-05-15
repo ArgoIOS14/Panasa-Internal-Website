@@ -215,12 +215,16 @@
           </div>
 
           <div class="presence-map-shell" data-animate>
-            <img
-              src="assets/about-global-presence.webp"
-              alt="Panasa global delivery footprint map"
-              loading="lazy"
-              decoding="async"
-            />
+            <picture>
+              <source media="(max-width: 600px)" srcset="assets/about-global-presence-mobile.webp" />
+              <source media="(max-width: 900px)" srcset="assets/about-global-presence-tablet.webp" />
+              <img
+                src="assets/about-global-presence-desktop.webp"
+                alt="Panasa global delivery footprint map"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
         </section>
 

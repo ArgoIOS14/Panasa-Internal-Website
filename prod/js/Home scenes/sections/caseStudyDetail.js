@@ -66,22 +66,19 @@ const renderHero = (hero) => {
       titleEl.appendChild(document.createTextNode(hero.title));
     }
     if (hero.titleAccent) {
-      titleEl.appendChild(document.createTextNode(' '));
+      if (hero.title) titleEl.appendChild(document.createTextNode(' '));
       const accent = createEl('span', 'case-hero-title-accent');
       accent.textContent = hero.titleAccent;
       titleEl.appendChild(accent);
     }
+    if (hero.titleSuffix) {
+      titleEl.appendChild(document.createTextNode(' ' + hero.titleSuffix));
+    }
   }
 
-  const logoEl = document.querySelector('[data-case-hero-logo]');
-  if (logoEl instanceof HTMLImageElement) {
-    if (hero.logo) {
-      logoEl.src = resolveAsset(hero.logo);
-      logoEl.alt = hero.logoAlt || hero.eyebrow || 'Client logo';
-      logoEl.hidden = false;
-    } else {
-      logoEl.hidden = true;
-    }
+  const cardEl = document.querySelector('[data-case-hero-card]');
+  if (cardEl && hero.background) {
+    cardEl.style.backgroundImage = `url("${resolveAsset(hero.background)}")`;
   }
 };
 
@@ -334,16 +331,22 @@ const renderTechStack = (section) => {
       label.textContent = group.label;
       col.appendChild(label);
     }
-    const row = createEl('div', 'case-tech-logos');
-    (group.logos || []).forEach((logo) => {
-      const tile = createEl('span', 'case-tech-logo');
-      const img = createEl('img');
-      img.src = resolveAsset(typeof logo === 'string' ? logo : logo.src);
-      img.alt = (typeof logo === 'object' && logo.alt) ? logo.alt : '';
-      tile.appendChild(img);
-      row.appendChild(tile);
-    });
-    col.appendChild(row);
+    if (Array.isArray(group.logos) && group.logos.length) {
+      const row = createEl('div', 'case-tech-logos');
+      group.logos.forEach((logo) => {
+        const tile = createEl('span', 'case-tech-logo');
+        const img = createEl('img');
+        img.src = resolveAsset(typeof logo === 'string' ? logo : logo.src);
+        img.alt = (typeof logo === 'object' && logo.alt) ? logo.alt : '';
+        tile.appendChild(img);
+        row.appendChild(tile);
+      });
+      col.appendChild(row);
+    } else if (group.description) {
+      const desc = createEl('p', 'case-tech-description');
+      desc.textContent = group.description;
+      col.appendChild(desc);
+    }
     groups.appendChild(col);
   });
   wrap.appendChild(groups);
@@ -539,8 +542,13 @@ export const renderCaseStudyDetail = (data, resourcesData) => {
   wireShare(data.hero?.title);
 
   if (data.newsletter) {
-    setText('[data-case-newsletter-title]', data.newsletter.title);
-    setText('[data-case-newsletter-subtitle]', data.newsletter.subtitle);
+    setText('[data-case-newsletter-eyebrow]', data.newsletter.eyebrow);
+    setText('[data-case-newsletter-title]',   data.newsletter.title);
+    setText('[data-case-newsletter-accent]',  data.newsletter.titleAccent);
+    /* `description` is the new field; fall back to `subtitle` for older content. */
+    setText('[data-case-newsletter-subtitle]', data.newsletter.description || data.newsletter.subtitle);
+    setText('[data-case-newsletter-note]',    data.newsletter.formNote);
+    setText('[data-case-newsletter-submit]',  data.newsletter.submitLabel);
     const input = document.querySelector('[data-case-newsletter] input[type="email"]');
     if (input instanceof HTMLInputElement && data.newsletter.placeholder) {
       input.placeholder = data.newsletter.placeholder;

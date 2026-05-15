@@ -35,12 +35,72 @@ window.DEFAULT_RESOURCES_CONTENT = {
   },
   "items": [
     {
+      "category": "Blog",
+      "title": "What Does 3D Secure Authentication Actually Mean for Your Card Program?",
+      "excerpt": "How 3D Secure (3DS) works, the frictionless vs challenge decision, the liability shift, PSD2 SCA implications, and what card programs should actually be tuning.",
+      "date": "15 MAY 2026",
+      "author": "Panasa Team",
+      "image": "assets/blog-hero-desktop.webp",
+      "href": "blog/3d-secure-authentication-card-program",
+      "slug": "3d-secure-authentication-card-program"
+    },
+    {
+      "category": "Blog",
+      "title": "A Guide to Card Controls in Modern Payment Fraud Prevention",
+      "excerpt": "How card controls prevent fraud before authorisation completes — MCC, velocity, geographic, MID, spend, channel, and time-based rules — and what they mean for card programs.",
+      "date": "15 MAY 2026",
+      "author": "Panasa Team",
+      "image": "assets/blog-hero-desktop.webp",
+      "href": "blog/card-controls-fraud-prevention",
+      "slug": "card-controls-fraud-prevention"
+    },
+    {
+      "category": "Case Study",
+      "title": "Implementing Open Banking for a Youth Banking Platform",
+      "excerpt": "How we delivered an Open Banking Gateway, parental controls, and PSD2/GDPR-aligned consent and authentication for a UK youth banking platform.",
+      "date": "15 MAY 2026",
+      "author": "Panasa Team",
+      "image": "assets/cs-open-banking-hero-bg.webp",
+      "href": "case-studies/open-banking-youth-banking-platform",
+      "slug": "open-banking-youth-banking-platform"
+    },
+    {
+      "category": "Case Study",
+      "title": "Building a Flexible Card Issuance and Management Platform for a Global Issuer Processor",
+      "excerpt": "How we rebuilt a global issuer processor's card platform around modular control — cardholder lifecycle, security, tokenisation, controls, and real-time balances.",
+      "date": "15 MAY 2026",
+      "author": "Panasa Team",
+      "image": "assets/cs-card-issuance-hero-bg.webp",
+      "href": "case-studies/flexible-card-issuance-platform-issuer-processor",
+      "slug": "flexible-card-issuance-platform-issuer-processor"
+    },
+    {
+      "category": "Case Study",
+      "title": "Implementing 3D Secure Authentication for a Global Issuer Processor",
+      "excerpt": "How we delivered PSD2 SCA + 3DS2 authentication across multiple BIN ranges and ACS providers for an AI-first global issuer processor.",
+      "date": "15 MAY 2026",
+      "author": "Panasa Team",
+      "image": "assets/cs-3d-secure-hero-bg.webp",
+      "href": "case-studies/3d-secure-authentication-issuer-processor",
+      "slug": "3d-secure-authentication-issuer-processor"
+    },
+    {
+      "category": "Case Study",
+      "title": "Building the Operations Backbone of a Global Issuer Processor",
+      "excerpt": "How we restructured operations around observability, fraud detection, DevOps, and customer care to help a global issuer processor scale across 40+ countries.",
+      "date": "15 MAY 2026",
+      "author": "Panasa Team",
+      "image": "assets/cs-ops-backbone-hero-bg.webp",
+      "href": "case-studies/operations-backbone-global-issuer-processor",
+      "slug": "operations-backbone-global-issuer-processor"
+    },
+    {
       "category": "Case Study",
       "title": "Reinventing Family Banking Through Compliance, Trust, and Experience",
       "excerpt": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform — open banking, SCA & 3DS, monitoring, and brand tie-ups.",
       "date": "30 APR 2026",
       "author": "Panasa Team",
-      "image": "assets/case-study-card-2.webp",
+      "image": "assets/cs-osper-cover.webp",
       "href": "case-studies/osper-family-banking",
       "slug": "osper-family-banking"
     },
@@ -73,86 +133,6 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "image": "assets/resources-card-placeholder.webp",
       "slug": "anatomy-of-a-swipe",
       "href": "blog/anatomy-of-a-swipe"
-    },
-    {
-      "category": "Case Study",
-      "title": "AI Fraud Detection for a Neo Banking Platform",
-      "excerpt": "Reduced transaction fraud by 62% using real-time AI-based anomaly detection across high-volume payment flows.",
-      "date": "06 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "case-studies/ai-fraud-detection-neobank",
-      "slug": "ai-fraud-detection-neobank"
-    },
-    {
-      "category": "Insights",
-      "title": "The Future of Embedded Finance in 2026",
-      "excerpt": "Why embedded finance is reshaping digital ecosystems and how businesses can leverage it for growth.",
-      "date": "06 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/future-of-embedded-finance-2026",
-      "slug": "future-of-embedded-finance-2026"
-    },
-    {
-      "category": "Blog",
-      "title": "5 Common Mistakes in Fintech Product Design",
-      "excerpt": "Avoid these critical mistakes when designing user experiences for financial products, ensuring better usability and trust.",
-      "date": "07 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/5-common-mistakes-fintech-product-design",
-      "slug": "5-common-mistakes-fintech-product-design"
-    },
-    {
-      "category": "Blog",
-      "title": "How AI is Changing Customer Onboarding in Fintech",
-      "excerpt": "From KYC automation to fraud checks, AI is transforming onboarding flows, making them faster and more reliable.",
-      "date": "07 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/ai-customer-onboarding-fintech",
-      "slug": "ai-customer-onboarding-fintech"
-    },
-    {
-      "category": "Guide",
-      "title": "How to Build a Secure Payment Gateway from Scratch",
-      "excerpt": "Step-by-step breakdown of architecture, APIs, and compliance requirements for modern payment systems.",
-      "date": "08 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/secure-payment-gateway-from-scratch",
-      "slug": "secure-payment-gateway-from-scratch"
-    },
-    {
-      "category": "Case Study",
-      "title": "Scaling a Card Issuance Platform to 1M Users",
-      "excerpt": "How we built a scalable infrastructure to handle rapid user growth while maintaining compliance and performance.",
-      "date": "07 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "case-studies/scaling-card-issuance-1m-users",
-      "slug": "scaling-card-issuance-1m-users"
-    },
-    {
-      "category": "Insights",
-      "title": "Compliance-First Engineering in EU Fintechs",
-      "excerpt": "How leading European fintechs are embedding compliance into every engineering decision from day one.",
-      "date": "08 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/compliance-first-engineering-eu-fintechs",
-      "slug": "compliance-first-engineering-eu-fintechs"
-    },
-    {
-      "category": "Guide",
-      "title": "Designing Fault-Tolerant Ledger Systems",
-      "excerpt": "A practical guide to building ledger systems that survive scale, failure, and regulatory audits.",
-      "date": "09 APR 2026",
-      "author": "AUTHOR",
-      "image": "assets/resources-card-placeholder.webp",
-      "href": "blog/fault-tolerant-ledger-systems",
-      "slug": "fault-tolerant-ledger-systems"
     }
   ]
 };

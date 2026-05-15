@@ -119,21 +119,22 @@ window.DEFAULT_CONTENT = {
         "alt": "Dialect"
       }
     ],
+    "certTitle": "Compliance-Ready\nFintech Systems",
     "certBadges": [
       {
-        "src": "assets/badge-gdpr.svg",
+        "src": "assets/cert-gdpr.svg",
         "alt": "GDPR"
       },
       {
-        "src": "assets/badge-iso.svg",
+        "src": "assets/cert-iso.svg",
         "alt": "ISO 27001"
       },
       {
-        "src": "assets/badge-gptw.svg",
+        "src": "assets/cert-gptw.svg",
         "alt": "Great Place to Work"
       },
       {
-        "src": "assets/badge-pci.svg",
+        "src": "assets/cert-pci.svg",
         "alt": "PCI"
       }
     ]

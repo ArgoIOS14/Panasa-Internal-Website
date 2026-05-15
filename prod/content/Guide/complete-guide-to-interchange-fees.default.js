@@ -157,7 +157,7 @@ window.DEFAULT_GUIDE_CONTENT = {
           "text": "We've optimised processing pipelines from 900 ms to under 120 ms — here's how.",
           "cta": {
             "label": "View Case Study",
-            "href": "../blog/ai-fraud-detection-neobank",
+            "href": "../case-studies/osper-family-banking",
             "variant": "ghost"
           }
         }
@@ -194,7 +194,7 @@ window.DEFAULT_GUIDE_CONTENT = {
     }
   ],
   "relatedSlugs": [
-    "secure-payment-gateway-from-scratch",
-    "fault-tolerant-ledger-systems"
+    "anatomy-of-a-swipe",
+    "lifecycle-of-a-payment"
   ]
 };

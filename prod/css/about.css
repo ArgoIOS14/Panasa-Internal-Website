@@ -368,14 +368,15 @@ textarea {
 }
 
 .presence-map-shell {
-  max-width: var(--page-shell);
-  margin: 24px auto 0;
-  padding: 0 var(--page-gutter);
+  max-width: 100%;
+  margin: 24px 0 0;
+  padding: 0;
 }
 
 .presence-map-shell img {
+  display: block;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 .process-section {
@@ -937,7 +938,6 @@ textarea {
   }
 
   .about-stats,
-  .presence-map-shell,
   .testimonial-shell {
     padding-left: 12px;
     padding-right: 12px;

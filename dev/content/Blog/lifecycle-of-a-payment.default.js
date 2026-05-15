@@ -61,8 +61,8 @@ window.DEFAULT_BLOG_CONTENT = {
     }
   ],
   "relatedSlugs": [
-    "future-of-embedded-finance-2026",
-    "compliance-first-engineering-eu-fintechs",
-    "anatomy-of-a-swipe"
+    "anatomy-of-a-swipe",
+    "card-controls-fraud-prevention",
+    "3d-secure-authentication-card-program"
   ]
 };

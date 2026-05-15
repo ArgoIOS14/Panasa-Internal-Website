@@ -93,26 +93,24 @@ ul { list-style: none; }
 
 .case-hero-card {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  display: flex;
   align-items: center;
-  gap: 36px;
-  min-height: 240px;
-  padding: 36px 40px;
+  min-height: 360px;
+  padding: 48px 56px;
   border-radius: 20px;
-  background: linear-gradient(160deg, #0e3c2d 0%, #083a2a 45%, #052517 100%);
+  /* Per-case-study artwork is set inline by the renderer via hero.background.
+     The fallback gradient shows through if the image fails to load. */
+  background-color: #083a2a;
+  background-image: linear-gradient(160deg, #0e3c2d 0%, #083a2a 45%, #052517 100%);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: #fff;
   overflow: hidden;
   box-shadow: 0 22px 40px rgba(6, 32, 25, 0.24);
 }
 
-.case-hero-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 110% -10%, rgba(124, 211, 174, 0.18), transparent 40%);
-  pointer-events: none;
-}
+.case-hero-card::before { content: none; display: none; }
 
 .case-hero-copy {
   position: relative;
@@ -120,7 +118,11 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   gap: 14px;
-  max-width: 560px;
+  /* Copy sits over the empty left half of the background artwork.
+     Width sized so the green accent wraps to two lines (e.g.
+     "Building the" / "Operations Backbone") and the white text below
+     wraps once (e.g. "of a Global Issuer" / "Processor"). */
+  max-width: 360px;
 }
 
 .case-hero-eyebrow {
@@ -142,60 +144,45 @@ ul { list-style: none; }
   color: #fff;
   font-family: 'Lufga', sans-serif;
   font-size: clamp(1.6rem, 2.8vw, 2.1rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.18;
   letter-spacing: -0.015em;
 }
 
 .case-hero-title-accent {
-  color: #7bd3ae;
-  font-weight: 600;
+  display: block;
+  color: #39d17f;
+  font-weight: 700;
 }
 
-.case-hero-logo-wrap {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.case-hero-logo {
-  max-width: 240px;
-  max-height: 110px;
-  width: auto;
-  height: auto;
-  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.18));
-}
+/* .case-hero-logo-wrap / .case-hero-logo removed — hero now uses a single
+   per-case-study background image that bakes the artwork in. */
 
 /* ==========================================================================
    META TILES STRIP (1–5 tiles auto-fit)
    ========================================================================== */
 
+/* 5 independent rounded cards with gaps between them — not a joined strip. */
 .case-meta-tiles {
   max-width: var(--case-card-shell);
-  margin: 0 auto 8px;
+  margin: 0 auto 32px;
   padding: 0 var(--case-gutter);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 0;
-  border-radius: 12px;
-  overflow: hidden;
+  gap: 14px;
 }
 
 .case-meta-tile {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 18px 12px;
-  background: #fff;
+  gap: 8px;
+  padding: 22px 12px;
+  background: var(--case-cell-bg);
   border: 1px solid var(--case-cell-border);
-  border-right-width: 0;
+  border-radius: 12px;
   text-align: center;
 }
-
-.case-meta-tile:last-child { border-right-width: 1px; }
 
 .case-meta-tile-icon {
   display: inline-flex;
@@ -234,42 +221,40 @@ ul { list-style: none; }
   padding: 0 var(--case-gutter);
   display: flex;
   flex-direction: column;
-  gap: 36px;
-  margin-bottom: 48px;
+  gap: 44px;
+  margin-bottom: 56px;
 }
 
-.case-section { display: flex; flex-direction: column; gap: 18px; }
+.case-section { display: flex; flex-direction: column; gap: 16px; }
 
-.case-section-head { display: flex; flex-direction: column; gap: 8px; }
+.case-section-head { display: flex; flex-direction: column; gap: 10px; }
 
 .case-section-title {
   font-family: 'Lufga', sans-serif;
-  font-size: clamp(1.15rem, 2vw, 1.35rem);
-  font-weight: 600;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  font-weight: 700;
   color: var(--accent-2, #16ab6d);
   letter-spacing: -0.005em;
 }
 
-.case-section--overview .case-section-title,
-.case-section--conclusion .case-section-title {
-  color: var(--case-dark);
-}
+/* All section titles share the green accent — no per-type colour override. */
 
+/* Section copy stretches the full content shell so paragraphs land at the
+   same trailing edge as the meta tiles strip / hero card above. */
 .case-section-summary {
   font-size: 0.92rem;
   line-height: 1.65;
   color: rgba(15, 44, 37, 0.72);
-  max-width: 760px;
 }
 
 .case-prose {
   font-size: 0.92rem;
   line-height: 1.7;
   color: #2a3532;
-  max-width: 760px;
 }
 
 .case-prose p { margin: 0 0 12px; }
+.case-prose p:last-child { margin-bottom: 0; }
 
 /* ==========================================================================
    CARD GRID (Business Challenge)
@@ -343,17 +328,15 @@ ul { list-style: none; }
   border: 1px solid var(--case-cell-border);
 }
 
+/* PILLAR XX label: plain uppercase grey eyebrow text (no pill background). */
 .case-pillar-label {
-  display: inline-flex;
+  display: inline-block;
   align-self: flex-start;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(22, 171, 109, 0.12);
-  color: var(--accent-2, #16ab6d);
+  color: rgba(15, 44, 37, 0.45);
   font-family: 'Lufga', sans-serif;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -487,7 +470,10 @@ ul { list-style: none; }
 .case-approach-flow {
   display: grid;
   grid-template-columns: repeat(var(--approach-cols, 6), minmax(0, 1fr));
-  gap: 14px;
+  gap: 0;
+  /* Reserve column gutters via padding instead of grid gap so the dashed
+     connector lines on each step can extend cleanly into the gutter. */
+  column-gap: 0;
 }
 
 .case-approach-flow[data-count="3"] { --approach-cols: 3; }
@@ -496,41 +482,63 @@ ul { list-style: none; }
 .case-approach-flow[data-count="6"] { --approach-cols: 6; }
 
 .case-approach-step {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+/* Dashed connector between adjacent circles, vertically centred on the
+   number circle (~14px from the step's top). The line starts at the right
+   edge of the current bubble and extends to the left edge of the next.
+   Hidden on the last step. */
+.case-approach-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 44px;
+  right: -8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.28);
+  pointer-events: none;
 }
 
 .case-approach-step-num {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  font-family: 'Lufga', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 600;
+  background: var(--accent-2, #16ab6d);
   color: #fff;
-  background: rgba(255, 255, 255, 0.04);
+  font-family: 'Lufga', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  align-self: flex-start;
+  margin-bottom: 4px;
+  box-shadow: 0 0 0 4px rgba(22, 171, 109, 0.18);
 }
 
 .case-approach-step-title {
   font-family: 'Lufga', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
+  text-align: left;
+  align-self: stretch;
 }
 
 .case-approach-step-body {
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.7);
+  text-align: left;
+  align-self: stretch;
 }
 
 /* ==========================================================================
@@ -577,6 +585,16 @@ ul { list-style: none; }
   max-width: 120px;
   object-fit: contain;
   opacity: 0.85;
+}
+
+/* Text-only mode: shown when a tech-stack group provides `description` but
+   no `logos`. Sits in the same column slot as `.case-tech-logos`. */
+.case-tech-description {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(15, 44, 37, 0.78);
+  max-width: 60ch;
 }
 
 /* ==========================================================================
@@ -626,18 +644,19 @@ ul { list-style: none; }
   color: rgba(15, 44, 37, 0.7);
 }
 
+/* Plain green eyebrow text (no pill). Reference design uses a flat coloured
+   tag rather than a coloured chip. */
 .case-impact-card-tag {
   align-self: flex-start;
-  display: inline-flex;
+  display: inline-block;
   margin-top: auto;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(22, 171, 109, 0.12);
+  padding: 0;
+  background: transparent;
   color: var(--accent-2, #16ab6d);
   font-family: 'Lufga', sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -675,12 +694,14 @@ ul { list-style: none; }
     "a b"
     "c d";
 }
+/* count=5: top row 2 equal cards (a b), bottom row 3 equal cards (c d e).
+   Use a 6-column track so 2 over 3 splits cleanly without fractional gaps. */
 .bento-grid[data-count="5"] {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(180px, auto));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(2, auto);
   grid-template-areas:
-    "a a b b"
-    "c d d e";
+    "a a a b b b"
+    "c c d d e e";
 }
 
 .bento-tile[data-slot="a"] { grid-area: a; }
@@ -693,86 +714,92 @@ ul { list-style: none; }
   position: relative;
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  padding: 20px 22px 22px;
   border-radius: 14px;
   overflow: hidden;
-  background: var(--case-cell-bg);
+  background: #fff;
   border: 1px solid var(--case-cell-border);
   min-height: 0;
 }
 
-.bento-tile--image,
-.bento-tile--chart {
-  align-items: stretch;
-  justify-content: stretch;
+/* Top: text block (eyebrow → title → description). */
+.bento-tile-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bento-tile-eyebrow {
+  font-family: 'Lufga', sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-2, #16ab6d);
+  font-weight: 700;
+}
+
+.bento-tile-title {
+  font-family: 'Lufga', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--case-dark);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+
+.bento-tile-desc {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(15, 44, 37, 0.68);
+}
+
+/* Bottom: image fills the remaining vertical space, with breathing room. */
+.bento-tile-img-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .bento-tile-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  flex: 1;
-  min-height: 0;
+  max-height: 220px;
+  object-fit: contain;
+  object-position: center bottom;
 }
 
-.bento-tile-caption {
-  position: absolute;
-  left: 14px;
-  bottom: 12px;
-  right: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px 10px;
-  background: rgba(15, 44, 37, 0.78);
-  color: #fff;
-  border-radius: 8px;
-  backdrop-filter: blur(6px);
-}
-
-.bento-tile-caption-title {
-  font-family: 'Lufga', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.bento-tile-caption-text {
-  font-size: 0.74rem;
-  line-height: 1.4;
-  opacity: 0.85;
-}
-
+/* Stat-tile is text-only, so it doesn't need the image-wrap gap. */
 .bento-tile--stat {
-  padding: 22px;
+  align-items: flex-start;
+  background: #fff;
   gap: 8px;
-  background: linear-gradient(180deg, var(--case-mint-tint) 0%, #fff 100%);
-}
-
-.bento-tile-eyebrow {
-  font-family: 'Lufga', sans-serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(15, 44, 37, 0.55);
-  font-weight: 600;
 }
 
 .bento-tile-stat-title {
   font-family: 'Lufga', sans-serif;
-  font-size: 0.92rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--case-dark);
+  line-height: 1.25;
 }
 
 .bento-tile-stat-metric {
   font-family: 'Lufga', sans-serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--accent-2, #16ab6d);
   letter-spacing: -0.01em;
+  margin-top: auto;
 }
 
 .bento-tile-stat-label {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   color: rgba(15, 44, 37, 0.7);
 }
@@ -799,35 +826,165 @@ ul { list-style: none; }
 .case-section--approach[data-render-mode="bento"] .bento-tile--stat .bento-tile-eyebrow { color: rgba(213, 243, 227, 0.7); }
 
 /* ==========================================================================
-   NEWSLETTER + MORE CASE STUDIES — reuse blog-detail.css markup, override
-   data-attribute selectors so the same form/grid wires to case-study data.
+   NEWSLETTER (case-study variant — dark band with eyebrow + 2-line accent
+   title + grey description on the left, light note + pill input + green
+   submit on the right).
    ========================================================================== */
 
-[data-case-newsletter] {
+.case-newsletter {
+  position: relative;
+  max-width: var(--case-card-shell);
+  margin: 0 auto 64px;
+  padding: 36px 40px;
+  border-radius: 18px;
+  /* Dark near-black green base + subtle radial-ripple pattern in the upper
+     right corner via two stacked radial gradients on the same layer. */
+  background:
+    radial-gradient(circle at 92% 18%, rgba(124, 211, 174, 0.05) 0%, transparent 35%),
+    radial-gradient(circle at 96% 12%, rgba(124, 211, 174, 0.04) 0%, transparent 24%),
+    radial-gradient(circle at 90% 22%, rgba(255, 255, 255, 0.025) 0%, transparent 18%),
+    #0a1614;
+  color: #fff;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+  align-items: center;
+  gap: 28px;
+  overflow: hidden;
+}
+
+/* Soft concentric-ring pattern in the upper right — drawn as an inline SVG
+   via mask-image so the rings only paint over the background's tint. */
+.case-newsletter::after {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 360px;
+  height: 360px;
+  background:
+    radial-gradient(circle, transparent 50px, rgba(124, 211, 174, 0.08) 51px, rgba(124, 211, 174, 0.08) 52px, transparent 53px) 0 0 / 100% 100% no-repeat,
+    radial-gradient(circle, transparent 80px,  rgba(124, 211, 174, 0.06) 81px,  rgba(124, 211, 174, 0.06) 82px,  transparent 83px)  0 0 / 100% 100% no-repeat,
+    radial-gradient(circle, transparent 120px, rgba(124, 211, 174, 0.05) 121px, rgba(124, 211, 174, 0.05) 122px, transparent 123px) 0 0 / 100% 100% no-repeat,
+    radial-gradient(circle, transparent 160px, rgba(124, 211, 174, 0.04) 161px, rgba(124, 211, 174, 0.04) 162px, transparent 163px) 0 0 / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.case-newsletter-copy,
+.case-newsletter-form-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.case-newsletter-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 520px;
+}
+
+.case-newsletter-eyebrow {
+  font-family: 'Lufga', sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+}
+
+.case-newsletter-title {
+  font-family: 'Lufga', sans-serif;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+.case-newsletter-title-accent { color: var(--accent-2, #16ab6d); }
+
+.case-newsletter-description {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62);
+  margin-top: 4px;
+  max-width: 460px;
+}
+
+.case-newsletter-form-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: center;
+}
+
+.case-newsletter-note {
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.52);
+  letter-spacing: 0.01em;
+}
+
+.case-newsletter-form {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 12px;
   padding: 6px;
+  gap: 6px;
+  transition: border-color 180ms ease;
 }
 
-[data-case-newsletter]:focus-within { border-color: rgba(57, 209, 127, 0.55); }
+.case-newsletter-form:focus-within {
+  border-color: rgba(57, 209, 127, 0.55);
+}
 
-[data-case-newsletter] input[type="email"] {
+.case-newsletter-form input[type="email"] {
   flex: 1;
   appearance: none;
   background: transparent;
   border: 0;
   color: #fff;
   font: inherit;
-  font-size: 0.9rem;
-  padding: 8px 12px;
+  font-size: 0.88rem;
+  padding: 10px 12px;
   outline: none;
   min-width: 0;
 }
 
-[data-case-newsletter] input::placeholder { color: rgba(255, 255, 255, 0.42); }
+.case-newsletter-form input::placeholder { color: rgba(255, 255, 255, 0.42); }
+
+.case-newsletter-submit {
+  appearance: none;
+  background: var(--accent-2, #16ab6d);
+  color: #fff;
+  font-family: 'Lufga', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.case-newsletter-submit:hover {
+  background: #12945e;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(22, 171, 109, 0.28);
+}
+
+.case-newsletter-submit:disabled { opacity: 0.55; cursor: wait; transform: none; }
+
+.case-newsletter-status {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+.case-newsletter-status.is-error { color: #ffb0a8; }
+.case-newsletter-status.is-success { color: #a6f5c9; }
 
 /* ==========================================================================
    RESPONSIVE
@@ -843,12 +1000,8 @@ ul { list-style: none; }
 
 @media (max-width: 900px) {
   .case-hero-card {
-    grid-template-columns: 1fr;
-    gap: 18px;
     padding: 26px 22px;
   }
-  .case-hero-logo-wrap { justify-content: flex-start; }
-  .case-hero-logo { max-width: 180px; }
 
   .case-meta-tiles {
     grid-template-columns: repeat(3, minmax(0, 1fr));

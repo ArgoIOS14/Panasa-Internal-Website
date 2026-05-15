@@ -1,0 +1,246 @@
+{
+  "slug": "operations-backbone-global-issuer-processor",
+  "category": "Case Study",
+  "meta": {
+    "title": "Building the Operations Backbone of a Global Issuer Processor | Panasa Case Study",
+    "description": "How Panasa restructured operations for a global issuer processor scaling across 40+ countries — observability, fraud detection, onboarding, reliability, and customer care.",
+    "canonical": "https://www.panasatech.com/case-studies/operations-backbone-global-issuer-processor",
+    "ogImage": "https://www.panasatech.com/assets/cs-operations-backbone-cover.webp"
+  },
+  "hero": {
+    "eyebrow": "CASE STUDY",
+    "titleAccent": "Building the Operations Backbone",
+    "background": "assets/cs-ops-backbone-hero-bg.webp",
+    "titleSuffix": "of a Global Issuer Processor"
+  },
+  "metaTiles": [
+    {
+      "icon": "assets/cs-meta-location.svg",
+      "label": "LOCATION",
+      "value": "40+ Countries"
+    },
+    {
+      "icon": "assets/cs-meta-industry.svg",
+      "label": "INDUSTRY",
+      "value": "Issuer Processor"
+    },
+    {
+      "icon": "assets/cs-meta-team.svg",
+      "label": "TEAM SIZE",
+      "value": "50+ People"
+    },
+    {
+      "icon": "assets/cs-meta-duration.svg",
+      "label": "DURATION",
+      "value": "Ongoing"
+    },
+    {
+      "icon": "assets/cs-meta-budget.svg",
+      "label": "BUDGET",
+      "value": "NDA"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "body": "<p>Our client, a well-renowned issuer processor, has been a trailblazer in the cards and payments industry. Its highly flexible and configurable card management platform along with the supporting infrastructure had quickly become the preferred solution for many digital banks, e-wallet providers, and global fintechs across the world looking to launch innovative card-based debit, corporate, loyalty, and prepaid solutions. Over time its presence grew to more than 40 countries spanning hundreds of fintechs across multiple verticals.</p>"
+    },
+    {
+      "type": "overview",
+      "title": "The Challenge",
+      "body": "<p>The operating model that worked at startup scale was starting to show strain at global scale. As the client expanded across geographies and onboarded fintechs, digital banks, and wallets at pace, the operations function that had managed a focused early book began to strain under the weight of handling transactions across multiple time zones, fraud patterns, increasing customer expectations, and varying regulatory requirements in different markets.</p><p>They needed proven expertise to structure real-time transaction monitoring, maintain consistent response times, provide global visibility and reporting to their management teams, and build guardrails for fraud detection and reconciliation at scale.</p>"
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Struggling with transaction latency?",
+      "text": "We've optimized processing pipelines from 800ms to under 100ms. Here's how.",
+      "cta": {
+        "label": "View Case Study",
+        "href": "case-studies/osper-family-banking",
+        "variant": "dark"
+      }
+    },
+    {
+      "type": "approach",
+      "title": "Our Approach",
+      "renderMode": "steps",
+      "cardEyebrow": "Our Approach",
+      "cardSummary": "We restructured operations around scalable engineering practices to improve monitoring, fraud prevention, onboarding, reliability, and customer support across global operations.",
+      "steps": [
+        {
+          "index": "01",
+          "title": "Service Monitoring",
+          "body": "Coverage, DataDog, and Fusion Reactor powered proactive incident monitoring and diagnostics."
+        },
+        {
+          "index": "02",
+          "title": "Fraud Detection",
+          "body": "Behavioural fraud screening and investigation workflows reduced manual fraud handling effort."
+        },
+        {
+          "index": "03",
+          "title": "Customer Onboarding",
+          "body": "Structured workflows and runbooks streamlined onboarding."
+        },
+        {
+          "index": "04",
+          "title": "Platform Reliability",
+          "body": "DevOps automation and resilience strategies improved release stability and operational resilience."
+        },
+        {
+          "index": "05",
+          "title": "Customer Care",
+          "body": "Tiered support capabilities accelerated issue resolution and cross-functional engagement."
+        }
+      ]
+    },
+    {
+      "type": "techStack",
+      "title": "Technology Stack",
+      "groups": [
+        {
+          "label": "CUSTOMER CARE",
+          "logos": [
+            {
+              "src": "assets/cs-tech-twilio.svg",
+              "alt": "Twilio"
+            },
+            {
+              "src": "assets/cs-tech-freshdesk.svg",
+              "alt": "Freshdesk"
+            },
+            {
+              "src": "assets/cs-tech-intercom.svg",
+              "alt": "Intercom"
+            }
+          ]
+        },
+        {
+          "label": "CUSTOMER ONBOARDING",
+          "logos": [
+            {
+              "src": "assets/cs-tech-jira.svg",
+              "alt": "Jira"
+            },
+            {
+              "src": "assets/cs-tech-process.svg",
+              "alt": "Process"
+            }
+          ]
+        },
+        {
+          "label": "FRAUD DETECTION",
+          "logos": [
+            {
+              "src": "assets/cs-tech-cardinal.svg",
+              "alt": "Cardinal"
+            },
+            {
+              "src": "assets/cs-tech-d8.svg",
+              "alt": "D8"
+            },
+            {
+              "src": "assets/cs-tech-featurespace.svg",
+              "alt": "Featurespace"
+            }
+          ]
+        },
+        {
+          "label": "SERVICE MONITORING",
+          "logos": [
+            {
+              "src": "assets/cs-tech-datadog.svg",
+              "alt": "Datadog"
+            },
+            {
+              "src": "assets/cs-tech-fusionreactor.svg",
+              "alt": "FusionReactor"
+            }
+          ]
+        },
+        {
+          "label": "PLATFORM RELIABILITY",
+          "logos": [
+            {
+              "src": "assets/cs-tech-terraform.svg",
+              "alt": "Terraform"
+            },
+            {
+              "src": "assets/cs-tech-runbooks.svg",
+              "alt": "Runbooks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "impactGrid",
+      "title": "Business Impact",
+      "summary": "Measurable outcomes achieved through operational efficiency, fraud prevention, and scalable onboarding systems.",
+      "items": [
+        {
+          "title": "Global Expansion",
+          "label": "Expanded operations into 40+ countries and onboarded 100+ fintech partners.",
+          "tag": "40+ COUNTRIES"
+        },
+        {
+          "title": "YoY Growth",
+          "label": "Scaled operational teams efficiently to support over 40% annual growth.",
+          "tag": "40% GROWTH"
+        },
+        {
+          "title": "Fraud Detection",
+          "label": "Built shared telemetry for disputes, chargebacks, and fraud monitoring.",
+          "tag": "FRAUD DETECTION"
+        },
+        {
+          "title": "Chargeback Reduction",
+          "label": "Improved pre-authorisation checks to reduce fraudulent transactions.",
+          "tag": "25% REDUCED"
+        },
+        {
+          "title": "Faster Onboarding",
+          "label": "Structured onboarding playbooks reduced onboarding time significantly.",
+          "tag": "WEEKS → DAYS"
+        },
+        {
+          "title": "Revenue Acceleration",
+          "label": "Quicker revenue generation from newly launched programs.",
+          "tag": "FASTER REVENUE"
+        }
+      ]
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Building a new card platform?",
+      "text": "Our engineering team has done this across 6 issuer processors. Let's compare notes.",
+      "cta": {
+        "label": "Talk to our team",
+        "href": "contact",
+        "variant": "dark"
+      }
+    },
+    {
+      "type": "conclusion",
+      "title": "Conclusion",
+      "body": "<p>We were able to scale the model as our client expanded because we treated operations as an engineering problem rather than a staffing problem. The common instinct is to add more people, analysts, support agents, more shifts as tickets and volumes rise. However, what works is building a structure around observability, fraud detection, DevOps, and unified telemetry.</p><p>We continue our long-standing partnership with the client, building on these foundations as they move into an agentic world of operations.</p>"
+    }
+  ],
+  "newsletter": {
+    "eyebrow": "NEWSLETTER",
+    "title": "Enjoyed this Case Study?",
+    "titleAccent": "Get Payments Deconstructed.",
+    "description": "Our fortnightly newsletter simplifying the intricacies of the payments ecosystem, from authorization flows to disputes.",
+    "formNote": "No spam. Unsubscribe anytime.",
+    "placeholder": "Enter Email Address",
+    "submitLabel": "Subscribe"
+  },
+  "relatedSlugs": [
+    "flexible-card-issuance-platform-issuer-processor",
+    "3d-secure-authentication-issuer-processor",
+    "osper-family-banking"
+  ]
+}
