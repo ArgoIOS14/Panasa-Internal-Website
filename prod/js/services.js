@@ -167,7 +167,7 @@ const AI_ACCELERATED_COPY = {
       },
       {
         heading: 'Full-Stack Team',
-        body: 'From strategy to 24x7 ops-no vendor juggling needed. One team, end-to-end ownership.',
+        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
       },
       {
         heading: 'Compliance-First Approach',
@@ -619,7 +619,7 @@ const applyIntelligentOperationsTextOverrides = () => {
         </div>
         <p>
           The point isn't just to keep things running.
-          It's to run them well enough that operations.
+          It's to run them well enough that operations become a growth function, not a cost centre.
         </p>
       </div>
 
@@ -673,7 +673,7 @@ const applyIntelligentOperationsTextOverrides = () => {
       },
       {
         title: 'Full-Stack Team',
-        body: 'From strategy to 24x7 ops-no vendor juggling needed. One team, end-to-end ownership.',
+        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
       },
       {
         title: 'Compliance-First Approach',
@@ -1190,7 +1190,7 @@ const applyServiceMode = () => {
           </h2>
         </div>
         <p>
-          The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain faster.
+          The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain and faster to change.
         </p>
       </div>
 
