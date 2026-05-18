@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>API disabled on QA</title>
+    <style>
+      body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;margin:0;background:#fff7ed;color:#7c2d12;display:grid;place-items:center;min-height:100vh;padding:24px;text-align:center}
+      .card{max-width:520px;background:#fef3c7;border-radius:14px;padding:28px 28px;border:1px solid #fde68a}
+      h1{margin:0 0 10px;font-size:18px;letter-spacing:0.02em}
+      p{margin:6px 0 0}
+      a{color:#7c2d12;text-decoration:underline}
+    </style>
+      <script src="js/qa-banner.js" defer></script>
+  </head>
+  <body>
+    <div class="card">
+      <h1>API endpoint not available on QA</h1>
+      <p>This is the Panasa QA build. PHP endpoints under <code>/api/</code> (Zoho contact-form proxy etc.) only exist on the production SiteGround host.</p>
+      <p>To test the contact form end-to-end, use <a href="https://www.panasatech.com/contact">www.panasatech.com</a>.</p>
+    </div>
+  </body>
+</html>

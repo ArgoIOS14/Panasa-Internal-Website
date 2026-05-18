@@ -12,3 +12,9 @@ node_modules/
 test-results/
 playwright-report/
 playwright/.cache/
+
+# Local Netlify folder
+.netlify
+
+# QA deploy build output (Netlify)
+.qa-build/

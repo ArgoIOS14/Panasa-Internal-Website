@@ -1,0 +1,161 @@
+# =============================================================================
+# Netlify config — Panasa QA preview
+# =============================================================================
+# Serves dev/ as the QA build for internal review. Production deploys still
+# go through scripts/build-deploy.sh -> SiteGround.
+#
+# This file ports the relevant behaviour from prod/.htaccess (which Netlify
+# does NOT read — Apache-only). PHP endpoints under /api/ are out of scope
+# on QA (Netlify has no PHP runtime); they 404 with a friendly explanation.
+# =============================================================================
+
+[build]
+  # Publish from a built copy of dev/, NOT dev/ directly. The build step
+  # below excludes the api/ directory (PHP files, .env, .htaccess) — none of
+  # those work or should ship on a Netlify-hosted QA preview. Even though
+  # Netlify strips dotfiles from serving by default, we keep them out of the
+  # deployed CDN entirely as defence in depth.
+  publish = ".qa-build"
+  command = "rm -rf .qa-build && mkdir -p .qa-build && rsync -a --exclude='api/' --exclude='.DS_Store' dev/ .qa-build/"
+
+# -----------------------------------------------------------------------------
+# Headers
+# -----------------------------------------------------------------------------
+
+# Discourage search engines from indexing QA builds. Mirrors the production
+# memory note about `X-Robots-Tag: noindex` on staging subdomains.
+[[headers]]
+  for = "/*"
+    [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Longer cache on stable static assets — QA still gets fresh HTML every load.
+[[headers]]
+  for = "/assets/*"
+    [headers.values]
+    Cache-Control = "public, max-age=3600"
+[[headers]]
+  for = "/css/*"
+    [headers.values]
+    Cache-Control = "public, max-age=3600"
+[[headers]]
+  for = "/js/*"
+    [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# -----------------------------------------------------------------------------
+# Redirects — ORDER MATTERS. First matching rule wins.
+# -----------------------------------------------------------------------------
+# Source of truth for the matching prod behaviour: prod/.htaccess.
+# Not ported: the apex→www redirect (only relevant with a custom domain;
+# Netlify default host is single-hostname and Netlify handles HTTPS).
+
+# === 1. PHP endpoints have no runtime on QA -> friendly 404 ===
+# Must come before any clean-URL rule so /api/zoho-proxy.php etc never get
+# rewritten to .html.
+[[redirects]]
+  from = "/api/*"
+  to = "/qa-api-disabled.html"
+  status = 404
+  force = true
+
+# === 2. WordPress-era trailing-slash redirects (301) ===
+# Mirrors `Redirect 301 /<page>/ /<page>` in .htaccess.
+[[redirects]]
+  from = "/about/"
+  to = "/about"
+  status = 301
+[[redirects]]
+  from = "/careers/"
+  to = "/careers"
+  status = 301
+[[redirects]]
+  from = "/contact/"
+  to = "/contact"
+  status = 301
+[[redirects]]
+  from = "/services/"
+  to = "/services"
+  status = 301
+[[redirects]]
+  from = "/privacy-policy/"
+  to = "/privacy-policy"
+  status = 301
+
+# === 3. Legacy query-param service URLs (301) ===
+# Mirrors `RewriteCond %{QUERY_STRING} service=...` rules in .htaccess.
+# Both `/services?service=X` and `/services.html?service=X` paths are
+# handled; Netlify matches the path AND the query block.
+[[redirects]]
+  from = "/services"
+  to = "/ai-governance"
+  status = 301
+  query = { service = "ai-governance" }
+  force = true
+[[redirects]]
+  from = "/services"
+  to = "/intelligent-operations"
+  status = 301
+  query = { service = "intelligent-operations" }
+  force = true
+[[redirects]]
+  from = "/services"
+  to = "/ai-powered-legacy-modernisation"
+  status = 301
+  query = { service = "ai-powered-legacy-modernisation" }
+  force = true
+[[redirects]]
+  from = "/services"
+  to = "/ai-accelerated-fintech-engineering"
+  status = 301
+  query = { service = "ai-accelerated-fintech-engineering" }
+  force = true
+# Same four, but for the legacy `.html` form of the URL.
+[[redirects]]
+  from = "/services.html"
+  to = "/ai-governance"
+  status = 301
+  query = { service = "ai-governance" }
+  force = true
+[[redirects]]
+  from = "/services.html"
+  to = "/intelligent-operations"
+  status = 301
+  query = { service = "intelligent-operations" }
+  force = true
+[[redirects]]
+  from = "/services.html"
+  to = "/ai-powered-legacy-modernisation"
+  status = 301
+  query = { service = "ai-powered-legacy-modernisation" }
+  force = true
+[[redirects]]
+  from = "/services.html"
+  to = "/ai-accelerated-fintech-engineering"
+  status = 301
+  query = { service = "ai-accelerated-fintech-engineering" }
+  force = true
+
+# === 4. Clean URL canonicalisation (.html -> no-extension, 301) ===
+# Mirrors:
+#   RewriteCond %{THE_REQUEST} \s/(.+?)\.html[\s?] [NC]
+#   RewriteRule ^ /%1 [R=301,L]
+# Netlify splat matches everything (including slashes), so this covers
+# top-level (/about.html) and nested (/case-studies/osper-family-banking.html)
+# alike.
+# The .html -> clean URL canonicalisation and the legacy query-param
+# redirects live in _redirects (classic Netlify syntax) because the inline
+# placeholder substitution in netlify.toml [[redirects]] was returning
+# literal `:slug` strings in the Location header during testing. See
+# dev/_redirects for the canonical list. The block here intentionally
+# only documents the WP trailing-slash + /api/* rules which work fine in
+# TOML.
+
+# === 5. Pretty URL serving — handled automatically by Netlify ===
+# When Netlify can't find a file at the requested path, it checks for an
+# `.html` counterpart (e.g. /about -> /about.html) and serves that. This
+# matches the .htaccess RewriteRule:
+#   RewriteCond %{REQUEST_FILENAME}.html -f
+#   RewriteRule ^(.+)$ $1.html [L]
+# No explicit Netlify rule needed.
