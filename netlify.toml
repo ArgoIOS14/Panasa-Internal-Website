@@ -24,25 +24,39 @@
 
 # Discourage search engines from indexing QA builds. Mirrors the production
 # memory note about `X-Robots-Tag: noindex` on staging subdomains.
+#
+# Cache strategy: serve HTML from Netlify's edge cache (instant repeat
+# loads) but force the user's BROWSER to revalidate on each visit
+# (so a fresh deploy is visible immediately, not after browser cache
+# expiry). `Netlify-CDN-Cache-Control` is a Netlify-specific header that
+# controls ONLY the edge cache; `Cache-Control` controls the browser.
+# Atomic deploys auto-purge the edge cache, so QA testers always see the
+# latest build the moment a deploy lands.
 [[headers]]
   for = "/*"
     [headers.values]
     X-Robots-Tag = "noindex, nofollow"
     Cache-Control = "public, max-age=0, must-revalidate"
+    Netlify-CDN-Cache-Control = "public, durable, s-maxage=86400"
 
-# Longer cache on stable static assets — QA still gets fresh HTML every load.
+# Static assets (images, CSS, JS): cache aggressively in both edge AND
+# browser. These rarely change; when they do, `?v=<version>` cache-bust
+# (production) or a fresh Netlify deploy (QA) handles invalidation.
 [[headers]]
   for = "/assets/*"
     [headers.values]
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "public, max-age=86400"
+    Netlify-CDN-Cache-Control = "public, durable, s-maxage=604800"
 [[headers]]
   for = "/css/*"
     [headers.values]
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "public, max-age=86400"
+    Netlify-CDN-Cache-Control = "public, durable, s-maxage=604800"
 [[headers]]
   for = "/js/*"
     [headers.values]
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "public, max-age=86400"
+    Netlify-CDN-Cache-Control = "public, durable, s-maxage=604800"
 
 # -----------------------------------------------------------------------------
 # Redirects — ORDER MATTERS. First matching rule wins.
