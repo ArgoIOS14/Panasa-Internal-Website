@@ -1231,7 +1231,7 @@ const applyServiceMode = () => {
     setSafeHTML(content, `
       <article class="domain-card">
         <h3>Transaction monitoring and uptime</h3>
-        <p>24×7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
+        <p>24x7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
       </article>
       <article class="domain-card">
         <h3>Fraud and risk handling</h3>

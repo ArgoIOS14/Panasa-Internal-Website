@@ -3,8 +3,8 @@ window.DEFAULT_CASE_STUDY_CONTENT =
   "slug": "osper-family-banking",
   "category": "Case Study",
   "meta": {
-    "title": "Reinventing Family Banking Through Compliance, Trust, and Experience | Panasa",
-    "description": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform — open banking integration, SCA & 3DS, monitoring, and brand tie-ups across four countries.",
+    "title": "Osper Family Banking: Compliance, Trust & Experience | Panasa",
+    "description": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform: open banking, SCA & 3DS, monitoring, and brand tie-ups in 4 countries.",
     "canonical": "https://www.panasatech.com/case-studies/osper-family-banking",
     "ogImage": "https://www.panasatech.com/assets/cs-osper-cover.webp"
   },
@@ -386,4 +386,5 @@ window.DEFAULT_CASE_STUDY_CONTENT =
     "operations-backbone-global-issuer-processor",
     "3d-secure-authentication-issuer-processor"
   ]
-};
+}
+;

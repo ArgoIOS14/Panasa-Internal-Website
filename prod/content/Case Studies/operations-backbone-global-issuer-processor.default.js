@@ -3,10 +3,10 @@ window.DEFAULT_CASE_STUDY_CONTENT =
   "slug": "operations-backbone-global-issuer-processor",
   "category": "Case Study",
   "meta": {
-    "title": "Building the Operations Backbone of a Global Issuer Processor | Panasa Case Study",
-    "description": "How Panasa restructured operations for a global issuer processor scaling across 40+ countries — observability, fraud detection, onboarding, reliability, and customer care.",
+    "title": "Operations Backbone for a Global Issuer Processor | Panasa",
+    "description": "How Panasa restructured operations for a global issuer processor scaling across 40+ countries — observability, fraud detection, onboarding, and reliability.",
     "canonical": "https://www.panasatech.com/case-studies/operations-backbone-global-issuer-processor",
-    "ogImage": "https://www.panasatech.com/assets/cs-operations-backbone-cover.webp"
+    "ogImage": "https://www.panasatech.com/assets/cs-ops-backbone-hero-bg.webp"
   },
   "hero": {
     "eyebrow": "CASE STUDY",
@@ -45,7 +45,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
     {
       "type": "overview",
       "title": "Overview",
-      "body": "<p>Our client, a well-renowned issuer processor, has been a trailblazer in the cards and payments industry. Its highly flexible and configurable card management platform along with the supporting infrastructure had quickly become the preferred solution for many digital banks, e-wallet providers, and global fintechs across the world looking to launch innovative card-based debit, corporate, loyalty, and prepaid solutions. Over time its presence grew to more than 40 countries spanning hundreds of fintechs across multiple verticals.</p>"
+      "body": "<p>Our client, a well-renowned issuer processor, has been a trailblazer in the cards and payments industry. Its highly flexible and configurable card management platform along with the supporting infrastructure had quickly made it the preferred solution for many digital banks, e-wallet providers, and global fintechs across the world looking to launch innovative card-based debit, corporate, loyalty, and prepaid solutions. Over time its presence grew to more than 40 countries spanning hundreds of fintechs across multiple verticals.</p>"
     },
     {
       "type": "overview",
@@ -73,7 +73,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
         {
           "index": "01",
           "title": "Service Monitoring",
-          "body": "Coverage, DataDog, and Fusion Reactor powered proactive incident monitoring and diagnostics."
+          "body": "Coralogix, Datadog, and Fusion Reactor powered proactive incident monitoring and diagnostics."
         },
         {
           "index": "02",
@@ -88,12 +88,12 @@ window.DEFAULT_CASE_STUDY_CONTENT =
         {
           "index": "04",
           "title": "Platform Reliability",
-          "body": "DevOps automation and resilience strategies improved release stability and operational resilience."
+          "body": "DevOps automation and rollback strategies improved release stability and operational resilience."
         },
         {
           "index": "05",
           "title": "Customer Care",
-          "body": "Tiered support capabilities accelerated issue resolution and cross-functional engagement."
+          "body": "Tiered support operations accelerated issue resolution and cross-functional investigations."
         }
       ]
     },
@@ -194,12 +194,12 @@ window.DEFAULT_CASE_STUDY_CONTENT =
         {
           "title": "Fraud Detection",
           "label": "Built shared telemetry for disputes, chargebacks, and fraud monitoring.",
-          "tag": "FRAUD DETECTION"
+          "tag": "90% DETECTION"
         },
         {
           "title": "Chargeback Reduction",
           "label": "Improved pre-authorisation checks to reduce fraudulent transactions.",
-          "tag": "25% REDUCED"
+          "tag": "35% REDUCED"
         },
         {
           "title": "Faster Onboarding",
@@ -208,7 +208,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
         },
         {
           "title": "Revenue Acceleration",
-          "label": "Quicker revenue generation from newly launched programs.",
+          "label": "Enabled quicker revenue generation from newly launched programs.",
           "tag": "FASTER REVENUE"
         }
       ]
@@ -244,4 +244,5 @@ window.DEFAULT_CASE_STUDY_CONTENT =
     "3d-secure-authentication-issuer-processor",
     "osper-family-banking"
   ]
-};
+}
+;

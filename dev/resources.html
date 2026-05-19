@@ -26,9 +26,9 @@
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" crossorigin="anonymous" />
-    <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
-    <link rel="stylesheet" href="css/resources.css?v=2.1" />
-    <link rel="stylesheet" href="css/shared-footer.css?v=2.1" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-layout.css?v=3.0" />
+    <link rel="stylesheet" href="css/resources.css?v=3.0" />
+    <link rel="stylesheet" href="css/shared-footer.css?v=3.0" media="print" onload="this.media='all'" />
     <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/resources" />
     <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/resources" />
     <script type="application/ld+json">
@@ -41,7 +41,31 @@
       ]
     }
     </script>
-      <script src="js/qa-banner.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Resources",
+      "url": "https://www.panasatech.com/resources",
+      "description": "Explore expert insights, real-world case studies, and proven strategies to design, build, and scale secure fintech platforms.",
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": 10,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "url": "https://www.panasatech.com/case-studies/osper-family-banking", "name": "Reinventing Family Banking Through Compliance, Trust, and Experience" },
+          { "@type": "ListItem", "position": 2, "url": "https://www.panasatech.com/blog/3d-secure-authentication-card-program", "name": "What Does 3D Secure Authentication Actually Mean for Your Card Program?" },
+          { "@type": "ListItem", "position": 3, "url": "https://www.panasatech.com/blog/card-controls-fraud-prevention", "name": "A Guide to Card Controls in Modern Payment Fraud Prevention" },
+          { "@type": "ListItem", "position": 4, "url": "https://www.panasatech.com/case-studies/open-banking-youth-banking-platform", "name": "Implementing Open Banking for a Youth Banking Platform" },
+          { "@type": "ListItem", "position": 5, "url": "https://www.panasatech.com/case-studies/flexible-card-issuance-platform-issuer-processor", "name": "Building a Flexible Card Issuance and Management Platform for a Global Issuer Processor" },
+          { "@type": "ListItem", "position": 6, "url": "https://www.panasatech.com/case-studies/3d-secure-authentication-issuer-processor", "name": "Implementing 3D Secure Authentication for a Global Issuer Processor" },
+          { "@type": "ListItem", "position": 7, "url": "https://www.panasatech.com/case-studies/operations-backbone-global-issuer-processor", "name": "Building the Operations Backbone of a Global Issuer Processor" },
+          { "@type": "ListItem", "position": 8, "url": "https://www.panasatech.com/guides/complete-guide-to-interchange-fees", "name": "The Complete Guide to Interchange Fees" },
+          { "@type": "ListItem", "position": 9, "url": "https://www.panasatech.com/blog/lifecycle-of-a-payment", "name": "The Lifecycle of a Payment: From Tap to Everything That Follows" },
+          { "@type": "ListItem", "position": 10, "url": "https://www.panasatech.com/blog/anatomy-of-a-swipe", "name": "Anatomy of a Swipe: What Really Happens When You Tap Your Card" }
+        ]
+      }
+    }
+    </script>
   </head>
   <body>
     <div class="resources-page">
@@ -71,19 +95,19 @@
         </section>
 
         <section class="resources-featured" data-animate>
-          <a class="resources-featured-card" data-featured-card href="contact">
-            <img class="resources-featured-image" data-featured-image alt="" loading="lazy" decoding="async" />
+          <a class="resources-featured-card" data-featured-card href="case-studies/osper-family-banking">
+            <img class="resources-featured-image" data-featured-image src="assets/cs-osper-cover.webp" alt="" loading="lazy" decoding="async" />
             <div class="resources-featured-overlay" aria-hidden="true"></div>
             <span class="resources-featured-arrow" aria-hidden="true">
               <img src="assets/resources-view-arrow.svg" alt="" />
             </span>
             <div class="resources-featured-body">
               <span class="resource-tag resource-tag-case-study" data-featured-tag>CASE STUDY</span>
-              <h2 data-featured-title>The AI Advantage: Reshaping Talent Acquisition in 2025</h2>
+              <h2 data-featured-title>Reinventing Family Banking Through Compliance, Trust, and Experience</h2>
               <div class="resources-featured-meta">
-                <span data-featured-date>06 APR 2026</span>
+                <span data-featured-date>30 APR 2026</span>
                 <span class="resources-featured-dot">•</span>
-                <span data-featured-author>AUTHOR</span>
+                <span data-featured-author>Panasa Team</span>
               </div>
             </div>
           </a>
@@ -92,7 +116,134 @@
         <section class="resources-list" data-animate>
           <div class="resources-filters" data-resources-filters></div>
 
-          <div class="resources-grid" data-resources-grid></div>
+          <div class="resources-grid" data-resources-grid>
+            <a class="resource-card resource-card--blog" href="blog/3d-secure-authentication-card-program">
+              <div class="resource-card-image"><img src="assets/blog-hero-desktop.webp" alt="What Does 3D Secure Authentication Actually Mean for Your Card Program?"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-blog">BLOG</span>
+                <h3 class="resource-card-title">What Does 3D Secure Authentication Actually Mean for Your Card Program?</h3>
+                <p class="resource-card-excerpt">How 3D Secure (3DS) works, the frictionless vs challenge decision, the liability shift, PSD2 SCA implications, and what card programs should actually be tuning.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">15 MAY 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-blog.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--blog" href="blog/card-controls-fraud-prevention">
+              <div class="resource-card-image"><img src="assets/blog-hero-desktop.webp" alt="A Guide to Card Controls in Modern Payment Fraud Prevention"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-blog">BLOG</span>
+                <h3 class="resource-card-title">A Guide to Card Controls in Modern Payment Fraud Prevention</h3>
+                <p class="resource-card-excerpt">How card controls prevent fraud before authorisation completes — MCC, velocity, geographic, MID, spend, channel, and time-based rules — and what they mean for card programs.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">15 MAY 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-blog.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--case-study" href="case-studies/open-banking-youth-banking-platform">
+              <div class="resource-card-image"><img src="assets/cs-open-banking-hero-bg.webp" alt="Implementing Open Banking for a Youth Banking Platform"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-case-study">CASE STUDY</span>
+                <h3 class="resource-card-title">Implementing Open Banking for a Youth Banking Platform</h3>
+                <p class="resource-card-excerpt">How we delivered an Open Banking Gateway, parental controls, and PSD2/GDPR-aligned consent and authentication for a UK youth banking platform.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">15 MAY 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-casestudies.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--case-study" href="case-studies/flexible-card-issuance-platform-issuer-processor">
+              <div class="resource-card-image"><img src="assets/cs-card-issuance-hero-bg.webp" alt="Building a Flexible Card Issuance and Management Platform for a Global Issuer Processor"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-case-study">CASE STUDY</span>
+                <h3 class="resource-card-title">Building a Flexible Card Issuance and Management Platform for a Global Issuer Processor</h3>
+                <p class="resource-card-excerpt">How we rebuilt a global issuer processor's card platform around modular control — cardholder lifecycle, security, tokenisation, controls, and real-time balances.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">15 MAY 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-casestudies.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--case-study" href="case-studies/3d-secure-authentication-issuer-processor">
+              <div class="resource-card-image"><img src="assets/cs-3d-secure-hero-bg.webp" alt="Implementing 3D Secure Authentication for a Global Issuer Processor"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-case-study">CASE STUDY</span>
+                <h3 class="resource-card-title">Implementing 3D Secure Authentication for a Global Issuer Processor</h3>
+                <p class="resource-card-excerpt">How we delivered PSD2 SCA + 3DS2 authentication across multiple BIN ranges and ACS providers for an AI-first global issuer processor.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">15 MAY 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-casestudies.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--case-study" href="case-studies/operations-backbone-global-issuer-processor">
+              <div class="resource-card-image"><img src="assets/cs-ops-backbone-hero-bg.webp" alt="Building the Operations Backbone of a Global Issuer Processor"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-case-study">CASE STUDY</span>
+                <h3 class="resource-card-title">Building the Operations Backbone of a Global Issuer Processor</h3>
+                <p class="resource-card-excerpt">How we restructured operations around observability, fraud detection, DevOps, and customer care to help a global issuer processor scale across 40+ countries.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">15 MAY 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-casestudies.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--guide" href="guides/complete-guide-to-interchange-fees">
+              <div class="resource-card-image"><img src="assets/resources-card-placeholder.webp" alt="The Complete Guide to Interchange Fees"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-guide">GUIDE</span>
+                <h3 class="resource-card-title">The Complete Guide to Interchange Fees</h3>
+                <p class="resource-card-excerpt">How card payment economics really work — who gets paid, why merchants care, and how interchange shapes the modern payments ecosystem.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">21 APR 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-guide.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--insights" href="blog/lifecycle-of-a-payment">
+              <div class="resource-card-image"><img src="assets/resources-card-placeholder.webp" alt="The Lifecycle of a Payment: From Tap to Everything That Follows"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-insights">INSIGHTS</span>
+                <h3 class="resource-card-title">The Lifecycle of a Payment: From Tap to Everything That Follows</h3>
+                <p class="resource-card-excerpt">A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">17 APR 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-insights.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="resource-card resource-card--blog" href="blog/anatomy-of-a-swipe">
+              <div class="resource-card-image"><img src="assets/resources-card-placeholder.webp" alt="Anatomy of a Swipe: What Really Happens When You Tap Your Card"></div>
+              <div class="resource-card-body">
+                <span class="resource-tag resource-tag-blog">BLOG</span>
+                <h3 class="resource-card-title">Anatomy of a Swipe: What Really Happens When You Tap Your Card</h3>
+                <p class="resource-card-excerpt">A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.</p>
+                <div class="resource-card-meta">
+                  <span class="resource-card-date">16 APR 2026</span>
+                  <span class="resource-card-meta-dot">•</span>
+                  <span class="resource-card-author">Panasa Team</span>
+                </div>
+                <span class="resource-card-read-more">Read More <img src="assets/readmore-blog.svg" alt="" aria-hidden="true"></span>
+              </div>
+            </a>
+          </div>
 
           <div class="resources-pagination" data-resources-pagination>
             <div class="rows-per-page">
@@ -122,7 +273,7 @@
         <div class="footer-cta" data-animate>
           <div>
             <h2 data-footer-cta-title>Ready to Build Your Card Platform</h2>
-            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.</p>
+            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24x7 operations.</p>
           </div>
           <a class="btn btn-dark" data-footer-cta-button href="contact">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
@@ -190,6 +341,6 @@
 
     <script src="content/Home page/default.js" defer></script>
     <script src="content/Resources/default.js" defer></script>
-    <script type="module" src="js/resources.js?v=2.1"></script>
+    <script type="module" src="js/resources.js?v=3.0"></script>
   </body>
 </html>

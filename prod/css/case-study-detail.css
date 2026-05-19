@@ -620,7 +620,7 @@ ul { list-style: none; }
   background: var(--case-cell-bg);
   border: 1px solid var(--case-cell-border);
   position: relative;
-  min-height: 168px;
+  min-height: 132px;
 }
 
 .case-impact-card-title {

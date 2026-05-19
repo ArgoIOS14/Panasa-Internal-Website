@@ -12,14 +12,14 @@ window.DEFAULT_CASE_STUDY_CONTENT =
   },
   "slug": "flexible-card-issuance-platform-issuer-processor",
   "meta": {
-    "title": "Building a Flexible Card Issuance and Management Platform for a Global Issuer Processor | Panasa Case Study",
-    "description": "How Panasa rebuilt a global issuer processor's card platform around modular control — cardholder lifecycle, security, tokenisation, controls, and real-time balances.",
+    "title": "Flexible Card Issuance Platform for a Global Issuer Processor | Panasa",
+    "description": "How Panasa built a flexible card issuance platform for a global issuer processor — modular config, multi-program support, and rapid time-to-market.",
     "canonical": "https://www.panasatech.com/case-studies/flexible-card-issuance-platform-issuer-processor",
     "ogImage": "https://www.panasatech.com/assets/cs-card-issuance-hero-bg.webp"
   },
   "hero": {
     "eyebrow": "CASE STUDY",
-    "titleAccent": "Building a Flexible Card Issuance and Management platform",
+    "titleAccent": "Building a Flexible Card Issuance and Management Platform",
     "titleSuffix": "for a Global Issuer Processor",
     "background": "assets/cs-card-issuance-hero-bg.webp"
   },

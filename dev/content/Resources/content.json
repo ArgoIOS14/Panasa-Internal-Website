@@ -11,11 +11,11 @@
   "featured": {
     "tag": "CASE STUDY",
     "tagClass": "case-study",
-    "title": "The AI Advantage: Reshaping Talent Acquisition in 2025",
-    "date": "06 APR 2026",
-    "author": "AUTHOR",
-    "image": "assets/resources-featured.webp",
-    "href": "contact"
+    "title": "Reinventing Family Banking Through Compliance, Trust, and Experience",
+    "date": "30 APR 2026",
+    "author": "Panasa Team",
+    "image": "assets/cs-osper-cover.webp",
+    "href": "case-studies/osper-family-banking"
   },
   "filters": [
     "All",
@@ -95,16 +95,6 @@
       "slug": "operations-backbone-global-issuer-processor"
     },
     {
-      "category": "Case Study",
-      "title": "Reinventing Family Banking Through Compliance, Trust, and Experience",
-      "excerpt": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform — open banking, SCA & 3DS, monitoring, and brand tie-ups.",
-      "date": "30 APR 2026",
-      "author": "Panasa Team",
-      "image": "assets/cs-osper-cover.webp",
-      "href": "case-studies/osper-family-banking",
-      "slug": "osper-family-banking"
-    },
-    {
       "category": "Guide",
       "title": "The Complete Guide to Interchange Fees",
       "excerpt": "How card payment economics really work — who gets paid, why merchants care, and how interchange shapes the modern payments ecosystem.",
@@ -119,7 +109,7 @@
       "title": "The Lifecycle of a Payment: From Tap to Everything That Follows",
       "excerpt": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
       "date": "17 APR 2026",
-      "author": "AUTHOR",
+      "author": "Panasa Team",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "lifecycle-of-a-payment",
       "href": "blog/lifecycle-of-a-payment"
@@ -129,7 +119,7 @@
       "title": "Anatomy of a Swipe: What Really Happens When You Tap Your Card",
       "excerpt": "A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.",
       "date": "16 APR 2026",
-      "author": "AUTHOR",
+      "author": "Panasa Team",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "anatomy-of-a-swipe",
       "href": "blog/anatomy-of-a-swipe"

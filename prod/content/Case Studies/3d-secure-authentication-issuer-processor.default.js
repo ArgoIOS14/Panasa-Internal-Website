@@ -12,7 +12,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
   },
   "slug": "3d-secure-authentication-issuer-processor",
   "meta": {
-    "title": "Implementing 3D Secure Authentication for a Global Issuer Processor | Panasa Case Study",
+    "title": "3D Secure Authentication for a Global Issuer Processor | Panasa",
     "description": "How Panasa delivered PSD2 SCA + 3DS2 authentication across multiple BIN ranges and ACS providers for an AI-first global issuer processor.",
     "canonical": "https://www.panasatech.com/case-studies/3d-secure-authentication-issuer-processor",
     "ogImage": "https://www.panasatech.com/assets/cs-3d-secure-hero-bg.webp"
