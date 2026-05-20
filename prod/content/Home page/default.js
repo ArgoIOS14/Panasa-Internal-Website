@@ -260,7 +260,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-1.svg",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -284,7 +284,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-2.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -308,7 +308,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-3.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {

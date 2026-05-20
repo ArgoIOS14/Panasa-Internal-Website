@@ -113,13 +113,10 @@
     }
     </script>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" as="style" />
     <link rel="preload" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" as="style" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
@@ -136,9 +133,9 @@
     <div class="page">
       <header class="site-header" id="top">
         <nav class="nav">
-          <div class="brand">
+          <a class="brand" href="/" aria-label="Panasa home">
             <img src="assets/logo.svg" alt="Panasa" data-bind="logo" fetchpriority="high" />
-          </div>
+          </a>
           <button class="nav-toggle" aria-label="Open navigation">
             <span></span>
             <span></span>
@@ -216,16 +213,16 @@
                     <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
                     <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
                     <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-accelovate.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-paymentology.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-crunch.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-ribbon-gi.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-kani.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-88-eu.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-osper.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-paci.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-prosper.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-dialect.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-accelovate.svg" alt="Accelovate" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-paymentology.svg" alt="Paymentology" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-crunch.svg" alt="Crunch" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-ribbon-gi.svg" alt="Ribbon GI" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-kani.svg" alt="Kani" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-88-eu.svg" alt="88 EU" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-osper.svg" alt="Osper" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
                   </div>
                 </div>
               </div>
@@ -390,7 +387,7 @@
                     <span class="eyebrow">CONFIDENTIAL ISSUER PROCESSOR</span>
                     <h3>Built and Now Operating Card Issuing Platform Processing 10M+ Transactions Monthly</h3>
                     <p>Leading issuer processor needed to rapidly scale their card platform while minimizing downtime and reducing operational costs.</p>
-                    <a class="btn btn-dark results-cta" href="contact">Read Full Case Study</a>
+                    <a class="btn btn-dark results-cta" href="resources?filter=case-studies">Read Full Case Study</a>
                   </div>
                   <div class="results-metrics">
                     <div class="results-metric"><span class="results-metric-value">6</span><span class="results-metric-label">Months to Live</span></div>
@@ -405,7 +402,7 @@
                     <span class="eyebrow">NEOBANK PLATFORM</span>
                     <h3>Scaled and Stabilized Digital Banking Platform Handling High Volume Transactions Across Multiple Markets</h3>
                     <p>Fast-growing neobank required improved system reliability, faster issue resolution, and scalable infrastructure to support increasing transaction volumes across regions.</p>
-                    <a class="btn btn-dark results-cta" href="contact">Read Full Case Study</a>
+                    <a class="btn btn-dark results-cta" href="resources?filter=case-studies">Read Full Case Study</a>
                   </div>
                   <div class="results-metrics">
                     <div class="results-metric"><span class="results-metric-value">99.98%</span><span class="results-metric-label">Uptime</span></div>
@@ -420,7 +417,7 @@
                     <span class="eyebrow">PAYMENT SERVICE PROVIDER</span>
                     <h3>Modernized Payment Processing System Improving Performance, Reliability, and Operational Efficiency</h3>
                     <p>Established PSP needed to upgrade legacy systems, reduce downtime, and enhance monitoring to support seamless payment processing and operational continuity.</p>
-                    <a class="btn btn-dark results-cta" href="contact">Read Full Case Study</a>
+                    <a class="btn btn-dark results-cta" href="resources?filter=case-studies">Read Full Case Study</a>
                   </div>
                   <div class="results-metrics">
                     <div class="results-metric"><span class="results-metric-value">70%</span><span class="results-metric-label">Less Downtime</span></div>

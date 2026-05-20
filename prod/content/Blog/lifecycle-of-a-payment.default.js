@@ -51,7 +51,7 @@ window.DEFAULT_BLOG_CONTENT = {
       "text": "We've cut online processing pipelines from 900ms to under 120ms, here's how.",
       "cta": {
         "label": "View Case Study",
-        "href": "../contact",
+        "href": "../resources?filter=case-studies",
         "variant": "ghost"
       }
     },

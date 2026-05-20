@@ -31,7 +31,7 @@ h4,
 h5,
 h6,
 button {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
 }
 
 a {
@@ -56,7 +56,7 @@ textarea {
   justify-content: center;
   gap: 8px;
   border-radius: 10px;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-weight: 600;
   transition:
     transform var(--motion-duration-fast) var(--motion-ease-standard),
@@ -190,9 +190,56 @@ textarea {
   color: #74807d;
 }
 
+.service-breadcrumb {
+  position: relative;
+  z-index: 1;
+  padding-top: 20px;
+}
+
+.service-breadcrumb ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #4a5754;
+}
+
+.service-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-breadcrumb li + li::before {
+  content: '/';
+  color: rgba(22, 27, 26, 0.35);
+  font-weight: 500;
+}
+
+.service-breadcrumb a {
+  color: #2c3533;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.service-breadcrumb a:hover,
+.service-breadcrumb a:focus-visible {
+  color: #16ab6d;
+  text-decoration: underline;
+}
+
+.service-breadcrumb [aria-current="page"] {
+  color: #74807d;
+}
+
 .service-hero {
   position: relative;
-  padding-top: 42px;
+  padding-top: 22px;
   padding-bottom: 14px;
 }
 
@@ -379,7 +426,7 @@ textarea {
 
 .hero-stat-card strong {
   display: block;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 28px;
   line-height: 1;
   letter-spacing: -0.06em;
@@ -430,7 +477,7 @@ textarea {
 .challenge-number {
   display: block;
   margin-bottom: 18px;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 22px;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -547,7 +594,7 @@ textarea {
   border: 2px solid #c8cfcc;
   display: grid;
   place-items: center;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 26px;
   line-height: 1;
   color: #2a8e68;
@@ -699,7 +746,7 @@ textarea {
 
 .deliverables-number {
   display: block;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 18px;
   line-height: 1;
   font-weight: 600;
@@ -941,7 +988,7 @@ textarea {
   height: 24px;
   display: grid;
   place-items: center;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 700;
   color: #ffffff;
@@ -1246,7 +1293,7 @@ textarea {
   padding: 0 18px;
   border-radius: 9px;
   background: #16ab6d;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 12px;
   line-height: 1;
   font-weight: 700;

@@ -49,8 +49,13 @@ const initResources = async () => {
 
   const fresh = await loadResourcesContent();
   if (fresh && fresh !== fallback) {
+    // Apply meta title BEFORE rendering so the section can capture it as the
+    // base for filter-prefixed titles ("Blogs | Resources | Panasa" etc.).
+    if (fresh.meta?.title) {
+      document.title = fresh.meta.title;
+      if (document.body) delete document.body.dataset.resourcesBaseTitle;
+    }
     renderResources(fresh);
-    if (fresh.meta?.title) document.title = fresh.meta.title;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc && fresh.meta?.description) {
       metaDesc.setAttribute('content', fresh.meta.description);

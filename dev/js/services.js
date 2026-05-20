@@ -770,7 +770,7 @@ const applyLegacyModernisationTextOverrides = () => {
     }
     if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
     if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
+    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'resources?filter=case-studies');
     if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
     const heroStats = [
@@ -903,7 +903,7 @@ const applyServiceMode = () => {
   const heroActions = document.querySelectorAll('.service-hero .hero-action-label');
   const heroActionLinks = document.querySelectorAll('.service-hero .hero-actions a');
   if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
+  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'resources?filter=case-studies');
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
   deliverablesSection.classList.remove(

@@ -92,6 +92,18 @@ const updateUrl = (filterSlug, page) => {
   window.history.replaceState({}, '', next);
 };
 
+// Keep the page <title> in sync with the active filter so browser history /
+// tab labels reflect the current view. Base title is whatever the HTML / meta
+// already set (e.g. "Resources | Panasa"); filtered views get prefixed with
+// the filter label, e.g. "Blogs | Resources | Panasa".
+const updateDocumentTitle = (filterLabel) => {
+  const base = document.body?.dataset.resourcesBaseTitle || document.title;
+  if (document.body && !document.body.dataset.resourcesBaseTitle) {
+    document.body.dataset.resourcesBaseTitle = base;
+  }
+  document.title = !filterLabel || filterLabel === 'All' ? base : `${filterLabel} | ${base}`;
+};
+
 const getInitialFilter = (filters) => {
   const params = new URLSearchParams(window.location.search);
   const raw = (params.get('filter') || '').toLowerCase();
@@ -321,6 +333,7 @@ export const renderResources = (data) => {
     // #6: keep the URL in sync
     const slug = findByFilter(activeFilter)?.slug || 'all';
     updateUrl(slug, currentPage);
+    updateDocumentTitle(activeFilter);
   };
 
   const animatedRender = () => {

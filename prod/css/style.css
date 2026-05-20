@@ -24,7 +24,7 @@
    --type-micro   : 12px — badges, labels, fine print
    --type-support : 14px — captions, helper text, nav items
    --type-body    : 15px — default body copy
-   Headings use the Lufga font stack; body uses InterVariable / Inter.
+   Headings and body both use the InterVariable / Inter stack.
 
    ========================================================================== */
 
@@ -73,7 +73,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
 }
 
 .page {
@@ -204,7 +204,7 @@ ul {
 .btn {
   border-radius: 10px;
   padding: 11px 18px;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
@@ -374,7 +374,7 @@ ul {
 }
 
 .cert-strip-title {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.25;
@@ -592,6 +592,7 @@ section {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
+  padding-inline: 6px;
 }
 
 .services-feature-copy {
@@ -2115,7 +2116,7 @@ section {
     min-height: 380px;
     height: auto;
     flex-direction: row;
-    border: 1px solid #e4e7e5;
+    border: 1px solid #d9e0db;
   }
 
   .results-card::before {
@@ -2169,7 +2170,7 @@ section {
   }
 
   .results-metric-value {
-    font-family: 'Lufga', sans-serif;
+    font-family: 'InterVariable', 'Inter', sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
     color: #1a1a1a;
@@ -2261,7 +2262,7 @@ section {
     max-width: 300px;
     margin-left: auto;
     margin-right: auto;
-    padding: 10px 0 0;
+    padding: 10px 0;
   }
 
   .engagement-grid.growth-packages-active {
