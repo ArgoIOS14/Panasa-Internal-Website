@@ -551,6 +551,12 @@ ul { list-style: none; }
   gap: 18px;
 }
 
+/* Text-mode tech stack (e.g. 3D Secure): two-column layout so paired
+   description cards line up at a comfortable reading width. */
+.case-tech-groups[data-mode="text"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .case-tech-group {
   display: flex;
   flex-direction: column;
@@ -1071,9 +1077,41 @@ ul { list-style: none; }
   .case-approach-flow[data-count="5"],
   .case-approach-flow[data-count="6"] {
     grid-template-columns: 1fr;
+    row-gap: 22px;
+  }
+
+  /* Vertical timeline layout: number circle on the left, title + body on the
+     right, with a continuous line connecting each step's circle to the next. */
+  .case-approach-step {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    column-gap: 14px;
+    row-gap: 4px;
+    padding: 0;
+    align-items: start;
+  }
+  .case-approach-step-num {
+    grid-row: 1 / span 2;
+    align-self: start;
+    margin-bottom: 0;
+  }
+  .case-approach-step-title,
+  .case-approach-step-body {
+    grid-column: 2;
+  }
+  .case-approach-step:not(:last-child)::after {
+    top: 32px;
+    left: 13px;
+    right: auto;
+    bottom: -22px;
+    width: 1px;
+    height: auto;
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
   }
 
   .case-tech-groups,
+  .case-tech-groups[data-mode="text"],
   .case-impact-grid,
   .case-impact-grid[data-count="4"],
   .case-impact-grid[data-count="2"],
@@ -1086,4 +1124,14 @@ ul { list-style: none; }
     grid-template-columns: 1fr;
   }
   .bento-tile { min-height: 180px; }
+
+  /* Newsletter: collapse the 2-column layout to a single stacked column on
+     narrow viewports so the form doesn't overflow into the copy. */
+  .case-newsletter {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+    gap: 18px;
+    margin: 0 16px 48px;
+  }
+  .case-newsletter-form-wrap { align-self: stretch; }
 }

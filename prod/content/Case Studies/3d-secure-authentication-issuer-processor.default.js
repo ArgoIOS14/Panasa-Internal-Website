@@ -27,7 +27,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
     {
       "icon": "assets/cs-meta-location.svg",
       "label": "LOCATION",
-      "value": "40+ Countries"
+      "value": "50+ Countries"
     },
     {
       "icon": "assets/cs-meta-industry.svg",

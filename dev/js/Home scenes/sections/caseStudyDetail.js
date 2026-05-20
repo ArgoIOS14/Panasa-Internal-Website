@@ -269,7 +269,9 @@ const renderCallout = (section) => {
 /* ── Approach (toggleable: horizontal numbered steps OR shared bento grid). */
 const renderApproach = (section) => {
   const wrap = createEl('section', 'case-section case-section--approach');
-  wrap.appendChild(renderSectionHeader(section));
+  // Skip the outer section header — the approach card carries its own green
+  // eyebrow + summary, so a duplicate white "Our Approach" title above would
+  // be redundant.
 
   const mode = section.renderMode === 'bento' ? 'bento' : 'steps';
   wrap.dataset.renderMode = mode;
@@ -324,6 +326,13 @@ const renderTechStack = (section) => {
   const wrap = createEl('section', 'case-section case-section--tech');
   wrap.appendChild(renderSectionHeader(section));
   const groups = createEl('div', 'case-tech-groups');
+  // Text-only mode: every group ships a description and no logos. Used for
+  // 3D Secure-style stacks where each capability is described in prose
+  // rather than represented by vendor logos.
+  const allText = (section.groups || []).length > 0
+    && (section.groups || []).every(g => !Array.isArray(g.logos) || g.logos.length === 0)
+    && (section.groups || []).some(g => g.description);
+  if (allText) groups.dataset.mode = 'text';
   (section.groups || []).forEach((group) => {
     const col = createEl('div', 'case-tech-group');
     if (group.label) {

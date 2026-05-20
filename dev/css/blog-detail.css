@@ -774,14 +774,26 @@ ul { list-style: none; }
   }
 
   .blog-meta-strip {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: 14px;
     margin: 22px auto 36px;
     padding: 16px 16px 0;
   }
 
-  .blog-share { flex-wrap: wrap; }
+  /* Icon-only share buttons on mobile — hides the textual labels and
+     collapses each button into a compact pill. */
+  .blog-share { flex-wrap: nowrap; gap: 8px; }
+  .blog-share-btn [data-share-label] { display: none; }
+  .blog-share-btn {
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    gap: 0;
+  }
+  .blog-share-icon { width: 16px; height: 16px; }
 
   .blog-newsletter {
     margin: 0 auto 48px;

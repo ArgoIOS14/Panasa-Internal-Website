@@ -105,26 +105,22 @@ window.DEFAULT_CASE_STUDY_CONTENT =
           "label": "CUSTOMER CARE",
           "logos": [
             {
+              "src": "assets/cs-tech-intercom.svg",
+              "alt": "Intercom"
+            },
+            {
               "src": "assets/cs-tech-twilio.svg",
               "alt": "Twilio"
             },
             {
               "src": "assets/cs-tech-freshdesk.svg",
               "alt": "Freshdesk"
-            },
-            {
-              "src": "assets/cs-tech-intercom.svg",
-              "alt": "Intercom"
             }
           ]
         },
         {
           "label": "CUSTOMER ONBOARDING",
           "logos": [
-            {
-              "src": "assets/cs-tech-jira.svg",
-              "alt": "Jira"
-            },
             {
               "src": "assets/cs-tech-process.svg",
               "alt": "Process"
@@ -135,16 +131,16 @@ window.DEFAULT_CASE_STUDY_CONTENT =
           "label": "FRAUD DETECTION",
           "logos": [
             {
-              "src": "assets/cs-tech-cardinal.svg",
-              "alt": "Cardinal"
+              "src": "assets/cs-tech-featurespace.svg",
+              "alt": "Featurespace"
             },
             {
               "src": "assets/cs-tech-d8.svg",
               "alt": "D8"
             },
             {
-              "src": "assets/cs-tech-featurespace.svg",
-              "alt": "Featurespace"
+              "src": "assets/cs-tech-cardinal.svg",
+              "alt": "Cardinal"
             }
           ]
         },

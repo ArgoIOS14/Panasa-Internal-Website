@@ -285,9 +285,11 @@ export const renderResources = (data) => {
       slice.forEach((item) => gridEl.appendChild(renderCard(item)));
     }
 
-    // #7: hide pagination row entirely when there are no results
+    // #7: hide the pagination row entirely when it serves no purpose —
+    // either there are no results, or everything fits on a single page so
+    // the rows-per-page selector and page nav would be redundant.
     if (paginationEl instanceof HTMLElement) {
-      paginationEl.hidden = filtered.length === 0;
+      paginationEl.hidden = filtered.length === 0 || pages <= 1;
     }
 
     if (pageIndicator) pageIndicator.textContent = `${currentPage} of ${pages}`;
