@@ -498,7 +498,7 @@
           { "label": "Blogs", "href": "resources?filter=blogs", "isResourcesLink": true },
           { "label": "Insights", "href": "resources?filter=insights", "isResourcesLink": true },
           { "label": "Guides", "href": "resources?filter=guides", "isResourcesLink": true },
-          { "label": "Newsletter", "href": "resources?filter=newsletter", "isResourcesLink": true, "badge": "new", "badgeText": "NEW" },
+          { "label": "Newsletter", "href": "resources", "isResourcesLink": true, "badge": "new", "badgeText": "NEW" },
           { "label": "Case Studies", "href": "resources?filter=case-studies", "isResourcesLink": true }
         ]
       },

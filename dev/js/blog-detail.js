@@ -14,7 +14,9 @@ const RESOURCES_JSON_URL = '../content/Resources/content.json';
 
 const getSlug = () =>
   document.querySelector('.blog-detail-page')?.dataset.blogSlug ||
-  (location.pathname.match(/\/blog\/([^/]+?)(?:\.html)?$/) || [])[1] ||
+  // Match either /blog/<slug> or /insights/<slug> — both content types share
+  // this renderer; the URL prefix is the only thing that differs.
+  (location.pathname.match(/\/(?:blog|insights)\/([^/]+?)(?:\.html)?$/) || [])[1] ||
   '';
 
 const loadBlogContent = async (slug) => {

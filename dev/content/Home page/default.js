@@ -533,7 +533,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Newsletter",
-            "href": "resources?filter=newsletter",
+            "href": "resources",
             "isResourcesLink": true,
             "badge": "new",
             "badgeText": "NEW"

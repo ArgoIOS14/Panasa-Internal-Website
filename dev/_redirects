@@ -26,7 +26,9 @@
 /blog/3d-secure-authentication-card-program.html   /blog/3d-secure-authentication-card-program        301!
 /blog/anatomy-of-a-swipe.html                      /blog/anatomy-of-a-swipe                           301!
 /blog/card-controls-fraud-prevention.html          /blog/card-controls-fraud-prevention               301!
-/blog/lifecycle-of-a-payment.html                  /blog/lifecycle-of-a-payment                       301!
+/insights/lifecycle-of-a-payment.html              /insights/lifecycle-of-a-payment                   301!
+/blog/lifecycle-of-a-payment.html                  /insights/lifecycle-of-a-payment                   301!
+/blog/lifecycle-of-a-payment                       /insights/lifecycle-of-a-payment                   301!
 /careers.html                                      /careers                                           301!
 /case-studies/3d-secure-authentication-issuer-processor.html /case-studies/3d-secure-authentication-issuer-processor 301!
 /case-studies/flexible-card-issuance-platform-issuer-processor.html /case-studies/flexible-card-issuance-platform-issuer-processor 301!

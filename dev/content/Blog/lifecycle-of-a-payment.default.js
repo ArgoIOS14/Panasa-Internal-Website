@@ -2,7 +2,7 @@ window.DEFAULT_BLOG_CONTENT = {
   "meta": {
     "title": "The Lifecycle of a Payment: From Tap to Everything That Follows | Panasa",
     "description": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
-    "canonical": "https://www.panasatech.com/blog/lifecycle-of-a-payment",
+    "canonical": "https://www.panasatech.com/insights/lifecycle-of-a-payment",
     "ogImage": "https://www.panasatech.com/assets/og-image.png"
   },
   "slug": "lifecycle-of-a-payment",
