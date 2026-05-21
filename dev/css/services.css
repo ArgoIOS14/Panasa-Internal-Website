@@ -191,9 +191,10 @@ textarea {
 }
 
 .service-breadcrumb {
-  position: relative;
-  z-index: 1;
-  padding-top: 20px;
+  /* Hidden for now — the bare left-aligned breadcrumb clashes with the
+     centered hero layout. JSON-LD BreadcrumbList schema (in <head>) still
+     gives Google the breadcrumb trail for search results. */
+  display: none;
 }
 
 .service-breadcrumb ol {
