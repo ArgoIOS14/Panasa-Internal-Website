@@ -167,7 +167,7 @@ const AI_ACCELERATED_COPY = {
       },
       {
         heading: 'Full-Stack Team',
-        body: 'From strategy to 24x7 ops-no vendor juggling needed. One team, end-to-end ownership.',
+        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
       },
       {
         heading: 'Compliance-First Approach',
@@ -619,7 +619,7 @@ const applyIntelligentOperationsTextOverrides = () => {
         </div>
         <p>
           The point isn't just to keep things running.
-          It's to run them well enough that operations.
+          It's to run them well enough that operations become a growth function, not a cost centre.
         </p>
       </div>
 
@@ -673,7 +673,7 @@ const applyIntelligentOperationsTextOverrides = () => {
       },
       {
         title: 'Full-Stack Team',
-        body: 'From strategy to 24x7 ops-no vendor juggling needed. One team, end-to-end ownership.',
+        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
       },
       {
         title: 'Compliance-First Approach',
@@ -770,7 +770,7 @@ const applyLegacyModernisationTextOverrides = () => {
     }
     if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
     if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
+    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'resources?filter=case-studies');
     if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
     const heroStats = [
@@ -903,7 +903,7 @@ const applyServiceMode = () => {
   const heroActions = document.querySelectorAll('.service-hero .hero-action-label');
   const heroActionLinks = document.querySelectorAll('.service-hero .hero-actions a');
   if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
+  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'resources?filter=case-studies');
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
   deliverablesSection.classList.remove(
@@ -1190,7 +1190,7 @@ const applyServiceMode = () => {
           </h2>
         </div>
         <p>
-          The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain faster.
+          The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain and faster to change.
         </p>
       </div>
 
@@ -1231,7 +1231,7 @@ const applyServiceMode = () => {
     setSafeHTML(content, `
       <article class="domain-card">
         <h3>Transaction monitoring and uptime</h3>
-        <p>24×7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
+        <p>24x7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
       </article>
       <article class="domain-card">
         <h3>Fraud and risk handling</h3>

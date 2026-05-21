@@ -17,7 +17,7 @@
 }
 
 .privacy-hero h1 {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: clamp(2rem, 3vw, 3rem);
   font-weight: 700;
   line-height: 1.15;
@@ -64,7 +64,7 @@
 }
 
 .privacy-toc-inner h2 {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-dark);
@@ -114,7 +114,7 @@
 }
 
 .privacy-body h2 {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 1.55rem;
   font-weight: 700;
   color: var(--text-dark);
@@ -131,7 +131,7 @@
 }
 
 .privacy-body h3 {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--text-dark);

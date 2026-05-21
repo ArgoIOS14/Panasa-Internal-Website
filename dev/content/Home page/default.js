@@ -32,6 +32,28 @@ window.DEFAULT_CONTENT = {
         ]
       },
       {
+        "label": "Resources",
+        "href": "resources",
+        "children": [
+          {
+            "label": "Blogs",
+            "href": "resources?filter=blogs"
+          },
+          {
+            "label": "Insights",
+            "href": "resources?filter=insights"
+          },
+          {
+            "label": "Guides",
+            "href": "resources?filter=guides"
+          },
+          {
+            "label": "Case Studies",
+            "href": "resources?filter=case-studies"
+          }
+        ]
+      },
+      {
         "label": "Careers",
         "href": "careers"
       }
@@ -97,21 +119,22 @@ window.DEFAULT_CONTENT = {
         "alt": "Dialect"
       }
     ],
+    "certTitle": "Compliance-Ready\nFintech Systems",
     "certBadges": [
       {
-        "src": "assets/badge-gdpr.svg",
+        "src": "assets/cert-gdpr.svg",
         "alt": "GDPR"
       },
       {
-        "src": "assets/badge-iso.svg",
+        "src": "assets/cert-iso.svg",
         "alt": "ISO 27001"
       },
       {
-        "src": "assets/badge-gptw.svg",
+        "src": "assets/cert-gptw.svg",
         "alt": "Great Place to Work"
       },
       {
-        "src": "assets/badge-pci.svg",
+        "src": "assets/cert-pci.svg",
         "alt": "PCI"
       }
     ]
@@ -237,7 +260,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-1.svg",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -261,7 +284,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-2.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -285,7 +308,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-3.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -446,10 +469,10 @@ window.DEFAULT_CONTENT = {
   },
   "footer": {
     "ctaTitle": "Ready to Build Your Card Platform",
-    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.",
+    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24x7 operations.",
     "ctaButton": "Book a Meeting",
     "ctaHref": "contact",
-    "showResources": false,
+    "showResources": true,
     "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
     "email": "info@panasatech.com",
     "phones": [
@@ -474,7 +497,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Resources",
-            "href": "#resources",
+            "href": "resources",
             "isResourcesLink": true
           },
           {
@@ -495,29 +518,29 @@ window.DEFAULT_CONTENT = {
         "links": [
           {
             "label": "Blogs",
-            "href": "#resources",
+            "href": "resources?filter=blogs",
             "isResourcesLink": true
           },
           {
             "label": "Insights",
-            "href": "#resources",
+            "href": "resources?filter=insights",
             "isResourcesLink": true
           },
           {
             "label": "Guides",
-            "href": "#resources",
+            "href": "resources?filter=guides",
             "isResourcesLink": true
           },
           {
             "label": "Newsletter",
-            "href": "#resources",
+            "href": "resources",
             "isResourcesLink": true,
             "badge": "new",
             "badgeText": "NEW"
           },
           {
             "label": "Case Studies",
-            "href": "#resources",
+            "href": "resources?filter=case-studies",
             "isResourcesLink": true
           }
         ]

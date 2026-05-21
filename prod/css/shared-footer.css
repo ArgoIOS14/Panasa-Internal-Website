@@ -29,7 +29,7 @@
 }
 
 .footer-cta h2 {
-  font-family: 'Lufga', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: clamp(1.5rem, 2.4vw, 1.95rem);
   font-weight: 700;
   line-height: 1.08;
@@ -53,7 +53,7 @@
   gap: 8px;
   padding: 12px 22px;
   border-radius: 10px;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 600;
   background: #121414;
@@ -223,7 +223,8 @@
   white-space: nowrap;
 }
 
-.footer-links a .footer-link-badge-hiring {
+.footer-links a .footer-link-badge-hiring,
+.footer-links a .footer-link-badge-new {
   background: #ffffff;
   color: #16ab6d !important;
   border: none;
@@ -242,19 +243,14 @@
 }
 
 @media (max-width: 640px) {
-  .footer-links a .footer-link-badge-hiring {
+  .footer-links a .footer-link-badge-hiring,
+  .footer-links a .footer-link-badge-new {
     font-size: 7px;
     min-width: 26px;
     height: 10px;
     padding: 0 5px;
     border-radius: 2.5px;
   }
-}
-
-.footer-link-badge-new {
-  background: rgba(22, 171, 109, 0.18);
-  color: #39d17f;
-  border: 1px solid rgba(22, 171, 109, 0.3);
 }
 
 /* Bottom bar */

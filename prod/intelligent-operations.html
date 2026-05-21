@@ -20,15 +20,13 @@
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
     <link rel="canonical" href="https://www.panasatech.com/intelligent-operations" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
-    <link rel="stylesheet" href="css/services.css?v=2.1" />
-    <link rel="stylesheet" href="css/shared-logo-marquee.css?v=2.1" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="css/shared-footer.css?v=2.1" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="css/email-capture.css?v=2.1" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-layout.css?v=3.0" />
+    <link rel="stylesheet" href="css/services.css?v=3.0" />
+    <link rel="stylesheet" href="css/shared-logo-marquee.css?v=3.0" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/shared-footer.css?v=3.0" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="css/email-capture.css?v=3.0" media="print" onload="this.media='all'" />
     <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/intelligent-operations" />
     <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/intelligent-operations" />
     <script type="application/ld+json">
@@ -115,6 +113,13 @@
       </header>
 
       <main>
+        <nav class="service-breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href="services">Services</a></li>
+            <li aria-current="page">Intelligent Operations</li>
+          </ol>
+        </nav>
         <section class="service-hero" data-animate>
           <div class="service-hero-copy" data-animate>
             <span class="pill">INTELLIGENT OPERATIONS</span>
@@ -130,7 +135,7 @@
                 <img class="hero-action-icon" src="assets/hero-cta-talk-icon.svg" alt="" aria-hidden="true" />
                 <span class="hero-action-label">Talk to our team</span>
               </a>
-              <a class="btn btn-ghost" href="/#case-studies">
+              <a class="btn btn-ghost" href="resources?filter=case-studies">
                 <img class="hero-action-icon" src="assets/hero-cta-casestudy-icon.svg" alt="" aria-hidden="true" />
                 <span class="hero-action-label">View Case Studies</span>
               </a>
@@ -322,7 +327,7 @@
               </h2>
             </div>
             <p>
-              The point isn't just to keep things running. It's to run them well enough that operations.
+              The point isn't just to keep things running. It's to run them well enough that operations become a growth function, not a cost centre.
             </p>
           </div>
 
@@ -388,7 +393,7 @@
               <div>
                 <h3>Full-Stack Team</h3>
                 <p>
-                  From strategy to 24x7 ops-no vendor juggling needed. One team,
+                  From strategy to 24x7 ops — no vendor juggling needed. One team,
                   end-to-end ownership.
                 </p>
               </div>
@@ -454,7 +459,7 @@
         <div class="footer-cta" data-animate>
           <div>
             <h2 data-footer-cta-title>Ready to Build Your Card Platform</h2>
-            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.</p>
+            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24x7 operations.</p>
           </div>
           <a class="btn btn-dark" data-footer-cta-button href="contact">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
@@ -487,8 +492,17 @@
                 <a href="/">Home</a>
                 <a href="about">About Us</a>
                 <a href="services">Services</a>
+                <a href="resources">Resources</a>
                 <a href="careers">Careers <span class="footer-link-badge footer-link-badge-hiring">HIRING!</span></a>
                 <a href="contact">Contact</a>
+              </div>
+              <div>
+                <h4>Resources</h4>
+                <a href="resources?filter=blogs">Blogs</a>
+                <a href="resources?filter=insights">Insights</a>
+                <a href="resources?filter=guides">Guides</a>
+                <a href="resources">Newsletter <span class="footer-link-badge footer-link-badge-new">NEW</span></a>
+                <a href="resources?filter=case-studies">Case Studies</a>
               </div>
               <div>
                 <h4>Services</h4>
@@ -512,6 +526,6 @@
     </div>
 
     <script src="content/Home page/default.js" defer></script>
-    <script type="module" src="js/services.js?v=2.1"></script>
+    <script type="module" src="js/services.js?v=3.0"></script>
   </body>
 </html>

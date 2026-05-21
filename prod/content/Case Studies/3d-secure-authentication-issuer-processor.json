@@ -1,0 +1,174 @@
+{
+  "category": "Case Study",
+  "newsletter": {
+    "eyebrow": "NEWSLETTER",
+    "title": "Enjoyed this Case Study?",
+    "titleAccent": "Get Payments Deconstructed.",
+    "description": "Our fortnightly newsletter simplifying the intricacies of the payments ecosystem, from authorization flows to disputes.",
+    "formNote": "No spam. Unsubscribe anytime.",
+    "placeholder": "Enter Email Address",
+    "submitLabel": "Subscribe"
+  },
+  "slug": "3d-secure-authentication-issuer-processor",
+  "meta": {
+    "title": "3D Secure Authentication for a Global Issuer Processor | Panasa",
+    "description": "How Panasa delivered PSD2 SCA + 3DS2 authentication across multiple BIN ranges and ACS providers for an AI-first global issuer processor.",
+    "canonical": "https://www.panasatech.com/case-studies/3d-secure-authentication-issuer-processor",
+    "ogImage": "https://www.panasatech.com/assets/cs-3d-secure-hero-bg.webp"
+  },
+  "hero": {
+    "eyebrow": "CASE STUDY",
+    "titleAccent": "Implementing 3D Secure Authentication",
+    "titleSuffix": "for a Global Issuer Processor",
+    "background": "assets/cs-3d-secure-hero-bg.webp"
+  },
+  "metaTiles": [
+    {
+      "icon": "assets/cs-meta-location.svg",
+      "label": "LOCATION",
+      "value": "50+ Countries"
+    },
+    {
+      "icon": "assets/cs-meta-industry.svg",
+      "label": "INDUSTRY",
+      "value": "Issuer Processor"
+    },
+    {
+      "icon": "assets/cs-meta-team.svg",
+      "label": "TEAM SIZE",
+      "value": "6-8 People"
+    },
+    {
+      "icon": "assets/cs-meta-duration.svg",
+      "label": "DURATION",
+      "value": "Ongoing"
+    },
+    {
+      "icon": "assets/cs-meta-budget.svg",
+      "label": "BUDGET",
+      "value": "NDA"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "body": "<p>Our client is an AI-first and cloud-enabled issuer processor, providing digital payment, card issuance and financial services for fintechs, digital banks and other finance providers. Their platform integrates with global payment providers like Visa, Mastercard and Discover and supports card programs across 50+ countries. Through a single API and unified platform, they deliver debit, credit, digital wallet and ledger capabilities.</p>"
+    },
+    {
+      "type": "overview",
+      "title": "The Challenge",
+      "body": "<p>When PSD2's Strong Customer Authentication mandate came into force, payment providers had to ensure that every payment was verified using factors such as a password or PIN, a phone, and a fingerprint or face scan. Our Client had to build or integrate an authentication layer that could challenge the cardholder, send an OTP, trigger a banking app notification, request a biometric and only pass the transaction through once that challenge was satisfied.</p><p>For our client, meeting SCA requirements across a platform handling multiple BIN ranges wasn't a single integration but rather a series of decisions about how authentication worked for different card types, transaction profiles, and user contexts, all of which had to be resolved at the same time. The system also had to support a range of methods like OTP via SMS or email, Out-of-Band flows (OOB), Knowledge-Based Authentication (KBA) and biometrics while routing each transaction to the right one automatically.</p><p>Then there was the operational reality. Deploying 3D Secure had to happen rapidly with minimal disruption to live transactions, and the system had to integrate cleanly with multiple Access Control Server (ACS) providers, which are the servers on the issuing bank's side that run the authentication challenge when one is triggered.</p>"
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Struggling with transaction latency?",
+      "text": "We've optimized processing pipelines from 800ms to under 100ms. Here's how.",
+      "cta": {
+        "label": "View Case Study",
+        "href": "case-studies/operations-backbone-global-issuer-processor",
+        "variant": "dark"
+      }
+    },
+    {
+      "type": "approach",
+      "title": "Our Approach",
+      "renderMode": "steps",
+      "cardEyebrow": "Our Approach",
+      "cardSummary": "We structured the implementation across four key phases to build a scalable and operationally flexible authentication platform.",
+      "steps": [
+        {
+          "index": "01",
+          "title": "Authentication Flows",
+          "body": "Implemented OTP, biometric, and KBA-based authentication with flexible delivery methods."
+        },
+        {
+          "index": "02",
+          "title": "Setup & Integration",
+          "body": "Integrated ACS providers, 3DS flows, and fallback authentication mechanisms."
+        },
+        {
+          "index": "03",
+          "title": "Rule Management",
+          "body": "Configured dynamic risk rules for real-time transaction evaluation and decisioning."
+        },
+        {
+          "index": "04",
+          "title": "End-to-End Testing",
+          "body": "Validated live payment scenarios through UAT, pilot cards, and network testing."
+        }
+      ]
+    },
+    {
+      "type": "techStack",
+      "title": "Technology Stack",
+      "groups": [
+        {
+          "label": "AUTHENTICATION",
+          "description": "OTP, Out-of-Band, KBA, biometric & behavioural authentication."
+        },
+        {
+          "label": "ACS INTEGRATION",
+          "description": "Cardinal and Apata integrations for 3DS authentication flows"
+        },
+        {
+          "label": "API SURFACE",
+          "description": "SOAP & REST APIs for enrolment and real-time updates"
+        },
+        {
+          "label": "OTP DELIVERY",
+          "description": "SMS provider integrations for secure OTP delivery"
+        }
+      ]
+    },
+    {
+      "type": "impactGrid",
+      "title": "Business Impact",
+      "summary": "Secure authentication improvements enabling seamless PSD2 SCA adoption across live card operations.",
+      "items": [
+        {
+          "title": "PSD2 Compliance",
+          "label": "Successfully implemented PSD2 SCA obligations across all BIN ranges and card products.",
+          "tag": "100% COMPLIANT"
+        },
+        {
+          "title": "Seamless Rollout",
+          "label": "Auto-enrolment enabled live and active cards without operational disruption.",
+          "tag": "ZERO DISRUPTION"
+        },
+        {
+          "title": "Smart Exemptions",
+          "label": "Handled PSD2 exemptions correctly for low-risk and recurring transactions.",
+          "tag": "FRICTION REDUCED"
+        },
+        {
+          "title": "Flexible Authentication",
+          "label": "Enabled OTP, KBA, behavioural biometrics, and configurable fallback authentication flows.",
+          "tag": "MULTI-LAYER SECURITY"
+        }
+      ]
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Building a new card platform?",
+      "text": "Our engineering team has done this across 6 issuer processors. Let's compare notes.",
+      "cta": {
+        "label": "Talk to our team",
+        "href": "contact",
+        "variant": "dark"
+      }
+    },
+    {
+      "type": "conclusion",
+      "title": "Conclusion",
+      "body": "<p>For a fast-growing issuer processor, implementing 3D Secure is not just a regulatory requirement but also a foundation for scale. We saw how much it could change the picture for our client and delivered an authentication layer that is configurable and built to handle their phase of rapid growth.</p>"
+    }
+  ],
+  "relatedSlugs": [
+    "flexible-card-issuance-platform-issuer-processor",
+    "operations-backbone-global-issuer-processor",
+    "open-banking-youth-banking-platform"
+  ]
+}

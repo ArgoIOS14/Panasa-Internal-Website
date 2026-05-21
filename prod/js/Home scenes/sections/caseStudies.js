@@ -47,10 +47,11 @@ export const renderCaseStudies = (data) => {
 
     const cta = createEl('a', 'btn btn-dark results-cta');
     cta.textContent = slide.cta.label;
-    cta.href = 'contact';
+    const ctaHref = slide.cta.href || 'resources?filter=case-studies';
+    cta.href = ctaHref;
     cta.addEventListener('click', (event) => {
       event.preventDefault();
-      window.location.assign('contact');
+      window.location.assign(ctaHref);
     });
 
     left.append(eyebrow, h3, p, cta);

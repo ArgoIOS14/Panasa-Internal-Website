@@ -36,6 +36,11 @@ export const renderHero = (data) => {
   logosContainer?.classList.add('logo-marquee', 'logo-marquee-light');
   renderLogoMarquee('[data-hero-trusted-logos]', data.trustedLogos || []);
 
+  const certTitleEl = document.querySelector('[data-hero-cert-title]');
+  if (certTitleEl && data.certTitle) {
+    certTitleEl.innerHTML = data.certTitle.replace(/\n/g, '<br/>');
+  }
+
   const badges = document.querySelector('[data-hero-cert-badges]');
   if (badges) {
     badges.innerHTML = '';
@@ -46,15 +51,17 @@ export const renderHero = (data) => {
       badges.appendChild(img);
       badges.classList.add('single');
     } else if (data.certBadges) {
-      data.certBadges.forEach((badge) => {
-        const item = createEl('div', 'cert-badge-item');
-        const frame = createEl('div', 'cert-badge-frame');
-        const img = createEl('img');
+      data.certBadges.forEach((badge, index) => {
+        if (index > 0) {
+          const dot = createEl('span', 'cert-strip-dot');
+          dot.setAttribute('aria-hidden', 'true');
+          dot.textContent = '·';
+          badges.appendChild(dot);
+        }
+        const img = createEl('img', 'cert-strip-badge');
         img.src = badge.src;
         img.alt = badge.alt;
-        frame.appendChild(img);
-        item.appendChild(frame);
-        badges.appendChild(item);
+        badges.appendChild(img);
       });
       badges.classList.remove('single');
     }

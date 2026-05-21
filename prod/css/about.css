@@ -34,7 +34,7 @@ h4,
 h5,
 h6,
 button {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
 }
 
 a {
@@ -58,7 +58,7 @@ textarea {
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-weight: 600;
   transition:
     transform var(--motion-duration-fast) var(--motion-ease-standard),
@@ -120,6 +120,7 @@ textarea {
   padding-top: 42px;
 }
 
+/* Gradient layer — extends through nav + hero. */
 .about-hero::before {
   content: '';
   position: absolute;
@@ -128,20 +129,34 @@ textarea {
   top: -120px;
   height: clamp(440px, 54vw, 560px);
   background:
-    linear-gradient(rgba(22, 171, 109, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22, 171, 109, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(120, 214, 174, 0.9) 0%, rgba(189, 238, 215, 0.68) 34%, rgba(245, 255, 250, 0.4) 68%, rgba(255, 255, 255, 0) 100%),
-    linear-gradient(180deg, #73d4ac 0%, #d8f2e4 28%, #ffffff 78%);
+    linear-gradient(180deg, #73d4ac 0%, #d8f2e4 28%, rgba(255, 255, 255, 0) 78%);
   background-size:
-    76px 76px,
-    76px 76px,
     100% 100%,
     100% 100%;
   background-position:
     center top,
-    center top,
-    center top,
     center top;
+  background-repeat: no-repeat, no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 95%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Column-line layer — fades out BEFORE the main title. */
+.about-hero::after {
+  content: '';
+  position: absolute;
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
+  top: -120px;
+  height: clamp(440px, 54vw, 560px);
+  background: linear-gradient(90deg, rgba(22, 171, 109, 0.18) 1px, transparent 1px);
+  background-size: 72px 100%;
+  background-repeat: repeat-x;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
+          mask-image: linear-gradient(180deg, #000 0%, #000 120px, transparent 220px);
   z-index: -1;
   pointer-events: none;
 }
@@ -353,14 +368,15 @@ textarea {
 }
 
 .presence-map-shell {
-  max-width: var(--page-shell);
-  margin: 24px auto 0;
-  padding: 0 var(--page-gutter);
+  max-width: 100%;
+  margin: 24px 0 0;
+  padding: 0;
 }
 
 .presence-map-shell img {
+  display: block;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 .process-section {
@@ -406,7 +422,7 @@ textarea {
   border: 2px solid #c8cfcc;
   display: grid;
   place-items: center;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 26px;
   line-height: 1;
   color: #2a8e68;
@@ -922,7 +938,6 @@ textarea {
   }
 
   .about-stats,
-  .presence-map-shell,
   .testimonial-shell {
     padding-left: 12px;
     padding-right: 12px;
