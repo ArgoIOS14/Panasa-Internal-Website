@@ -234,7 +234,8 @@ textarea {
 }
 
 .service-breadcrumb [aria-current="page"] {
-  color: #74807d;
+  color: #4a5754;
+  font-weight: 500;
 }
 
 .service-hero {
