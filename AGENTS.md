@@ -48,6 +48,48 @@ rm -rf docs && mkdir -p docs && cp -R src/* docs/
 ```
 - `docs/` should mirror `src/` folder structure (including `content/Home page/` and `js/Home scenes/`)
 
+## QA Deploy vs Production — strict separation
+
+The site has **two deploy targets** and they must not contaminate each other:
+
+| Target | URL | Source folder | How |
+|---|---|---|---|
+| **QA** (self-serve, internal review) | `https://panasa-qa.netlify.app` | `dev/` | `npx netlify deploy --prod --build` (Netlify CLI) |
+| **Production** (live customer site) | `https://www.panasatech.com` | `prod/` | `scripts/build-deploy.sh <version>` → zip → infra → SiteGround |
+
+### Hard rule: QA-only artifacts NEVER touch `prod/`
+
+The following files exist ONLY because of the Netlify QA preview. They must stay in `dev/` (or repo root) and must never be copied, mirrored, or referenced from `prod/`:
+
+| File | What it is | Allowed locations |
+|---|---|---|
+| `dev/_redirects` | Netlify redirect rules (clean URLs, WP query-params) | `dev/` only |
+| `dev/js/qa-banner.js` | Runtime QA banner + contact-form intercept (activates only on non-prod hostnames) | `dev/js/` only |
+| `dev/qa-api-disabled.html` | Friendly 404 fallback for `/api/*` on Netlify (no PHP runtime) | `dev/` only |
+| `<script src=".../js/qa-banner.js" defer>` tag inside `<head>` | Loads the QA banner script | Only in `dev/*.html`. **Never** in `prod/*.html`. |
+| `netlify.toml` | Netlify build/publish/redirect/header config | Repo root only — no SiteGround equivalent |
+| `.qa-build/` | Netlify build output (rsync of `dev/` minus `api/`) | gitignored, regenerated per deploy |
+
+### Why this matters
+- Production site is served from `prod/` by SiteGround (Apache + PHP). The QA banner script would render a yellow "QA BUILD" banner on the live site if it leaked over.
+- `_redirects` is Netlify-specific and has no effect on Apache — but it would pollute the SiteGround web root.
+- The PHP `/api/*` endpoints work on SiteGround; on Netlify they 404 via `dev/_redirects`. The two flows MUST stay separate.
+
+### Adding new QA-only features in future
+When introducing any new scaffolding for the Netlify QA preview (a build helper, a debug overlay, a non-prod feature flag, etc.):
+1. Place the file under `dev/` only.
+2. If it's referenced from HTML, only inject the reference into `dev/*.html`. Never modify `prod/*.html` for QA purposes.
+3. If it's a config file at the repo root (like `netlify.toml`), it must not affect what `scripts/build-deploy.sh` copies. The build script copies `prod/.` into the zip; root-level QA configs are ignored automatically.
+4. Update this section of `AGENTS.md` with the new file in the table above.
+
+### Verifying the separation
+Before any production deploy, run:
+```bash
+grep -rln "qa-banner\|qa-api-disabled\|QA BUILD" prod/ || echo "clean"
+ls prod/_redirects prod/netlify.toml prod/js/qa-banner.js 2>/dev/null && echo "LEAK"
+```
+Both should print `clean` / nothing. If anything shows up, the QA / prod separation has been broken — fix before deploying to SiteGround.
+
 ## Known Design Decisions
 - Hero gradient transitions to white before certifications area
 - Hero CTA styling is being tuned toward the screenshot-driven reference:

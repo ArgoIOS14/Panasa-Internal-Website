@@ -66,22 +66,19 @@ const renderHero = (hero) => {
       titleEl.appendChild(document.createTextNode(hero.title));
     }
     if (hero.titleAccent) {
-      titleEl.appendChild(document.createTextNode(' '));
+      if (hero.title) titleEl.appendChild(document.createTextNode(' '));
       const accent = createEl('span', 'case-hero-title-accent');
       accent.textContent = hero.titleAccent;
       titleEl.appendChild(accent);
     }
+    if (hero.titleSuffix) {
+      titleEl.appendChild(document.createTextNode(' ' + hero.titleSuffix));
+    }
   }
 
-  const logoEl = document.querySelector('[data-case-hero-logo]');
-  if (logoEl instanceof HTMLImageElement) {
-    if (hero.logo) {
-      logoEl.src = resolveAsset(hero.logo);
-      logoEl.alt = hero.logoAlt || hero.eyebrow || 'Client logo';
-      logoEl.hidden = false;
-    } else {
-      logoEl.hidden = true;
-    }
+  const cardEl = document.querySelector('[data-case-hero-card]');
+  if (cardEl && hero.background) {
+    cardEl.style.backgroundImage = `url("${resolveAsset(hero.background)}")`;
   }
 };
 
@@ -272,7 +269,9 @@ const renderCallout = (section) => {
 /* ── Approach (toggleable: horizontal numbered steps OR shared bento grid). */
 const renderApproach = (section) => {
   const wrap = createEl('section', 'case-section case-section--approach');
-  wrap.appendChild(renderSectionHeader(section));
+  // Skip the outer section header — the approach card carries its own green
+  // eyebrow + summary, so a duplicate white "Our Approach" title above would
+  // be redundant.
 
   const mode = section.renderMode === 'bento' ? 'bento' : 'steps';
   wrap.dataset.renderMode = mode;
@@ -327,6 +326,13 @@ const renderTechStack = (section) => {
   const wrap = createEl('section', 'case-section case-section--tech');
   wrap.appendChild(renderSectionHeader(section));
   const groups = createEl('div', 'case-tech-groups');
+  // Text-only mode: every group ships a description and no logos. Used for
+  // 3D Secure-style stacks where each capability is described in prose
+  // rather than represented by vendor logos.
+  const allText = (section.groups || []).length > 0
+    && (section.groups || []).every(g => !Array.isArray(g.logos) || g.logos.length === 0)
+    && (section.groups || []).some(g => g.description);
+  if (allText) groups.dataset.mode = 'text';
   (section.groups || []).forEach((group) => {
     const col = createEl('div', 'case-tech-group');
     if (group.label) {
@@ -334,16 +340,22 @@ const renderTechStack = (section) => {
       label.textContent = group.label;
       col.appendChild(label);
     }
-    const row = createEl('div', 'case-tech-logos');
-    (group.logos || []).forEach((logo) => {
-      const tile = createEl('span', 'case-tech-logo');
-      const img = createEl('img');
-      img.src = resolveAsset(typeof logo === 'string' ? logo : logo.src);
-      img.alt = (typeof logo === 'object' && logo.alt) ? logo.alt : '';
-      tile.appendChild(img);
-      row.appendChild(tile);
-    });
-    col.appendChild(row);
+    if (Array.isArray(group.logos) && group.logos.length) {
+      const row = createEl('div', 'case-tech-logos');
+      group.logos.forEach((logo) => {
+        const tile = createEl('span', 'case-tech-logo');
+        const img = createEl('img');
+        img.src = resolveAsset(typeof logo === 'string' ? logo : logo.src);
+        img.alt = (typeof logo === 'object' && logo.alt) ? logo.alt : '';
+        tile.appendChild(img);
+        row.appendChild(tile);
+      });
+      col.appendChild(row);
+    } else if (group.description) {
+      const desc = createEl('p', 'case-tech-description');
+      desc.textContent = group.description;
+      col.appendChild(desc);
+    }
     groups.appendChild(col);
   });
   wrap.appendChild(groups);
@@ -539,8 +551,13 @@ export const renderCaseStudyDetail = (data, resourcesData) => {
   wireShare(data.hero?.title);
 
   if (data.newsletter) {
-    setText('[data-case-newsletter-title]', data.newsletter.title);
-    setText('[data-case-newsletter-subtitle]', data.newsletter.subtitle);
+    setText('[data-case-newsletter-eyebrow]', data.newsletter.eyebrow);
+    setText('[data-case-newsletter-title]',   data.newsletter.title);
+    setText('[data-case-newsletter-accent]',  data.newsletter.titleAccent);
+    /* `description` is the new field; fall back to `subtitle` for older content. */
+    setText('[data-case-newsletter-subtitle]', data.newsletter.description || data.newsletter.subtitle);
+    setText('[data-case-newsletter-note]',    data.newsletter.formNote);
+    setText('[data-case-newsletter-submit]',  data.newsletter.submitLabel);
     const input = document.querySelector('[data-case-newsletter] input[type="email"]');
     if (input instanceof HTMLInputElement && data.newsletter.placeholder) {
       input.placeholder = data.newsletter.placeholder;

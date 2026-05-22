@@ -51,7 +51,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   color: var(--text-dark);
 }
 
@@ -286,7 +286,7 @@ ul {
   align-items: center;
   padding: 5px 12px;
   border-radius: 999px;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -370,7 +370,7 @@ ul {
   background: transparent;
   border: none;
   color: rgba(15, 44, 37, 0.62);
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-weight: 500;
   font-size: 0.92rem;
   padding: 10px 22px;
@@ -503,7 +503,7 @@ ul {
      pill text, Read More text, and arrow all share one palette. Fallback is
      the BLOG arrow colour when no modifier is applied. */
   color: var(--card-accent, #f77a40);
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   padding-top: 4px;
@@ -540,7 +540,7 @@ ul {
   gap: 10px;
   color: var(--text-muted);
   font-size: 0.85rem;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
 }
 
 .rows-per-page label {
@@ -579,7 +579,7 @@ ul {
 .pagination-arrow {
   appearance: none;
   border: none;
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -635,7 +635,7 @@ ul {
 }
 
 .pagination-indicator {
-  font-family: 'Lufga', 'InterVariable', 'Inter', sans-serif;
+  font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 0.9rem;
   color: var(--text-dark);
   padding: 0 6px;

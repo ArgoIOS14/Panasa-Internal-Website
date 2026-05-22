@@ -5,92 +5,6 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderLogoMarquee } from './Home scenes/sections/logoMarquee.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
-import { firebaseConfig } from './firebase-config.js';
-
-
-const _isPreview = new URLSearchParams(window.location.search).get('preview') === 'true';
-if (_isPreview) {
-  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
-}
-const _pageCache = {};
-
-async function fetchPageContent(path) {
-  if (_pageCache[path] !== undefined) return _pageCache[path];
-  try {
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js');
-    const { getDatabase, ref, get } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js');
-    const app = initializeApp(firebaseConfig, 'services-reader');
-    const db = getDatabase(app);
-    const snapshot = await get(ref(db, path));
-    _pageCache[path] = snapshot.exists() ? snapshot.val() : null;
-  } catch (e) {
-    console.warn(`Firebase fetch failed for ${path}`, e);
-    _pageCache[path] = null;
-  }
-  return _pageCache[path];
-}
-
-let _firebaseContent = null;
-let _firebaseFetched = false;
-let _livePreviewOverride = null;
-
-async function fetchFirebaseContent() {
-  // Live preview always wins over cached / fetched Firebase content
-  if (_livePreviewOverride) return _livePreviewOverride;
-  if (_firebaseFetched) return _firebaseContent;
-  _firebaseFetched = true;
-  try {
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js');
-    const { getDatabase, ref, get } = await import('https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js');
-    const app = initializeApp(firebaseConfig, 'services-reader');
-    const db = getDatabase(app);
-    const snapshot = await get(ref(db, 'content'));
-    if (snapshot.exists()) {
-      _firebaseContent = snapshot.val();
-    }
-  } catch (e) {
-    console.warn('Firebase fetch failed, using fallback data', e);
-  }
-  return _firebaseContent;
-}
-
-function deepStripTags(obj) {
-  if (typeof obj === 'string') return stripTags(obj);
-  if (Array.isArray(obj)) return obj.map(deepStripTags);
-  if (obj && typeof obj === 'object') {
-    const out = {};
-    for (const k of Object.keys(obj)) out[k] = deepStripTags(obj[k]);
-    return out;
-  }
-  return obj;
-}
-
-function getSection(fbContent, key, fallback) {
-  const section = fbContent?.[key];
-  if (!section) return fallback;
-  const merged = { ...fallback };
-  for (const k of Object.keys(fallback)) {
-    if (section[k] !== undefined && section[k] !== null) {
-      let val = section[k];
-      // Normalize Firebase objects back to arrays
-      if (Array.isArray(fallback[k]) && !Array.isArray(val)) {
-        val = Object.values(val);
-      }
-      // Deep-normalize columns bullets
-      if (k === 'columns' && Array.isArray(val)) {
-        val = val.map(col => ({
-          heading: col.heading || '',
-          bullets: (Array.isArray(col.bullets) ? col.bullets : Object.values(col.bullets || {})).map(b => ({
-            icon: b.icon || null,
-            text: b.text || '',
-          })),
-        }));
-      }
-      merged[k] = val;
-    }
-  }
-  return deepStripTags(merged);
-}
 
 const TRUSTED_LOGOS = [
   { src: 'assets/logo-accelovate.svg', alt: 'Accelovate' },
@@ -181,47 +95,20 @@ const AI_ACCELERATED_COPY = {
       {
         heading: 'Payment & Issuing',
         bullets: [
-          { icon: null, text: 'Card issuing and programme management' },
-          { icon: null, text: 'Authorisation and payment processing engines' },
-          { icon: null, text: 'Visa and Mastercard scheme integrations' },
-          { icon: null, text: 'Tokenisation and digital wallet enablement' },
-          { icon: null, text: 'Open banking and embedded finance APIs' },
+          'Card issuing and programme management',
+          'Authorisation and payment processing engines',
+          'Visa and Mastercard scheme integrations',
+          'Tokenisation and digital wallet enablement',
+          'Open banking and embedded finance APIs',
         ],
       },
       {
         heading: 'Platform Architecture',
         bullets: [
-          { icon: null, text: 'API-first microservices for composability' },
-          { icon: null, text: 'Event-driven workflows for real-time processing' },
-          { icon: null, text: 'Multi-tenant design for programme managers' },
-          { icon: null, text: 'Zero-trust partner integrations' },
-        ],
-      },
-      {
-        heading: 'Security & Compliance',
-        bullets: [
-          { icon: null, text: 'PCI DSS Level 1 certified infrastructure' },
-          { icon: null, text: 'Real-time fraud detection and prevention' },
-          { icon: null, text: 'KYC/AML screening and monitoring' },
-          { icon: null, text: 'GDPR and data residency controls' },
-        ],
-      },
-      {
-        heading: 'Integration & Analytics',
-        bullets: [
-          { icon: null, text: 'RESTful and GraphQL API gateway' },
-          { icon: null, text: 'Webhook-based event notifications' },
-          { icon: null, text: 'Real-time transaction dashboards' },
-          { icon: null, text: 'Custom reporting and data exports' },
-        ],
-      },
-      {
-        heading: 'Operations & Monitoring',
-        bullets: [
-          { icon: null, text: '24/7 incident response and escalation' },
-          { icon: null, text: 'Automated alerting and anomaly detection' },
-          { icon: null, text: 'SLA tracking and uptime reporting' },
-          { icon: null, text: 'Capacity planning and load management' },
+          'API-first microservices for composability',
+          'Event-driven workflows for real-time processing',
+          'Multi-tenant design for programme managers',
+          'Zero-trust partner integrations',
         ],
       },
     ],
@@ -280,7 +167,7 @@ const AI_ACCELERATED_COPY = {
       },
       {
         heading: 'Full-Stack Team',
-        body: 'From strategy to 24x7 ops-no vendor juggling needed. One team, end-to-end ownership.',
+        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
       },
       {
         heading: 'Compliance-First Approach',
@@ -317,11 +204,11 @@ const AI_ACCELERATED_COPY = {
  */
 const SAFE_TAGS = new Set([
   'div', 'span', 'em', 'strong', 'p', 'h2', 'h3', 'ul', 'ol', 'li',
-  'article', 'a', 'section', 'br', 'img',
+  'article', 'a', 'section', 'br',
 ]);
 const SAFE_ATTRS = new Set([
   'class', 'aria-label', 'aria-hidden', 'data-animate', 'data-process-item',
-  'data-process-step', 'data-process-panel', 'href', 'src', 'alt',
+  'data-process-step', 'data-process-panel', 'href',
 ]);
 
 /**
@@ -375,26 +262,12 @@ const setSafeHTML = (node, html) => {
   node.appendChild(sanitizeToFragment(html));
 };
 
-const stripTags = (str) => {
-  if (!str || typeof str !== 'string' || !str.includes('<')) return str || '';
-  const d = document.createElement('div');
-  d.innerHTML = str;
-  return d.textContent || '';
-};
-
 const setText = (node, text) => {
-  if (node && typeof text === 'string') node.textContent = stripTags(text);
+  if (node && typeof text === 'string') node.textContent = text;
 };
 
-const applyAIAcceleratedPageCopy = async () => {
-  const fbContent = await fetchFirebaseContent();
-  const copy = {
-    hero: getSection(fbContent, 'hero', AI_ACCELERATED_COPY.hero),
-    challenge: getSection(fbContent, 'challenge', AI_ACCELERATED_COPY.challenge),
-    why: getSection(fbContent, 'why', AI_ACCELERATED_COPY.why),
-    fit: getSection(fbContent, 'fit', AI_ACCELERATED_COPY.fit),
-    footerCta: getSection(fbContent, 'footerCta', AI_ACCELERATED_COPY.footerCta),
-  };
+const applyAIAcceleratedPageCopy = () => {
+  const copy = AI_ACCELERATED_COPY;
 
   const heroSection = document.querySelector('.service-hero');
   if (heroSection) {
@@ -531,10 +404,7 @@ const getServiceMode = () => {
   return 'ai-accelerated-fintech-engineering';
 };
 
-const applyIntelligentOperationsTextOverrides = async () => {
-  const fbRaw = await fetchPageContent('pages/intelligentOperations');
-  const fb = fbRaw ? deepStripTags(fbRaw) : null;
-  const h = fb?.hero || {};
+const applyIntelligentOperationsTextOverrides = () => {
   const hero = document.querySelector('.service-hero');
   if (hero) {
     const heroPill = hero.querySelector('.pill');
@@ -544,23 +414,25 @@ const applyIntelligentOperationsTextOverrides = async () => {
     const trustKicker = hero.querySelector('.trusted-kicker');
     const heroStatCards = hero.querySelectorAll('.hero-stat-card');
 
-    if (heroPill) heroPill.textContent = h.pill || 'INTELLIGENT OPERATIONS';
+    if (heroPill) heroPill.textContent = 'INTELLIGENT OPERATIONS';
     if (heroTitle) {
-      const t = h.title || ['Fintech operations that scale', 'without scaling headcount'];
-      const ta = Array.isArray(t) ? t : Object.values(t);
-      setSafeHTML(heroTitle, `<span>${ta[0]}</span><em>${ta[1]}</em>`);
+      setSafeHTML(heroTitle,
+        '<span>Fintech operations that scale</span><em>without scaling headcount</em>');
     }
-    if (heroSummary) heroSummary.textContent = h.subtitle || 'Transaction volumes double. Chargebacks, rules change quarterly. Your clients expect sub-hour response times around the clock.';
-    if (heroActions[0]) heroActions[0].textContent = h.primaryCta || 'Talk to our team';
-    if (heroActions[1]) heroActions[1].textContent = h.secondaryCta || 'View Case Studies';
-    if (trustKicker) trustKicker.textContent = h.trustedKicker || 'TRUSTED BY HIGH-GROWTH FINTECHS';
+    if (heroSummary) {
+      heroSummary.textContent =
+        'Transaction volumes double. Chargebacks, rules change quarterly. Your clients expect sub-hour response times around the clock.';
+    }
+    if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
+    if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
+    if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
-    const heroStats = Array.isArray(h.stats) ? h.stats : (h.stats ? Object.values(h.stats) : [
+    const heroStats = [
       { value: '99.99%', label: 'System uptime maintained' },
       { value: '<1hr', label: 'P1 incident response time' },
       { value: '30-50%', label: 'Cost reduction in-house' },
       { value: '800M+', label: 'Transactions managed' },
-    ]);
+    ];
     heroStatCards.forEach((card, index) => {
       const stat = heroStats[index];
       if (!stat) return;
@@ -571,7 +443,6 @@ const applyIntelligentOperationsTextOverrides = async () => {
     });
   }
 
-  const ch = fb?.challenge || {};
   const challenge = document.querySelector('.challenge-section');
   if (challenge) {
     const challengeKicker = challenge.querySelector('.section-kicker');
@@ -579,19 +450,30 @@ const applyIntelligentOperationsTextOverrides = async () => {
     const challengeSummary = challenge.querySelector('.section-head p');
     const challengeCards = challenge.querySelectorAll('.challenge-card');
 
-    if (challengeKicker) challengeKicker.textContent = ch.kicker || 'The Problem';
+    if (challengeKicker) challengeKicker.textContent = 'The Problem';
     if (challengeTitle) {
-      const ct = ch.title || ['Operations gets harder every', 'quarter and your team is already stretched'];
-      const cta = Array.isArray(ct) ? ct : Object.values(ct);
-      setSafeHTML(challengeTitle, `<span>${cta[0]}</span><span><em>${cta[1]}</em></span>`);
+      setSafeHTML(challengeTitle,
+        '<span>Operations gets harder every</span><span>quarter and <em>your team is already stretched</em></span>');
     }
-    if (challengeSummary) challengeSummary.textContent = ch.summary || 'Transaction volumes go up. Chargeback rules change. New scheme mandates land.';
+    if (challengeSummary) {
+      challengeSummary.textContent =
+        'Transaction volumes go up. Chargeback rules change. New scheme mandates land.';
+    }
 
-    const challengeCopy = Array.isArray(ch.cards) ? ch.cards : (ch.cards ? Object.values(ch.cards) : [
-      { title: 'Support tickets spike, resolution slows', body: 'As your client base grows, so does the volume of inquiries, disputes, and technical issues. Without structured L1/L2/L3 tiers and proper escalation paths, everything bottlenecks at the same small team.' },
-      { title: 'Reconciliation and reporting are manual', body: 'Settlements, chargebacks, scheme fees reconciled in spreadsheets, cross-checked by hand, and delivered late. One missed exception can cascade into regulatory reporting problems.' },
-      { title: "Fraud slips through because nobody is watching at 2am", body: "Fraudsters don't work business hours. Without round-the-clock monitoring, rule-based detection, and a team that can act immediately, you find out about fraud from your clients - not your systems." },
-    ]);
+    const challengeCopy = [
+      {
+        title: 'Support tickets spike, resolution slows',
+        body: 'As your client base grows, so does the volume of inquiries, disputes, and technical issues. Without structured L1/L2/L3 tiers and proper escalation paths, everything bottlenecks at the same small team.',
+      },
+      {
+        title: 'Reconciliation and reporting are manual',
+        body: 'Settlements, chargebacks, scheme fees reconciled in spreadsheets, cross-checked by hand, and delivered late. One missed exception can cascade into regulatory reporting problems.',
+      },
+      {
+        title: "Fraud slips through because nobody is watching at 2am",
+        body: "Fraudsters don't work business hours. Without round-the-clock monitoring, rule-based detection, and a team that can act immediately, you find out about fraud from your clients - not your systems.",
+      },
+    ];
 
     challengeCards.forEach((card, index) => {
       const copy = challengeCopy[index];
@@ -603,30 +485,50 @@ const applyIntelligentOperationsTextOverrides = async () => {
     });
   }
 
-  const dom = fb?.domains || {};
   const domains = document.querySelector('.domains-section');
   if (domains) {
     const domainSummary = domains.querySelector('.section-head p');
     const domainCards = domains.querySelectorAll('.domain-card');
 
-    if (domainSummary) domainSummary.textContent = dom.summary || "We don't just monitor dashboards. We run the full back-office - from real-time transaction monitoring through to dispute resolution.";
+    if (domainSummary) {
+      domainSummary.textContent =
+        "We don't just monitor dashboards. We run the full back-office - from real-time transaction monitoring through to dispute resolution.";
+    }
 
-    const domainCopy = Array.isArray(dom.cards) ? dom.cards : (dom.cards ? Object.values(dom.cards) : [
-      { heading: 'Transaction monitoring and uptime', body: '24x7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.' },
-      { heading: 'Fraud and risk handling', body: 'Real-time fraud detection with rule-based engines and ML models. Fraud queues, block/unblock workflows, integration with card controls and 3DS alerts. Prevention strategies and ongoing rule tuning.' },
-      { heading: 'Customer and cardholder support', body: 'L1 through L3 support across voice, chat, email, and in-app channels. Inquiry handling, card status updates, dispute assistance, and social media monitoring. Feedback loop to product and analytics.' },
-      { heading: 'Disputes and chargebacks', body: 'Full lifecycle chargeback management - rule-based tagging, document workflows, evidence gathering, and response generation. SLA tracking and Visa/Mastercard scheme alignment.' },
-      { heading: 'Reporting and reconciliation', body: 'Daily reconciliation of transactions, settlements, and chargebacks. Exception logs, scheduled pipelines for audit-ready data, and integration with BI tools like Power BI.' },
-      { heading: 'Onboarding and implementation', body: 'Platform onboarding for new clients. Merchant setup, KYC review, operations playbook creation, and weekly/monthly reporting. Secure infrastructure with role-based access.' },
-    ]);
+    const domainCopy = [
+      {
+        title: 'Transaction monitoring and uptime',
+        body: '24x7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.',
+      },
+      {
+        title: 'Fraud and risk handling',
+        body: 'Real-time fraud detection with rule-based engines and ML models. Fraud queues, block/unblock workflows, integration with card controls and 3DS alerts. Prevention strategies and ongoing rule tuning.',
+      },
+      {
+        title: 'Customer and cardholder support',
+        body: 'L1 through L3 support across voice, chat, email, and in-app channels. Inquiry handling, card status updates, dispute assistance, and social media monitoring. Feedback loop to product and analytics.',
+      },
+      {
+        title: 'Disputes and chargebacks',
+        body: 'Full lifecycle chargeback management - rule-based tagging, document workflows, evidence gathering, and response generation. SLA tracking and Visa/Mastercard scheme alignment.',
+      },
+      {
+        title: 'Reporting and reconciliation',
+        body: 'Daily reconciliation of transactions, settlements, and chargebacks. Exception logs, scheduled pipelines for audit-ready data, and integration with BI tools like Power BI.',
+      },
+      {
+        title: 'Onboarding and implementation',
+        body: 'Platform onboarding for new clients. Merchant setup, KYC review, operations playbook creation, and weekly/monthly reporting. Secure infrastructure with role-based access.',
+      },
+    ];
 
     domainCards.forEach((card, index) => {
       const copy = domainCopy[index];
       if (!copy) return;
-      const t = card.querySelector('h3');
-      const b = card.querySelector('p');
-      if (t) t.textContent = copy.heading || copy.title || '';
-      if (b) b.textContent = copy.body || '';
+      const title = card.querySelector('h3');
+      const body = card.querySelector('p');
+      if (title) title.textContent = copy.title;
+      if (body) body.textContent = copy.body;
     });
   }
 
@@ -717,7 +619,7 @@ const applyIntelligentOperationsTextOverrides = async () => {
         </div>
         <p>
           The point isn't just to keep things running.
-          It's to run them well enough that operations.
+          It's to run them well enough that operations become a growth function, not a cost centre.
         </p>
       </div>
 
@@ -747,7 +649,6 @@ const applyIntelligentOperationsTextOverrides = async () => {
     `);
   }
 
-  const w = fb?.why || {};
   const why = document.querySelector('.why-section');
   if (why) {
     const whyPill = why.querySelector('.section-heading-copy .pill');
@@ -755,32 +656,41 @@ const applyIntelligentOperationsTextOverrides = async () => {
     const whySummary = why.querySelector('.section-title-split p');
     const whyCards = why.querySelectorAll('.feature-card');
 
-    if (whyPill) whyPill.textContent = w.kicker || 'Why Panasa';
-    if (whyTitle) {
-      const wt = w.title || ['Why Fintechs', 'Choose Panasa'];
-      const wta = Array.isArray(wt) ? wt : Object.values(wt);
-      setSafeHTML(whyTitle, `${wta[0]} <span>${wta[1]}</span>`);
+    if (whyPill) whyPill.textContent = 'Why Panasa';
+    if (whyTitle) setSafeHTML(whyTitle, "Why Fintechs <span>Choose Panasa</span>");
+    if (whySummary) {
+      whySummary.textContent = 'What sets us apart in the fintech development landscape';
     }
-    if (whySummary) whySummary.textContent = w.summary || 'What sets us apart in the fintech development landscape';
 
-    const whyCopy = Array.isArray(w.cards) ? w.cards : (w.cards ? Object.values(w.cards) : [
-      { heading: 'Payment Experts, Not Generalists', body: '20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently.' },
-      { heading: 'Proven at scale', body: "Supporting platforms processing 10M+ transactions monthly. We've been there, scaled that." },
-      { heading: 'Full-Stack Team', body: 'From strategy to 24x7 ops-no vendor juggling needed. One team, end-to-end ownership.' },
-      { heading: 'Compliance-First Approach', body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.' },
-    ]);
+    const whyCopy = [
+      {
+        title: 'Payment Experts, Not Generalists',
+        body: '20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently.',
+      },
+      {
+        title: 'Proven at scale',
+        body: "Supporting platforms processing 10M+ transactions monthly. We've been there, scaled that.",
+      },
+      {
+        title: 'Full-Stack Team',
+        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
+      },
+      {
+        title: 'Compliance-First Approach',
+        body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.',
+      },
+    ];
 
     whyCards.forEach((card, index) => {
       const copy = whyCopy[index];
       if (!copy) return;
-      const t = card.querySelector('h3');
-      const b = card.querySelector('p');
-      if (t) t.textContent = copy.heading || copy.title || '';
-      if (b) b.textContent = copy.body || '';
+      const title = card.querySelector('h3');
+      const body = card.querySelector('p');
+      if (title) title.textContent = copy.title;
+      if (body) body.textContent = copy.body;
     });
   }
 
-  const f = fb?.fit || {};
   const fit = document.querySelector('.fit-section');
   if (fit) {
     const fitKicker = fit.querySelector('.section-kicker');
@@ -790,44 +700,56 @@ const applyIntelligentOperationsTextOverrides = async () => {
     const fitEngageKicker = fit.querySelector('.fit-engage-kicker');
     const fitCards = fit.querySelectorAll('.fit-card');
 
-    if (fitKicker) fitKicker.textContent = f.kicker || 'Who This Is For';
+    if (fitKicker) fitKicker.textContent = 'Who This Is For';
     if (fitTitle) {
-      const ft = f.title || ['Fintechs that need operations', 'to keep pace with growth'];
-      const fta = Array.isArray(ft) ? ft : Object.values(ft);
-      setSafeHTML(fitTitle, `<em>${fta[0]}</em><span>${fta[1]}</span>`);
+      setSafeHTML(fitTitle,
+        '<em>Fintechs that need operations</em><span>to keep pace with growth</span>');
     }
-    if (fitSummary) fitSummary.textContent = f.summary || '';
+    if (fitSummary) {
+      fitSummary.textContent = '';
+    }
 
-    const fitBullets = Array.isArray(f.bullets) ? f.bullets : (f.bullets ? Object.values(f.bullets) : [
+    const fitItemCopy = [
       'Issuer processors scaling transaction volumes and client count',
       'Card platforms where fraud and disputes are growing faster than headcount',
       "PSPs that need 24x7 monitoring they can't staff in-house",
       'Fintechs looking to reduce ops cost without reducing service quality',
-    ]);
-    fitItems.forEach((item, index) => { if (fitBullets[index]) item.textContent = fitBullets[index]; });
+    ];
+    fitItems.forEach((item, index) => {
+      if (fitItemCopy[index]) item.textContent = fitItemCopy[index];
+    });
 
-    if (fitEngageKicker) fitEngageKicker.textContent = f.engageKicker || 'How We Engage';
-    const fitCardCopy = Array.isArray(f.engageCards) ? f.engageCards : (f.engageCards ? Object.values(f.engageCards) : [
-      { heading: 'Managed services', body: 'full 24x7 ops with SLA-backed outcomes' },
-      { heading: 'Team extension', body: 'embed ops specialists into your existing team' },
-      { heading: 'Project-based', body: 'set up monitoring, fraud systems, or reconciliation pipelines' },
-      { heading: 'Flex support', body: 'shared resources, 30-day rolling, scale when ready' },
-    ]);
+    if (fitEngageKicker) fitEngageKicker.textContent = 'How We Engage';
+    const fitCardCopy = [
+      {
+        title: 'Managed services',
+        body: 'full 24x7 ops with SLA-backed outcomes',
+      },
+      {
+        title: 'Team extension',
+        body: 'embed ops specialists into your existing team',
+      },
+      {
+        title: 'Project-based',
+        body: 'set up monitoring, fraud systems, or reconciliation pipelines',
+      },
+      {
+        title: 'Flex support',
+        body: 'shared resources, 30-day rolling, scale when ready',
+      },
+    ];
     fitCards.forEach((card, index) => {
       const copy = fitCardCopy[index];
       if (!copy) return;
-      const t = card.querySelector('h3');
-      const b = card.querySelector('p');
-      if (t) t.textContent = copy.heading || copy.title || '';
-      if (b) b.textContent = copy.body || '';
+      const title = card.querySelector('h3');
+      const body = card.querySelector('p');
+      if (title) title.textContent = copy.title;
+      if (body) body.textContent = copy.body;
     });
   }
 };
 
-const applyLegacyModernisationTextOverrides = async () => {
-  const fbRaw2 = await fetchPageContent('pages/legacyModernisation');
-  const fb = fbRaw2 ? deepStripTags(fbRaw2) : null;
-  const h = fb?.hero || {};
+const applyLegacyModernisationTextOverrides = () => {
   const hero = document.querySelector('.service-hero');
   if (hero) {
     const heroPill = hero.querySelector('.pill');
@@ -838,24 +760,25 @@ const applyLegacyModernisationTextOverrides = async () => {
     const trustKicker = hero.querySelector('.trusted-kicker');
     const heroStatCards = hero.querySelectorAll('.hero-stat-card');
 
-    if (heroPill) heroPill.textContent = h.pill || 'AI POWERED LEGACY MODERNISATION';
+    if (heroPill) heroPill.textContent = 'AI POWERED LEGACY MODERNISATION';
     if (heroTitle) {
-      const t = h.title || ['Modernise legacy platforms', 'without losing the logic'];
-      const ta = Array.isArray(t) ? t : Object.values(t);
-      setSafeHTML(heroTitle, `<span>${ta[0]}</span><em>${ta[1]}</em>`);
+      setSafeHTML(heroTitle, '<span>Modernise legacy platforms</span><em>without losing the logic</em>');
     }
-    if (heroSummary) heroSummary.textContent = h.subtitle || 'Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.';
-    if (heroActions[0]) heroActions[0].textContent = h.primaryCta || 'Talk to our team';
-    if (heroActions[1]) heroActions[1].textContent = h.secondaryCta || 'View Case Studies';
-    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
-    if (trustKicker) trustKicker.textContent = h.trustedKicker || 'TRUSTED BY HIGH-GROWTH FINTECHS';
+    if (heroSummary) {
+      heroSummary.textContent =
+        'Your legacy system works. The problem is nobody can change it quickly, maintain it cheaply, or explain how half of it functions.';
+    }
+    if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
+    if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
+    if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'resources?filter=case-studies');
+    if (trustKicker) trustKicker.textContent = 'TRUSTED BY HIGH-GROWTH FINTECHS';
 
-    const heroStats = Array.isArray(h.stats) ? h.stats : (h.stats ? Object.values(h.stats) : [
+    const heroStats = [
       { value: '30-60%', label: 'Faster migration delivery' },
       { value: '60-75%', label: 'Shorter dev and review cycles' },
       { value: '2-3x', label: 'Engineer productivity uplift' },
       { value: '>90%', label: 'Business logic accuracy retained' },
-    ]);
+    ];
     heroStatCards.forEach((card, index) => {
       const stat = heroStats[index];
       if (!stat) return;
@@ -866,7 +789,6 @@ const applyLegacyModernisationTextOverrides = async () => {
     });
   }
 
-  const ch = fb?.challenge || {};
   const challenge = document.querySelector('.challenge-section');
   if (challenge) {
     const challengeKicker = challenge.querySelector('.section-kicker');
@@ -874,19 +796,30 @@ const applyLegacyModernisationTextOverrides = async () => {
     const challengeSummary = challenge.querySelector('.section-head p');
     const challengeCards = challenge.querySelectorAll('.challenge-card');
 
-    if (challengeKicker) challengeKicker.textContent = ch.kicker || 'The Problem';
+    if (challengeKicker) challengeKicker.textContent = 'The Problem';
     if (challengeTitle) {
-      const ct = ch.title || ['Legacy migration is', 'expensive, slow, and risky'];
-      const cta = Array.isArray(ct) ? ct : Object.values(ct);
-      setSafeHTML(challengeTitle, `<span>${cta[0]}</span><span><em>${cta[1]}</em></span>`);
+      setSafeHTML(challengeTitle,
+        '<span>Legacy migration is</span><span><em>expensive, slow, and risky</em></span>');
     }
-    if (challengeSummary) challengeSummary.textContent = ch.summary || 'Most migration projects run over budget and over time. The business logic that took years to build.';
+    if (challengeSummary) {
+      challengeSummary.textContent =
+        'Most migration projects run over budget and over time. The business logic that took years to build.';
+    }
 
-    const challengeCopy = Array.isArray(ch.cards) ? ch.cards : (ch.cards ? Object.values(ch.cards) : [
-      { title: 'Business logic is scattered and undocumented', body: 'Rules live in application code, database triggers, batch scripts, and tribal knowledge. When the people who built it leave, the understanding goes with them.' },
-      { title: 'Traditional rewrites take too long and break things', body: "Eighteen-month migration timelines that slip to thirty months are common. By the time you finish, the target architecture is already dated - and you've introduced regressions the business discovers in production." },
-      { title: 'The longer you wait, the more expensive it gets', body: 'Maintenance costs on legacy platforms compound year over year. The engineers who can work on them become rarer and more expensive. Meanwhile, new features are impossible to ship at any reasonable pace.' },
-    ]);
+    const challengeCopy = [
+      {
+        title: 'Business logic is scattered and undocumented',
+        body: 'Rules live in application code, database triggers, batch scripts, and tribal knowledge. When the people who built it leave, the understanding goes with them.',
+      },
+      {
+        title: 'Traditional rewrites take too long and break things',
+        body: "Eighteen-month migration timelines that slip to thirty months are common. By the time you finish, the target architecture is already dated - and you've introduced regressions the business discovers in production.",
+      },
+      {
+        title: 'The longer you wait, the more expensive it gets',
+        body: 'Maintenance costs on legacy platforms compound year over year. The engineers who can work on them become rarer and more expensive. Meanwhile, new features are impossible to ship at any reasonable pace.',
+      },
+    ];
 
     challengeCards.forEach((card, index) => {
       const copy = challengeCopy[index];
@@ -898,7 +831,6 @@ const applyLegacyModernisationTextOverrides = async () => {
     });
   }
 
-  const f = fb?.fit || {};
   const fit = document.querySelector('.fit-section');
   if (fit) {
     const fitKicker = fit.querySelector('.section-kicker');
@@ -908,41 +840,53 @@ const applyLegacyModernisationTextOverrides = async () => {
     const fitEngageKicker = fit.querySelector('.fit-engage-kicker');
     const fitCards = fit.querySelectorAll('.fit-card');
 
-    if (fitKicker) fitKicker.textContent = f.kicker || 'Who This Is For';
+    if (fitKicker) fitKicker.textContent = 'Who This Is For';
     if (fitTitle) {
-      const ft = f.title || ['Fintechs that need operations', 'to keep pace with growth'];
-      const fta = Array.isArray(ft) ? ft : Object.values(ft);
-      setSafeHTML(fitTitle, `<em>${fta[0]}</em><span>${fta[1]}</span>`);
+      setSafeHTML(fitTitle, '<em>Fintechs that need operations</em><span>to keep pace with growth</span>');
     }
-    if (fitSummary) fitSummary.textContent = f.summary || '';
+    if (fitSummary) fitSummary.textContent = '';
 
-    const fitBullets = Array.isArray(f.bullets) ? f.bullets : (f.bullets ? Object.values(f.bullets) : [
+    const fitItemCopy = [
       'Issuer processors scaling transaction volumes and client count',
       "Card platforms where fraud and disputes are growing faster than headcount",
       "PSPs that need 24x7 monitoring they can't staff in-house",
       'Fintechs looking to reduce ops cost without reducing service quality',
-    ]);
-    fitItems.forEach((item, index) => { if (fitBullets[index]) item.textContent = fitBullets[index]; });
+    ];
+    fitItems.forEach((item, index) => {
+      if (fitItemCopy[index]) item.textContent = fitItemCopy[index];
+    });
 
-    if (fitEngageKicker) fitEngageKicker.textContent = f.engageKicker || 'How We Engage';
-    const fitCardCopy = Array.isArray(f.engageCards) ? f.engageCards : (f.engageCards ? Object.values(f.engageCards) : [
-      { heading: 'Managed services', body: 'full 24x7 ops with SLA-backed outcomes' },
-      { heading: 'Team extension', body: 'embed ops specialists into your existing team' },
-      { heading: 'Project-based', body: 'set up monitoring, fraud systems, or reconciliation pipelines' },
-      { heading: 'Flex support', body: 'shared resources, 30-day rolling, scale when ready' },
-    ]);
+    if (fitEngageKicker) fitEngageKicker.textContent = 'How We Engage';
+    const fitCardCopy = [
+      {
+        title: 'Managed services',
+        body: 'full 24x7 ops with SLA-backed outcomes',
+      },
+      {
+        title: 'Team extension',
+        body: 'embed ops specialists into your existing team',
+      },
+      {
+        title: 'Project-based',
+        body: 'set up monitoring, fraud systems, or reconciliation pipelines',
+      },
+      {
+        title: 'Flex support',
+        body: 'shared resources, 30-day rolling, scale when ready',
+      },
+    ];
     fitCards.forEach((card, index) => {
       const copy = fitCardCopy[index];
       if (!copy) return;
-      const t = card.querySelector('h3');
-      const b = card.querySelector('p');
-      if (t) t.textContent = copy.heading || copy.title || '';
-      if (b) b.textContent = copy.body || '';
+      const title = card.querySelector('h3');
+      const body = card.querySelector('p');
+      if (title) title.textContent = copy.title;
+      if (body) body.textContent = copy.body;
     });
   }
 };
 
-const applyServiceMode = async () => {
+const applyServiceMode = () => {
   const section = document.querySelector('.domains-section');
   const title = section?.querySelector('.section-title h2');
   const kicker = section?.querySelector('.section-kicker');
@@ -959,7 +903,7 @@ const applyServiceMode = async () => {
   const heroActions = document.querySelectorAll('.service-hero .hero-action-label');
   const heroActionLinks = document.querySelectorAll('.service-hero .hero-actions a');
   if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
-  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', '/#case-studies');
+  if (heroActionLinks[1]) heroActionLinks[1].setAttribute('href', 'resources?filter=case-studies');
 
   section.classList.remove('domains-section-process', 'domains-section-operations');
   deliverablesSection.classList.remove(
@@ -974,171 +918,157 @@ const applyServiceMode = async () => {
   );
   if (mode === 'ai-governance') {
     roadmapSection.classList.add('roadmap-section-governance');
-    // Apply Firebase content for AI Governance
-    const govFbRaw = await fetchPageContent('pages/aiGovernance');
-    const govFb = govFbRaw ? deepStripTags(govFbRaw) : null;
-    if (govFb) {
-      const gh = govFb.hero || {};
-      const heroSection = document.querySelector('.service-hero');
-      if (heroSection) {
-        const pill = heroSection.querySelector('.pill');
-        const h1 = heroSection.querySelector('h1');
-        const p = heroSection.querySelector('.service-hero-copy p');
-        const actions = heroSection.querySelectorAll('.hero-action-label');
-        const trust = heroSection.querySelector('.trusted-kicker');
-        const statCards = heroSection.querySelectorAll('.hero-stat-card');
-        if (pill && gh.pill) pill.textContent = gh.pill;
-        if (h1 && gh.title) { const t = Array.isArray(gh.title) ? gh.title : Object.values(gh.title); setSafeHTML(h1, `<span>${t[0]}</span><em>${t[1]}</em>`); }
-        if (p && gh.subtitle) p.textContent = gh.subtitle;
-        if (actions[0] && gh.primaryCta) actions[0].textContent = gh.primaryCta;
-        if (actions[1] && gh.secondaryCta) actions[1].textContent = gh.secondaryCta;
-        if (trust && gh.trustedKicker) trust.textContent = gh.trustedKicker;
-        const stats = Array.isArray(gh.stats) ? gh.stats : (gh.stats ? Object.values(gh.stats) : []);
-        stats.forEach((s, i) => { if (statCards[i]) { const v = statCards[i].querySelector('strong'); const l = statCards[i].querySelector('span'); if (v) v.textContent = s.value; if (l) l.textContent = s.label; } });
-      }
-      const gc = govFb.challenge || {};
-      const challengeEl = document.querySelector('.challenge-section');
-      if (challengeEl && (gc.kicker || gc.title || gc.summary || gc.cards)) {
-        const ck = challengeEl.querySelector('.section-kicker');
-        const ct = challengeEl.querySelector('.section-title h2');
-        const cs = challengeEl.querySelector('.section-head p');
-        const cc = challengeEl.querySelectorAll('.challenge-card');
-        if (ck && gc.kicker) ck.textContent = gc.kicker;
-        if (ct && gc.title) { const t = Array.isArray(gc.title) ? gc.title : Object.values(gc.title); setSafeHTML(ct, `<span>${t[0]}</span><span><em>${t[1]}</em></span>`); }
-        if (cs && gc.summary) cs.textContent = gc.summary;
-        const cards = Array.isArray(gc.cards) ? gc.cards : (gc.cards ? Object.values(gc.cards) : []);
-        cards.forEach((c, i) => { if (!cc[i]) return; const tt = cc[i].querySelector('h3'); const bb = cc[i].querySelector('p'); if (tt) tt.textContent = c.title; if (bb) bb.textContent = c.body; });
-      }
-      const gw = govFb.why || {};
-      const whyEl = document.querySelector('.why-section');
-      if (whyEl && (gw.kicker || gw.cards)) {
-        const wp = whyEl.querySelector('.section-heading-copy .pill');
-        const wt = whyEl.querySelector('.section-heading-copy h2');
-        const ws = whyEl.querySelector('.section-title-split p');
-        const wc = whyEl.querySelectorAll('.feature-card');
-        if (wp && gw.kicker) wp.textContent = gw.kicker;
-        if (wt && gw.title) { const t = Array.isArray(gw.title) ? gw.title : Object.values(gw.title); setSafeHTML(wt, `${t[0]} <span>${t[1]}</span>`); }
-        if (ws && gw.summary) ws.textContent = gw.summary;
-        const cards = Array.isArray(gw.cards) ? gw.cards : (gw.cards ? Object.values(gw.cards) : []);
-        cards.forEach((c, i) => { if (!wc[i]) return; const tt = wc[i].querySelector('h3'); const bb = wc[i].querySelector('p'); if (tt) tt.textContent = c.heading || ''; if (bb) bb.textContent = c.body || ''; });
-      }
-      const gf = govFb.fit || {};
-      const fitEl = document.querySelector('.fit-section');
-      if (fitEl && (gf.kicker || gf.bullets)) {
-        const fk = fitEl.querySelector('.section-kicker');
-        const ft = fitEl.querySelector('.section-title h2');
-        const fi = fitEl.querySelectorAll('.fit-item');
-        const fek = fitEl.querySelector('.fit-engage-kicker');
-        const fc = fitEl.querySelectorAll('.fit-card');
-        if (fk && gf.kicker) fk.textContent = gf.kicker;
-        if (ft && gf.title) { const t = Array.isArray(gf.title) ? gf.title : Object.values(gf.title); setSafeHTML(ft, `<em>${t[0]}</em><span>${t[1]}</span>`); }
-        const bullets = Array.isArray(gf.bullets) ? gf.bullets : (gf.bullets ? Object.values(gf.bullets) : []);
-        bullets.forEach((b, i) => { if (fi[i]) fi[i].textContent = b; });
-        if (fek && gf.engageKicker) fek.textContent = gf.engageKicker;
-        const ecards = Array.isArray(gf.engageCards) ? gf.engageCards : (gf.engageCards ? Object.values(gf.engageCards) : []);
-        ecards.forEach((c, i) => { if (!fc[i]) return; const tt = fc[i].querySelector('h3'); const bb = fc[i].querySelector('p'); if (tt) tt.textContent = c.heading || ''; if (bb) bb.textContent = c.body || ''; });
-      }
-    }
   }
 
-  const fbContent = await fetchFirebaseContent();
-
   if (mode === 'ai-accelerated-fintech-engineering') {
-    const howWeWork = getSection(fbContent, 'howWeWork', AI_ACCELERATED_COPY.howWeWork);
     section.classList.add('domains-section-process');
-    kicker.textContent = howWeWork.kicker;
-    setSafeHTML(title, `<em>${howWeWork.title[0]}</em><span>${howWeWork.title[1]}</span>`);
-    summary.textContent = howWeWork.summary;
+    kicker.textContent = AI_ACCELERATED_COPY.howWeWork.kicker;
+    setSafeHTML(title, `<em>${AI_ACCELERATED_COPY.howWeWork.title[0]}</em><span>${AI_ACCELERATED_COPY.howWeWork.title[1]}</span>`);
+    summary.textContent = AI_ACCELERATED_COPY.howWeWork.summary;
 
-    const stages = Array.isArray(howWeWork.stages) ? howWeWork.stages : Object.values(howWeWork.stages || {});
     setSafeHTML(content, `
       <div class="process-grid">
         <ol class="process-flow" aria-label="Fintech engineering process">
-          ${stages.map((s, i) => `
           <li class="process-flow-item">
-            <span class="process-flow-index" aria-hidden="true">${i + 1}</span>
-            <strong>${s.heading}</strong>
-            <p>${s.description}</p>
-          </li>`).join('')}
+            <span class="process-flow-index" aria-hidden="true">1</span>
+            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[0].heading}</strong>
+            <p>${AI_ACCELERATED_COPY.howWeWork.stages[0].description}</p>
+          </li>
+          <li class="process-flow-item">
+            <span class="process-flow-index" aria-hidden="true">2</span>
+            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[1].heading}</strong>
+            <p>${AI_ACCELERATED_COPY.howWeWork.stages[1].description}</p>
+          </li>
+          <li class="process-flow-item">
+            <span class="process-flow-index" aria-hidden="true">3</span>
+            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[2].heading}</strong>
+            <p>${AI_ACCELERATED_COPY.howWeWork.stages[2].description}</p>
+          </li>
+          <li class="process-flow-item">
+            <span class="process-flow-index" aria-hidden="true">4</span>
+            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[3].heading}</strong>
+            <p>${AI_ACCELERATED_COPY.howWeWork.stages[3].description}</p>
+          </li>
+          <li class="process-flow-item">
+            <span class="process-flow-index" aria-hidden="true">5</span>
+            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[4].heading}</strong>
+            <p>${AI_ACCELERATED_COPY.howWeWork.stages[4].description}</p>
+          </li>
         </ol>
       </div>
     `);
 
     initProcessSteps();
 
-    const whatWeBuild = getSection(fbContent, 'whatWeBuild', AI_ACCELERATED_COPY.whatWeBuild);
-    const deliveryCards = Array.isArray(whatWeBuild.deliveryCards) ? whatWeBuild.deliveryCards : Object.values(whatWeBuild.deliveryCards || {});
     deliverablesSection.classList.add('deliverables-section-engineering');
     setSafeHTML(deliverablesSection, `
       <div class="section-head section-head-dark" data-animate>
         <div class="section-title">
-          <span class="section-kicker">${whatWeBuild.kicker}</span>
+          <span class="section-kicker">${AI_ACCELERATED_COPY.whatWeBuild.kicker}</span>
           <h2>
-            <em>${whatWeBuild.title[0]}</em>
-            <span>${whatWeBuild.title[1]}</span>
+            <em>${AI_ACCELERATED_COPY.whatWeBuild.title[0]}</em>
+            <span>${AI_ACCELERATED_COPY.whatWeBuild.title[1]}</span>
           </h2>
         </div>
         <p>
-          ${whatWeBuild.summary}
+          ${AI_ACCELERATED_COPY.whatWeBuild.summary}
         </p>
       </div>
 
       <div class="engineering-build-grid" data-animate>
-        ${whatWeBuild.columns.map(col => `
         <article class="engineering-build-column">
-          <h3>${col.heading}</h3>
+          <h3>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].heading}</h3>
           <ul class="engineering-build-list">
-            ${col.bullets.map(b => `<li${b.icon ? ' class="has-custom-icon"' : ''}>${b.icon ? `<img src="${b.icon}" alt="" class="bullet-icon">` : ''}${b.text}</li>`).join('')}
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[0]}</li>
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[1]}</li>
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[2]}</li>
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[3]}</li>
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[4]}</li>
           </ul>
-        </article>`).join('')}
+        </article>
+        <article class="engineering-build-column">
+          <h3>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].heading}</h3>
+          <ul class="engineering-build-list">
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[0]}</li>
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[1]}</li>
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[2]}</li>
+            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[3]}</li>
+          </ul>
+        </article>
       </div>
 
       <div class="engineering-build-divider" data-animate></div>
 
       <div class="engineering-build-footer" data-animate>
-        <span class="engineering-build-kicker">${whatWeBuild.deliveryKicker}</span>
+        <span class="engineering-build-kicker">${AI_ACCELERATED_COPY.whatWeBuild.deliveryKicker}</span>
         <div class="engineering-build-cards">
-          ${deliveryCards.map(c => `
           <article class="engineering-build-card">
-            <h3>${c.heading}</h3>
-            <p>${c.body}</p>
-          </article>`).join('')}
+            <h3>${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[0].heading}</h3>
+            <p>
+              ${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[0].body}
+            </p>
+          </article>
+          <article class="engineering-build-card">
+            <h3>${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[1].heading}</h3>
+            <p>
+              ${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[1].body}
+            </p>
+          </article>
+          <article class="engineering-build-card">
+            <h3>${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[2].heading}</h3>
+            <p>
+              ${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[2].body}
+            </p>
+          </article>
         </div>
       </div>
     `);
 
-    const howWeBuild = getSection(fbContent, 'howWeBuild', AI_ACCELERATED_COPY.howWeBuild);
-    const hwbCards = Array.isArray(howWeBuild.cards) ? howWeBuild.cards : Object.values(howWeBuild.cards || {});
     roadmapSection.classList.add('roadmap-section-engineering');
     setSafeHTML(roadmapSection, `
       <div class="section-head" data-animate>
         <div class="section-title">
-          <span class="section-kicker">${howWeBuild.kicker}</span>
+          <span class="section-kicker">${AI_ACCELERATED_COPY.howWeBuild.kicker}</span>
           <h2>
-            <em>${howWeBuild.title[0]}</em>
-            <span>${howWeBuild.title[1]}</span>
+            <em>${AI_ACCELERATED_COPY.howWeBuild.title[0]}</em>
+            <span>${AI_ACCELERATED_COPY.howWeBuild.title[1]}</span>
           </h2>
         </div>
         <p>
-          ${howWeBuild.summary}
+          ${AI_ACCELERATED_COPY.howWeBuild.summary}
         </p>
       </div>
 
       <div class="engineering-roadmap-grid" data-animate>
-        ${hwbCards.map(c => `
         <article class="engineering-roadmap-card">
-          <h3>${c.heading}</h3>
-          <p>${c.body}</p>
-          <span class="engineering-roadmap-pill">${c.pill}</span>
-        </article>`).join('')}
+          <h3>${AI_ACCELERATED_COPY.howWeBuild.cards[0].heading}</h3>
+          <p>
+            ${AI_ACCELERATED_COPY.howWeBuild.cards[0].body}
+          </p>
+          <span class="engineering-roadmap-pill">${AI_ACCELERATED_COPY.howWeBuild.cards[0].pill}</span>
+        </article>
+        <article class="engineering-roadmap-card">
+          <h3>${AI_ACCELERATED_COPY.howWeBuild.cards[1].heading}</h3>
+          <p>
+            ${AI_ACCELERATED_COPY.howWeBuild.cards[1].body}
+          </p>
+          <span class="engineering-roadmap-pill">${AI_ACCELERATED_COPY.howWeBuild.cards[1].pill}</span>
+        </article>
+        <article class="engineering-roadmap-card">
+          <h3>${AI_ACCELERATED_COPY.howWeBuild.cards[2].heading}</h3>
+          <p>
+            ${AI_ACCELERATED_COPY.howWeBuild.cards[2].body}
+          </p>
+          <span class="engineering-roadmap-pill">${AI_ACCELERATED_COPY.howWeBuild.cards[2].pill}</span>
+        </article>
       </div>
     `);
-    await applyAIAcceleratedPageCopy();
+    applyAIAcceleratedPageCopy();
     return;
   }
 
   if (mode === 'ai-powered-legacy-modernisation') {
-    await applyLegacyModernisationTextOverrides();
+    applyLegacyModernisationTextOverrides();
     section.classList.add('domains-section-process');
     kicker.textContent = 'How We Work';
     setSafeHTML(title, '<em>Six Phases</em><span>Every rule traced end to end</span>');
@@ -1260,7 +1190,7 @@ const applyServiceMode = async () => {
           </h2>
         </div>
         <p>
-          The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain faster.
+          The goal isn't just to move code from one language to another. It's to end up with a platform that's cheaper to maintain and faster to change.
         </p>
       </div>
 
@@ -1301,7 +1231,7 @@ const applyServiceMode = async () => {
     setSafeHTML(content, `
       <article class="domain-card">
         <h3>Transaction monitoring and uptime</h3>
-        <p>24×7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
+        <p>24x7 service monitoring with alerting and escalation. Dashboard monitoring, investigation of alerts, immediate escalation per defined runbooks. Tools: Coralogix, Datadog, NewRelic, CloudWatch, PagerDuty.</p>
       </article>
       <article class="domain-card">
         <h3>Fraud and risk handling</h3>
@@ -1325,7 +1255,7 @@ const applyServiceMode = async () => {
       </article>
     `);
 
-    await applyIntelligentOperationsTextOverrides();
+    applyIntelligentOperationsTextOverrides();
   }
 };
 
@@ -1368,9 +1298,9 @@ const initServicesPage = async () => {
     .querySelector('[data-service-trusted-logos]')
     ?.classList.add('logo-marquee', 'logo-marquee-light');
   renderLogoMarquee('[data-service-trusted-logos]', TRUSTED_LOGOS);
-  await applyServiceMode();
+  applyServiceMode();
   if (getServiceMode() === 'ai-accelerated-fintech-engineering') {
-    await applyAIAcceleratedPageCopy();
+    applyAIAcceleratedPageCopy();
   }
   initScrollAnimations();
 
@@ -1383,24 +1313,12 @@ const initServicesPage = async () => {
     crmDescription: 'Email capture: Services overview (Services page)',
   });
 
-  // Override email capture from Firebase
-  const ecFb = await fetchPageContent('content');
-  const ec = ecFb?.emailCapture;
-  if (ec) {
-    const h = document.querySelector('.email-capture__heading');
-    const s = document.querySelector('.email-capture__subtext');
-    const b = document.querySelector('.email-capture__form button[type="submit"]');
-    if (h && ec.promptHeading) h.textContent = ec.promptHeading;
-    if (s && ec.promptSubtext) s.textContent = ec.promptSubtext;
-    if (b && ec.buttonLabel) b.textContent = ec.buttonLabel;
-  }
-
   try {
     const content = await loadContent();
     renderNav(buildNav(content.nav));
     renderFooter(buildFooterLinks(content.footer));
     if (getServiceMode() === 'ai-accelerated-fintech-engineering') {
-      await applyAIAcceleratedPageCopy();
+      applyAIAcceleratedPageCopy();
     }
   } catch (error) {
     console.error('Failed to load shared service page content', error);
@@ -1409,27 +1327,12 @@ const initServicesPage = async () => {
       renderFooter(buildFooterLinks(window.DEFAULT_CONTENT.footer));
     }
     if (getServiceMode() === 'ai-accelerated-fintech-engineering') {
-      await applyAIAcceleratedPageCopy();
+      applyAIAcceleratedPageCopy();
     }
   }
 };
 
 initServicesPage();
-
-// Live preview: expose render hook. All functions are defined by now.
-if (_isPreview) {
-  window.__livePreviewRender = async (data) => {
-    _livePreviewOverride = data;
-    try {
-      await applyServiceMode();
-      if (getServiceMode() === 'ai-accelerated-fintech-engineering') {
-        await applyAIAcceleratedPageCopy();
-      }
-    } catch (e) {
-      console.warn('[live-preview] services render failed:', e);
-    }
-  };
-}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {

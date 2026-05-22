@@ -68,6 +68,15 @@ const buildFooterLinks = (footer) => ({
       href: resolveToSiteHref(link.href),
     })),
   })),
+  legal: footer?.legal
+    ? {
+        ...footer.legal,
+        links: (footer.legal.links || []).map((link) => ({
+          ...link,
+          href: resolveToSiteHref(link.href),
+        })),
+      }
+    : footer?.legal,
 });
 
 const buildNavLinks = (nav) => ({

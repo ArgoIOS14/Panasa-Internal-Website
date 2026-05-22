@@ -113,13 +113,10 @@
     }
     </script>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" as="style" />
     <link rel="preload" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" as="style" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
@@ -130,14 +127,15 @@
     <link rel="stylesheet" href="css/email-capture.css?v=2.1" media="print" onload="this.media='all'" />
     <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/" />
     <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/" />
+      <script src="js/qa-banner.js" defer></script>
   </head>
   <body>
     <div class="page">
       <header class="site-header" id="top">
         <nav class="nav">
-          <div class="brand">
+          <a class="brand" href="/" aria-label="Panasa home">
             <img src="assets/logo.svg" alt="Panasa" data-bind="logo" fetchpriority="high" />
-          </div>
+          </a>
           <button class="nav-toggle" aria-label="Open navigation">
             <span></span>
             <span></span>
@@ -215,26 +213,32 @@
                     <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
                     <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
                     <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-accelovate.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-paymentology.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-crunch.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-ribbon-gi.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-kani.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-88-eu.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-osper.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-paci.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-prosper.svg" alt="" loading="lazy" /></div>
-                    <div class="logo-marquee-item" aria-hidden="true"><img src="assets/logo-dialect.svg" alt="" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-accelovate.svg" alt="Accelovate" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-paymentology.svg" alt="Paymentology" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-crunch.svg" alt="Crunch" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-ribbon-gi.svg" alt="Ribbon GI" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-kani.svg" alt="Kani" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-88-eu.svg" alt="88 EU" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-osper.svg" alt="Osper" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
+                    <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="cert-row" data-hero-cert-badges>
-            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-gdpr.svg" alt="GDPR" /></div></div>
-            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-iso.svg" alt="ISO 27001" /></div></div>
-            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-gptw.svg" alt="Great Place to Work" /></div></div>
-            <div class="cert-badge-item"><div class="cert-badge-frame"><img src="assets/badge-pci.svg" alt="PCI" /></div></div>
+          <div class="cert-strip" data-hero-cert-strip>
+            <h3 class="cert-strip-title" data-hero-cert-title>Compliance-Ready<br/>Fintech Systems</h3>
+            <div class="cert-strip-badges" data-hero-cert-badges>
+              <img class="cert-strip-badge" src="assets/cert-gdpr.svg" alt="GDPR" />
+              <span class="cert-strip-dot" aria-hidden="true">·</span>
+              <img class="cert-strip-badge" src="assets/cert-iso.svg" alt="ISO 27001" />
+              <span class="cert-strip-dot" aria-hidden="true">·</span>
+              <img class="cert-strip-badge" src="assets/cert-gptw.svg" alt="Great Place to Work" />
+              <span class="cert-strip-dot" aria-hidden="true">·</span>
+              <img class="cert-strip-badge" src="assets/cert-pci.svg" alt="PCI" />
+            </div>
           </div>
           <div class="cert-separator" aria-hidden="true"></div>
         </section>
@@ -383,7 +387,7 @@
                     <span class="eyebrow">CONFIDENTIAL ISSUER PROCESSOR</span>
                     <h3>Built and Now Operating Card Issuing Platform Processing 10M+ Transactions Monthly</h3>
                     <p>Leading issuer processor needed to rapidly scale their card platform while minimizing downtime and reducing operational costs.</p>
-                    <a class="btn btn-dark results-cta" href="contact">Read Full Case Study</a>
+                    <a class="btn btn-dark results-cta" href="resources?filter=case-studies">Read Full Case Study</a>
                   </div>
                   <div class="results-metrics">
                     <div class="results-metric"><span class="results-metric-value">6</span><span class="results-metric-label">Months to Live</span></div>
@@ -398,7 +402,7 @@
                     <span class="eyebrow">NEOBANK PLATFORM</span>
                     <h3>Scaled and Stabilized Digital Banking Platform Handling High Volume Transactions Across Multiple Markets</h3>
                     <p>Fast-growing neobank required improved system reliability, faster issue resolution, and scalable infrastructure to support increasing transaction volumes across regions.</p>
-                    <a class="btn btn-dark results-cta" href="contact">Read Full Case Study</a>
+                    <a class="btn btn-dark results-cta" href="resources?filter=case-studies">Read Full Case Study</a>
                   </div>
                   <div class="results-metrics">
                     <div class="results-metric"><span class="results-metric-value">99.98%</span><span class="results-metric-label">Uptime</span></div>
@@ -413,7 +417,7 @@
                     <span class="eyebrow">PAYMENT SERVICE PROVIDER</span>
                     <h3>Modernized Payment Processing System Improving Performance, Reliability, and Operational Efficiency</h3>
                     <p>Established PSP needed to upgrade legacy systems, reduce downtime, and enhance monitoring to support seamless payment processing and operational continuity.</p>
-                    <a class="btn btn-dark results-cta" href="contact">Read Full Case Study</a>
+                    <a class="btn btn-dark results-cta" href="resources?filter=case-studies">Read Full Case Study</a>
                   </div>
                   <div class="results-metrics">
                     <div class="results-metric"><span class="results-metric-value">70%</span><span class="results-metric-label">Less Downtime</span></div>
@@ -530,7 +534,7 @@
         <div class="footer-cta" data-animate>
           <div>
             <h2 data-footer-cta-title>Ready to Build Your Card Platform</h2>
-            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.</p>
+            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24x7 operations.</p>
           </div>
           <a class="btn btn-dark" data-footer-cta-button href="contact">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
@@ -572,7 +576,7 @@
                 <a href="resources?filter=blogs">Blogs</a>
                 <a href="resources?filter=insights">Insights</a>
                 <a href="resources?filter=guides">Guides</a>
-                <a href="resources?filter=newsletter">Newsletter <span class="footer-link-badge footer-link-badge-new">NEW</span></a>
+                <a href="resources">Newsletter <span class="footer-link-badge footer-link-badge-new">NEW</span></a>
                 <a href="resources?filter=case-studies">Case Studies</a>
               </div>
               <div>

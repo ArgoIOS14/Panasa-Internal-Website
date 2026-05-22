@@ -3,8 +3,8 @@ import { createEl } from '../utils/dom.js';
 /* Mixed-media bento grid that lays out 1–5 tiles correctly at every count.
    Tile kinds: 'image' | 'chart' | 'stat'.
    - 'image' / 'chart' render with eyebrow + title + description at the top
-      and an image filling the bottom of the card. (Pre-existing tiles using
-      a `caption` field still render — `description` is preferred when both exist.)
+     and an image filling the bottom of the card. (Older `caption` field still
+     renders if `description` is absent.)
    - 'stat' renders a small card with eyebrow + title + metric + label.
    The grid layout (grid-template-areas per data-count) lives in
    case-study-detail.css so the same component can be styled in context. */
@@ -64,6 +64,11 @@ const renderStatTile = (tile) => {
     const t = createEl('span', 'bento-tile-stat-title');
     t.textContent = tile.title;
     card.appendChild(t);
+  }
+  if (tile.description || tile.caption) {
+    const p = createEl('p', 'bento-tile-desc');
+    p.textContent = tile.description || tile.caption;
+    card.appendChild(p);
   }
   if (tile.metric) {
     const m = createEl('strong', 'bento-tile-stat-metric');

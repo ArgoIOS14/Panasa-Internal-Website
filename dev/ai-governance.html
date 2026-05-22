@@ -20,9 +20,7 @@
     <meta name="twitter:image" content="https://www.panasatech.com/assets/og-image.png" />
     <link rel="canonical" href="https://www.panasatech.com/ai-governance" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=lufga@400,500,600,700&display=swap" crossorigin="anonymous" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-layout.css?v=2.1" />
     <link rel="stylesheet" href="css/services.css?v=2.1" />
@@ -97,6 +95,7 @@
       ]
     }
     </script>
+      <script src="js/qa-banner.js" defer></script>
   </head>
   <body>
     <div class="services-page">
@@ -115,6 +114,13 @@
       </header>
 
       <main>
+        <nav class="service-breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href="services">Services</a></li>
+            <li aria-current="page">AI Governance</li>
+          </ol>
+        </nav>
         <section class="service-hero" data-animate>
           <div class="service-hero-copy" data-animate>
             <span class="pill">AI Governance</span>
@@ -131,7 +137,7 @@
                 <img class="hero-action-icon" src="assets/hero-cta-talk-icon.svg" alt="" aria-hidden="true" />
                 <span class="hero-action-label">Talk to our team</span>
               </a>
-              <a class="btn btn-ghost" href="/#case-studies">
+              <a class="btn btn-ghost" href="resources?filter=case-studies">
                 <img class="hero-action-icon" src="assets/hero-cta-casestudy-icon.svg" alt="" aria-hidden="true" />
                 <span class="hero-action-label">View Case Studies</span>
               </a>
@@ -223,7 +229,7 @@
             </div>
             <p>
               The framework covers everything from risk classification to shadow AI
-              detection. Each domain maps directly to ISO 42001, NIST AI RMF
+              detection. Each domain maps directly to ISO 42001, NIST AI RMF.
             </p>
           </div>
 
@@ -547,7 +553,7 @@
               <div>
                 <h3>Full-Stack Team</h3>
                 <p>
-                  From strategy to 24x7 ops-no vendor juggling needed. One team,
+                  From strategy to 24x7 ops — no vendor juggling needed. One team,
                   end-to-end ownership.
                 </p>
               </div>
@@ -616,7 +622,7 @@
         <div class="footer-cta" data-animate>
           <div>
             <h2 data-footer-cta-title>Ready to Build Your Card Platform</h2>
-            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.</p>
+            <p data-footer-cta-text>Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24x7 operations.</p>
           </div>
           <a class="btn btn-dark" data-footer-cta-button href="contact">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
@@ -658,7 +664,7 @@
                 <a href="resources?filter=blogs">Blogs</a>
                 <a href="resources?filter=insights">Insights</a>
                 <a href="resources?filter=guides">Guides</a>
-                <a href="resources?filter=newsletter">Newsletter <span class="footer-link-badge footer-link-badge-new">NEW</span></a>
+                <a href="resources">Newsletter <span class="footer-link-badge footer-link-badge-new">NEW</span></a>
                 <a href="resources?filter=case-studies">Case Studies</a>
               </div>
               <div>

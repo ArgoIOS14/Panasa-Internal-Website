@@ -64,7 +64,7 @@ export const initInlineNewsletter = (opts = {}) => {
     setStatus('', null);
 
     try {
-      await fetch(cfg.submitUrl, {
+      const response = await fetch(cfg.submitUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -72,6 +72,13 @@ export const initInlineNewsletter = (opts = {}) => {
           description: cfg.crmDescription,
         }),
       });
+
+      // Guard against silent failure: any non-2xx response (endpoint missing,
+      // upstream Zoho error, rate limit, etc.) must surface as an error to
+      // the user instead of showing a fake "You're in" success state.
+      if (!response.ok) {
+        throw new Error(`Newsletter submit failed (${response.status})`);
+      }
 
       if (cfg.storageKey) {
         localStorage.setItem(cfg.storageKey, 'submitted');

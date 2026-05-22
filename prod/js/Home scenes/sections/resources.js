@@ -92,6 +92,18 @@ const updateUrl = (filterSlug, page) => {
   window.history.replaceState({}, '', next);
 };
 
+// Keep the page <title> in sync with the active filter so browser history /
+// tab labels reflect the current view. Base title is whatever the HTML / meta
+// already set (e.g. "Resources | Panasa"); filtered views get prefixed with
+// the filter label, e.g. "Blogs | Resources | Panasa".
+const updateDocumentTitle = (filterLabel) => {
+  const base = document.body?.dataset.resourcesBaseTitle || document.title;
+  if (document.body && !document.body.dataset.resourcesBaseTitle) {
+    document.body.dataset.resourcesBaseTitle = base;
+  }
+  document.title = !filterLabel || filterLabel === 'All' ? base : `${filterLabel} | ${base}`;
+};
+
 const getInitialFilter = (filters) => {
   const params = new URLSearchParams(window.location.search);
   const raw = (params.get('filter') || '').toLowerCase();
@@ -299,6 +311,21 @@ export const renderResources = async (data) => {
     btn.setAttribute('aria-disabled', String(disabled));
   };
 
+  // First-paint flag: the HTML ships a pre-rendered grid that the SEO crawl
+  // sees. If the very first JS render would produce the same cards (default
+  // filter, page 1, and counts match), skip the innerHTML wipe so the user
+  // doesn't see a flicker. Any subsequent render — filter click, page
+  // change, resize that crosses a column breakpoint — rebuilds normally.
+  let isFirstRender = true;
+  const matchesStaticGrid = (slice) => {
+    if (gridEl.children.length !== slice.length) return false;
+    return Array.from(gridEl.children).every((child, i) => {
+      const expectedHref = slice[i]?.href;
+      const actualHref = child.getAttribute('href');
+      return expectedHref && actualHref && actualHref.replace(/^\/+/, '') === expectedHref.replace(/^\/+/, '');
+    });
+  };
+
   const renderGrid = () => {
     const filtered = filterItems(activeFilter);
     const pages = totalPages(filtered);
@@ -309,18 +336,25 @@ export const renderResources = async (data) => {
     const start = (currentPage - 1) * perPage;
     const slice = filtered.slice(start, start + perPage);
 
-    gridEl.innerHTML = '';
-    if (filtered.length === 0) {
-      const empty = createEl('p', 'resources-empty');
-      empty.textContent = 'No resources yet in this category.';
-      gridEl.appendChild(empty);
-    } else {
-      slice.forEach((item) => gridEl.appendChild(renderCard(item)));
+    const canReuseStatic = isFirstRender && slice.length > 0 && matchesStaticGrid(slice);
+    isFirstRender = false;
+
+    if (!canReuseStatic) {
+      gridEl.innerHTML = '';
+      if (filtered.length === 0) {
+        const empty = createEl('p', 'resources-empty');
+        empty.textContent = 'No resources yet in this category.';
+        gridEl.appendChild(empty);
+      } else {
+        slice.forEach((item) => gridEl.appendChild(renderCard(item)));
+      }
     }
 
-    // #7: hide pagination row entirely when there are no results
+    // #7: hide the pagination row entirely when it serves no purpose —
+    // either there are no results, or everything fits on a single page so
+    // the rows-per-page selector and page nav would be redundant.
     if (paginationEl instanceof HTMLElement) {
-      paginationEl.hidden = filtered.length === 0;
+      paginationEl.hidden = filtered.length === 0 || pages <= 1;
     }
 
     if (pageIndicator) pageIndicator.textContent = `${currentPage} of ${pages}`;
@@ -332,6 +366,7 @@ export const renderResources = async (data) => {
     // #6: keep the URL in sync
     const slug = findByFilter(activeFilter)?.slug || 'all';
     updateUrl(slug, currentPage);
+    updateDocumentTitle(activeFilter);
   };
 
   const animatedRender = () => {

@@ -21,6 +21,11 @@ Redirect 301 /careers/ /careers
 Redirect 301 /contact/ /contact
 Redirect 301 /services/ /services
 Redirect 301 /privacy-policy/ /privacy-policy
+Redirect 301 /campaign-privacy-policy-html/ /privacy-policy
+
+# ── Insights migration: lifecycle-of-a-payment moved from /blog/ to /insights/
+Redirect 301 /blog/lifecycle-of-a-payment /insights/lifecycle-of-a-payment
+Redirect 301 /blog/lifecycle-of-a-payment.html /insights/lifecycle-of-a-payment
 
 # ── Redirect old query-param service URLs ────────────────
 RewriteCond %{QUERY_STRING} service=ai-governance

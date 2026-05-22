@@ -119,21 +119,22 @@ window.DEFAULT_CONTENT = {
         "alt": "Dialect"
       }
     ],
+    "certTitle": "Compliance-Ready\nFintech Systems",
     "certBadges": [
       {
-        "src": "assets/badge-gdpr.svg",
+        "src": "assets/cert-gdpr.svg",
         "alt": "GDPR"
       },
       {
-        "src": "assets/badge-iso.svg",
+        "src": "assets/cert-iso.svg",
         "alt": "ISO 27001"
       },
       {
-        "src": "assets/badge-gptw.svg",
+        "src": "assets/cert-gptw.svg",
         "alt": "Great Place to Work"
       },
       {
-        "src": "assets/badge-pci.svg",
+        "src": "assets/cert-pci.svg",
         "alt": "PCI"
       }
     ]
@@ -259,7 +260,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/placeholder-case-1.svg",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -283,7 +284,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-2.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -307,7 +308,7 @@ window.DEFAULT_CONTENT = {
         "image": "assets/case-study-card-3.webp",
         "cta": {
           "label": "Read Full Case Study",
-          "href": "contact"
+          "href": "resources?filter=case-studies"
         },
         "metrics": [
           {
@@ -468,7 +469,7 @@ window.DEFAULT_CONTENT = {
   },
   "footer": {
     "ctaTitle": "Ready to Build Your Card Platform",
-    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24×7 operations.",
+    "ctaText": "Let's discuss your requirements. Our team will show you exactly how we can help—from custom development to 24x7 operations.",
     "ctaButton": "Book a Meeting",
     "ctaHref": "contact",
     "showResources": true,
@@ -532,7 +533,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Newsletter",
-            "href": "resources?filter=newsletter",
+            "href": "resources",
             "isResourcesLink": true,
             "badge": "new",
             "badgeText": "NEW"

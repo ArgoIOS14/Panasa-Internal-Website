@@ -1,9 +1,10 @@
-window.DEFAULT_CASE_STUDY_CONTENT = {
+window.DEFAULT_CASE_STUDY_CONTENT = 
+{
   "slug": "osper-family-banking",
   "category": "Case Study",
   "meta": {
-    "title": "Reinventing Family Banking Through Compliance, Trust, and Experience | Panasa",
-    "description": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform — open banking integration, SCA & 3DS, monitoring, and brand tie-ups across four countries.",
+    "title": "Osper Family Banking: Compliance, Trust & Experience | Panasa",
+    "description": "How Panasa partnered with Osper to deliver a regulator-aligned family banking platform: open banking, SCA & 3DS, monitoring, and brand tie-ups in 4 countries.",
     "canonical": "https://www.panasatech.com/case-studies/osper-family-banking",
     "ogImage": "https://www.panasatech.com/assets/cs-osper-cover.webp"
   },
@@ -11,8 +12,7 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
     "eyebrow": "CASE STUDY",
     "title": "Reinventing Family Banking Through",
     "titleAccent": "Compliance, Trust, and Experience",
-    "logo": "assets/logo-osper.svg",
-    "logoAlt": "Osper"
+    "background": "assets/cs-osper-hero-bg.webp"
   },
   "metaTiles": [
     {
@@ -45,32 +45,32 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
     {
       "type": "overview",
       "title": "Overview",
-      "body": "Osper, a leading youth-banking platform, enables children and parents to learn and manage money together through prepaid cards and digital tools. As regulations evolved and customer expectations grew, Osper sought to strengthen its compliance, monitoring, and brand engagement frameworks to build a more secure and trusted digital ecosystem. To achieve this, Osper partnered with Panasa to deliver a set of strategic initiatives across four key concerns: open banking integration, secure authentication, system observability, and branded financial experiences. Over a multi-phase engagement, Panasa helped Osper align technology, compliance, and customer experience into a unified, future-ready platform."
+      "body": "<p>Osper, a leading youth banking platform, enables children and parents to learn and manage money together through prepaid cards and digital tools. As regulations evolved and customer expectations grew, Osper sought to strengthen its compliance, monitoring, and brand engagement frameworks to build a more secure and trusted digital ecosystem.</p><p>To achieve this, Osper partnered with Panasa to deliver a set of strategic initiatives across four key domains: open banking integration, secure authentication, system observability, and branded financial experiences. Over a multi-phase engagement, Panasa helped Osper align technology, compliance, and customer experience into a unified, future-ready platform.</p>"
     },
     {
       "type": "cardGrid",
       "title": "Business Challenge",
-      "summary": "Osper faced several interconnected challenges as it scaled — each requiring precise integration, vendor coordination, and a commitment to both compliance and trust.",
+      "summary": "Osper faced several interconnected challenges as it scaled — each requiring precision in integration, vendor coordination, and a commitment to both compliance and delight.",
       "items": [
         {
           "icon": "assets/cs-challenge-01.svg",
           "title": "Regulatory Compliance",
-          "body": "Meeting Open Banking and PSD2 requirements without disrupting the experience for parent users of Osper."
+          "body": "Meeting Open Banking and PSD2 requirements without degrading the experience for parents and children."
         },
         {
           "icon": "assets/cs-challenge-02.svg",
           "title": "Security Enhancements",
-          "body": "Rolling out SCA and 3DS flows with robust fraud, issuer-side, and consumer-side checks."
+          "body": "Rolling out SCA and 3D Secure with robust fraud prevention while keeping flows intuitive and frictionless."
         },
         {
           "icon": "assets/cs-challenge-03.svg",
           "title": "System Visibility",
-          "body": "Building a 24×7 monitoring and alerting framework to keep ops, safety, and engineering in sync."
+          "body": "Building real-time monitoring and alerting to proactively manage incidents and safeguard uptime."
         },
         {
           "icon": "assets/cs-challenge-04.svg",
           "title": "Brand Expansion",
-          "body": "Supporting co-branded card design with partners such as YGAM and Mosskeleton without sacrificing compliance posture."
+          "body": "Supporting co-branded card designs with partners such as NGK and Nickelodeon without architectural overhead."
         }
       ]
     },
@@ -78,7 +78,7 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
       "type": "callout",
       "variant": "mint",
       "title": "Struggling with transaction latency?",
-      "text": "70% of high-impact processing deadlines from 800ms to under 100ms. Here's how.",
+      "text": "We've optimized processing pipelines from 800ms to under 100ms. Here's how.",
       "cta": {
         "label": "View Case Study",
         "href": "contact",
@@ -93,22 +93,22 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
         {
           "label": "PILLAR 01",
           "title": "Open Banking Integration",
-          "body": "Implemented PSD2 and Open Banking APIs with low-friction account information and transaction APIs in line with FCA guidance, giving parents instant control of family card permissions."
+          "body": "Implemented Tell.money APIs to achieve compliance with Account Information Services (AIS) regulations. Built a parental consent dashboard giving guardians transparent control over financial permissions."
         },
         {
           "label": "PILLAR 02",
           "title": "SCA & 3DS Implementation",
-          "body": "Integrated Cardinal, Threed, and Mastercard's Identity Check ecosystem flow. Designed risk-driven authentication paths so 9 out of 10 domestic flows for parents stayed friction-free."
+          "body": "Integrated Cardinal, Thredd, and Braintree into Osper's transaction flow. Designed a multi-layer authentication system with OTP and biometric factors for both parent and child users."
         },
         {
           "label": "PILLAR 03",
           "title": "Monitoring & Alerting Framework",
-          "body": "Deployed New Relic, AWS CloudWatch, PagerDuty, and Klaxon for full-stack visibility. Established structured logging with automated escalation for issuer-side and ops events."
+          "body": "Deployed New Relic, AWS CloudWatch, PagerDuty, and Kibana for full-stack visibility. Established structured logging with automated escalation by incident type and severity."
         },
         {
           "label": "PILLAR 04",
           "title": "Brand Tie-Up Enablement",
-          "body": "Engineered a scalable card management framework to allow multiple branded prepaid card designs without compromising the underlying compliance posture or risk-management discipline."
+          "body": "Engineered a scalable card management framework to onboard multiple branded prepaid card designs enabling co-branded partnerships to launch without architectural disruption."
         }
       ]
     },
@@ -127,55 +127,55 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
         {
           "index": "01",
           "title": "Assessment",
-          "body": "Audit of compliance, infra, and brand posture."
+          "body": "PSD2 gap analysis, SCA readiness audit"
         },
         {
           "index": "02",
           "title": "API Integration",
-          "body": "Active PSD2 + Open Banking partner connectivity."
+          "body": "AISP & PISP endpoints, OBIE-conformant"
         },
         {
           "index": "03",
           "title": "SCA & 3DS",
-          "body": "Risk-tiered Strong Customer Authentication rollout."
+          "body": "3DS2 flow with biometric and OTP fallback"
         },
         {
           "index": "04",
           "title": "UX Streamlining",
-          "body": "Friction reduction across parent and child flows."
+          "body": "Parent and youth flows, friction reduction"
         },
         {
           "index": "05",
           "title": "Monitoring",
-          "body": "Reliability, alerting, and ops escalations."
+          "body": "Datadog, Pagerduty, real-time alerting"
         },
         {
           "index": "06",
           "title": "Launch",
-          "body": "Branded card rollouts, partner go-live ceremony."
+          "body": "Phased rollout, partner brand enablement"
         }
       ],
       "bento": [
         {
           "kind": "image",
-          "src": "assets/cs-osper-approach-01.webp",
+          "src": "assets/cs-osper-step-01.webp",
           "alt": "Assessment phase",
           "title": "Assessment",
-          "description": "Audit of compliance, infra, and brand posture."
+          "caption": "Audit of compliance, infra, and brand posture."
         },
         {
           "kind": "image",
-          "src": "assets/cs-osper-approach-02.webp",
+          "src": "assets/cs-osper-step-02.webp",
           "alt": "Integration phase",
           "title": "API Integration",
-          "description": "PSD2 + Open Banking connectivity."
+          "caption": "PSD2 + Open Banking connectivity."
         },
         {
           "kind": "image",
-          "src": "assets/cs-osper-approach-03.webp",
+          "src": "assets/cs-osper-step-03.webp",
           "alt": "Authentication",
           "title": "SCA & 3DS",
-          "description": "Risk-tiered Strong Customer Authentication."
+          "caption": "Risk-tiered Strong Customer Authentication."
         },
         {
           "kind": "stat",
@@ -185,10 +185,10 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
         },
         {
           "kind": "image",
-          "src": "assets/cs-osper-approach-05.webp",
+          "src": "assets/cs-osper-step-06.webp",
           "alt": "Launch phase",
           "title": "Launch",
-          "description": "Co-branded card rollouts."
+          "caption": "Co-branded card rollouts."
         }
       ]
     },
@@ -200,7 +200,7 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
           "label": "INFRASTRUCTURE",
           "logos": [
             {
-              "src": "assets/logo-aws.svg",
+              "src": "assets/cs-tech-aws.svg",
               "alt": "AWS"
             }
           ]
@@ -209,12 +209,12 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
           "label": "BACKEND",
           "logos": [
             {
-              "src": "assets/logo-python.svg",
+              "src": "assets/cs-tech-python.svg",
               "alt": "Python"
             },
             {
-              "src": "assets/logo-postgres.svg",
-              "alt": "Postgres"
+              "src": "assets/cs-tech-postgresql.svg",
+              "alt": "PostgreSQL"
             }
           ]
         },
@@ -222,7 +222,7 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
           "label": "FRONTEND",
           "logos": [
             {
-              "src": "assets/logo-react.svg",
+              "src": "assets/cs-tech-react.svg",
               "alt": "React"
             }
           ]
@@ -231,11 +231,11 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
           "label": "MOBILE",
           "logos": [
             {
-              "src": "assets/logo-ios.svg",
+              "src": "assets/cs-tech-ios.svg",
               "alt": "iOS"
             },
             {
-              "src": "assets/logo-android.svg",
+              "src": "assets/cs-tech-android.svg",
               "alt": "Android"
             }
           ]
@@ -244,15 +244,15 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
           "label": "MONITORING",
           "logos": [
             {
-              "src": "assets/logo-new-relic.svg",
+              "src": "assets/cs-tech-newrelic.svg",
               "alt": "New Relic"
             },
             {
-              "src": "assets/logo-pagerduty.svg",
+              "src": "assets/cs-tech-pagerduty.svg",
               "alt": "PagerDuty"
             },
             {
-              "src": "assets/logo-kibana.svg",
+              "src": "assets/cs-tech-kibana.svg",
               "alt": "Kibana"
             }
           ]
@@ -261,16 +261,12 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
           "label": "COMPLIANCE",
           "logos": [
             {
-              "src": "assets/logo-pci.svg",
+              "src": "assets/cs-tech-pci.svg",
               "alt": "PCI"
             },
             {
-              "src": "assets/logo-open-banking.svg",
+              "src": "assets/cs-tech-openbanking.svg",
               "alt": "Open Banking"
-            },
-            {
-              "src": "assets/logo-aws-findings.svg",
-              "alt": "AWS Security Findings"
             }
           ]
         }
@@ -283,39 +279,33 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
       "items": [
         {
           "title": "Regulatory Alignment",
-          "metric": "100%",
-          "label": "Full vendor onboarding for Open Banking, PSD2, and SCA integrations.",
-          "tag": "COMPLIANCE"
+          "label": "Full compliance across Open Banking, PSD2, and 3DS integrated",
+          "tag": "100%"
         },
         {
           "title": "High Availability",
-          "metric": "99%",
-          "label": "Sub-100ms response times across all modules.",
-          "tag": "OPERATIONS"
+          "label": "Sub-500 ms response times across all modules.",
+          "tag": "OPERATIONAL"
         },
         {
           "title": "Enhanced Security",
-          "metric": "+92%",
-          "label": "Strong authentication reduced transaction-related fraud.",
-          "tag": "SECURITY"
+          "label": "Strong authentication reduced transaction-related fraud risk.",
+          "tag": "SCA · 3DS"
         },
         {
           "title": "Operational Efficiency",
-          "metric": "+40%",
-          "label": "Automated alerting and observability reduced manual triage.",
-          "tag": "EFFICIENCY"
+          "label": "Automated monitoring and alerting reduced manual oversight.",
+          "tag": "AUTOMATED"
         },
         {
           "title": "Faster Launches",
-          "metric": "+60%",
-          "label": "Co-branded card rollouts shortened from one-then-many to a multi-week, click-to-live cadence.",
-          "tag": "GO-TO-MARKET"
+          "label": "Co-branded card rollouts delivered in record time.",
+          "tag": "ZERO DOWNTIME"
         },
         {
           "title": "Customer Retention",
-          "metric": "+22%",
-          "label": "Frictionless authentication delivered a meaningful retention lift.",
-          "tag": "GROWTH"
+          "label": "Transparent parental controls & frictionless authentication lifted retention.",
+          "tag": "TRUST"
         }
       ]
     },
@@ -333,63 +323,68 @@ window.DEFAULT_CASE_STUDY_CONTENT = {
     {
       "type": "differentiators",
       "title": "Differentiators",
-      "summary": "Where this engagement broke the mould — and how the resulting platform delivered on it.",
       "tiles": [
         {
           "kind": "image",
+          "src": "assets/cs-osper-diff-compliance.webp",
+          "alt": "Regulatory framework chart",
           "eyebrow": "END-TO-END COMPLIANCE EXPERTISE",
           "title": "Regulatory frameworks, woven into the customer journey.",
-          "description": "Compliance isn't bolted on after launch — it's part of the product surface from day one, so the experience stays smooth and the audit trail stays clean.",
-          "src": "assets/cs-osper-diff-compliance.webp",
-          "alt": "Compliance frameworks chart"
+          "description": "Compliance isn't bolted on after launch — it's part of the product surface from day one, so the experience stays smooth and the audit trail stays clean."
         },
         {
           "kind": "image",
+          "src": "assets/cs-osper-diff-monitor.webp",
+          "alt": "Real-time visibility line graph",
           "eyebrow": "UNIFIED MONITORING",
           "title": "Real-time visibility across the full platform.",
-          "description": "One pane of glass for transactions, services, and partner integrations with live signals so issues surface before customers feel them.",
-          "src": "assets/cs-osper-diff-monitor.webp",
-          "alt": "Real-time monitoring dashboard"
+          "description": "One pane of glass for transactions, services, and partner integrations with live signals so issues surface before customers feel them."
         },
         {
           "kind": "image",
+          "src": "assets/cs-osper-diff-bars.webp",
+          "alt": "Fast iteration bar chart",
           "eyebrow": "AGILE & SCALABLE",
           "title": "Fast iterations, no compromise on stability.",
-          "description": "Ship every two weeks without waking the platform up.",
-          "src": "assets/cs-osper-diff-bars.webp",
-          "alt": "Iteration velocity bar chart"
+          "description": "Ship every two weeks without waking the platform up."
         },
         {
           "kind": "image",
+          "src": "assets/cs-osper-diff-security.webp",
+          "alt": "Frictionless security flow",
           "eyebrow": "USER-CENTRIC SECURITY",
           "title": "Strong compliance, frictionless experience.",
-          "description": "Hardened controls behind the scenes; nothing in the user's way.",
-          "src": "assets/cs-osper-diff-security.webp",
-          "alt": "Security flow with verified checkpoint"
+          "description": "Hardened controls behind the scenes; nothing in the user's way."
         },
         {
           "kind": "image",
+          "src": "assets/cs-osper-diff-partners.webp",
+          "alt": "Co-branded partner rollouts",
           "eyebrow": "PARTNERSHIP-DRIVEN",
           "title": "Co-branded rollouts, system consistency preserved.",
-          "description": "Plug new partners in without re-architecting the core.",
-          "src": "assets/cs-osper-diff-partners.webp",
-          "alt": "Co-branded partner cards"
+          "description": "Plug new partners in without re-architecting the core."
         }
       ]
     },
     {
       "type": "conclusion",
       "title": "Conclusion",
-      "body": "The Osper engagement demonstrates how thoughtful design, compliance innovation, and user experience can coexist in fintech. Through strategic integrations and a customer-first philosophy, Osper now operates a secure, compliant, and engaging family banking ecosystem — one that earns trust from parents, empowers children, and builds confidence with regulators. It sets a new benchmark for youth-focused digital banking in the UK — and a repeatable blueprint for the compliant fintech of tomorrow."
+      "body": "<p>The Osper engagement demonstrates how thoughtful design, compliance innovation, and user experience can coexist in fintech. Through strategic integrations and a customer-first philosophy, Osper now operates a secure, compliant, and engaging family banking ecosystem — one that earns trust from parents, empowers children, and builds confidence with regulators.</p><p>It sets a new benchmark for youth-focused digital banking in the UK — and a repeatable blueprint for compliant fintech at scale.</p>"
     }
   ],
   "newsletter": {
+    "eyebrow": "NEWSLETTER",
     "title": "Enjoyed this Case Study?",
-    "subtitle": "Due to insight in our newsletters simplifying the intricacies of the payments ecosystem, from authorisation flow to disputes.",
-    "placeholder": "Enter Email Address"
+    "titleAccent": "Get Payments Deconstructed.",
+    "description": "Our fortnightly newsletter simplifying the intricacies of the payments ecosystem, from authorization flows to disputes.",
+    "formNote": "No spam. Unsubscribe anytime.",
+    "placeholder": "Enter Email Address",
+    "submitLabel": "Subscribe"
   },
   "relatedSlugs": [
-    "ai-fraud-detection-neobank",
-    "scaling-card-issuance-1m-users"
+    "open-banking-youth-banking-platform",
+    "operations-backbone-global-issuer-processor",
+    "3d-secure-authentication-issuer-processor"
   ]
-};
+}
+;

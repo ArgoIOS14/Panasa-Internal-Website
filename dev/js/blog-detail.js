@@ -10,29 +10,19 @@ import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderBlogDetail } from './Home scenes/sections/blogDetail.js';
 import { initInlineNewsletter } from './Home scenes/components/inline-newsletter.js';
 
-// Live preview — only loaded in ?preview=true mode (admin panel iframe).
-// Used by both Blog AND Insights articles since they share this script.
-if (new URLSearchParams(window.location.search).get('preview') === 'true') {
-  import('./live-preview-receiver.js').catch(() => { /* non-critical */ });
-}
-
 const RESOURCES_JSON_URL = '../content/Resources/content.json';
 
 const getSlug = () =>
   document.querySelector('.blog-detail-page')?.dataset.blogSlug ||
+  // Match either /blog/<slug> or /insights/<slug> — both content types share
+  // this renderer; the URL prefix is the only thing that differs.
   (location.pathname.match(/\/(?:blog|insights)\/([^/]+?)(?:\.html)?$/) || [])[1] ||
   '';
-
-// Blog detail pages live at /blog/<slug>; insights at /insights/<slug>.
-// They share the same renderer + JSON schema; only the source folder differs.
-const getContentFolder = () =>
-  location.pathname.includes('/insights/') ? 'Insights' : 'Blog';
 
 const loadBlogContent = async (slug) => {
   if (!slug) return null;
   try {
-    const folder = getContentFolder();
-    const res = await fetch(`../content/${folder}/${slug}.json`);
+    const res = await fetch(`../content/Blog/${slug}.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch (error) {
@@ -75,6 +65,15 @@ const buildFooterLinks = (footer) => ({
       href: resolveToSiteHref(link.href),
     })),
   })),
+  legal: footer?.legal
+    ? {
+        ...footer.legal,
+        links: (footer.legal.links || []).map((link) => ({
+          ...link,
+          href: resolveToSiteHref(link.href),
+        })),
+      }
+    : footer?.legal,
 });
 
 const buildNavLinks = (nav) => ({
@@ -152,28 +151,6 @@ const initBlogDetail = async () => {
 };
 
 initBlogDetail();
-
-/* Live preview render handler — called by live-preview-receiver on every
-   admin edit. Re-renders the blog/insight article with the in-flight admin
-   data (meta, hero image, title, body blocks, related-slugs). */
-if (new URLSearchParams(window.location.search).get('preview') === 'true') {
-  window.__livePreviewRender = (data) => {
-    try {
-      if (data) {
-        const resources = window.DEFAULT_RESOURCES_CONTENT || null;
-        renderBlogDetail(data, resources);
-        if (data.meta?.title) document.title = data.meta.title;
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc && data.meta?.description) {
-          metaDesc.setAttribute('content', data.meta.description);
-        }
-        initScrollAnimations();
-      }
-    } catch (e) {
-      console.warn('[live-preview] blog/insights render failed:', e);
-    }
-  };
-}
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) initScrollAnimations();
