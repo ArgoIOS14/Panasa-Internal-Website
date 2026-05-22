@@ -99,6 +99,25 @@ textarea {
   border: 1px solid rgba(16, 28, 24, 0.08);
 }
 
+.btn-green {
+  min-height: 40px;
+  padding: 0 16px;
+  background: #19ae71;
+  color: #ffffff;
+  box-shadow: 0 10px 18px rgba(25, 174, 113, 0.22);
+}
+
+.btn-green:hover {
+  background: #16a067;
+}
+
+.btn-green .btn-arrow {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+  flex: 0 0 auto;
+}
+
 .services-page {
   min-height: 100vh;
   background: #ffffff;
@@ -1475,17 +1494,30 @@ textarea {
 
 .fit-section {
   padding-top: 48px;
-  padding-bottom: 8px;
+  padding-bottom: 64px;
 }
 
 .fit-section .section-kicker {
   color: #5f6468;
 }
 
+.fit-section .section-head {
+  align-items: center;
+}
+
 .fit-section .section-head p {
   max-width: 620px;
   color: #202327;
   opacity: 1;
+}
+
+.fit-section .fit-head-action {
+  justify-self: end;
+  align-self: center;
+}
+
+.fit-section .fit-foot-action {
+  display: none;
 }
 
 .fit-section .section-title h2 em {
@@ -1679,6 +1711,34 @@ textarea {
   .section-head {
     grid-template-columns: 1fr;
     gap: 14px;
+  }
+
+  .fit-section .fit-head-action {
+    display: none;
+  }
+
+  .fit-section .section-head {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .fit-section .section-head p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .fit-section .fit-foot-action {
+    display: block;
+    margin-top: 32px;
+    padding: 0 var(--page-gutter);
+  }
+
+  .fit-section .fit-foot-action .btn-green {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    border-radius: 12px;
+    font-size: 15px;
   }
 
   .why-section .section-title-split {

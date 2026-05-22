@@ -7,7 +7,7 @@ window.DEFAULT_BLOG_CONTENT = {
   },
   "slug": "lifecycle-of-a-payment",
   "category": "Insights",
-  "tag": "INSIGHTS",
+  "tag": "INSIGHT",
   "title": "The Lifecycle of a Payment: From Tap to Everything That Follows",
   "date": "17 APR 2026",
   "readTime": "13 MINS READ",

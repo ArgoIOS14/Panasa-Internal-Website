@@ -529,44 +529,9 @@ ul {
   margin-top: 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
-}
-
-.rows-per-page {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-family: 'InterVariable', 'Inter', sans-serif;
-}
-
-.rows-per-page label {
-  font-size: 0.85rem;
-}
-
-.rows-per-page select {
-  appearance: none;
-  -webkit-appearance: none;
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 34px 8px 14px;
-  font: inherit;
-  font-size: 0.85rem;
-  color: var(--text-dark);
-  cursor: pointer;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'><path d='M1 1L5 5L9 1' stroke='%230f2c25' stroke-width='1.5' stroke-linecap='round'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  transition: border-color 180ms ease;
-}
-
-.rows-per-page select:focus {
-  outline: none;
-  border-color: var(--accent-2);
 }
 
 .pagination-controls {
@@ -769,11 +734,6 @@ ul {
     align-items: stretch;
     gap: 14px;
   }
-
-  /* On mobile the "rows per page" selector has no visual analogue (each row
-     is one card). Hide it and let pagination use the mobile default of
-     6 items per page. See resources.js → MOBILE_ITEMS_PER_PAGE. */
-  .rows-per-page { display: none; }
 
   /* Compact mobile pagination: keep Prev / indicator / Next; hide First/Last
      since Prev+Next with a tappable indicator is enough. */

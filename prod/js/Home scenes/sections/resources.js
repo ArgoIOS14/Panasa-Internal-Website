@@ -27,7 +27,10 @@ const slugify = (label) =>
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '');
 
-const categoryLabel = (category) => (category || '').toUpperCase();
+const categoryLabel = (category) => {
+  const label = String(category || '').toUpperCase();
+  return label === 'INSIGHTS' ? 'INSIGHT' : label;
+};
 
 const tagClassFor = (category) =>
   findByAnyLabel(category)?.tagClass || 'resource-tag-blog';
@@ -161,7 +164,6 @@ export const renderResources = (data) => {
   // ── Filter tabs + grid + pagination ───────────────
   const filtersEl = document.querySelector('[data-resources-filters]');
   const gridEl = document.querySelector('[data-resources-grid]');
-  const rowsSelect = document.querySelector('[data-rows-per-page]');
   const pageFirst = document.querySelector('[data-page-first]');
   const pagePrev = document.querySelector('[data-page-prev]');
   const pageNext = document.querySelector('[data-page-next]');
@@ -181,41 +183,12 @@ export const renderResources = (data) => {
   let activeFilter = getInitialFilter(filters);
   let currentPage = getInitialPage();
 
-  // #8: explicit check — treat only finite positive numbers as valid overrides
-  const defaultRows = data.pagination?.defaultRowsPerPage;
-  const hasExplicitDefault = Number.isFinite(defaultRows) && defaultRows > 0;
-  let rowsPerPage = hasExplicitDefault ? Number(defaultRows) : 2;
-
-  // #3: render <select> options from JSON (fallback to the HTML-defined options if not provided)
-  const rowsOptions =
-    Array.isArray(data.pagination?.rowsPerPageOptions) &&
-    data.pagination.rowsPerPageOptions.length
-      ? data.pagination.rowsPerPageOptions
-      : null;
-  if (rowsSelect instanceof HTMLSelectElement) {
-    if (rowsOptions) {
-      rowsSelect.innerHTML = '';
-      rowsOptions.forEach((n) => {
-        const opt = createEl('option');
-        opt.value = String(n);
-        opt.textContent = String(n);
-        rowsSelect.appendChild(opt);
-      });
-    }
-    rowsSelect.value = String(rowsPerPage);
-  }
+  const ROWS_PER_PAGE = 2;
 
   // #1 + #2: column count matches the CSS grid responsive rules
   let columns = detectColumns();
 
-  /* On mobile each "row" is a single card, so the desktop "rows-per-page"
-     selector has no visual analogue. We hide the selector on mobile and use
-     a fixed items-per-page so the list paginates sensibly (6 cards ≈ a
-     phone-height worth of scroll). Desktop/tablet keep the selector-driven
-     rowsPerPage × columns formula. */
-  const MOBILE_ITEMS_PER_PAGE = 6;
-  const itemsPerPage = () =>
-    columns === 1 ? MOBILE_ITEMS_PER_PAGE : rowsPerPage * columns;
+  const itemsPerPage = () => ROWS_PER_PAGE * columns;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const OUT_MS = readMs('--motion-duration-reveal-fast', 220);
@@ -317,9 +290,7 @@ export const renderResources = (data) => {
       }
     }
 
-    // #7: hide the pagination row entirely when it serves no purpose —
-    // either there are no results, or everything fits on a single page so
-    // the rows-per-page selector and page nav would be redundant.
+    // Hide pagination when it serves no purpose — no results, or everything fits on one page.
     if (paginationEl instanceof HTMLElement) {
       paginationEl.hidden = filtered.length === 0 || pages <= 1;
     }
@@ -444,16 +415,6 @@ export const renderResources = (data) => {
       animatedRender();
     });
   }
-  if (rowsSelect instanceof HTMLSelectElement) {
-    rowsSelect.addEventListener('change', () => {
-      const next = Number(rowsSelect.value);
-      if (!Number.isFinite(next) || next < 1) return;
-      rowsPerPage = next;
-      currentPage = 1;
-      animatedRender();
-    });
-  }
-
   // #2: recompute items-per-page when the viewport crosses a breakpoint
   let resizeRaf = 0;
   window.addEventListener('resize', () => {

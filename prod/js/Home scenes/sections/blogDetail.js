@@ -25,7 +25,10 @@ const CATEGORY_CLASS_MAP = {
 const tagClassFor = (category) =>
   CATEGORY_CLASS_MAP[category] || 'resource-tag-blog';
 
-const categoryLabel = (category) => (category || '').toUpperCase();
+const categoryLabel = (category) => {
+  const label = String(category || '').toUpperCase();
+  return label === 'INSIGHTS' ? 'INSIGHT' : label;
+};
 
 /* Per-category read-more arrow — same pattern as resources.js so cards
    rendered on the Resources page and cards rendered inside the "More X"

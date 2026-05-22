@@ -23,7 +23,10 @@ const CATEGORY_CLASS_MAP = {
 const tagClassFor = (category) =>
   CATEGORY_CLASS_MAP[category] || 'resource-tag-guide';
 
-const categoryLabel = (category) => (category || '').toUpperCase();
+const categoryLabel = (category) => {
+  const label = String(category || '').toUpperCase();
+  return label === 'INSIGHTS' ? 'INSIGHT' : label;
+};
 
 const READMORE_ARROW_BY_CATEGORY = {
   'Blog':         'readmore-blog.svg',
