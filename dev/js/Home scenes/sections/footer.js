@@ -1,6 +1,11 @@
 import { createEl, setText } from '../utils/dom.js';
+// Side-effect: registers the site-wide newsletter modal click delegation
+// so any [data-newsletter-trigger] or `href="#newsletter"` link opens the
+// modal, no matter which page renders the footer.
+import '../components/newsletter-modal.js';
 
 export const renderFooter = (data) => {
+
   setText('[data-footer-cta-title]', data.ctaTitle);
   setText('[data-footer-cta-text]', data.ctaText);
 

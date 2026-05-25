@@ -15,7 +15,7 @@ window.DEFAULT_GUIDE_CONTENT = {
   "readTime": "12 MINS READ",
   "datePublished": "2026-04-21",
   "dateModified": "2026-04-21",
-  "author": "Panasa Team",
+  "author": "Ananya Nandy",
   "tags": [
     "Interchange",
     "Card economics",

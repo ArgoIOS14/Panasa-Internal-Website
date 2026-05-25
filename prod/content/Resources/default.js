@@ -35,11 +35,31 @@ window.DEFAULT_RESOURCES_CONTENT = {
   },
   "items": [
     {
+      "category": "Insights",
+      "title": "Embedded Finance Is the Real Card-Issuing Market",
+      "excerpt": "Non-financial platforms are now some of the most active card issuers in the world. Inside the $17.6B embedded card issuing market and what it means for banks, processors, and card program builders.",
+      "date": "25 MAY 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/resources-card-placeholder.webp",
+      "slug": "embedded-finance-real-card-issuing-market",
+      "href": "insights/embedded-finance-real-card-issuing-market"
+    },
+    {
+      "category": "Insights",
+      "title": "Five Things to Look for When Migrating Your Card Program",
+      "excerpt": "Card migration is not a back-end switch. It spans cardholder data, BINs, compliance, fraud controls, and daily experience. Five essentials to get right before you initiate anything.",
+      "date": "25 MAY 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/resources-card-placeholder.webp",
+      "slug": "five-things-card-program-migration",
+      "href": "insights/five-things-card-program-migration"
+    },
+    {
       "category": "Blog",
       "title": "What Does 3D Secure Authentication Actually Mean for Your Card Program?",
       "excerpt": "How 3D Secure (3DS) works, the frictionless vs challenge decision, the liability shift, PSD2 SCA implications, and what card programs should actually be tuning.",
       "date": "15 MAY 2026",
-      "author": "Panasa Team",
+      "author": "Fathima Roshni",
       "image": "assets/blog-hero-desktop.webp",
       "href": "blog/3d-secure-authentication-card-program",
       "slug": "3d-secure-authentication-card-program"
@@ -49,7 +69,7 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "title": "A Guide to Card Controls in Modern Payment Fraud Prevention",
       "excerpt": "How card controls prevent fraud before authorisation completes — MCC, velocity, geographic, MID, spend, channel, and time-based rules — and what they mean for card programs.",
       "date": "15 MAY 2026",
-      "author": "Panasa Team",
+      "author": "Fathima Roshni",
       "image": "assets/blog-hero-desktop.webp",
       "href": "blog/card-controls-fraud-prevention",
       "slug": "card-controls-fraud-prevention"
@@ -96,10 +116,20 @@ window.DEFAULT_RESOURCES_CONTENT = {
     },
     {
       "category": "Guide",
+      "title": "What Is Card Lifecycle Management? A Complete Guide for Card Programs",
+      "excerpt": "Card lifecycle management runs from issuance to closure. This guide walks through every stage, the controls that matter, and how to orchestrate lifecycle events at scale.",
+      "date": "25 MAY 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/resources-card-placeholder.webp",
+      "slug": "card-lifecycle-management",
+      "href": "guides/card-lifecycle-management"
+    },
+    {
+      "category": "Guide",
       "title": "The Complete Guide to Interchange Fees",
       "excerpt": "How card payment economics really work — who gets paid, why merchants care, and how interchange shapes the modern payments ecosystem.",
       "date": "21 APR 2026",
-      "author": "Panasa Team",
+      "author": "Ananya Nandy",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "complete-guide-to-interchange-fees",
       "href": "guides/complete-guide-to-interchange-fees"
@@ -109,7 +139,7 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "title": "The Lifecycle of a Payment: From Tap to Everything That Follows",
       "excerpt": "A payment is not a moment — it is a lifecycle. Authorisation, clearing, settlement, interchange, fraud, chargebacks, digital wallets, open banking and embedded finance, explained end-to-end.",
       "date": "17 APR 2026",
-      "author": "Panasa Team",
+      "author": "Ananya Nandy",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "lifecycle-of-a-payment",
       "href": "insights/lifecycle-of-a-payment"
@@ -119,7 +149,7 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "title": "Anatomy of a Swipe: What Really Happens When You Tap Your Card",
       "excerpt": "A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.",
       "date": "16 APR 2026",
-      "author": "Panasa Team",
+      "author": "Ananya Nandy",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "anatomy-of-a-swipe",
       "href": "blog/anatomy-of-a-swipe"

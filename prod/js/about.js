@@ -37,6 +37,20 @@ const ABOUT_TESTIMONIALS = {
       logo: 'assets/testimonial-logo-cleava.svg',
       logoAlt: 'Cleava',
     },
+    {
+      text: 'We assigned payment platform integration work to Panasa, and they delivered to our utmost satisfaction. We wish Panasa Tech all the best for their future endeavors.',
+      name: 'Aaron Holmes',
+      role: 'Chief Executive Officer',
+      logo: 'assets/testimonial-logo-kani.svg',
+      logoAlt: 'Kani Payments',
+    },
+    {
+      text: "With it now being commonplace for most UK developers to work remotely, we've found transitioning assignments to Panasa a breeze. They're extremely conscientious, have built in guardrails for governance and pros at what they do.",
+      name: 'Anil Nair',
+      role: 'Co-founder',
+      logo: 'assets/testimonial-logo-earnr.svg',
+      logoAlt: 'earnr',
+    },
   ],
 };
 

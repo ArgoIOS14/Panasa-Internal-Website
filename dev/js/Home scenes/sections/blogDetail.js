@@ -270,14 +270,14 @@ const wireHeroImage = (data) => {
 /* Categories that an article can belong to. Keeps the related-items filter
    and the "More X" section heading in lock-step. */
 const CATEGORY_TO_HEADING = {
-  'Blog': 'More Blogs',
-  'Blogs': 'More Blogs',
-  'Insights': 'More Insights',
-  'Insight': 'More Insights',
-  'Guide': 'More Guides',
-  'Guides': 'More Guides',
-  'Case Study': 'More Case Studies',
-  'Case Studies': 'More Case Studies',
+  'Blog': 'You Might Also Like',
+  'Blogs': 'You Might Also Like',
+  'Insights': 'You Might Also Like',
+  'Insight': 'You Might Also Like',
+  'Guide': 'You Might Also Like',
+  'Guides': 'You Might Also Like',
+  'Case Study': 'You Might Also Like',
+  'Case Studies': 'You Might Also Like',
 };
 
 const sameCategory = (a, b) => {
@@ -315,10 +315,10 @@ const resolveRelatedHeading = (blogData) => {
   // Handle exact match first, then normalise plural/singular
   if (CATEGORY_TO_HEADING[cat]) return CATEGORY_TO_HEADING[cat];
   const normalised = String(cat).toLowerCase();
-  if (normalised.includes('insight')) return 'More Insights';
-  if (normalised.includes('guide')) return 'More Guides';
-  if (normalised.includes('case')) return 'More Case Studies';
-  return 'More Blogs';
+  if (normalised.includes('insight')) return 'You Might Also Like';
+  if (normalised.includes('guide')) return 'You Might Also Like';
+  if (normalised.includes('case')) return 'You Might Also Like';
+  return 'You Might Also Like';
 };
 
 /* ── SEO meta helpers */

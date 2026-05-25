@@ -2072,3 +2072,297 @@ textarea {
   }
 
 }
+
+/* Service-page testimonial (single card) */
+.service-testimonial {
+  background: #151515;
+  color: #ffffff;
+  padding: 96px 0 104px;
+}
+
+.service-testimonial .section-title-split {
+  max-width: var(--page-shell);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter, 20px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  align-items: start;
+  gap: 34px;
+}
+
+.service-testimonial .section-heading-copy {
+  justify-items: start;
+}
+
+.service-testimonial h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(2.1rem, 3.4vw, 2.85rem);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+}
+
+.service-testimonial h2 span {
+  color: #16ab6d;
+}
+
+.service-testimonial .section-title-split p {
+  max-width: 320px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.52;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.service-testimonial-shell {
+  max-width: var(--page-shell);
+  margin: 40px auto 0;
+  padding: 0 var(--page-gutter, 20px);
+}
+
+.service-testimonial-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px;
+  padding: 56px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.service-testimonial-card blockquote {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.45vw, 1.3rem);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.service-testimonial-meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.service-testimonial-meta strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.1;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.service-testimonial-meta span {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.service-testimonial-meta img {
+  height: 36px;
+  width: auto;
+  max-width: 180px;
+  opacity: 0.82;
+}
+
+.service-testimonial-meta .service-testimonial-logo-placeholder {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 900px) {
+  .service-testimonial {
+    padding: 64px 0 72px;
+  }
+  .service-testimonial .section-title-split {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .service-testimonial .section-title-split p {
+    max-width: none;
+  }
+  .service-testimonial-card {
+    padding: 36px 28px;
+    gap: 36px;
+  }
+  .service-testimonial-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+
+/* ---------- FAQ Section (light theme) ---------- */
+/* Matches the reference design — white background, dark text, soft gray
+   borders. Used only by the four service sub-pages; services.html (overview)
+   keeps its dark-theme FAQ via services-overview.css. */
+
+.faq-section {
+  background: #ffffff;
+  padding: 72px 0 64px;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
+}
+
+.faq-section > .faq-header,
+.faq-section > .faq-list {
+  max-width: var(--page-shell);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
+}
+
+.faq-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+
+.faq-header-title h2 {
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #141414;
+  margin: 0;
+}
+
+.faq-header-title h2 span {
+  display: block;
+}
+
+.faq-header-title h2 em {
+  font-style: normal;
+  color: var(--green);
+  display: block;
+}
+
+.faq-header > p {
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(20, 20, 20, 0.6);
+  margin: 0;
+  padding-top: 8px;
+}
+
+.faq-list {
+  display: grid;
+  gap: 10px;
+}
+
+.faq-item {
+  border-radius: 6px;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  background: #ffffff;
+}
+
+.faq-item.is-active {
+  background: #fafafa;
+  border-color: rgba(20, 20, 20, 0.12);
+}
+
+.faq-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #141414;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+}
+
+.faq-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(20, 20, 20, 0.6);
+}
+
+.faq-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.faq-icon-vertical {
+  transition: opacity var(--motion-duration-panel) var(--motion-ease-standard);
+}
+
+.faq-item.is-active .faq-icon-vertical {
+  opacity: 0;
+}
+
+.faq-panel {
+  height: 0;
+  overflow: hidden;
+  transition: height var(--motion-duration-panel) var(--motion-ease-standard);
+}
+
+.faq-panel-inner {
+  padding: 0 18px 16px;
+}
+
+.faq-panel-inner p {
+  margin: 0;
+  max-width: 840px;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(20, 20, 20, 0.6);
+}
+
+@media (max-width: 900px) {
+  .faq-header {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .faq-toggle {
+    font-size: 12px;
+    padding: 14px 14px;
+  }
+
+  .faq-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .faq-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .faq-panel-inner {
+    padding: 0 14px 12px;
+  }
+
+  .faq-panel-inner p {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 640px) {
+  .faq-section {
+    padding: 48px 0 40px;
+  }
+}

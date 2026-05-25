@@ -282,15 +282,23 @@ export const renderResources = (data) => {
     if (!canReuseStatic) {
       gridEl.innerHTML = '';
       if (filtered.length === 0) {
-        const empty = createEl('p', 'resources-empty');
-        empty.textContent = 'No resources yet in this category.';
+        const empty = createEl('div', 'resources-empty');
+        empty.innerHTML = `
+          <img class="resources-empty-illustration"
+               src="assets/resources-empty-illustration.webp"
+               alt=""
+               aria-hidden="true" />
+          <h3 class="resources-empty-title">Nothing to explore yet</h3>
+          <p class="resources-empty-text">We don't have any content in this section right now.<br />Please check back later for new updates.</p>
+        `;
         gridEl.appendChild(empty);
       } else {
         slice.forEach((item) => gridEl.appendChild(renderCard(item)));
       }
     }
 
-    // Hide pagination when it serves no purpose — no results, or everything fits on one page.
+    // Hide pagination when it serves no purpose — no results, or everything
+    // fits on one page.
     if (paginationEl instanceof HTMLElement) {
       paginationEl.hidden = filtered.length === 0 || pages <= 1;
     }
