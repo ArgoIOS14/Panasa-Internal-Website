@@ -440,8 +440,19 @@ async function autoSeedFromBundle(type, existingArticles, { showProgress, clearP
         if (!dataRes.ok) throw new Error(`HTTP ${dataRes.status} fetching JSON`);
         const data = await dataRes.json();
 
-        // Title source: hero.title (case studies) → top-level title → slug.
-        const title = (type === 'case-studies' ? (data.hero?.title || '') : '') || data.title || slug;
+        // Title source for case studies:
+        //   hero.title  (legacy single-string headline, e.g. Osper)
+        //   → hero.titleAccent + hero.titleSuffix  (new split shape)
+        //   → meta.title  (SEO title, always populated)
+        //   → top-level title
+        //   → slug
+        let title;
+        if (type === 'case-studies') {
+          const heroSplit = [data.hero?.titleAccent, data.hero?.titleSuffix].filter(Boolean).join(' ').trim();
+          title = data.hero?.title || heroSplit || data.meta?.title || data.title || slug;
+        } else {
+          title = data.title || slug;
+        }
 
         await set(ref(db, `pages/articles/${type}/${slug}`), data);
         await set(ref(db, `pages/articlesIndex/${type}/${slug}`), {

@@ -24,12 +24,11 @@ export const defaults = {
     subtitle: 'Explore expert insights, real-world case studies, and proven strategies to design, build, and scale secure fintech platforms.',
   },
   featured: {
-    ref: null,
-    tag: '',
-    tagClass: '',
+    tag: 'CASE STUDY',
+    tagClass: 'case-study',
     title: '',
     date: '',
-    author: '',
+    author: 'Panasa Team',
     image: '',
     href: '',
   },
@@ -37,7 +36,7 @@ export const defaults = {
   activeFilter: 'All',
   pagination: {
     defaultRowsPerPage: 2,
-    rowsPerPageOptions: ['2', '4', '8'],
+    rowsPerPageOptions: [2, 4, 8],
   },
 };
 
@@ -53,7 +52,16 @@ export const sections = [
     { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
   ]},
   { key: 'featured', label: 'Featured Card', fields: [
-    { key: 'ref', label: 'Featured article (auto-fills the card)', type: 'article-picker' },
+    { key: 'tag', label: 'Tag (uppercase pill)', type: 'text',
+      help: 'Small uppercase label on the featured card (e.g. "CASE STUDY", "BLOG").' },
+    { key: 'tagClass', label: 'Tag CSS class', type: 'text',
+      help: 'Drives the pill colour. Use one of: case-study, blog, insights, guide.' },
+    { key: 'title', label: 'Title', type: 'text' },
+    { key: 'date', label: 'Date (display string, e.g. 30 APR 2026)', type: 'text' },
+    { key: 'author', label: 'Author', type: 'text' },
+    { key: 'image', label: 'Cover image', type: 'image' },
+    { key: 'href', label: 'Article link (e.g. case-studies/osper-family-banking)', type: 'text',
+      help: 'Path without leading slash. Examples: blog/anatomy-of-a-swipe, case-studies/osper-family-banking.' },
   ]},
   { key: 'filters_sect', label: 'Filter Tabs', parentKey: '_root', fields: [
     { key: 'filters', label: 'Filter labels', type: 'string-list' },

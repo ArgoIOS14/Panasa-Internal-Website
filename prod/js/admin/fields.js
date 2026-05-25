@@ -841,6 +841,7 @@ export function renderField(sectionKey, field, value, data, onRerender) {
     case 'heading-body-cards': renderHBCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'pill-cards': renderPillCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'string-list': renderStringList(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'link-list': renderLinkList(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'image-list': renderImageList(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'service-cards': renderServiceCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'why-cards': renderWhyCards(group, sectionKey, field.key, toArr(value), ctx); break;
@@ -1081,6 +1082,26 @@ function renderStringList(group, sectionKey, arrayKey, items, ctx) {
   });
   addButton(group, container, '+ Add item', () => {
     ctx.data[sectionKey][arrayKey].push('');
+    ctx.onRerender();
+  });
+  attachRemove(container, ctx, sectionKey, arrayKey);
+}
+
+// Repeater for {label, href}[] arrays — e.g. footer.legal.links.
+function renderLinkList(group, sectionKey, arrayKey, items, ctx) {
+  const container = el('div', 'repeatable-container');
+  items.forEach((item, i) => {
+    const obj = (item && typeof item === 'object') ? item : { label: '', href: '' };
+    const row = el('div', 'card-row link-list-row');
+    row.innerHTML = `<input type="text" class="ll-label" value="${esc(obj.label || '')}" placeholder="Label (e.g. Privacy Policy)"><input type="text" class="ll-href" value="${esc(obj.href || '')}" placeholder="Link (e.g. privacy-policy)"><button class="bullet-remove" data-idx="${i}">&times;</button>`;
+    container.appendChild(row);
+  });
+  addButton(group, container, '+ Add link', () => {
+    // Push into the resolved data ref so it works for nested sections too
+    // (e.g. footer.legal.links).
+    const ref = resolveDataRef(ctx.data, sectionKey);
+    if (!Array.isArray(ref[arrayKey])) ref[arrayKey] = [];
+    ref[arrayKey].push({ label: '', href: '' });
     ctx.onRerender();
   });
   attachRemove(container, ctx, sectionKey, arrayKey);
@@ -3073,7 +3094,7 @@ function renderArticlePicker(group, fieldKey, value, ctx) {
       }
       items.forEach((it) => {
         const opt = document.createElement('option');
-        const type = it.href?.startsWith('blog/') ? 'blog' : it.href?.startsWith('insights/') ? 'insights' : it.href?.startsWith('guides/') ? 'guides' : '';
+        const type = it.href?.startsWith('blog/') ? 'blog' : it.href?.startsWith('insights/') ? 'insights' : it.href?.startsWith('guides/') ? 'guides' : it.href?.startsWith('case-studies/') ? 'case-studies' : '';
         if (!type || !it.slug) return;
         opt.value = `${type}:${it.slug}`;
         opt.textContent = `[${it.category || type}] ${it.title} ${it.date ? '(' + it.date + ')' : ''}`;
@@ -3242,13 +3263,14 @@ export function readAllForms(editorSections, sections, data) {
         case 'columns': { ref.columns = Array.from(group.querySelectorAll('.section-card')).map(card => ({ heading: card.querySelector('.col-heading')?.value || '', bullets: Array.from(card.querySelectorAll('.bullet-row')).map(row => ({ icon: row.querySelector('.icon-input')?.value || null, text: row.querySelector('.bullet-text')?.value || '' })) })); break; }
         case 'heading-body-cards': case 'pill-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => { const obj = { heading: c.querySelector('.hb-heading')?.value || '', body: c.querySelector('.hb-body')?.value || '' }; const pill = c.querySelector('.hb-pill'); if (pill) obj.pill = pill.value; return obj; }); break; }
         case 'string-list': { ref[field.key] = Array.from(group.querySelectorAll('.card-row')).map(r => r.querySelector('.str-item')?.value || ''); break; }
+        case 'link-list': { ref[field.key] = Array.from(group.querySelectorAll('.link-list-row')).map(r => ({ label: r.querySelector('.ll-label')?.value || '', href: r.querySelector('.ll-href')?.value || '' })); break; }
         case 'image-list': { ref[field.key] = Array.from(group.querySelectorAll('.image-list-card')).map(c => ({ src: c.querySelector('.il-src')?.value || '', alt: c.querySelector('.il-alt')?.value || '' })); break; }
         case 'service-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, eyebrow: c.querySelector('.sc-eyebrow')?.value || '', title: c.querySelector('.sc-title')?.value || '', href: c.querySelector('.sc-href')?.value || '', icon: c.querySelector('.sc-icon')?.value || '', bullets: Array.from(c.querySelectorAll('.sc-bullet')).map(b => b.value) }; }); break; }
         case 'why-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.wc-title')?.value || '', text: c.querySelector('.wc-text')?.value || '', style: c.querySelector('.wc-style')?.value || 'light', image: c.querySelector('.wc-image')?.value || '' }; }); break; }
         case 'case-slides': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; const mvs = c.querySelectorAll('.cs-metric-value'); const mls = c.querySelectorAll('.cs-metric-label'); return { ...existing, eyebrow: c.querySelector('.cs-eyebrow')?.value || '', title: c.querySelector('.cs-title')?.value || '', text: c.querySelector('.cs-text')?.value || '', image: c.querySelector('.cs-image')?.value || '', cta: { label: c.querySelector('.cs-cta-label')?.value || '', href: c.querySelector('.cs-cta-href')?.value || '' }, metrics: Array.from(mvs).map((mv, mi) => ({ value: mv.value, label: mls[mi]?.value || '' })) }; }); break; }
         case 'testimonial-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ text: c.querySelector('.tc-text')?.value || '', name: c.querySelector('.tc-name')?.value || '', role: c.querySelector('.tc-role')?.value || '', logo: c.querySelector('.tc-logo')?.value || '', logoAlt: c.querySelector('.tc-logoAlt')?.value || '' })); break; }
         case 'engagement-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.ec-title')?.value || '', text: c.querySelector('.ec-text')?.value || '', variant: c.querySelector('.ec-variant')?.value || 'light', image: c.querySelector('.ec-image')?.value || '', cta: c.querySelector('.ec-cta')?.value || '', bullets: Array.from(c.querySelectorAll('.ec-bullet')).map(b => b.value) }; }); break; }
-        case 'growth-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.gc-title')?.value || '', text: c.querySelector('.gc-text')?.value || '', variant: c.querySelector('.gc-variant')?.value || 'light', bestSuitedFor: c.querySelector('.gc-bestSuited')?.value || '', cta: c.querySelector('.gc-cta')?.value || '', outcome: c.querySelector('.gc-outcome')?.value || '', bullets: Array.from(c.querySelectorAll('.gc-bullet')).map(b => b.value) }; }); break; }
+        case 'growth-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, image: c.querySelector('.gc-image')?.value || '', title: c.querySelector('.gc-title')?.value || '', text: c.querySelector('.gc-text')?.value || '', variant: c.querySelector('.gc-variant')?.value || 'light', bestSuitedFor: c.querySelector('.gc-bestSuited')?.value || '', cta: c.querySelector('.gc-cta')?.value || '', outcome: c.querySelector('.gc-outcome')?.value || '', bullets: Array.from(c.querySelectorAll('.gc-bullet')).map(b => b.value) }; }); break; }
         case 'leader-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ name: c.querySelector('.ld-name')?.value || '', role: c.querySelector('.ld-role')?.value || '', bio: c.querySelector('.ld-bio')?.value || '', image: c.querySelector('.ld-image')?.value || '' })); break; }
         case 'faq-items': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ question: c.querySelector('.fq-question')?.value || '', answer: c.querySelector('.fq-answer')?.value || '' })); break; }
         case 'office-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ country: c.querySelector('.oc-country')?.value || '', address: c.querySelector('.oc-address')?.value || '' })); break; }
