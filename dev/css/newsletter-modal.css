@@ -54,24 +54,25 @@ body.newsletter-modal-open {
 
 .newsletter-modal__close {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   width: 32px;
   height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 44, 37, 0.08);
+  background: #8e8e93;
   border: none;
   border-radius: 50%;
-  color: #0f2c25;
+  color: #ffffff;
   cursor: pointer;
   padding: 0;
+  z-index: 2;
   transition: background 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 .newsletter-modal__close:hover {
-  background: rgba(15, 44, 37, 0.16);
+  background: #74747a;
 }
 
 .newsletter-modal__close:focus-visible {
@@ -88,12 +89,13 @@ body.newsletter-modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 0 18px;
+  margin: -16px -32px 8px;
+  padding: 0;
 }
 
 .newsletter-modal__visual-img {
-  width: 220px;
-  max-width: 70%;
+  width: 100%;
+  max-width: none;
   height: auto;
   display: block;
 }
@@ -165,7 +167,7 @@ body.newsletter-modal-open {
   appearance: none;
   border: none;
   cursor: pointer;
-  background: #0f2c25;
+  background: #0f0f0f;
   color: #ffffff;
   font-family: 'InterVariable', 'Inter', sans-serif;
   font-size: 0.92rem;
@@ -176,7 +178,7 @@ body.newsletter-modal-open {
 }
 
 .newsletter-modal__submit:hover {
-  background: #144238;
+  background: #1f1f1f;
 }
 
 .newsletter-modal__submit:focus-visible {

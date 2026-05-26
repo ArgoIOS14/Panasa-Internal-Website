@@ -228,7 +228,7 @@ window.DEFAULT_CONTENT = {
       {
         "style": "dark",
         "image": "assets/why-card-1.webp",
-        "title": "Proven at scale",
+        "title": "Proven at Scale",
         "text": "Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that.",
         "imageType": "image"
       },
