@@ -120,7 +120,7 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/shared-layout.css?v=3.0" />
-    <link rel="stylesheet" href="css/style.css?v=3.0" />
+    <link rel="stylesheet" href="css/style.css?v=3.5" />
     <link rel="stylesheet" href="css/shared-logo-marquee.css?v=3.0" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-testimonials.css?v=3.0" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="css/shared-footer.css?v=3.0" media="print" onload="this.media='all'" />
@@ -179,8 +179,9 @@
       </header>
 
       <main>
-        <section class="hero" id="about" data-animate>
+        <section class="hero hero--split" id="about" data-animate>
           <div class="hero-grid">
+            <canvas class="hero-bg-canvas" data-hero-canvas aria-hidden="true"></canvas>
             <div class="hero-copy" data-animate>
               <span class="pill" data-hero-pill>Trusted by fintechs across UK, EU &amp; APAC</span>
               <h1>
@@ -198,32 +199,57 @@
                   <span class="hero-action-label">View Solutions</span>
                 </a>
               </div>
-              <div class="trusted-row">
-                <span data-hero-trusted-label>Trusted by high-growth fintechs</span>
-                <div class="trusted-logos logo-marquee logo-marquee-light" data-hero-trusted-logos>
-                  <div class="logo-marquee-track">
-                    <div class="logo-marquee-item"><img src="assets/logo-accelovate.svg" alt="Accelovate" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-paymentology.svg" alt="Paymentology" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-crunch.svg" alt="Crunch" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-ribbon-gi.svg" alt="Ribbon GI" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-kani.svg" alt="Kani" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-88-eu.svg" alt="88 EU" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-osper.svg" alt="Osper" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-accelovate.svg" alt="Accelovate" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-paymentology.svg" alt="Paymentology" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-crunch.svg" alt="Crunch" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-ribbon-gi.svg" alt="Ribbon GI" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-kani.svg" alt="Kani" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-88-eu.svg" alt="88 EU" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-osper.svg" alt="Osper" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
-                    <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
-                  </div>
+            </div>
+            <div class="hero-visual" data-hero-visual aria-hidden="true">
+              <div class="hero-orbit" data-hero-orbit>
+                <div class="orbit-node orbit-node--n1" data-orbit-node style="--x: 0.18; --y: 0.16;">
+                  <img src="assets/icon-ai.svg" alt="" loading="lazy" />
                 </div>
+                <div class="orbit-node orbit-node--n2" data-orbit-node style="--x: 0.82; --y: 0.10;">
+                  <img src="assets/icon-cyber.svg" alt="" loading="lazy" />
+                </div>
+                <div class="orbit-node orbit-node--n3" data-orbit-node style="--x: 0.06; --y: 0.50;">
+                  <img src="assets/icon-data.svg" alt="" loading="lazy" />
+                </div>
+                <div class="orbit-node orbit-node--n4" data-orbit-node style="--x: 0.94; --y: 0.48;">
+                  <img src="assets/icon-global.svg" alt="" loading="lazy" />
+                </div>
+                <div class="orbit-node orbit-node--n5" data-orbit-node style="--x: 0.22; --y: 0.86;">
+                  <img src="assets/icon-backoffice.svg" alt="" loading="lazy" />
+                </div>
+                <div class="orbit-node orbit-node--n6" data-orbit-node style="--x: 0.80; --y: 0.88;">
+                  <img src="assets/icon-consulting.svg" alt="" loading="lazy" />
+                </div>
+                <div class="orbit-center" data-orbit-center>
+                  <img src="assets/favicon.svg" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="trusted-row hero-trusted-row">
+            <span data-hero-trusted-label>Trusted by high-growth fintechs</span>
+            <div class="trusted-logos logo-marquee logo-marquee-light" data-hero-trusted-logos>
+              <div class="logo-marquee-track">
+                <div class="logo-marquee-item"><img src="assets/logo-accelovate.svg" alt="Accelovate" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-paymentology.svg" alt="Paymentology" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-crunch.svg" alt="Crunch" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-ribbon-gi.svg" alt="Ribbon GI" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-kani.svg" alt="Kani" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-88-eu.svg" alt="88 EU" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-osper.svg" alt="Osper" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-accelovate.svg" alt="Accelovate" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-paymentology.svg" alt="Paymentology" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-crunch.svg" alt="Crunch" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-ribbon-gi.svg" alt="Ribbon GI" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-kani.svg" alt="Kani" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-88-eu.svg" alt="88 EU" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-osper.svg" alt="Osper" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-paci.svg" alt="Paci" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-prosper.svg" alt="Prosper" loading="lazy" /></div>
+                <div class="logo-marquee-item"><img src="assets/logo-dialect.svg" alt="Dialect" loading="lazy" /></div>
               </div>
             </div>
           </div>
@@ -620,6 +646,6 @@
     </div>
 
     <script src="content/Home page/default.js" defer></script>
-    <script type="module" src="js/main.js?v=3.0"></script>
+    <script type="module" src="js/main.js?v=3.34"></script>
   </body>
 </html>

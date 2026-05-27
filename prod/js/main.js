@@ -10,6 +10,7 @@ import { renderServices } from './Home scenes/sections/services.js';
 import { renderTestimonials } from './Home scenes/sections/testimonials.js';
 import { renderWhy } from './Home scenes/sections/why.js';
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
+import { initHeroAnimation } from './Home scenes/components/hero-animation.js?v=hero20';
 import './smooth-scroll.js'; // side-effect: auto-initializes Lenis (falls back to native scroll on touch / reduced-motion)
 
 /* ── Section keys and their render functions ──────────────── */
@@ -50,6 +51,7 @@ const initApp = () => {
   // Init carousels and scroll animations on pre-rendered DOM
   initCarousel();
   initScrollAnimations();
+  initHeroAnimation();
 
   initEmailCapture({
     promptHeading: 'See how we delivered for a top issuer',
