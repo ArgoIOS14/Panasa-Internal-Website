@@ -8,15 +8,6 @@ window.DEFAULT_RESOURCES_CONTENT = {
     "titleLine2": "Learn, Build, and Scale Faster",
     "subtitle": "Explore expert insights, real-world case studies, and proven strategies to design, build, and scale secure fintech platforms."
   },
-  "featured": {
-    "tag": "CASE STUDY",
-    "tagClass": "case-study",
-    "title": "Reinventing Family Banking Through Compliance, Trust, and Experience",
-    "date": "30 APR 2026",
-    "author": "Panasa Team",
-    "image": "assets/cs-osper-cover.webp",
-    "href": "case-studies/osper-family-banking"
-  },
   "filters": [
     "All",
     "Blogs",
@@ -42,7 +33,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Fathima Roshni",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "embedded-finance-real-card-issuing-market",
-      "href": "insights/embedded-finance-real-card-issuing-market"
+      "href": "insights/embedded-finance-real-card-issuing-market",
+      "datePublished": "2026-05-25"
     },
     {
       "category": "Insights",
@@ -52,7 +44,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Fathima Roshni",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "five-things-card-program-migration",
-      "href": "insights/five-things-card-program-migration"
+      "href": "insights/five-things-card-program-migration",
+      "datePublished": "2026-05-25"
     },
     {
       "category": "Blog",
@@ -62,7 +55,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Fathima Roshni",
       "image": "assets/blog-hero-desktop.webp",
       "href": "blog/3d-secure-authentication-card-program",
-      "slug": "3d-secure-authentication-card-program"
+      "slug": "3d-secure-authentication-card-program",
+      "datePublished": "2026-05-15"
     },
     {
       "category": "Blog",
@@ -72,7 +66,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Fathima Roshni",
       "image": "assets/blog-hero-desktop.webp",
       "href": "blog/card-controls-fraud-prevention",
-      "slug": "card-controls-fraud-prevention"
+      "slug": "card-controls-fraud-prevention",
+      "datePublished": "2026-05-15"
     },
     {
       "category": "Case Study",
@@ -82,7 +77,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Panasa Team",
       "image": "assets/cs-open-banking-hero-bg.webp",
       "href": "case-studies/open-banking-youth-banking-platform",
-      "slug": "open-banking-youth-banking-platform"
+      "slug": "open-banking-youth-banking-platform",
+      "datePublished": "2026-05-15"
     },
     {
       "category": "Case Study",
@@ -92,7 +88,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Panasa Team",
       "image": "assets/cs-card-issuance-hero-bg.webp",
       "href": "case-studies/flexible-card-issuance-platform-issuer-processor",
-      "slug": "flexible-card-issuance-platform-issuer-processor"
+      "slug": "flexible-card-issuance-platform-issuer-processor",
+      "datePublished": "2026-05-15"
     },
     {
       "category": "Case Study",
@@ -102,7 +99,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Panasa Team",
       "image": "assets/cs-3d-secure-hero-bg.webp",
       "href": "case-studies/3d-secure-authentication-issuer-processor",
-      "slug": "3d-secure-authentication-issuer-processor"
+      "slug": "3d-secure-authentication-issuer-processor",
+      "datePublished": "2026-05-15"
     },
     {
       "category": "Case Study",
@@ -112,7 +110,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Panasa Team",
       "image": "assets/cs-ops-backbone-hero-bg.webp",
       "href": "case-studies/operations-backbone-global-issuer-processor",
-      "slug": "operations-backbone-global-issuer-processor"
+      "slug": "operations-backbone-global-issuer-processor",
+      "datePublished": "2026-05-15"
     },
     {
       "category": "Guide",
@@ -122,7 +121,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Fathima Roshni",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "card-lifecycle-management",
-      "href": "guides/card-lifecycle-management"
+      "href": "guides/card-lifecycle-management",
+      "datePublished": "2026-05-25"
     },
     {
       "category": "Guide",
@@ -132,7 +132,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Ananya Nandy",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "complete-guide-to-interchange-fees",
-      "href": "guides/complete-guide-to-interchange-fees"
+      "href": "guides/complete-guide-to-interchange-fees",
+      "datePublished": "2026-04-21"
     },
     {
       "category": "Insights",
@@ -142,7 +143,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Ananya Nandy",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "lifecycle-of-a-payment",
-      "href": "insights/lifecycle-of-a-payment"
+      "href": "insights/lifecycle-of-a-payment",
+      "datePublished": "2026-04-17"
     },
     {
       "category": "Blog",
@@ -152,7 +154,8 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "author": "Ananya Nandy",
       "image": "assets/resources-card-placeholder.webp",
       "slug": "anatomy-of-a-swipe",
-      "href": "blog/anatomy-of-a-swipe"
+      "href": "blog/anatomy-of-a-swipe",
+      "datePublished": "2026-04-16"
     }
   ]
 };

@@ -156,8 +156,8 @@ window.DEFAULT_GUIDE_CONTENT = {
           "title": "Struggling with transaction latency?",
           "text": "We've optimised processing pipelines from 900 ms to under 120 ms — here's how.",
           "cta": {
-            "label": "View Case Study",
-            "href": "../case-studies/osper-family-banking",
+            "label": "View Case Studies",
+            "href": "../resources?filter=case-studies",
             "variant": "ghost"
           }
         }

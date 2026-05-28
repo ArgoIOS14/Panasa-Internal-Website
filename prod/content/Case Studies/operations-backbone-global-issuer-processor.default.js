@@ -58,8 +58,8 @@ window.DEFAULT_CASE_STUDY_CONTENT =
       "title": "Struggling with transaction latency?",
       "text": "We've optimized processing pipelines from 800ms to under 100ms. Here's how.",
       "cta": {
-        "label": "View Case Study",
-        "href": "case-studies/osper-family-banking",
+        "label": "View Case Studies",
+        "href": "../resources?filter=case-studies",
         "variant": "dark"
       }
     },
@@ -237,8 +237,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
   },
   "relatedSlugs": [
     "flexible-card-issuance-platform-issuer-processor",
-    "3d-secure-authentication-issuer-processor",
-    "osper-family-banking"
+    "3d-secure-authentication-issuer-processor"
   ]
 }
 ;

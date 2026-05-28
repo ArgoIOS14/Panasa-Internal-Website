@@ -138,29 +138,6 @@ export const renderResources = (data) => {
   setText('[data-resources-hero-line2]', data.hero?.titleLine2);
   setText('[data-resources-hero-subtitle]', data.hero?.subtitle);
 
-  // ── Featured card ─────────────────────────────────
-  const featured = data.featured || {};
-  const featuredCard = document.querySelector('[data-featured-card]');
-  if (featuredCard instanceof HTMLAnchorElement && featured.href) {
-    featuredCard.href = featured.href;
-  }
-  setText('[data-featured-tag]', featured.tag);
-  const featuredTagEl = document.querySelector('[data-featured-tag]');
-  if (featuredTagEl) {
-    const tagClass = featured.tagClass
-      ? `resource-tag-${featured.tagClass}`
-      : tagClassFor(featured.tag);
-    featuredTagEl.className = `resource-tag ${tagClass}`;
-  }
-  setText('[data-featured-title]', featured.title);
-  setText('[data-featured-date]', featured.date);
-  setText('[data-featured-author]', featured.author);
-  const featuredImg = document.querySelector('[data-featured-image]');
-  if (featuredImg instanceof HTMLImageElement && featured.image) {
-    featuredImg.src = featured.image;
-    featuredImg.alt = featured.title || '';
-  }
-
   // ── Filter tabs + grid + pagination ───────────────
   const filtersEl = document.querySelector('[data-resources-filters]');
   const gridEl = document.querySelector('[data-resources-grid]');
@@ -182,6 +159,50 @@ export const renderResources = (data) => {
   const items = data.items || [];
   let activeFilter = getInitialFilter(filters);
   let currentPage = getInitialPage();
+
+  // ── Featured card (dynamic) ───────────────────────
+  // Picks the most recent item matching the active filter (sorted by
+  // datePublished, lexicographic order matches chronological for ISO dates).
+  // When "All" is active, picks the latest across the whole catalog.
+  // Hides the section when no item matches (e.g. an empty filter).
+  const featuredSection = document.querySelector('.resources-featured');
+  const featuredCardEl = document.querySelector('[data-featured-card]');
+  const featuredTagEl = document.querySelector('[data-featured-tag]');
+  const featuredImgEl = document.querySelector('[data-featured-image]');
+
+  const pickFeaturedItem = (filterLabel) => {
+    const pool = items.filter((it) => itemMatchesFilter(it, filterLabel));
+    if (!pool.length) return null;
+    // Stable sort by datePublished desc; preserves source order on ties
+    return [...pool].sort((a, b) =>
+      String(b.datePublished || '').localeCompare(String(a.datePublished || ''))
+    )[0] || null;
+  };
+
+  const renderFeatured = (item) => {
+    if (!featuredSection) return;
+    if (!item) {
+      featuredSection.hidden = true;
+      return;
+    }
+    featuredSection.hidden = false;
+    if (featuredCardEl instanceof HTMLAnchorElement) {
+      featuredCardEl.href = item.href || '#';
+    }
+    if (featuredTagEl) {
+      featuredTagEl.textContent = categoryLabel(item.category);
+      featuredTagEl.className = `resource-tag ${tagClassFor(item.category)}`;
+    }
+    setText('[data-featured-title]', item.title);
+    setText('[data-featured-date]', item.date);
+    setText('[data-featured-author]', item.author);
+    if (featuredImgEl instanceof HTMLImageElement) {
+      featuredImgEl.src = item.image || 'assets/resources-card-placeholder.webp';
+      featuredImgEl.alt = item.title || '';
+    }
+  };
+
+  renderFeatured(pickFeaturedItem(activeFilter));
 
   const ROWS_PER_PAGE = 2;
 
@@ -365,6 +386,7 @@ export const renderResources = (data) => {
         });
         const nextActive = filtersEl.querySelector('.resources-filter.active');
         moveIndicatorTo(nextActive);
+        renderFeatured(pickFeaturedItem(activeFilter));
         animatedRender();
       });
       filtersEl.appendChild(btn);
