@@ -16,7 +16,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const SUBMIT_URL = '/api/zoho-email-proxy.php';
 const CRM_DESCRIPTION = 'Email capture: Newsletter modal';
 const STORAGE_KEY = 'panasa_newsletter_subscribed';
-const CSS_HREF = 'css/newsletter-modal.css';
+// Resolve CSS + image assets relative to this JS module so the paths are
+// stable regardless of where the page that imported us lives (root, /blog/,
+// /guides/, etc.). Without this, page-relative strings like
+// `'css/newsletter-modal.css'` would 404 on sub-pages and the modal would
+// render unstyled / without the envelope graphic.
+const CSS_HREF = new URL('../../../css/newsletter-modal.css', import.meta.url).href;
+const VISUAL_SRC = new URL('../../../assets/newsletter-visual.webp', import.meta.url).href;
 
 let modalEls = null;        // built lazily on first open
 let isOpen = false;
@@ -67,7 +73,7 @@ const buildModal = () => {
 
   const visual = createEl('div', 'newsletter-modal__visual');
   const img = createEl('img', 'newsletter-modal__visual-img');
-  img.src = 'assets/newsletter-visual.webp';
+  img.src = VISUAL_SRC;
   img.alt = '';
   img.setAttribute('aria-hidden', 'true');
   visual.appendChild(img);

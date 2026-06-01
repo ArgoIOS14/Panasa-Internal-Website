@@ -1,0 +1,108 @@
+name: Argo Tests (Playwright)
+
+# Runs the full Playwright suite — generated and maintained by Argo Tester.
+# Triggers: every push to any branch, plus all PRs to main.
+# Posts the HTML report + Excel test-case workbook as artifacts.
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  playwright:
+    name: Playwright (${{ matrix.project }})
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium-desktop, firefox-desktop, webkit-desktop, mobile-chrome]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP (router)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.project == 'firefox-desktop' && 'firefox' || matrix.project == 'webkit-desktop' && 'webkit' || 'chromium' }}
+
+      - name: Rebuild test-cases workbook (sanity check inventory parses)
+        run: node scripts/build-test-cases-xlsx.mjs
+
+      - name: Run Playwright tests
+        env:
+          CI: '1'
+          PORT: '8088'
+        run: npx playwright test --project=${{ matrix.project }} --reporter=html,list,github
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload trace + screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.project }}
+          path: test-results/
+          retention-days: 7
+
+  test-case-workbook:
+    name: Publish test-case workbook
+    needs: playwright
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: node scripts/build-test-cases-xlsx.mjs
+      - name: Upload workbook artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: panasa-test-cases-xlsx
+          path: panasa-test-cases.xlsx
+          retention-days: 30
+
+  newsletter-modal-regression:
+    name: Newsletter modal regression (TC-NEWS-*)
+    # Targeted job that runs ONLY the newsletter-modal spec on Chromium.
+    # Fast (≈30s) — useful as a required check on PRs touching the modal.
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.2' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run newsletter-modal spec only
+        env:
+          CI: '1'
+          PORT: '8088'
+        run: npx playwright test tests/interactions/newsletter-modal.spec.ts --project=chromium-desktop --reporter=list
