@@ -47,26 +47,16 @@ a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
 
 /* ==========================================================================
-   HERO — extensions on top of .blog-hero-card
+   HERO — the .feature-card component renders the dark card; guide adds a
+   description paragraph below the title.
    ========================================================================== */
 
-.guide-hero-title {
-  /* Accent span rendered on its own line via display:block on the accent */
-  display: block;
-}
-
-.guide-hero-title-accent {
-  display: block;
-  color: var(--guide-accent);
-  font-weight: 600;
-}
-
-.guide-hero-description {
-  margin-top: 4px;
-  max-width: 520px;
+.feature-card-desc {
+  margin: 0;
+  max-width: 420px;
   color: rgba(255, 255, 255, 0.88);
   font-family: 'InterVariable', 'Inter', sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   line-height: 1.55;
   font-weight: 400;
 }

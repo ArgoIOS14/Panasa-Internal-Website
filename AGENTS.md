@@ -15,6 +15,12 @@ Custom subagents live in `.claude/agents/` and are available in every Claude Cod
 
 **Adding more agents:** drop another `<name>.md` file into `.claude/agents/` with YAML frontmatter (`name`, `description`, `tools`) followed by the system prompt. Keep scope narrow — one agent per specialty (reviewer, migration runner, a11y auditor, etc.).
 
+## Development Model (strict)
+- **Development / implementation work → Sonnet** — including any subagents spawned to build in parallel (pass `model: sonnet`).
+- **Planning & exploration → Opus** — these require heavy lifting, so use Opus for plan agents, exploration/research agents, and the planning phase.
+- Review may use the default/inherited model.
+- Only deviate when the user explicitly names another model for a given task (e.g. "use Opus for this build").
+
 ## Project Overview
 - Project name: `Panasa Internal Website`
 - Type: static marketing website (HTML/CSS/JS)

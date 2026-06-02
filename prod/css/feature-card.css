@@ -1,0 +1,180 @@
+/* ==========================================================================
+   FEATURE CARD — shared component
+   Used by the Resources list featured card and every resource detail-page
+   hero. On detail pages add the `feature-card--detail` modifier to hide the
+   CTA. Background art + url() resolve relative to /css/, so it works on the
+   root page and one-directory-deep detail pages alike.
+   ========================================================================== */
+
+.feature-card {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-height: 360px;
+  border-radius: 18px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0c3b2e url('../assets/case-study-card-bg.webp') center / cover no-repeat;
+  color: #ffffff;
+  text-decoration: none;
+  transition:
+    transform var(--motion-duration-md, 320ms) var(--motion-ease-standard, ease-out),
+    box-shadow var(--motion-duration-md, 320ms) ease;
+}
+
+/* ── Left copy column ─────────────────────────────────────── */
+.feature-card-copy {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 470px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  padding: 44px 24px 44px 48px;
+  box-sizing: border-box;
+}
+
+.feature-card-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.feature-card-title {
+  margin: 0;
+  color: #ffffff;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  max-width: 420px;
+}
+
+.feature-card-title-accent {
+  color: var(--accent-2, #16ab6d);
+}
+
+.feature-card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.feature-card-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.feature-card-meta-icon {
+  width: 15px;
+  height: 15px;
+  display: block;
+  flex: 0 0 auto;
+  opacity: 0.85;
+}
+
+.feature-card-cta {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 18px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  color: #111111;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform var(--motion-duration-fast, 160ms) var(--motion-ease-standard, ease-out);
+}
+
+.feature-card-cta:hover {
+  transform: translateY(-2px);
+}
+
+.feature-card-cta-arrow {
+  font-size: 1.05em;
+  line-height: 1;
+  transition: transform var(--motion-duration-fast, 160ms) ease;
+}
+
+.feature-card-cta:hover .feature-card-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ── Right artwork column ─────────────────────────────────── */
+.feature-card-visual {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.feature-card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+}
+
+/* ── Detail-page variant: CTA hidden ──────────────────────── */
+.feature-card--detail .feature-card-cta {
+  display: none;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .feature-card {
+    flex-direction: column;
+    min-height: 0;
+  }
+  .feature-card-copy {
+    width: 100%;
+    padding: 32px 26px 26px;
+    justify-content: flex-start;
+  }
+  .feature-card-visual {
+    width: 100%;
+    padding: 0 26px 28px;
+    min-height: 200px;
+  }
+  .feature-card-visual img {
+    max-height: 260px;
+  }
+}
+
+@media (max-width: 640px) {
+  .feature-card-copy {
+    padding: 26px 20px 20px;
+    gap: 13px;
+  }
+}
