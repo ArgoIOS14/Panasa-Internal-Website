@@ -780,37 +780,13 @@ ul { list-style: none; }
   margin: 0 auto 64px;
   padding: 36px 40px;
   border-radius: 18px;
-  /* Dark near-black green base + subtle radial-ripple pattern in the upper
-     right corner via two stacked radial gradients on the same layer. */
-  background:
-    radial-gradient(circle at 92% 18%, rgba(124, 211, 174, 0.05) 0%, transparent 35%),
-    radial-gradient(circle at 96% 12%, rgba(124, 211, 174, 0.04) 0%, transparent 24%),
-    radial-gradient(circle at 90% 22%, rgba(255, 255, 255, 0.025) 0%, transparent 18%),
-    #0a1614;
+  background: #141414 url('../assets/newsletter-bg.svg') right top / cover no-repeat;
   color: #fff;
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
   align-items: center;
   gap: 28px;
   overflow: hidden;
-}
-
-/* Soft concentric-ring pattern in the upper right — drawn as an inline SVG
-   via mask-image so the rings only paint over the background's tint. */
-.case-newsletter::after {
-  content: '';
-  position: absolute;
-  top: -120px;
-  right: -120px;
-  width: 360px;
-  height: 360px;
-  background:
-    radial-gradient(circle, transparent 50px, rgba(124, 211, 174, 0.08) 51px, rgba(124, 211, 174, 0.08) 52px, transparent 53px) 0 0 / 100% 100% no-repeat,
-    radial-gradient(circle, transparent 80px,  rgba(124, 211, 174, 0.06) 81px,  rgba(124, 211, 174, 0.06) 82px,  transparent 83px)  0 0 / 100% 100% no-repeat,
-    radial-gradient(circle, transparent 120px, rgba(124, 211, 174, 0.05) 121px, rgba(124, 211, 174, 0.05) 122px, transparent 123px) 0 0 / 100% 100% no-repeat,
-    radial-gradient(circle, transparent 160px, rgba(124, 211, 174, 0.04) 161px, rgba(124, 211, 174, 0.04) 162px, transparent 163px) 0 0 / 100% 100% no-repeat;
-  pointer-events: none;
-  z-index: 0;
 }
 
 .case-newsletter-copy,
