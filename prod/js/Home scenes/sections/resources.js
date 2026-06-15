@@ -248,6 +248,23 @@ export const renderResources = (data) => {
       featuredImgEl.src = item.image || 'assets/resources-card-placeholder.webp';
       featuredImgEl.alt = item.title || '';
     }
+
+    // Per-category background modifier (strip stale ones first so switching
+    // filters swaps the background cleanly). Case Study keeps the default bg.
+    const featuredCardEl = featuredSection.querySelector('.feature-card');
+    if (featuredCardEl) {
+      featuredCardEl.classList.remove('feature-card--blog', 'feature-card--guide', 'feature-card--insight');
+      const MOD_BY_CATEGORY = {
+        'Blog': 'feature-card--blog',
+        'Blogs': 'feature-card--blog',
+        'Guide': 'feature-card--guide',
+        'Guides': 'feature-card--guide',
+        'Insights': 'feature-card--insight',
+        'Insight': 'feature-card--insight',
+      };
+      const mod = MOD_BY_CATEGORY[item.category];
+      if (mod) featuredCardEl.classList.add(mod);
+    }
   };
 
   renderFeatured(pickFeaturedItem(activeFilter));

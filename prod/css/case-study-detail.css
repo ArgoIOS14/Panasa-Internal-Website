@@ -901,8 +901,8 @@ ul { list-style: none; }
 
 .case-newsletter-submit {
   appearance: none;
-  background: var(--accent-2, #16ab6d);
-  color: #fff;
+  background: #ffffff;
+  color: var(--accent-2, #16ab6d);
   font-family: 'InterVariable', 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.85rem;
@@ -914,9 +914,9 @@ ul { list-style: none; }
 }
 
 .case-newsletter-submit:hover {
-  background: #12945e;
+  background: #f0f2f0;
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(22, 171, 109, 0.28);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
 }
 
 .case-newsletter-submit:disabled { opacity: 0.55; cursor: wait; transform: none; }

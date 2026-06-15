@@ -81,6 +81,12 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://www.panasatech.com/blog/tokenisation-for-issuers</loc>
+    <lastmod>2026-06-15</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.panasatech.com/guides/complete-guide-to-interchange-fees</loc>
     <lastmod>2026-05-20</lastmod>
     <priority>0.8</priority>

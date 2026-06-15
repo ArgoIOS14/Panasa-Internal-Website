@@ -58,7 +58,7 @@
       "excerpt": "How 3D Secure (3DS) works, the frictionless vs challenge decision, the liability shift, PSD2 SCA implications, and what card programs should actually be tuning.",
       "date": "15 MAY 2026",
       "author": "Fathima Roshni",
-      "image": "assets/blog-hero-desktop.webp",
+      "image": "assets/cover-3d-secure-authentication-card-program.webp",
       "href": "blog/3d-secure-authentication-card-program",
       "slug": "3d-secure-authentication-card-program",
       "datePublished": "2026-05-15",
@@ -71,7 +71,7 @@
       "excerpt": "How card controls prevent fraud before authorisation completes — MCC, velocity, geographic, MID, spend, channel, and time-based rules — and what they mean for card programs.",
       "date": "15 MAY 2026",
       "author": "Fathima Roshni",
-      "image": "assets/blog-hero-desktop.webp",
+      "image": "assets/cover-card-controls-fraud-prevention.webp",
       "href": "blog/card-controls-fraud-prevention",
       "slug": "card-controls-fraud-prevention",
       "datePublished": "2026-05-15",
@@ -180,6 +180,19 @@
       "href": "blog/anatomy-of-a-swipe",
       "datePublished": "2026-04-16",
       "readTime": "20 MINS READ"
+    },
+    {
+      "category": "Blog",
+      "title": "Tokenisation for Issuers: VDEP, MDES, and the Decisions That Matter",
+      "titleAccent": "Tokenisation for Issuers:",
+      "excerpt": "Every cardholder payment now travels as a token, not a real card number. A practical guide to VDEP, MDES, provisioning, and the tokenisation decisions every card program must get right.",
+      "date": "15 JUN 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/cover-tokenisation-explained.webp",
+      "slug": "tokenisation-for-issuers",
+      "href": "blog/tokenisation-for-issuers",
+      "datePublished": "2026-06-15",
+      "readTime": "9 MINS READ"
     }
   ]
 }

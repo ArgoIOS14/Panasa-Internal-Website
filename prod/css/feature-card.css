@@ -22,6 +22,17 @@
     box-shadow var(--motion-duration-md, 320ms) ease;
 }
 
+/* ── Per-category background modifiers ───────────────────── */
+.feature-card--blog {
+  background: #0c3b2e url('../assets/feature-card-bg-blog.png') center / cover no-repeat;
+}
+.feature-card--guide {
+  background: #0c3b2e url('../assets/feature-card-bg-guide.png') center / cover no-repeat;
+}
+.feature-card--insight {
+  background: #0c3b2e url('../assets/feature-card-bg-insight.png') center / cover no-repeat;
+}
+
 /* ── Left copy column ─────────────────────────────────────── */
 .feature-card-copy {
   position: relative;

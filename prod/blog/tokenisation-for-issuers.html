@@ -3,33 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Five Things to Look for When Migrating Your Card Program | Panasa</title>
-    <meta name="description" content="Card migration spans cardholder data, BINs, compliance, fraud controls, and daily experience. Five essentials to get right before you initiate." />
+    <title>Tokenisation for Issuers: VDEP, MDES, and the Decisions That Matter | Panasa</title>
+    <meta name="description" content="How tokenisation really works for issuers — DPANs, VDEP, MDES, push provisioning, and the token-lifecycle decisions every card program must get right." />
     <meta name="author" content="Fathima Roshni" />
-    <meta name="keywords" content="card migration, card program migration, BIN sponsorship, BIN migration, issuer processor, PCI DSS, PSD2, SCA, card portfolio migration, re-carding" />
+    <meta name="keywords" content="tokenisation, VDEP, MDES, VTS, DPAN, push provisioning, card-on-file, issuer processor, digital wallets, fintech engineering" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Panasa Technology" />
-    <meta property="og:title" content="Five Things to Look for When Migrating Your Card Program | Panasa" />
-    <meta property="og:description" content="Card migration spans cardholder data, BINs, compliance, fraud controls, and daily experience. Five essentials to get right before you initiate." />
-    <meta property="og:url" content="https://www.panasatech.com/insights/five-things-card-program-migration" />
-    <meta property="og:image" content="https://www.panasatech.com/assets/cover-five-things-card-program-migration.webp" />
-    <meta property="article:published_time" content="2026-05-25" />
-    <meta property="article:modified_time" content="2026-05-25" />
+    <meta property="og:title" content="Tokenisation for Issuers: VDEP, MDES, and the Decisions That Matter | Panasa" />
+    <meta property="og:description" content="How tokenisation really works for issuers — DPANs, VDEP, MDES, push provisioning, and the token-lifecycle decisions every card program must get right." />
+    <meta property="og:url" content="https://www.panasatech.com/blog/tokenisation-for-issuers" />
+    <meta property="og:image" content="https://www.panasatech.com/assets/cover-tokenisation-explained.webp" />
+    <meta property="article:published_time" content="2026-06-15" />
+    <meta property="article:modified_time" content="2026-06-15" />
     <meta property="article:author" content="Fathima Roshni" />
-    <meta property="article:section" content="Insights" />
-    <meta property="article:tag" content="Card migration" />
-    <meta property="article:tag" content="BIN sponsorship" />
-    <meta property="article:tag" content="Issuer processors" />
-    <meta property="article:tag" content="PCI DSS" />
-    <meta property="article:tag" content="Compliance" />
-    <meta property="article:tag" content="Card program management" />
+    <meta property="article:section" content="Blog" />
+    <meta property="article:tag" content="Tokenisation" />
+    <meta property="article:tag" content="VDEP" />
+    <meta property="article:tag" content="MDES" />
+    <meta property="article:tag" content="Provisioning" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Five Things to Look for When Migrating Your Card Program | Panasa" />
-    <meta name="twitter:description" content="Card migration spans cardholder data, BINs, compliance, fraud controls, and daily experience. Five essentials to get right before you initiate." />
-    <meta name="twitter:image" content="https://www.panasatech.com/assets/cover-five-things-card-program-migration.webp" />
-    <link rel="canonical" href="https://www.panasatech.com/insights/five-things-card-program-migration" />
-    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/insights/five-things-card-program-migration" />
-    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/insights/five-things-card-program-migration" />
+    <meta name="twitter:title" content="Tokenisation for Issuers: VDEP, MDES, and the Decisions That Matter | Panasa" />
+    <meta name="twitter:description" content="How tokenisation really works for issuers — DPANs, VDEP, MDES, push provisioning, and the token-lifecycle decisions every card program must get right." />
+    <meta name="twitter:image" content="https://www.panasatech.com/assets/cover-tokenisation-explained.webp" />
+    <link rel="canonical" href="https://www.panasatech.com/blog/tokenisation-for-issuers" />
+    <link rel="alternate" hreflang="en-GB" href="https://www.panasatech.com/blog/tokenisation-for-issuers" />
+    <link rel="alternate" hreflang="x-default" href="https://www.panasatech.com/blog/tokenisation-for-issuers" />
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
     <link rel="preload" href="https://rsms.me/inter/inter.css" crossorigin="anonymous" as="style" />
     <link rel="preconnect" href="https://rsms.me" crossorigin="anonymous" />
@@ -44,8 +42,8 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.panasatech.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Insights", "item": "https://www.panasatech.com/resources?filter=insights" },
-        { "@type": "ListItem", "position": 3, "name": "Five Things to Look for When Migrating Your Card Program", "item": "https://www.panasatech.com/insights/five-things-card-program-migration" }
+        { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://www.panasatech.com/resources" },
+        { "@type": "ListItem", "position": 3, "name": "Tokenisation for Issuers", "item": "https://www.panasatech.com/blog/tokenisation-for-issuers" }
       ]
     }
     </script>
@@ -53,13 +51,13 @@
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "Five Things to Look for When Migrating Your Card Program",
-      "description": "Card migration spans cardholder data, BINs, compliance, fraud controls, and daily experience. Five essentials to get right before you initiate.",
-      "datePublished": "2026-05-25",
-      "dateModified": "2026-05-25",
-      "articleSection": "Insights",
-      "keywords": "card migration, BIN sponsorship, issuer processors, PCI DSS, PSD2, SCA, card program management",
-      "image": "https://www.panasatech.com/assets/blog-hero-desktop.webp",
+      "headline": "Tokenisation for Issuers: VDEP, MDES, and the Decisions That Matter",
+      "description": "How tokenisation really works for issuers — DPANs, VDEP, MDES, push provisioning, and the token-lifecycle decisions every card program must get right.",
+      "datePublished": "2026-06-15",
+      "dateModified": "2026-06-15",
+      "articleSection": "Blog",
+      "keywords": "tokenisation, VDEP, MDES, VTS, DPAN, push provisioning, issuer processor, digital wallets",
+      "image": "https://www.panasatech.com/assets/cover-tokenisation-explained.webp",
       "author": {
         "@type": "Person",
         "name": "Fathima Roshni",
@@ -75,13 +73,12 @@
         "name": "Panasa Technology",
         "logo": { "@type": "ImageObject", "url": "https://www.panasatech.com/assets/logo.svg" }
       },
-      "mainEntityOfPage": "https://www.panasatech.com/insights/five-things-card-program-migration"
+      "mainEntityOfPage": "https://www.panasatech.com/blog/tokenisation-for-issuers"
     }
     </script>
-      <script src="../js/qa-banner.js" defer></script>
   </head>
   <body>
-    <div class="blog-detail-page" data-blog-slug="five-things-card-program-migration">
+    <div class="blog-detail-page" data-blog-slug="tokenisation-for-issuers">
       <header class="site-header" id="top" data-animate>
         <nav class="nav">
           <a class="brand" href="../" aria-label="Panasa home">
@@ -98,16 +95,16 @@
 
       <main>
         <section class="blog-hero" data-animate>
-          <div class="feature-card feature-card--detail feature-card--insight">
+          <div class="feature-card feature-card--detail feature-card--blog">
             <div class="feature-card-copy">
-              <span class="feature-card-eyebrow" data-blog-tag>INSIGHT</span>
-              <h1 class="feature-card-title" data-blog-title>Five Things to Look for When Migrating Your Card Program</h1>
+              <span class="feature-card-eyebrow" data-blog-tag>BLOG</span>
+              <h1 class="feature-card-title" data-blog-title>Tokenisation for Issuers: VDEP, MDES, and the Decisions That Matter</h1>
               <div class="feature-card-meta">
-                <span class="feature-card-meta-item"><img class="feature-card-meta-icon" src="../assets/cal-published.svg" alt="" aria-hidden="true" /><span data-blog-date>25 MAY 2026</span></span>
-                <span class="feature-card-meta-item"><img class="feature-card-meta-icon" src="../assets/duration.svg" alt="" aria-hidden="true" /><span data-blog-read-time>11 MINS READ</span></span>
+                <span class="feature-card-meta-item"><img class="feature-card-meta-icon" src="../assets/cal-published.svg" alt="" aria-hidden="true" /><span data-blog-date>15 JUN 2026</span></span>
+                <span class="feature-card-meta-item"><img class="feature-card-meta-icon" src="../assets/duration.svg" alt="" aria-hidden="true" /><span data-blog-read-time>9 MINS READ</span></span>
               </div>
             </div>
-            <div class="feature-card-visual"><img class="feature-card-hero-image" data-blog-hero-image src="../assets/cover-five-things-card-program-migration.webp" alt="" loading="lazy" decoding="async" /></div>
+            <div class="feature-card-visual"><img class="feature-card-hero-image" data-blog-hero-image src="../assets/cover-tokenisation-explained.webp" alt="" loading="lazy" decoding="async" /></div>
           </div>
         </section>
 
@@ -129,7 +126,7 @@
           <div class="blog-newsletter-copy">
             <span class="blog-newsletter-eyebrow">NEWSLETTER</span>
             <h2 class="blog-newsletter-title">
-              <span>Enjoyed this Insight?</span>
+              <span>Enjoyed this Blog?</span>
               <span class="blog-newsletter-title-accent">Get Payments Deconstructed.</span>
             </h2>
             <p class="blog-newsletter-description">Our fortnightly newsletter simplifying the intricacies of the payments ecosystem, from authorisation flow to disputes.</p>
@@ -221,7 +218,7 @@
 
     <script src="../content/Home page/default.js" defer></script>
     <script src="../content/Resources/default.js" defer></script>
-    <script src="../content/Blog/five-things-card-program-migration.default.js" defer></script>
+    <script src="../content/Blog/tokenisation-for-issuers.default.js" defer></script>
     <script type="module" src="../js/blog-detail.js?v=2.1"></script>
   </body>
 </html>

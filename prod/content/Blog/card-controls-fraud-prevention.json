@@ -3,7 +3,7 @@
     "title": "A Guide to Card Controls in Modern Payment Fraud Prevention | Panasa",
     "description": "How card controls prevent fraud before authorisation completes — MCC, velocity, geographic, MID, spend, channel, and time-based rules — and what they mean for card programs.",
     "canonical": "https://www.panasatech.com/blog/card-controls-fraud-prevention",
-    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-card-controls-fraud-prevention.webp"
   },
   "slug": "card-controls-fraud-prevention",
   "tag": "BLOG",
@@ -11,9 +11,9 @@
   "date": "15 MAY 2026",
   "readTime": "9 MINS READ",
   "author": "Fathima Roshni",
-  "heroImage": "../assets/blog-hero-desktop.webp",
-  "heroImageTablet": "../assets/blog-hero-tablet.webp",
-  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImage": "../assets/cover-card-controls-fraud-prevention.webp",
+  "heroImageTablet": "../assets/cover-card-controls-fraud-prevention.webp",
+  "heroImageMobile": "../assets/cover-card-controls-fraud-prevention.webp",
   "heroImageAlt": "Card controls in the authorisation flow illustration",
   "body": [
     {
