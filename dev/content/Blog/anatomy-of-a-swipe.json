@@ -3,7 +3,7 @@
     "title": "Anatomy of a Swipe: What Really Happens When You Tap Your Card | Panasa",
     "description": "A deep-dive into the card authorisation, clearing and settlement loop — from the milliseconds of authorisation to the rails that actually move money.",
     "canonical": "https://www.panasatech.com/blog/anatomy-of-a-swipe",
-    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-anatomy-of-a-swipe.webp"
   },
   "slug": "anatomy-of-a-swipe",
   "tag": "BLOG",
@@ -11,9 +11,9 @@
   "date": "16 APR 2026",
   "readTime": "20 MINS READ",
   "author": "Ananya Nandy",
-  "heroImage": "../assets/blog-hero-desktop.webp",
-  "heroImageTablet": "../assets/blog-hero-tablet.webp",
-  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImage": "../assets/cover-anatomy-of-a-swipe.webp",
+  "heroImageTablet": "../assets/cover-anatomy-of-a-swipe.webp",
+  "heroImageMobile": "../assets/cover-anatomy-of-a-swipe.webp",
   "heroImageAlt": "Card transaction flow illustration",
   "body": [
     {

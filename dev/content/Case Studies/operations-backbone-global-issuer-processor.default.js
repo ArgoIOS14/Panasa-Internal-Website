@@ -6,7 +6,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
     "title": "Operations Backbone for a Global Issuer Processor | Panasa",
     "description": "How Panasa restructured operations for a global issuer processor scaling across 40+ countries — observability, fraud detection, onboarding, and reliability.",
     "canonical": "https://www.panasatech.com/case-studies/operations-backbone-global-issuer-processor",
-    "ogImage": "https://www.panasatech.com/assets/cs-ops-backbone-hero-bg.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-operations-backbone-global-issuer-processor.webp"
   },
   "hero": {
     "eyebrow": "CASE STUDY",

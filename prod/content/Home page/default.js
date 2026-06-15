@@ -258,7 +258,7 @@ window.DEFAULT_CONTENT = {
         "title": "Implementing Open Banking for a Youth Banking Platform",
         "date": "26 May 2025",
         "readTime": "20 Mins Read",
-        "image": "assets/case-study-image-1.webp",
+        "image": "assets/cover-open-banking-youth-banking-platform.webp",
         "cta": {
           "label": "Read Full Case Study",
           "href": "case-studies/open-banking-youth-banking-platform"
@@ -269,7 +269,7 @@ window.DEFAULT_CONTENT = {
         "title": "Building a Flexible Card Issuance and Management Platform for a Global Issuer Processor",
         "date": "15 May 2026",
         "readTime": "18 Mins Read",
-        "image": "assets/cs-card-issuance-hero-bg.webp",
+        "image": "assets/cover-flexible-card-issuance-platform-issuer-processor.webp",
         "cta": {
           "label": "Read Full Case Study",
           "href": "case-studies/flexible-card-issuance-platform-issuer-processor"
@@ -280,7 +280,7 @@ window.DEFAULT_CONTENT = {
         "title": "Implementing 3D Secure Authentication for a Global Issuer Processor",
         "date": "15 May 2026",
         "readTime": "16 Mins Read",
-        "image": "assets/cs-3d-secure-hero-bg.webp",
+        "image": "assets/cover-3d-secure-authentication-issuer-processor.webp",
         "cta": {
           "label": "Read Full Case Study",
           "href": "case-studies/3d-secure-authentication-issuer-processor"
@@ -291,7 +291,7 @@ window.DEFAULT_CONTENT = {
         "title": "Building the Operations Backbone of a Global Issuer Processor",
         "date": "15 May 2026",
         "readTime": "15 Mins Read",
-        "image": "assets/cs-ops-backbone-hero-bg.webp",
+        "image": "assets/cover-operations-backbone-global-issuer-processor.webp",
         "cta": {
           "label": "Read Full Case Study",
           "href": "case-studies/operations-backbone-global-issuer-processor"

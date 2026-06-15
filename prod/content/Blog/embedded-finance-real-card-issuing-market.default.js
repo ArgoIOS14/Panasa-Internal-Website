@@ -3,7 +3,7 @@ window.DEFAULT_BLOG_CONTENT = {
     "title": "Embedded Finance Is the Real Card-Issuing Market | Panasa",
     "description": "Non-financial platforms are now some of the most active card issuers in the world. Inside the $17.6B embedded card issuing market and what it means for banks, processors, and card program builders.",
     "canonical": "https://www.panasatech.com/insights/embedded-finance-real-card-issuing-market",
-    "ogImage": "https://www.panasatech.com/assets/og-image.png"
+    "ogImage": "https://www.panasatech.com/assets/cover-embedded-finance-real-card-issuing-market.webp"
   },
   "slug": "embedded-finance-real-card-issuing-market",
   "category": "Insights",
@@ -22,9 +22,9 @@ window.DEFAULT_BLOG_CONTENT = {
     "Fintech platforms",
     "Co-branded cards"
   ],
-  "heroImage": "../assets/blog-hero-desktop.webp",
-  "heroImageTablet": "../assets/blog-hero-tablet.webp",
-  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImage": "../assets/cover-embedded-finance-real-card-issuing-market.webp",
+  "heroImageTablet": "../assets/cover-embedded-finance-real-card-issuing-market.webp",
+  "heroImageMobile": "../assets/cover-embedded-finance-real-card-issuing-market.webp",
   "heroImageAlt": "Embedded finance and card issuing illustration",
   "body": [
     {

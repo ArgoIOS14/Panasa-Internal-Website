@@ -3,7 +3,7 @@ window.DEFAULT_GUIDE_CONTENT = {
     "title": "The Complete Guide to Interchange Fees | Panasa",
     "description": "How card payment economics really work — who gets paid, why merchants care, and how interchange shapes the modern payments ecosystem.",
     "canonical": "https://www.panasatech.com/guides/complete-guide-to-interchange-fees",
-    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-complete-guide-to-interchange-fees.webp"
   },
   "slug": "complete-guide-to-interchange-fees",
   "category": "Guide",
@@ -24,9 +24,9 @@ window.DEFAULT_GUIDE_CONTENT = {
     "Issuer",
     "Merchant acceptance"
   ],
-  "heroImage": "../assets/blog-hero-desktop.webp",
-  "heroImageTablet": "../assets/blog-hero-tablet.webp",
-  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImage": "../assets/cover-complete-guide-to-interchange-fees.webp",
+  "heroImageTablet": "../assets/cover-complete-guide-to-interchange-fees.webp",
+  "heroImageMobile": "../assets/cover-complete-guide-to-interchange-fees.webp",
   "heroImageAlt": "Interchange fees in the card payments ecosystem",
   "tocHeading": "On this page",
   "introduction": {

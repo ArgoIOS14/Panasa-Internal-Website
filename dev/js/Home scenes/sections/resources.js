@@ -229,17 +229,23 @@ export const renderResources = (data) => {
     }
     const featuredCtaLabelEl = featuredSection.querySelector('[data-featured-cta-label]');
     if (featuredCtaLabelEl) {
-      featuredCtaLabelEl.textContent = item.category === 'Case Study' ? 'Read Full Case Study' : 'Read More';
+      const CTA_LABEL_BY_CATEGORY = {
+        'Blog':         'Read Full Blog',
+        'Blogs':        'Read Full Blog',
+        'Insights':     'Read Full Insight',
+        'Insight':      'Read Full Insight',
+        'Guide':        'Read Full Guide',
+        'Guides':       'Read Full Guide',
+        'Case Study':   'Read Full Case Study',
+        'Case Studies': 'Read Full Case Study',
+      };
+      featuredCtaLabelEl.textContent = CTA_LABEL_BY_CATEGORY[item.category] || 'Read More';
     }
 
     // Image
     const featuredImgEl = featuredSection.querySelector('[data-featured-image]');
     if (featuredImgEl instanceof HTMLImageElement) {
-      if (item.category === 'Case Study') {
-        featuredImgEl.src = 'assets/case-study-image-1.webp';
-      } else {
-        featuredImgEl.src = item.image || 'assets/resources-card-placeholder.webp';
-      }
+      featuredImgEl.src = item.image || 'assets/resources-card-placeholder.webp';
       featuredImgEl.alt = item.title || '';
     }
   };
