@@ -10,7 +10,7 @@ window.DEFAULT_BLOG_CONTENT = {
   "title": "What Does 3D Secure Authentication Actually Mean for Your Card Program?",
   "date": "15 MAY 2026",
   "readTime": "8 MINS READ",
-  "author": "Panasa Team",
+  "author": "Fathima Roshni",
   "heroImage": "../assets/blog-hero-desktop.webp",
   "heroImageTablet": "../assets/blog-hero-tablet.webp",
   "heroImageMobile": "../assets/blog-hero-mobile.webp",

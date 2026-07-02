@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "title": "Embedded Finance Is the Real Card-Issuing Market | Panasa",
+    "description": "Non-financial platforms are now some of the most active card issuers in the world. Inside the $17.6B embedded card issuing market and what it means for banks, processors, and card program builders.",
+    "canonical": "https://www.panasatech.com/insights/embedded-finance-real-card-issuing-market",
+    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
+  },
+  "slug": "embedded-finance-real-card-issuing-market",
+  "category": "Insights",
+  "tag": "INSIGHT",
+  "title": "Embedded Finance Is the Real Card-Issuing Market",
+  "date": "25 MAY 2026",
+  "readTime": "9 MINS READ",
+  "datePublished": "2026-05-25",
+  "dateModified": "2026-05-25",
+  "author": "Fathima Roshni",
+  "tags": [
+    "Embedded finance",
+    "Card issuing",
+    "BaaS",
+    "Issuer processors",
+    "Fintech platforms",
+    "Co-branded cards"
+  ],
+  "heroImage": "../assets/blog-hero-desktop.webp",
+  "heroImageTablet": "../assets/blog-hero-tablet.webp",
+  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImageAlt": "Embedded finance and card issuing illustration",
+  "body": [
+    {
+      "type": "html",
+      "content": "<p>In the past few years, non-financial platforms have quietly become some of the most active card issuers in the market. Uber issues cards to its drivers. DoorDash issues cards to its Dashers. Grab issues co-branded cards across Southeast Asia. Shopify issues cards to merchants. None of these are financial companies. All of them are doing this through embedded finance, the integration of financial services directly into non-financial platforms.</p><p>The global embedded card issuing market was valued at $17.6 billion in 2024 and is projected to reach $48.1 billion by 2033, growing at a Compound Annual Growth Rate (CAGR) of 16.2%. In Europe, the market was $4.1 billion in 2024 with a forecasted CAGR of 16.5% through 2033. In Asia Pacific, $3.2 billion in 2024 with rapid growth driven by digital payment adoption across India, China, and Southeast Asia.</p><h2>What Is Embedded Finance and How Does It Apply to Card Issuing?</h2><p>Embedded finance is the integration of financial services into non-financial products, platforms, or services. Instead of a user going to a bank to access a card, a loan, or a payment account, the financial product is built into the platform they already use. The platform delivers the service. A licensed bank or financial institution provides the regulated infrastructure behind it. The user never leaves the product they came for.</p><p>Card issuing, payments, lending, and insurance can all be embedded. For the purposes of card issuing specifically, this means a platform can issue and manage cards directly through its own product interface, using Banking-as-a-Service (BaaS) infrastructure and Application Programming Interface (API)-first processors to handle the authorisation, compliance, and network connection in the background.</p><h2>How Embedded Finance Is Changing the Traditional Card Issuing Model</h2><p>The traditional co-branded card model has existed for decades. Airlines, retailers, and large brands partnered with banks to issue cards that carried their logo. But in that model, the bank controlled the financial product. If the platform wanted to change the reward structure, the spending controls, or the cardholder experience, it negotiated with the bank. The platform was a distribution channel. It was not the issuer.</p><p>Embedded finance changes this. The platform configures the card product. The processor handles authorisation and compliance. The bank provides the licence. The platform owns the cardholder experience end to end.</p><p>Grab and Citi illustrated this shift when they issued a co-branded credit card across Southeast Asia starting in 2019. The card was embedded inside the Grab super-app. Points were redeemable across every Grab service the cardholder already used. The financial infrastructure was Citi's. The cardholder relationship was Grab's. That distinction, who owns the experience, is what separates embedded card issuing from traditional co-branded cards.</p><h2>What Made Embedded Card Issuing Possible</h2><p>Issuing a card used to require a banking licence, direct relationships with card networks, and years of regulatory groundwork. That barrier kept card issuing inside financial institutions.</p><p>BaaS and API-first processors lowered it significantly. Marqeta now powers the cards issued by Uber, DoorDash, and Instacart. The platform configures the product: the controls, the rewards, the limits. The processor handles the authorisation, compliance layer, and network connection. The bank provides the licence.</p><p>The global embedded finance market was $148 billion in 2025 and is growing at approximately 31.5% annually. Boston Consulting Group (BCG) and Adyen estimate the total addressable market for embedded finance in the Small and Medium-sized Enterprise (SME) segment across payments, capital, accounts, and card issuing at $185 billion in North America and Europe alone, with current market valued at just $32 billion. The infrastructure cost of adding card issuing to a non-financial platform has fallen substantially.</p>"
+    },
+    {
+      "type": "callout",
+      "title": "Building a card program for a non-financial platform?",
+      "text": "We've engineered embedded card issuing for marketplaces, gig platforms, and SaaS products. Let's compare notes.",
+      "cta": {
+        "label": "Talk to our team",
+        "href": "../contact",
+        "variant": "dark"
+      }
+    },
+    {
+      "type": "html",
+      "content": "<h2>Why Embedded Card Programs Outperform Banks on Cardholder Engagement</h2><p>A bank card is useful when a cardholder needs to pay. Outside of that moment, it has no relevance on its own. Banks invest significantly in rewards programmes, app features, and notifications to build the engagement that will fill this gap.</p><p>Platforms are different. A Shopify merchant who receives a card funding offer inside their admin dashboard experiences it as a part of the tool they already use to run their business. This is why Shopify Capital originated $4.2 billion in merchant advances by 2025. The offer arrives at the moment the merchant needs it.</p><p>McKinsey reports that companies implementing embedded finance solutions see two to five times higher customer lifetime value and 30% lower acquisition costs compared to standalone financial products. The advantage is that embedded financial products are more relevant to the context the cardholder is already in.</p><h2>What Embedded Finance Means for Traditional Card Issuers</h2><p>McKinsey identifies Independent Software Vendor (ISV) and marketplace partnerships as the highest risk of commoditisation for traditional banks in embedded finance. When a platform issues a card, multiple layers sit between the bank and the cardholder: the platform, the BaaS provider, the processor. The bank processes the transaction. The platform owns the cardholder.</p><p>This is already visible at scale. DoorDash's Crimson account, issued in partnership with Starion Bank through Fiserv's infrastructure, added three million accounts in just over three months. The account growth came from DoorDash's platform, not from the bank's distribution. The bank gained deposits. DoorDash gained cardholder retention and platform engagement.</p><p>For banks and processors, the question is where to position in this stack. Banks that provide licensing and regulated infrastructure to embedded finance platforms will remain relevant. The licence does not disappear. Banks that build API-first infrastructure designed for platform partners will capture more of the value chain. The cardholder relationship will increasingly sit with the platform. The infrastructure relationship is what remains available.</p><p>One thing worth noting is that the BaaS market is beginning to consolidate. Synapse's bankruptcy in 2024 illustrated the risks of fragmented BaaS infrastructure at scale. As the market matures, platforms are becoming more selective about which processors and BaaS providers they work with. Depth of compliance capability, regulatory resilience, and configurable infrastructure are becoming the differentiators.</p>"
+    },
+    {
+      "type": "callout",
+      "title": "Positioning your processor for embedded finance partnerships?",
+      "text": "We help issuer processors build the API-first, compliance-deep infrastructure platforms actually choose.",
+      "cta": {
+        "label": "View our services",
+        "href": "../services",
+        "variant": "ghost"
+      }
+    },
+    {
+      "type": "html",
+      "content": "<h2>How Can Card Program Builders Capitalise on the Embedded Finance Market?</h2><p>Every platform that wants to issue a card needs infrastructure requirements like card controls, API-first card management, 3D Secure (3DS) authentication, tokenisation, card lifecycle management, and compliance frameworks for EU, UK, and APAC markets.</p><p>Most platforms entering this space are not financial companies. They do not have this infrastructure and are unlikely to build it from scratch. This is where card program builders and BaaS providers come in. They provide the infrastructure that allows platforms to issue cards without building the financial layer themselves.</p><p>In Europe specifically, the Payment Services Directive 2 (PSD2) and open banking frameworks have created a regulatory environment that actively supports embedded finance. The region's $4.1 billion embedded card issuing market is growing at 16.5% annually. In APAC, government-led digital payment initiatives across India, Singapore, and Southeast Asia are accelerating adoption.</p><h2>Conclusion</h2><p>Embedded finance has not replaced traditional card issuing. It has created a parallel market that is growing faster and attracting some of the highest-engagement card programs in the world. The platforms issuing cards today are doing so because a card solves a problem their product already owns. The infrastructure enabling that is what makes it work. For card program builders, this shift serves an opportunity worth exploring.</p>"
+    }
+  ],
+  "relatedSlugs": [
+    "lifecycle-of-a-payment",
+    "card-controls-fraud-prevention",
+    "complete-guide-to-interchange-fees"
+  ]
+}

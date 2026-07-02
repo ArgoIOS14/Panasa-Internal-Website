@@ -6,6 +6,12 @@
       "runtimeExecutable": "/opt/homebrew/bin/php",
       "runtimeArgs": ["-S", "localhost:8082", "-t", "dev", "dev/router.php"],
       "port": 8082
+    },
+    {
+      "name": "panasa-prod",
+      "runtimeExecutable": "/opt/homebrew/bin/php",
+      "runtimeArgs": ["-S", "localhost:8083", "-t", "prod", "prod/router.php"],
+      "port": 8083
     }
   ]
 }

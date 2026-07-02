@@ -10,7 +10,7 @@ window.DEFAULT_BLOG_CONTENT = {
   "title": "A Guide to Card Controls in Modern Payment Fraud Prevention",
   "date": "15 MAY 2026",
   "readTime": "9 MINS READ",
-  "author": "Panasa Team",
+  "author": "Fathima Roshni",
   "heroImage": "../assets/blog-hero-desktop.webp",
   "heroImageTablet": "../assets/blog-hero-tablet.webp",
   "heroImageMobile": "../assets/blog-hero-mobile.webp",

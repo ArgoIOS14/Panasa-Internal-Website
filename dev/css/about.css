@@ -643,7 +643,8 @@ textarea {
 }
 
 .testimonial-card {
-  padding: 0;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .testimonial-columns {

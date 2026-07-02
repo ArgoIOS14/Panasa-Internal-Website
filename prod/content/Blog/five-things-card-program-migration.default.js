@@ -1,0 +1,68 @@
+window.DEFAULT_BLOG_CONTENT = {
+  "meta": {
+    "title": "Five Things to Look for When Migrating Your Card Program | Panasa",
+    "description": "Card migration is not a back-end switch. It spans cardholder data, BINs, compliance, fraud controls, and daily experience. Five essentials to get right before you initiate anything.",
+    "canonical": "https://www.panasatech.com/insights/five-things-card-program-migration",
+    "ogImage": "https://www.panasatech.com/assets/og-image.png"
+  },
+  "slug": "five-things-card-program-migration",
+  "category": "Insights",
+  "tag": "INSIGHT",
+  "title": "Five Things to Look for When Migrating Your Card Program",
+  "date": "25 MAY 2026",
+  "readTime": "11 MINS READ",
+  "datePublished": "2026-05-25",
+  "dateModified": "2026-05-25",
+  "author": "Fathima Roshni",
+  "tags": [
+    "Card migration",
+    "BIN sponsorship",
+    "Issuer processors",
+    "PCI DSS",
+    "Compliance",
+    "Card program management"
+  ],
+  "heroImage": "../assets/blog-hero-desktop.webp",
+  "heroImageTablet": "../assets/blog-hero-tablet.webp",
+  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImageAlt": "Card program migration illustration",
+  "body": [
+    {
+      "type": "html",
+      "content": "<p>Card migration is not just a simple switch. It may look like a back-end infrastructure decision, but in reality, it involves every layer of your program: cardholder data, BINs, compliance, fraud controls, and your cardholders' daily experience. If you are planning to migrate your card program, treat it as a product, compliance, and operational project all at once.</p><h2>Why Card Programs Migrate</h2><p>The reasons for switching providers vary. But they generally fall into three categories.</p><p>The first is regulatory compliance. Regulations in payments move fast. A processor or BIN sponsor that was compliant two years ago may not have kept up with regulatory updates, new Strong Customer Authentication (SCA) requirements, or network mandates. When your current provider cannot show clear compliance roadmaps or respond quickly to regulatory changes, staying put starts to carry its own risk.</p><p>The second is unmet product needs. If your program needs real-time authorisation decisioning, configurable card controls, Just-in-Time (JIT) funding, or modern API integrations and your current processor cannot support them, it is time to move.</p><p>The third is forced migration. Sponsor bank failures, acquisitions, and regulatory actions do not give you time to prepare. When your BIN sponsor exits the market or your processor is acquired, migration stops being a strategic choice and becomes an urgent operational one. These are the hardest migrations to execute well, precisely because the planning window is short.</p><p>Understanding which category your migration falls into shapes every decision that follows. Either way, the work that follows starts with one strategic question:</p><h2>What Kind of Migration This Is</h2><p>Migration is often described as a single exercise, but in practice there are two very different versions of it.</p><p>The first is a like-for-like move. You take what your program does today and rebuild it on better infrastructure. The cardholder experience does not change. The product configuration, fee structure, controls, and journeys are replicated as closely as possible. The new platform is faster, more compliant, or more flexible, but cardholders should not notice the switch.</p><p>The second is a relaunch. You use the migration as a moment to redesign — adding capabilities the old platform could not support, retiring features that were not earning their place, or repositioning the product entirely. Cardholders experience a meaningfully different program after the move.</p><p>These are different exercises with different risk profiles. A like-for-like migration is graded on fidelity: how accurately the new platform reproduces the old one. A relaunch is graded on adoption: whether cardholders engage with the new capabilities. The testing strategy, communication plan, and success metrics all change depending on which one you are running.</p><p>The most expensive mistake is conflating the two. Programs that intend a like-for-like move but quietly let scope expand end up with a more complicated migration than they planned for. Programs that intend a relaunch but document the old platform as a specification end up rebuilding what they had on a new system, then wondering why the migration did not unlock the value they expected.</p><p>Decide which one you are running before you start documenting anything. It is the single decision that shapes every other decision in the migration.</p><p>With that decision made, these are the five essentials you need to get right before you initiate anything.</p><h2>1. Document Everything About Your Current Card Program First</h2><p>Before evaluating a new processor, most programs underestimate how much needs to be documented about the existing one. Product configurations, ledger configuration, fee structures, interest models, customer data, repayment flows, and CRM integrations: every dependency needs to be mapped. Identifying every data field, dependency, and edge case is what ensures accurate replication on the new platform or a clear baseline for what you are deliberately changing.</p><p>Data mapping is consistently the highest-risk area in any migration, particularly when moving from legacy systems or when multiple partners are involved. Every interest rate configuration needs to be replicated exactly, product by product. Many cardholders carry promotional rates, such as 0% for 12 months on balance transfers. Those balances need to be mapped correctly alongside standard rate balances. Errors at this stage are not recoverable mid-migration.</p><p>Your ledger setup is another decision point worth clarifying early. Consider whose ledger your program currently runs on: your processor's, your own, or a third party's, and whose you plan to use after the switch. This determines how much of your financial infrastructure moves with the migration and how much needs to be rebuilt. It is a question most programs leave too late.</p><p>Your relationship with your current processor also shapes the process significantly. A cooperative processor will support data exports, answer technical questions, and work with you through a parallel running period. An uncooperative one may restrict access, delay responses, or make the migration window difficult to manage. Knowing early how your current processor is likely to respond gives you time to plan around it.</p><h2>2. Decide Early: Migrate Your BIN or Reissue Your Cards</h2><p>There are two options to deal with the BINs: migrate the BIN to the new bank, or close existing cards and reissue under a new BIN.</p><p>BIN migration is complex. It requires regulatory coordination, network engagement, and in some markets regulatory approval from the relevant financial authority. Cardholders keep their existing card numbers, recurring payments continue without interruption, and the transition is largely unnoticeable to the users.</p><p>Re-carding is operationally simpler. But it forces every cardholder to update their card details across every merchant, subscription, and recurring payment they have set up. Some will not. Activation rates for reissued cards tend to be lower than retention rates for migrated ones. The right choice depends on your cardholder base size, program maturity, and how cooperative your current processor is willing to be in the transition. Not every migration involves a BIN change, but when it does, it is almost always the most complex part of the exercise.</p><p>There is one more dimension worth considering. If your cardholders have provisioned their cards to digital wallets such as Apple Pay or Google Pay, those tokens are tied to the existing BIN. A re-carding exercise means those tokens are invalidated. Cardholders need to re-provision their cards to their wallets after receiving new cards. Many will not do this immediately. Some will not do it at all. For programs where digital wallet usage is high, this is a cardholder experience problem as much as it is a technical one, and it needs to be factored into the migration plan early.</p>"
+    },
+    {
+      "type": "callout",
+      "title": "Planning a card program migration?",
+      "text": "We've migrated card portfolios across BINs, processors, and sponsor banks. Let's de-risk yours together.",
+      "cta": {
+        "label": "Talk to our team",
+        "href": "../contact",
+        "variant": "dark"
+      }
+    },
+    {
+      "type": "html",
+      "content": "<h2>3. Ensure Compliance Continuity from Day One</h2><p>Migrating your program means your new processor needs to hold PCI DSS Level 1 certification and your data transfer has to happen through scheme-approved, encrypted processes. PAN and PIN data cannot simply be exported and sent. It requires end-to-end encryption and scheme-coordinated transfer. Programs that treat compliance as a post-migration checklist rather than a migration prerequisite discover that their cardholder data is stuck.</p><p>Scheme certifications matter too. Your new processor needs to be certified with Visa and Mastercard for the specific products your program runs. If you issue dual-scheme cards, both certifications need to be in place before testing begins. If your program uses 3DS, your new processor needs to support it from day one. This approach surfaces risks early, particularly around scheme certification and cardholder continuity. These are not items you can fill in after the migration is technically complete.</p><p>When assessing a new processor, check for any public regulatory fines or disciplinary actions, request their compliance documentation directly, and expect transparent answers. A provider that hedges on compliance detail is one worth being cautious about. In the EU and UK, your new processor needs to support PSD2 and SCA requirements from day one, not after a transition period.</p><h2>4. Test Everything Before Your Cardholders See Anything</h2><p>Once compliance requirements are evaluated, testing is the phase that determines whether any of it actually works. Authorisations, clearing, fraud controls, digital wallet integrations, dispute flows, and edge cases only surface under real transaction conditions and all of it needs to be tested before a single live cardholder is affected.</p><p>A 60-day rehearsal period before going live is the standard recommendation. BINs need to be registered with Visa and Mastercard before testing begins. Pilot cards should be activated and validated against real transaction scenarios before the full rollout. Programs that skip straight to live discover card authorisation failures, fraud rule misconfigurations, and wallet provisioning gaps when real cardholders are affected by them. That is always more expensive than finding the same problems in a test environment.</p>"
+    },
+    {
+      "type": "callout",
+      "title": "Worried about regulatory continuity during migration?",
+      "text": "Our compliance and engineering teams have stress-tested PCI DSS, PSD2, and SCA transitions across EU, UK, and APAC.",
+      "cta": {
+        "label": "View our services",
+        "href": "../services",
+        "variant": "ghost"
+      }
+    },
+    {
+      "type": "html",
+      "content": "<h2>5. Treat Cardholder Communication as a Product Decision</h2><p>Everything else in a migration is infrastructure. The cardholder experience is the only metric your cardholders actually see.</p><p>Cardholder communication needs to be treated as a product decision, not a legal obligation. Advance notice of bank name changes, material change notifications, physical card re-issuance timelines, and activation instructions all need to be planned with the same rigour as the technical migration. What happens to cardholders whose recurring payments are tied to an old card number? How do you handle the window between card deactivation and new card activation? What does your support team know, and when do they know it?</p><p>The programs that manage this well, script every cardholder touchpoint before the migration begins. The ones that do not lose cardholders to the transition itself.</p><h2>What Makes a Card Program Migration Successful</h2><p>The programs that navigate migration well share one thing: they planned for it before they needed it. They documented their current setup while it was still accessible. They mapped their BIN dependencies before the sponsor bank gave notice. They ran compliance on a new processor before the contract with the existing one came up for renewal.</p><p>Migration that starts from a position of knowledge is manageable. Migration that starts from urgency is where the expensive mistakes happen. The technical complexity of moving a card program is significant but solvable. The harder problem is always the decisions that were not made early enough.</p><h2>Conclusion</h2><p>The programs that navigate migration well are the ones that started with a clear answer to one question: what do you want your card program to do that it cannot do today? Every decision that follows, which processor, which approach, how long to test, flows from that. Migration is not the goal. It is the means. Get the question right first, and the rest of the process has somewhere to go.</p>"
+    }
+  ],
+  "relatedSlugs": [
+    "embedded-finance-real-card-issuing-market",
+    "3d-secure-authentication-card-program",
+    "card-controls-fraud-prevention"
+  ]
+};

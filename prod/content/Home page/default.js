@@ -228,7 +228,7 @@ window.DEFAULT_CONTENT = {
       {
         "style": "dark",
         "image": "assets/why-card-1.webp",
-        "title": "Proven at scale",
+        "title": "Proven at Scale",
         "text": "Supporting platforms processing 10M+ transactions monthly. We’ve been there, scaled that.",
         "imageType": "image"
       },
@@ -345,6 +345,20 @@ window.DEFAULT_CONTENT = {
         "role": "Chief Commercial Officer",
         "logo": "assets/testimonial-logo-cleava.svg",
         "logoAlt": "Cleava"
+      },
+      {
+        "text": "We assigned payment platform integration work to Panasa, and they delivered to our utmost satisfaction. We wish Panasa Tech all the best for their future endeavors.",
+        "name": "Aaron Holmes",
+        "role": "Chief Executive Officer",
+        "logo": "assets/testimonial-logo-kani.svg",
+        "logoAlt": "Kani Payments"
+      },
+      {
+        "text": "With it now being commonplace for most UK developers to work remotely, we've found transitioning assignments to Panasa a breeze. They're extremely conscientious, have built in guardrails for governance and pros at what they do.",
+        "name": "Anil Nair",
+        "role": "Co-founder",
+        "logo": "assets/testimonial-logo-earnr.svg",
+        "logoAlt": "earnr"
       }
     ]
   },
@@ -473,7 +487,7 @@ window.DEFAULT_CONTENT = {
     "ctaButton": "Book a Meeting",
     "ctaHref": "contact",
     "showResources": true,
-    "brandText": "From technical leaders to operations teams, we deliver value across your entire organization.",
+    "brandText": "From legacy modernisation to intelligent operations, we deliver fintech engineering across your entire organization.",
     "email": "info@panasatech.com",
     "phones": [
       "+44 (0) 1273 977101",
@@ -533,7 +547,7 @@ window.DEFAULT_CONTENT = {
           },
           {
             "label": "Newsletter",
-            "href": "resources",
+            "href": "#newsletter",
             "isResourcesLink": true,
             "badge": "new",
             "badgeText": "NEW"

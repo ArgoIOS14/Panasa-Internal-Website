@@ -27,7 +27,10 @@ const slugify = (label) =>
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '');
 
-const categoryLabel = (category) => (category || '').toUpperCase();
+const categoryLabel = (category) => {
+  const label = String(category || '').toUpperCase();
+  return label === 'INSIGHTS' ? 'INSIGHT' : label;
+};
 
 const tagClassFor = (category) =>
   findByAnyLabel(category)?.tagClass || 'resource-tag-blog';
@@ -194,7 +197,6 @@ export const renderResources = async (data) => {
   // ── Filter tabs + grid + pagination ───────────────
   const filtersEl = document.querySelector('[data-resources-filters]');
   const gridEl = document.querySelector('[data-resources-grid]');
-  const rowsSelect = document.querySelector('[data-rows-per-page]');
   const pageFirst = document.querySelector('[data-page-first]');
   const pagePrev = document.querySelector('[data-page-prev]');
   const pageNext = document.querySelector('[data-page-next]');
@@ -214,41 +216,56 @@ export const renderResources = async (data) => {
   let activeFilter = getInitialFilter(filters);
   let currentPage = getInitialPage();
 
-  // #8: explicit check — treat only finite positive numbers as valid overrides
-  const defaultRows = data.pagination?.defaultRowsPerPage;
-  const hasExplicitDefault = Number.isFinite(defaultRows) && defaultRows > 0;
-  let rowsPerPage = hasExplicitDefault ? Number(defaultRows) : 2;
+  // ── Featured card (dynamic) ───────────────────────
+  // Picks the most recent item matching the active filter (sorted by
+  // datePublished, lexicographic order matches chronological for ISO dates).
+  // When "All" is active, picks the latest across the whole catalog.
+  // Hides the section when no item matches (e.g. an empty filter).
+  const featuredSection = document.querySelector('.resources-featured');
+  const featuredCardEl = document.querySelector('[data-featured-card]');
+  const featuredTagEl = document.querySelector('[data-featured-tag]');
+  const featuredImgEl = document.querySelector('[data-featured-image]');
 
-  // #3: render <select> options from JSON (fallback to the HTML-defined options if not provided)
-  const rowsOptions =
-    Array.isArray(data.pagination?.rowsPerPageOptions) &&
-    data.pagination.rowsPerPageOptions.length
-      ? data.pagination.rowsPerPageOptions
-      : null;
-  if (rowsSelect instanceof HTMLSelectElement) {
-    if (rowsOptions) {
-      rowsSelect.innerHTML = '';
-      rowsOptions.forEach((n) => {
-        const opt = createEl('option');
-        opt.value = String(n);
-        opt.textContent = String(n);
-        rowsSelect.appendChild(opt);
-      });
+  const pickFeaturedItem = (filterLabel) => {
+    const pool = items.filter((it) => itemMatchesFilter(it, filterLabel));
+    if (!pool.length) return null;
+    // Stable sort by datePublished desc; preserves source order on ties
+    return [...pool].sort((a, b) =>
+      String(b.datePublished || '').localeCompare(String(a.datePublished || ''))
+    )[0] || null;
+  };
+
+  const renderFeatured = (item) => {
+    if (!featuredSection) return;
+    if (!item) {
+      featuredSection.hidden = true;
+      return;
     }
-    rowsSelect.value = String(rowsPerPage);
-  }
+    featuredSection.hidden = false;
+    if (featuredCardEl instanceof HTMLAnchorElement) {
+      featuredCardEl.href = item.href || '#';
+    }
+    if (featuredTagEl) {
+      featuredTagEl.textContent = categoryLabel(item.category);
+      featuredTagEl.className = `resource-tag ${tagClassFor(item.category)}`;
+    }
+    setText('[data-featured-title]', item.title);
+    setText('[data-featured-date]', item.date);
+    setText('[data-featured-author]', item.author);
+    if (featuredImgEl instanceof HTMLImageElement) {
+      featuredImgEl.src = item.image || 'assets/resources-card-placeholder.webp';
+      featuredImgEl.alt = item.title || '';
+    }
+  };
+
+  renderFeatured(pickFeaturedItem(activeFilter));
+
+  const ROWS_PER_PAGE = 2;
 
   // #1 + #2: column count matches the CSS grid responsive rules
   let columns = detectColumns();
 
-  /* On mobile each "row" is a single card, so the desktop "rows-per-page"
-     selector has no visual analogue. We hide the selector on mobile and use
-     a fixed items-per-page so the list paginates sensibly (6 cards ≈ a
-     phone-height worth of scroll). Desktop/tablet keep the selector-driven
-     rowsPerPage × columns formula. */
-  const MOBILE_ITEMS_PER_PAGE = 6;
-  const itemsPerPage = () =>
-    columns === 1 ? MOBILE_ITEMS_PER_PAGE : rowsPerPage * columns;
+  const itemsPerPage = () => ROWS_PER_PAGE * columns;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const OUT_MS = readMs('--motion-duration-reveal-fast', 220);
@@ -342,17 +359,23 @@ export const renderResources = async (data) => {
     if (!canReuseStatic) {
       gridEl.innerHTML = '';
       if (filtered.length === 0) {
-        const empty = createEl('p', 'resources-empty');
-        empty.textContent = 'No resources yet in this category.';
+        const empty = createEl('div', 'resources-empty');
+        empty.innerHTML = `
+          <img class="resources-empty-illustration"
+               src="assets/resources-empty-illustration.webp"
+               alt=""
+               aria-hidden="true" />
+          <h3 class="resources-empty-title">Nothing to explore yet</h3>
+          <p class="resources-empty-text">We don't have any content in this section right now.<br />Please check back later for new updates.</p>
+        `;
         gridEl.appendChild(empty);
       } else {
         slice.forEach((item) => gridEl.appendChild(renderCard(item)));
       }
     }
 
-    // #7: hide the pagination row entirely when it serves no purpose —
-    // either there are no results, or everything fits on a single page so
-    // the rows-per-page selector and page nav would be redundant.
+    // Hide pagination when it serves no purpose — no results, or everything
+    // fits on one page.
     if (paginationEl instanceof HTMLElement) {
       paginationEl.hidden = filtered.length === 0 || pages <= 1;
     }
@@ -419,6 +442,7 @@ export const renderResources = async (data) => {
         });
         const nextActive = filtersEl.querySelector('.resources-filter.active');
         moveIndicatorTo(nextActive);
+        renderFeatured(pickFeaturedItem(activeFilter));
         animatedRender();
       });
       filtersEl.appendChild(btn);
@@ -477,16 +501,6 @@ export const renderResources = async (data) => {
       animatedRender();
     });
   }
-  if (rowsSelect instanceof HTMLSelectElement) {
-    rowsSelect.addEventListener('change', () => {
-      const next = Number(rowsSelect.value);
-      if (!Number.isFinite(next) || next < 1) return;
-      rowsPerPage = next;
-      currentPage = 1;
-      animatedRender();
-    });
-  }
-
   // #2: recompute items-per-page when the viewport crosses a breakpoint
   let resizeRaf = 0;
   window.addEventListener('resize', () => {

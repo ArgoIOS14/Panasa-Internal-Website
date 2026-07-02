@@ -8,7 +8,7 @@ window.DEFAULT_BLOG_CONTENT = {
   "title": "Anatomy of a Swipe: What Really Happens When You Tap Your Card",
   "date": "16 APR 2026",
   "readTime": "20 MINS READ",
-  "author": "Panasa Team",
+  "author": "Ananya Nandy",
   "heroImage": "../assets/blog-hero-desktop.webp",
   "heroImageTablet": "../assets/blog-hero-tablet.webp",
   "heroImageMobile": "../assets/blog-hero-mobile.webp",

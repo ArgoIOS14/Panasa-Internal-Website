@@ -24,7 +24,7 @@ const AI_ACCELERATED_COPY = {
     pill: 'AI Accelerated Fintech Engineering',
     title: ['Ship fintech', 'platforms faster'],
     subtitle:
-      'We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half',
+      'We build card programmes, payment engines, and issuing platforms for regulated fintechs. Our teams use AI tooling to cut delivery timelines in half.',
     primaryCta: 'Talk to our team',
     secondaryCta: 'View Case Studies',
     trustedKicker: 'Trusted by High-Growth Fintechs',
@@ -60,7 +60,7 @@ const AI_ACCELERATED_COPY = {
   },
   howWeWork: {
     kicker: 'How We Work',
-    title: ['Five stages', 'continuous feedback'],
+    title: ['Five stages,', 'continuous feedback'],
     summary:
       "No need to hire, train, and manage multiple teams. We're your end-to-end fintech engineering and operations partner.",
     stages: [
@@ -132,7 +132,7 @@ const AI_ACCELERATED_COPY = {
     kicker: 'How We Build',
     title: ['Production-grade', 'from sprint one'],
     summary:
-      "We don't build prototypes that need to be rebuilt for production. Every platform is architected for the transaction",
+      "We don't build prototypes that need to be rebuilt for production. Every platform is architected for the transaction volumes, compliance requirements, and operational demands of live fintech environments.",
     cards: [
       {
         heading: 'High availability',
@@ -158,20 +158,20 @@ const AI_ACCELERATED_COPY = {
       'What sets us apart in the fintech development landscape',
     cards: [
       {
-        heading: 'Payment Experts, Not Generalists',
-        body: '20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently.',
+        heading: 'Payment Engineering Experts',
+        body: '20+ years building card platforms. We speak authorization flows, 3DS, and scheme integrations fluently.',
       },
       {
-        heading: 'Proven at scale',
-        body: "Supporting platforms processing 10M+ transactions monthly. We've been there, scaled that.",
+        heading: 'Proven at Scale',
+        body: 'We work with platforms processing 10M+ transactions monthly. We understand what that volume demands operationally and technically.',
       },
       {
         heading: 'Full-Stack Team',
-        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
+        body: 'We cover everything from scoping and architecture to deployment and ongoing support. One engineering team, end-to-end delivery, no handoffs.',
       },
       {
         heading: 'Compliance-First Approach',
-        body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.',
+        body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Compliance is built into how we work, not added at the end.',
       },
     ],
   },
@@ -360,6 +360,48 @@ const applyAIAcceleratedPageCopy = () => {
   setText(footerTitle, copy.footerCta.title);
 };
 
+/* ── FAQ Accordion (mirrors services-overview.js initFaqAccordion) ──────── */
+
+let faqInitialized = false;
+
+const initFaqAccordion = () => {
+  const items = Array.from(document.querySelectorAll('[data-faq-item]'));
+  if (!items.length) return;
+
+  const setPanelState = (item, isOpen) => {
+    const button = item.querySelector('[data-faq-toggle]');
+    const panel = item.querySelector('[data-faq-panel]');
+    if (!(button && panel)) return;
+
+    item.classList.toggle('is-active', isOpen);
+    button.setAttribute('aria-expanded', String(isOpen));
+    panel.style.height = isOpen ? `${panel.scrollHeight}px` : '0px';
+  };
+
+  items.forEach((item) => {
+    setPanelState(item, item.classList.contains('is-active'));
+  });
+
+  if (!faqInitialized) {
+    faqInitialized = true;
+
+    items.forEach((item) => {
+      const button = item.querySelector('[data-faq-toggle]');
+      button?.addEventListener('click', () => {
+        const isCurrentlyActive = item.classList.contains('is-active');
+        items.forEach((entry) => setPanelState(entry, false));
+        if (!isCurrentlyActive) setPanelState(item, true);
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      items.forEach((item) => {
+        if (item.classList.contains('is-active')) setPanelState(item, true);
+      });
+    });
+  }
+};
+
 const initProcessSteps = () => {
   const items = Array.from(document.querySelectorAll('[data-process-item]'));
   if (!items.length) return;
@@ -421,7 +463,7 @@ const applyIntelligentOperationsTextOverrides = () => {
     }
     if (heroSummary) {
       heroSummary.textContent =
-        'Transaction volumes double. Chargebacks, rules change quarterly. Your clients expect sub-hour response times around the clock.';
+        'Transaction volumes increase faster than most operational models are designed to handle, while chargeback rules continue to evolve on a quarterly basis and clients expect sub hour response times at all hours of the day. Traditional operations teams often struggle under that level of pressure. We build intelligent operational systems specifically designed to perform at that scale.';
     }
     if (heroActions[0]) heroActions[0].textContent = 'Talk to our team';
     if (heroActions[1]) heroActions[1].textContent = 'View Case Studies';
@@ -431,7 +473,7 @@ const applyIntelligentOperationsTextOverrides = () => {
       { value: '99.99%', label: 'System uptime maintained' },
       { value: '<1hr', label: 'P1 incident response time' },
       { value: '30-50%', label: 'Cost reduction in-house' },
-      { value: '800M+', label: 'Transactions managed' },
+      { value: '99.9%', label: 'Dispute SLA adherence' },
     ];
     heroStatCards.forEach((card, index) => {
       const stat = heroStats[index];
@@ -614,12 +656,15 @@ const applyIntelligentOperationsTextOverrides = () => {
           <span class="section-kicker">What Changes</span>
           <h2>
             <span>Operations becomes a growth</span>
-            <span>function <em>not a cost centre</em></span>
+            <span>function, <em>not a cost centre</em></span>
           </h2>
         </div>
         <p>
           The point isn't just to keep things running.
-          It's to run them well enough that operations become a growth function, not a cost centre.
+          It's to run them well enough that operations become a growth function, not a cost centre.<sup>*</sup>
+        </p>
+        <p class="roadmap-footnote">
+          <small>*Based on Panasa client feedback surveys conducted across operational engagements in 2025.</small>
         </p>
       </div>
 
@@ -636,7 +681,7 @@ const applyIntelligentOperationsTextOverrides = () => {
           <p>
             Structured tiers, intelligent triage, and AI-assisted responses mean faster first-contact resolution. Your clients notice the difference - in response times, in accuracy, and in how quickly issues close.
           </p>
-          <span class="roadmap-phase">9/10 CLIENT CSAT</span>
+          <span class="roadmap-phase">9/10 CLIENT CSAT*</span>
         </article>
         <article class="roadmap-card">
           <h3>Compliance handled, not chased</h3>
@@ -664,20 +709,20 @@ const applyIntelligentOperationsTextOverrides = () => {
 
     const whyCopy = [
       {
-        title: 'Payment Experts, Not Generalists',
-        body: '20+ years building card platforms, not generic software. We speak authorization flows, 3DS, and scheme integrations fluently.',
+        title: 'Payments Operations Experience',
+        body: 'We have 20+ years working across card platforms, dispute lifecycles, scheme rules, and reconciliation workflows. This is all we do.',
       },
       {
-        title: 'Proven at scale',
-        body: "Supporting platforms processing 10M+ transactions monthly. We've been there, scaled that.",
+        title: 'Proven at Scale',
+        body: 'We manage 800M+ transactions across clients. We understand what high-volume fintech operations demand day to day.',
       },
       {
-        title: 'Full-Stack Team',
-        body: 'From strategy to 24x7 ops — no vendor juggling needed. One team, end-to-end ownership.',
+        title: 'Full-Stack Operations Team',
+        body: 'We cover L1 to L3 support, fraud monitoring, disputes, reconciliation, and reporting. One team, one point of contact.',
       },
       {
-        title: 'Compliance-First Approach',
-        body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.',
+        title: 'Compliance Built In',
+        body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Reconciliation, scheme reporting, and audit pipelines run on schedule.',
       },
     ];
 
@@ -803,7 +848,7 @@ const applyLegacyModernisationTextOverrides = () => {
     }
     if (challengeSummary) {
       challengeSummary.textContent =
-        'Most migration projects run over budget and over time. The business logic that took years to build.';
+        'Most migration projects run over budget and over time. The business logic that took years to build gets lost in translation, and teams end up rebuilding what they already had. We do it differently.';
     }
 
     const challengeCopy = [
@@ -842,15 +887,16 @@ const applyLegacyModernisationTextOverrides = () => {
 
     if (fitKicker) fitKicker.textContent = 'Who This Is For';
     if (fitTitle) {
-      setSafeHTML(fitTitle, '<em>Fintechs that need operations</em><span>to keep pace with growth</span>');
+      setSafeHTML(fitTitle, '<em>Fintechs ready to move</em><span>off legacy platforms</span>');
     }
     if (fitSummary) fitSummary.textContent = '';
 
     const fitItemCopy = [
-      'Issuer processors scaling transaction volumes and client count',
-      "Card platforms where fraud and disputes are growing faster than headcount",
-      "PSPs that need 24x7 monitoring they can't staff in-house",
-      'Fintechs looking to reduce ops cost without reducing service quality',
+      'Fintechs running platforms that are expensive to maintain and slow to change',
+      'Engineering teams spending more time on upkeep than new features',
+      'Organisations where key system knowledge sits with a handful of people',
+      'Fintechs preparing for scale but constrained by their current architecture',
+      'Teams that have tried rewrites before and run into cost and timeline overruns',
     ];
     fitItems.forEach((item, index) => {
       if (fitItemCopy[index]) item.textContent = fitItemCopy[index];
@@ -859,20 +905,20 @@ const applyLegacyModernisationTextOverrides = () => {
     if (fitEngageKicker) fitEngageKicker.textContent = 'How We Engage';
     const fitCardCopy = [
       {
-        title: 'Managed services',
-        body: 'full 24x7 ops with SLA-backed outcomes',
-      },
-      {
-        title: 'Team extension',
-        body: 'embed ops specialists into your existing team',
+        title: 'Assessment',
+        body: 'codebase review, business logic extraction, and migration scoping',
       },
       {
         title: 'Project-based',
-        body: 'set up monitoring, fraud systems, or reconciliation pipelines',
+        body: 'fixed scope, milestone-based delivery',
       },
       {
-        title: 'Flex support',
-        body: 'shared resources, 30-day rolling, scale when ready',
+        title: 'Phased rollout',
+        body: 'parallel run, staged deployment, and go-live support',
+      },
+      {
+        title: 'Ongoing support',
+        body: 'post-migration stabilisation and team handover',
       },
     ];
     fitCards.forEach((card, index) => {
@@ -1073,7 +1119,7 @@ const applyServiceMode = () => {
     kicker.textContent = 'How We Work';
     setSafeHTML(title, '<em>Six Phases</em><span>Every rule traced end to end</span>');
     summary.textContent =
-      "We don't rewrite systems from a requirements document. We extract the actual logic from the running system, reconstruct it in a modern stack.";
+      'Rather than rebuilding platforms from static requirement documents, we extract business logic directly from the live environment, reconstruct it within a modern architecture, and validate behavioural parity against the original system before any transition into production takes place.';
 
     setSafeHTML(content, `
       <div class="process-grid">
@@ -1302,6 +1348,7 @@ const initServicesPage = async () => {
   if (getServiceMode() === 'ai-accelerated-fintech-engineering') {
     applyAIAcceleratedPageCopy();
   }
+  initFaqAccordion();
   initScrollAnimations();
 
   initEmailCapture({
