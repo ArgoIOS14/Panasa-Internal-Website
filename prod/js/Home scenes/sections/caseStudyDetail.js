@@ -54,32 +54,49 @@ const updateSeoMeta = (data) => {
   setMeta('meta[name="twitter:image"]', image);
 };
 
-/* ── Hero (dark green client card with eyebrow + title + accent + logo). */
+/* ── Hero (feature-card component with eyebrow + title + accent + meta). */
 const renderHero = (hero) => {
   if (!hero) return;
   setText('[data-case-eyebrow]', hero.eyebrow || 'CASE STUDY');
 
   const titleEl = document.querySelector('[data-case-title]');
   if (titleEl) {
-    titleEl.textContent = '';
-    if (hero.title) {
-      titleEl.appendChild(document.createTextNode(hero.title));
-    }
-    if (hero.titleAccent) {
-      if (hero.title) titleEl.appendChild(document.createTextNode(' '));
-      const accent = createEl('span', 'case-hero-title-accent');
-      accent.textContent = hero.titleAccent;
-      titleEl.appendChild(accent);
-    }
-    if (hero.titleSuffix) {
-      titleEl.appendChild(document.createTextNode(' ' + hero.titleSuffix));
+    /* Rebuild the title so the accent span carries the feature-card class.
+       The static HTML already has the correct structure; we only overwrite
+       when the JSON provides explicit title/titleAccent values. */
+    const accentText = hero.titleAccent;
+    const suffixText = hero.titleSuffix;
+    const plainText  = hero.title;
+
+    if (accentText || suffixText || plainText) {
+      titleEl.textContent = '';
+      if (plainText) {
+        titleEl.appendChild(document.createTextNode(plainText));
+      }
+      if (accentText) {
+        if (plainText) titleEl.appendChild(document.createTextNode(' '));
+        /* Re-use the existing accent span if present; otherwise create one. */
+        let accentEl = titleEl.querySelector('[data-case-title-accent]');
+        if (!accentEl) {
+          accentEl = createEl('span', 'feature-card-title-accent');
+          accentEl.dataset.caseTitleAccent = '';
+        }
+        accentEl.textContent = accentText;
+        titleEl.appendChild(accentEl);
+      }
+      if (suffixText) {
+        titleEl.appendChild(document.createTextNode(' ' + suffixText));
+      }
     }
   }
 
-  const cardEl = document.querySelector('[data-case-hero-card]');
-  if (cardEl && hero.background) {
-    cardEl.style.backgroundImage = `url("${resolveAsset(hero.background)}")`;
-  }
+  /* Populate date + read-time if provided by the content JSON. */
+  if (hero.date)     setText('[data-case-date]',      hero.date);
+  if (hero.readTime) setText('[data-case-read-time]', hero.readTime);
+
+  /* The artwork image src is set statically in the HTML to case-study-image-1.webp.
+     Do NOT overwrite it with the old per-case hero background path.
+     The green card background now comes entirely from feature-card.css. */
 };
 
 /* ── Meta tiles strip (icon + label + value, 1–5 tiles). */

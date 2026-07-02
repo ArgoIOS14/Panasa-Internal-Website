@@ -15,7 +15,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
     "title": "Open Banking for a Youth Banking Platform | Panasa",
     "description": "How Panasa delivered an Open Banking Gateway, parental controls, and PSD2/GDPR-aligned consent and authentication for a UK youth banking platform.",
     "canonical": "https://www.panasatech.com/case-studies/open-banking-youth-banking-platform",
-    "ogImage": "https://www.panasatech.com/assets/cs-open-banking-hero-bg.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-open-banking-youth-banking-platform.webp"
   },
   "hero": {
     "eyebrow": "CASE STUDY",

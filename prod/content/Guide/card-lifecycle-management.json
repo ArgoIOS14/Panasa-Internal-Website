@@ -3,7 +3,7 @@
     "title": "What Is Card Lifecycle Management? A Complete Guide for Card Programs | Panasa",
     "description": "Card lifecycle management explained — from issuance and activation to renewal, replacement, and closure. Stages, controls, and orchestration for modern card programs.",
     "canonical": "https://www.panasatech.com/guides/card-lifecycle-management",
-    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-card-lifecycle-management.webp"
   },
   "slug": "card-lifecycle-management",
   "category": "Guide",
@@ -24,9 +24,9 @@
     "Card controls",
     "Payment cards"
   ],
-  "heroImage": "../assets/blog-hero-desktop.webp",
-  "heroImageTablet": "../assets/blog-hero-tablet.webp",
-  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImage": "../assets/cover-card-lifecycle-management.webp",
+  "heroImageTablet": "../assets/cover-card-lifecycle-management.webp",
+  "heroImageMobile": "../assets/cover-card-lifecycle-management.webp",
   "heroImageAlt": "Card lifecycle management across issuance, activation, usage, renewal, replacement, and closure",
   "tocHeading": "On this page",
   "introduction": {

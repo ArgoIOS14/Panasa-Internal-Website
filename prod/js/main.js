@@ -2,7 +2,9 @@ import { initScrollAnimations } from './Home scenes/components/animations.js';
 import { initCarousel } from './Home scenes/components/carousel.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { renderCaseStudies } from './Home scenes/sections/caseStudies.js';
+import { renderKnowledgeHub } from './Home scenes/sections/knowledgeHub.js';
 import { renderEngagement } from './Home scenes/sections/engagement.js';
+import { renderFaq } from './Home scenes/sections/faq.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
 import { renderHero } from './Home scenes/sections/hero.js';
 import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
@@ -19,7 +21,7 @@ if (new URLSearchParams(window.location.search).get('preview') === 'true') {
 
 /* ── Section keys and their render functions ──────────────── */
 
-const SECTION_KEYS = ['nav', 'hero', 'services', 'why', 'caseStudies', 'testimonials', 'engagement', 'footer'];
+const SECTION_KEYS = ['nav', 'hero', 'services', 'why', 'caseStudies', 'knowledgeHub', 'engagement', 'testimonials', 'faq', 'footer'];
 
 const SECTION_RENDERERS = {
   nav: renderNav,
@@ -27,8 +29,10 @@ const SECTION_RENDERERS = {
   services: renderServices,
   why: renderWhy,
   caseStudies: renderCaseStudies,
-  testimonials: renderTestimonials,
+  knowledgeHub: renderKnowledgeHub,
   engagement: renderEngagement,
+  testimonials: renderTestimonials,
+  faq: renderFaq,
   footer: renderFooter,
 };
 
@@ -78,6 +82,8 @@ const initApp = () => {
   // so there is no visual flash.
   if (defaults.testimonials) renderTestimonials(defaults.testimonials);
   if (defaults.engagement) renderEngagement(defaults.engagement);
+  // FAQ ships pre-rendered but needs its accordion listeners bound.
+  if (defaults.faq) renderFaq(defaults.faq);
 
   // Init carousels and scroll animations on pre-rendered DOM
   initCarousel();

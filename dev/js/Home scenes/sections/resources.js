@@ -130,69 +130,13 @@ const detectColumns = () => {
   return 3;
 };
 
-/* Fetch the auto-derived articles index. Falls back to data.items if missing. */
-const loadArticlesIndex = async () => {
-  try {
-    const res = await fetch('content/Resources/articles-index.json', { cache: 'no-store' });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (_) { return null; }
-};
-
-const resolveFeaturedFromRef = (featured, indexItems) => {
-  if (!featured?.ref) return featured;
-  const { type, slug } = featured.ref;
-  if (!type || !slug) return featured;
-  const found = (indexItems || []).find((it) => it.slug === slug);
-  if (!found) return featured;
-  return {
-    ...featured,
-    tag: featured.tag || (found.category || '').toUpperCase(),
-    tagClass: featured.tagClass || '',
-    title: featured.title || found.title,
-    date: featured.date || found.date,
-    author: featured.author || found.author,
-    image: featured.image || found.image,
-    href: featured.href || found.href,
-  };
-};
-
-export const renderResources = async (data) => {
+export const renderResources = (data) => {
   if (!data) return;
-
-  // Auto-derive items from the articles index when present
-  const idx = await loadArticlesIndex();
-  if (idx && Array.isArray(idx.items) && idx.items.length) {
-    data = { ...data, items: idx.items };
-  }
 
   // ── Hero ──────────────────────────────────────────
   setText('[data-resources-hero-line1]', data.hero?.titleLine1);
   setText('[data-resources-hero-line2]', data.hero?.titleLine2);
   setText('[data-resources-hero-subtitle]', data.hero?.subtitle);
-
-  // ── Featured card ─────────────────────────────────
-  const featured = resolveFeaturedFromRef(data.featured || {}, data.items || []);
-  const featuredCard = document.querySelector('[data-featured-card]');
-  if (featuredCard instanceof HTMLAnchorElement && featured.href) {
-    featuredCard.href = featured.href;
-  }
-  setText('[data-featured-tag]', featured.tag);
-  const featuredTagEl = document.querySelector('[data-featured-tag]');
-  if (featuredTagEl) {
-    const tagClass = featured.tagClass
-      ? `resource-tag-${featured.tagClass}`
-      : tagClassFor(featured.tag);
-    featuredTagEl.className = `resource-tag ${tagClass}`;
-  }
-  setText('[data-featured-title]', featured.title);
-  setText('[data-featured-date]', featured.date);
-  setText('[data-featured-author]', featured.author);
-  const featuredImg = document.querySelector('[data-featured-image]');
-  if (featuredImg instanceof HTMLImageElement && featured.image) {
-    featuredImg.src = featured.image;
-    featuredImg.alt = featured.title || '';
-  }
 
   // ── Filter tabs + grid + pagination ───────────────
   const filtersEl = document.querySelector('[data-resources-filters]');
@@ -222,9 +166,6 @@ export const renderResources = async (data) => {
   // When "All" is active, picks the latest across the whole catalog.
   // Hides the section when no item matches (e.g. an empty filter).
   const featuredSection = document.querySelector('.resources-featured');
-  const featuredCardEl = document.querySelector('[data-featured-card]');
-  const featuredTagEl = document.querySelector('[data-featured-tag]');
-  const featuredImgEl = document.querySelector('[data-featured-image]');
 
   const pickFeaturedItem = (filterLabel) => {
     const pool = items.filter((it) => itemMatchesFilter(it, filterLabel));
@@ -242,19 +183,87 @@ export const renderResources = async (data) => {
       return;
     }
     featuredSection.hidden = false;
-    if (featuredCardEl instanceof HTMLAnchorElement) {
-      featuredCardEl.href = item.href || '#';
-    }
+
+    // Eyebrow tag
+    const featuredTagEl = featuredSection.querySelector('[data-featured-tag]');
     if (featuredTagEl) {
       featuredTagEl.textContent = categoryLabel(item.category);
-      featuredTagEl.className = `resource-tag ${tagClassFor(item.category)}`;
     }
-    setText('[data-featured-title]', item.title);
-    setText('[data-featured-date]', item.date);
-    setText('[data-featured-author]', item.author);
+
+    // Title — accent span if titleAccent is present and title starts with it
+    const featuredTitleEl = featuredSection.querySelector('[data-featured-title]');
+    if (featuredTitleEl) {
+      featuredTitleEl.innerHTML = '';
+      if (item.titleAccent && item.title && item.title.startsWith(item.titleAccent)) {
+        const accentSpan = document.createElement('span');
+        accentSpan.className = 'feature-card-title-accent';
+        accentSpan.textContent = item.titleAccent;
+        const remainder = document.createTextNode(item.title.slice(item.titleAccent.length));
+        featuredTitleEl.appendChild(accentSpan);
+        featuredTitleEl.appendChild(remainder);
+      } else {
+        featuredTitleEl.textContent = item.title || '';
+      }
+    }
+
+    // Date
+    const featuredDateEl = featuredSection.querySelector('[data-featured-date]');
+    if (featuredDateEl) featuredDateEl.textContent = item.date || '';
+
+    // Read time — hide the meta item if missing
+    const featuredReadEl = featuredSection.querySelector('[data-featured-read]');
+    if (featuredReadEl) {
+      const readMetaItem = featuredReadEl.closest('.feature-card-meta-item');
+      if (item.readTime) {
+        featuredReadEl.textContent = item.readTime;
+        if (readMetaItem) readMetaItem.hidden = false;
+      } else {
+        if (readMetaItem) readMetaItem.hidden = true;
+      }
+    }
+
+    // CTA href + label
+    const featuredCtaEl = featuredSection.querySelector('[data-featured-cta]');
+    if (featuredCtaEl instanceof HTMLAnchorElement) {
+      featuredCtaEl.href = item.href || '#';
+    }
+    const featuredCtaLabelEl = featuredSection.querySelector('[data-featured-cta-label]');
+    if (featuredCtaLabelEl) {
+      const CTA_LABEL_BY_CATEGORY = {
+        'Blog':         'Read Full Blog',
+        'Blogs':        'Read Full Blog',
+        'Insights':     'Read Full Insight',
+        'Insight':      'Read Full Insight',
+        'Guide':        'Read Full Guide',
+        'Guides':       'Read Full Guide',
+        'Case Study':   'Read Full Case Study',
+        'Case Studies': 'Read Full Case Study',
+      };
+      featuredCtaLabelEl.textContent = CTA_LABEL_BY_CATEGORY[item.category] || 'Read More';
+    }
+
+    // Image
+    const featuredImgEl = featuredSection.querySelector('[data-featured-image]');
     if (featuredImgEl instanceof HTMLImageElement) {
       featuredImgEl.src = item.image || 'assets/resources-card-placeholder.webp';
       featuredImgEl.alt = item.title || '';
+    }
+
+    // Per-category background modifier (strip stale ones first so switching
+    // filters swaps the background cleanly). Case Study keeps the default bg.
+    const featuredCardEl = featuredSection.querySelector('.feature-card');
+    if (featuredCardEl) {
+      featuredCardEl.classList.remove('feature-card--blog', 'feature-card--guide', 'feature-card--insight');
+      const MOD_BY_CATEGORY = {
+        'Blog': 'feature-card--blog',
+        'Blogs': 'feature-card--blog',
+        'Guide': 'feature-card--guide',
+        'Guides': 'feature-card--guide',
+        'Insights': 'feature-card--insight',
+        'Insight': 'feature-card--insight',
+      };
+      const mod = MOD_BY_CATEGORY[item.category];
+      if (mod) featuredCardEl.classList.add(mod);
     }
   };
 

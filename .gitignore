@@ -18,3 +18,7 @@ playwright/.cache/
 
 # QA deploy build output (Netlify)
 .qa-build/
+
+# AI-SDLC toolkit document — local deliverable, not pushed to remote
+docs/AI-SDLC-TOOLING.md
+docs/ai-sdlc-toolkit/

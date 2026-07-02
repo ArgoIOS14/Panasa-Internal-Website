@@ -565,7 +565,8 @@ const wireHeroImage = (data) => {
 };
 
 /* ── Hero title: replaces title text while preserving the accent highlight
-   span if titleHighlight is supplied. */
+   span if titleHighlight is supplied. Uses the shared .feature-card-title-accent
+   class so the accent colour matches the feature-card component. */
 const wireHeroTitle = (data) => {
   const titleEl = document.querySelector('[data-guide-title]');
   if (!titleEl) return;
@@ -575,7 +576,7 @@ const wireHeroTitle = (data) => {
   if (accent && full.includes(accent)) {
     const beforeText = full.slice(0, full.indexOf(accent));
     const before = document.createTextNode(beforeText);
-    const span = createEl('span', 'guide-hero-title-accent');
+    const span = createEl('span', 'feature-card-title-accent');
     span.textContent = accent;
     titleEl.append(before, span);
   } else {
@@ -714,8 +715,8 @@ export const renderGuideDetail = (data, resourcesData) => {
   const tagEl = document.querySelector('[data-guide-tag]');
   if (tagEl) {
     tagEl.textContent = data.tag || 'GUIDE';
-    const tagCategory = data.category || 'Guide';
-    tagEl.className = `resource-tag ${tagClassFor(tagCategory)}`;
+    // The eyebrow pill uses the shared .feature-card-eyebrow class only
+    tagEl.className = 'feature-card-eyebrow';
   }
   wireHeroTitle(data);
   setText('[data-guide-description]', data.description);

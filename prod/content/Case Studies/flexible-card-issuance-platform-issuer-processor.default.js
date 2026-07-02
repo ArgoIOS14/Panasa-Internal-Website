@@ -15,7 +15,7 @@ window.DEFAULT_CASE_STUDY_CONTENT =
     "title": "Flexible Card Issuance Platform for a Global Issuer Processor | Panasa",
     "description": "How Panasa built a flexible card issuance platform for a global issuer processor — modular config, multi-program support, and rapid time-to-market.",
     "canonical": "https://www.panasatech.com/case-studies/flexible-card-issuance-platform-issuer-processor",
-    "ogImage": "https://www.panasatech.com/assets/cs-card-issuance-hero-bg.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-flexible-card-issuance-platform-issuer-processor.webp"
   },
   "hero": {
     "eyebrow": "CASE STUDY",
