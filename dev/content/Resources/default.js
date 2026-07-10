@@ -130,6 +130,45 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "readTime": "15 MINS READ"
     },
     {
+      "category": "Case Study",
+      "title": "Launch Your Fintech in Weeks: An Accelovate Case Study",
+      "titleAccent": "Launch Your Fintech in Weeks:",
+      "excerpt": "How we designed the API backbone, platform enhancements, and mobile integrations that let Accelovate launch fintech clients in weeks, not months.",
+      "date": "15 JUN 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/case-study-image-1.webp",
+      "href": "case-studies/accelovate-launch-fintech-in-weeks",
+      "slug": "accelovate-launch-fintech-in-weeks",
+      "datePublished": "2026-06-15",
+      "readTime": "6 MINS READ"
+    },
+    {
+      "category": "Case Study",
+      "title": "Cleva Cards: Building Safer Payments for Vulnerable Cardholders",
+      "titleAccent": "Cleva Cards:",
+      "excerpt": "How we built controlled wallet-to-card funding, spend controls, and financial protection for a prepaid platform serving vulnerable cardholders.",
+      "date": "15 JUN 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/case-study-image-1.webp",
+      "href": "case-studies/cleva-cards-safer-payments",
+      "slug": "cleva-cards-safer-payments",
+      "datePublished": "2026-06-15",
+      "readTime": "7 MINS READ"
+    },
+    {
+      "category": "Case Study",
+      "title": "Modernising a Global Issuer Processor: From Monolith to Amazon EKS",
+      "titleAccent": "Modernising a Global Issuer Processor:",
+      "excerpt": "How we moved a global issuer processor from EC2 monoliths to a container-based Amazon EKS platform with automated pipelines, IaC, and observability.",
+      "date": "15 JUN 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/case-study-image-1.webp",
+      "href": "case-studies/modernising-global-issuer-processor-eks",
+      "slug": "modernising-global-issuer-processor-eks",
+      "datePublished": "2026-06-15",
+      "readTime": "8 MINS READ"
+    },
+    {
       "category": "Guide",
       "title": "What Is Card Lifecycle Management? A Complete Guide for Card Programs",
       "titleAccent": "What Is Card Lifecycle Management?",
@@ -195,5 +234,4 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "readTime": "9 MINS READ"
     }
   ]
-}
-;
+};
