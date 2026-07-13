@@ -13,7 +13,11 @@ export const renderCaseStudies = (data) => {
   }
 
   const titleEl = document.querySelector('[data-case-title]');
-  if (titleEl) titleEl.innerHTML = 'Proven Results <span>for Leading Platforms</span>';
+  if (titleEl) {
+    const title = data.title || 'Proven Results';
+    const emphasis = data.titleEmphasis || 'for Leading Platforms';
+    titleEl.innerHTML = `${title} <span>${emphasis}</span>`;
+  }
   setText('[data-case-subtitle]', data.subtitle);
 
   const slidesContainer = document.querySelector('[data-case-slides]');

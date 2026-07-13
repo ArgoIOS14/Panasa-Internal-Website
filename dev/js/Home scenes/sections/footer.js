@@ -46,6 +46,13 @@ export const renderFooter = (data) => {
     emailLink.textContent = data.email;
   }
 
+  // Social links
+  const socialMap = { linkedin: data.linkedin, facebook: data.facebook, twitter: data.twitter, instagram: data.instagram };
+  Object.entries(socialMap).forEach(([key, url]) => {
+    const link = document.querySelector(`[data-footer-social="${key}"]`);
+    if (link && url) link.href = url;
+  });
+
   // Columns
   const columns = document.querySelector('[data-footer-columns]');
   if (columns) {

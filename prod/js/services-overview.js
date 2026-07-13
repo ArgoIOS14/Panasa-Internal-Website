@@ -7,6 +7,7 @@ import { initNavToggle, renderNav } from './Home scenes/sections/nav.js';
 import { renderSharedTestimonials } from './Home scenes/sections/sharedTestimonials.js';
 import { initEmailCapture } from './Home scenes/components/email-capture.js';
 import { firebaseConfig } from './firebase-config.js';
+import { applySeoMeta } from './seo-meta.js';
 
 
 // Live preview — only loaded in ?preview=true mode (admin panel iframe)
@@ -60,10 +61,17 @@ const initFaqAccordion = () => {
 
 /* ── App init ─────────────────────────────────────────────── */
 
+/* The admin `label-href` field type stores CTAs as {label, href, icon}; the
+   hero markup only ever displays a plain label string plus an href — mirrors
+   ctaLabel()/ctaHref() in services.js. */
+const ctaLabel = (v) => (v && typeof v === 'object' && typeof v.label === 'string' && v.label.trim()) ? v.label : undefined;
+const ctaHref = (v) => (v && typeof v === 'object' && typeof v.href === 'string' && v.href.trim()) ? v.href.trim() : undefined;
+
 // Extracted apply logic — reusable from both Firebase fetch and live preview.
 function applyFirebaseData(fb) {
   if (!fb) return;
   fb = deepStripTags(fb);
+  applySeoMeta(fb.meta);
   const h = fb.hero || {};
   const pill = document.querySelector('.services-overview-hero .pill');
   const h1 = document.querySelector('.services-overview-hero h1');
@@ -72,24 +80,42 @@ function applyFirebaseData(fb) {
   if (h1 && (h.title || h.titleEmphasis)) h1.innerHTML = `<span>${h.title || ''}</span> <em>${h.titleEmphasis || ''}</em>`;
   if (heroP && h.subtitle) heroP.textContent = h.subtitle;
 
+  const heroActionLinks = document.querySelectorAll('.services-overview-hero .hero-actions a');
+  const primaryLabel = ctaLabel(h.primaryCta);
+  const primaryHref = ctaHref(h.primaryCta);
+  const secondaryLabel = ctaLabel(h.secondaryCta);
+  const secondaryHref = ctaHref(h.secondaryCta);
+  if (heroActionLinks[0]) {
+    if (primaryLabel) { const l = heroActionLinks[0].querySelector('.hero-action-label'); if (l) l.textContent = primaryLabel; }
+    if (primaryHref) heroActionLinks[0].setAttribute('href', primaryHref);
+  }
+  if (heroActionLinks[1]) {
+    if (secondaryLabel) { const l = heroActionLinks[1].querySelector('.hero-action-label'); if (l) l.textContent = secondaryLabel; }
+    if (secondaryHref) heroActionLinks[1].setAttribute('href', secondaryHref);
+  }
+
   const blocks = Array.isArray(fb.serviceBlocks) ? fb.serviceBlocks : (fb.serviceBlocks ? Object.values(fb.serviceBlocks) : []);
   const blockEls = document.querySelectorAll('.service-block');
-  blocks.forEach((b, i) => { if (!blockEls[i]) return; const k = blockEls[i].querySelector('.service-block-kicker'); const heading = blockEls[i].querySelector('h3'); const items = blockEls[i].querySelectorAll('.service-block-list li'); if (k && b.kicker) k.textContent = b.kicker; if (heading && b.heading) heading.textContent = b.heading; const bItems = Array.isArray(b.items) ? b.items : (b.items ? Object.values(b.items) : []); bItems.forEach((item, j) => { if (items[j]) items[j].textContent = item; }); });
+  blocks.forEach((b, i) => { if (!blockEls[i]) return; const k = blockEls[i].querySelector('.service-block-kicker'); const heading = blockEls[i].querySelector('h3'); const items = blockEls[i].querySelectorAll('.service-block-list li'); const link = blockEls[i].querySelector('.service-block-link'); if (k && b.kicker) k.textContent = b.kicker; if (heading && b.heading) heading.textContent = b.heading; if (link && typeof b.href === 'string' && b.href.trim()) link.setAttribute('href', b.href.trim()); const bItems = Array.isArray(b.items) ? b.items : (b.items ? Object.values(b.items) : []); bItems.forEach((item, j) => { if (items[j]) items[j].textContent = item; }); });
 
   const faq = fb.faq || {};
   const faqTitle = document.querySelector('.faq-section .section-title h2');
   if (faqTitle && (faq.title || faq.titleEmphasis)) faqTitle.innerHTML = `<span>${faq.title || ''}</span> <em>${faq.titleEmphasis || ''}</em>`;
   const faqSubtitle = document.querySelector('.faq-section .section-head p');
   if (faqSubtitle && faq.subtitle) faqSubtitle.textContent = faq.subtitle;
-  const faqItems = Array.isArray(faq.items) ? faq.items : (faq.items ? Object.values(faq.items) : []);
+  // Markup only has 5 fixed FAQ slots — extra CMS items have nowhere to render.
+  const faqItems = (Array.isArray(faq.items) ? faq.items : (faq.items ? Object.values(faq.items) : [])).slice(0, 5);
   const faqEls = document.querySelectorAll('.faq-item');
   faqItems.forEach((f, i) => { if (!faqEls[i]) return; const qSpan = faqEls[i].querySelector('.faq-question span:first-child'); const a = faqEls[i].querySelector('[data-faq-panel] p'); if (qSpan && f.question) qSpan.textContent = f.question; if (a && f.answer) a.textContent = f.answer; });
 
   const cta = fb.footerCta || {};
   const ctaTitle = document.querySelector('[data-footer-cta-title]');
   const ctaText = document.querySelector('[data-footer-cta-text]');
+  const ctaButtonEl = document.querySelector('[data-footer-cta-button]');
+  const ctaButtonLabel = ctaButtonEl?.querySelector('.footer-cta-label');
   if (ctaTitle && cta.title) ctaTitle.textContent = cta.title;
   if (ctaText && cta.text) ctaText.textContent = cta.text;
+  if (ctaButtonLabel && cta.button) ctaButtonLabel.textContent = cta.button;
 
   // Email capture override
   const ec = fb.emailCapture;

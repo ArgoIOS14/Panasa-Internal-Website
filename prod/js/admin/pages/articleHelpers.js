@@ -109,6 +109,8 @@ export function newArticleDefaults(type, slug = '') {
       author,
       tags: [],
       hero: { eyebrow: 'CASE STUDY', title: '', titleAccent: '', titleSuffix: '', background: '' },
+      heroImage: '',
+      heroImageAlt: '',
       metaTiles: [],
       sections: [],
       newsletter: {

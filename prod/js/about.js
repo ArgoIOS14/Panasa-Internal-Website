@@ -221,11 +221,15 @@ function applyAboutContent(content) {
       const label = ctas[0].querySelector('.hero-action-label');
       if (label) label.textContent = hero.primaryCta.label || '';
       if (hero.primaryCta.href) ctas[0].setAttribute('href', hero.primaryCta.href);
+      const icon = ctas[0].querySelector('.about-hero-action-icon');
+      if (icon && hero.primaryCta.icon) icon.setAttribute('src', hero.primaryCta.icon);
     }
     if (ctas[1] && hero.secondaryCta) {
       const label = ctas[1].querySelector('.hero-action-label');
       if (label) label.textContent = hero.secondaryCta.label || '';
       if (hero.secondaryCta.href) ctas[1].setAttribute('href', hero.secondaryCta.href);
+      const icon = ctas[1].querySelector('.about-hero-action-icon');
+      if (icon && hero.secondaryCta.icon) icon.setAttribute('src', hero.secondaryCta.icon);
     }
   }
 
@@ -237,6 +241,8 @@ function applyAboutContent(content) {
       if (!cards[i]) return;
       setText(cards[i].querySelector('strong'), s.value);
       setText(cards[i].querySelector('span:last-child'), s.label);
+      const icon = cards[i].querySelector('.stat-icon img');
+      if (icon && s.icon) icon.setAttribute('src', s.icon);
     });
   }
 
@@ -248,7 +254,18 @@ function applyAboutContent(content) {
       const h2 = section.querySelector('.section-title h2');
       if (h2) h2.innerHTML = `<span>${delivery.title || ''}</span> <em>${delivery.titleEmphasis || ''}</em>`;
       setText(section.querySelector('.section-head p'), delivery.subtitle);
+      const mapSources = section.querySelectorAll('.presence-map-shell source');
+      const mapImg = section.querySelector('.presence-map-shell img');
+      if (mapSources[0] && delivery.mapImageMobile) mapSources[0].setAttribute('srcset', delivery.mapImageMobile);
+      if (mapSources[1] && delivery.mapImageTablet) mapSources[1].setAttribute('srcset', delivery.mapImageTablet);
+      if (mapImg && delivery.mapImageDesktop) mapImg.setAttribute('src', delivery.mapImageDesktop);
     }
+  }
+
+  // Partner logo marquee (optional CMS override; falls back to hardcoded TRUSTED_LOGOS)
+  const partnerLogos = Array.isArray(content.partnerLogos) ? content.partnerLogos : (content.partnerLogos ? Object.values(content.partnerLogos) : []);
+  if (partnerLogos.length) {
+    renderLogoMarquee('[data-partner-logos]', partnerLogos);
   }
 
   // Process
@@ -277,12 +294,14 @@ function applyAboutContent(content) {
     leaders.forEach((l, i) => {
       if (!cards[i]) return;
       setText(cards[i].querySelector('.leader-summary h3'), l.name);
-      setText(cards[i].querySelector('.leader-summary p'), l.role);
+      setText(cards[i].querySelector('.leader-summary span'), l.role);
       setText(cards[i].querySelector('.leader-detail h3'), l.name);
-      const detailRole = cards[i].querySelector('.leader-detail p:first-of-type');
-      if (detailRole) detailRole.textContent = l.role;
-      const detailBio = cards[i].querySelector('.leader-detail p:last-of-type');
-      if (detailBio && detailBio !== detailRole) detailBio.textContent = l.bio;
+      const detailRole = cards[i].querySelector('.leader-detail > span:not(.leader-detail-icon)');
+      if (detailRole) setText(detailRole, l.role);
+      const detailBio = cards[i].querySelector('.leader-detail > p');
+      if (detailBio) setText(detailBio, l.bio);
+      const photo = cards[i].querySelector('img');
+      if (photo && l.image) photo.setAttribute('src', l.image);
     });
   }
 

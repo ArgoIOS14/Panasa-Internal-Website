@@ -89,10 +89,18 @@ const initApp = () => {
   initCarousel();
   initScrollAnimations();
 
+  // Defensive merge: window.DEFAULT_CONTENT (default.js) is already available
+  // synchronously at this point, same as the testimonials/engagement/faq
+  // defaults above — so the popup's first paint already reflects the CMS
+  // content instead of waiting on the async Firebase fetch below. Only
+  // non-empty CMS values override the hardcoded copy, so blank/missing
+  // fields never change today's default text.
+  const ecDefaults = defaults.emailCapture || {};
   initEmailCapture({
-    promptHeading: 'See how we delivered for a top issuer',
-    promptSubtext: 'Get the full case study in your inbox.',
-    buttonLabel: 'Get it free',
+    promptHeading: ecDefaults.promptHeading || 'See how we delivered for a top issuer',
+    promptSubtext: ecDefaults.promptSubtext || 'Get the full case study in your inbox.',
+    buttonLabel: ecDefaults.buttonLabel || 'Get it free',
+    inputPlaceholder: ecDefaults.inputPlaceholder || 'your@email.com',
     triggerPercent: 0.6,
     storageKey: 'panasa_email_home',
     crmDescription: 'Email capture: Case study request (Home page)',
@@ -133,9 +141,15 @@ const initApp = () => {
         const h = document.querySelector('.email-capture__heading');
         const s = document.querySelector('.email-capture__subtext');
         const b = document.querySelector('.email-capture__form button[type="submit"]');
+        const i = document.querySelector('.email-capture__input');
+        const e = document.querySelector('.email-capture__error');
+        const successText = document.querySelector('.email-capture__success-text');
         if (h && ec.promptHeading) h.textContent = ec.promptHeading;
         if (s && ec.promptSubtext) s.textContent = ec.promptSubtext;
         if (b && ec.buttonLabel) b.textContent = ec.buttonLabel;
+        if (i && ec.inputPlaceholder) i.placeholder = ec.inputPlaceholder;
+        if (e && ec.errorMessage) e.textContent = ec.errorMessage;
+        if (successText && ec.successMessage) successText.textContent = ec.successMessage;
       }
     })
     .catch(() => {

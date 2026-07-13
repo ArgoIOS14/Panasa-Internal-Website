@@ -1,4 +1,5 @@
 import { firebaseConfig } from '../../firebase-config.js';
+import { setNewsletterModalContent } from '../components/newsletter-modal.js';
 
 let _cachedContent = null;
 
@@ -25,13 +26,18 @@ export const loadContent = async () => {
   const fbContent = await fetchFromFirebase();
   if (fbContent) {
     _cachedContent = fbContent;
-    return fbContent;
+  } else {
+    // Fall back to content.json
+    const dataUrl = window.STRAPI_URL || 'content/Home page/content.json';
+    const response = await fetch(dataUrl);
+    if (!response.ok) throw new Error(`Failed to load content: ${response.status}`);
+    _cachedContent = await response.json();
   }
 
-  // Fall back to content.json
-  const dataUrl = window.STRAPI_URL || 'content/Home page/content.json';
-  const response = await fetch(dataUrl);
-  if (!response.ok) throw new Error(`Failed to load content: ${response.status}`);
-  _cachedContent = await response.json();
+  // The newsletter modal is shared site-wide (wired via the footer import),
+  // so apply its CMS copy here — the one choke point every page already
+  // hits when loading nav/footer content.
+  if (_cachedContent.newsletter) setNewsletterModalContent(_cachedContent.newsletter);
+
   return _cachedContent;
 };

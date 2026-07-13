@@ -1,6 +1,13 @@
 import { createEl, setText } from '../utils/dom.js';
 
 const resolveServiceHrefFromHeading = (heading, fallbackHref) => {
+  // CMS-provided href always wins when present/non-empty. Title-based
+  // matching is only a fallback for the default cards (or any card that
+  // hasn't had a href set yet), so existing default hrefs stay unchanged.
+  if (fallbackHref && String(fallbackHref).trim()) {
+    return String(fallbackHref).trim();
+  }
+
   const normalized = (heading || '')
     .toLowerCase()
     .replace(/&/g, 'and')
@@ -20,7 +27,7 @@ const resolveServiceHrefFromHeading = (heading, fallbackHref) => {
     return 'ai-powered-legacy-modernisation';
   }
 
-  return fallbackHref || 'ai-accelerated-fintech-engineering';
+  return 'ai-accelerated-fintech-engineering';
 };
 
 const createFeatureSlide = (item, ctaLabel) => {

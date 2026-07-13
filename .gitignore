@@ -2,6 +2,7 @@
 panasa-static-site.zip
 panasa-deploy-v*.zip
 .env
+firebase-service-account.json
 router.php
 
 # Claude Code subagents live at ~/.claude/agents/ instead.

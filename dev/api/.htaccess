@@ -1,4 +1,4 @@
-<FilesMatch "^\.env$">
+<FilesMatch "^(\.env|firebase-service-account\.json)$">
     Order allow,deny
     Deny from all
 </FilesMatch>

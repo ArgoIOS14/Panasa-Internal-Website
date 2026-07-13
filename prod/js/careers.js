@@ -113,16 +113,55 @@ function applyCareersContent(fb) {
   if (heroH1 && (h.title || h.titleEmphasis)) heroH1.innerHTML = `<span>${h.title || ''}</span> <em>${h.titleEmphasis || ''}</em>`;
   const heroP = document.querySelector('.hero-copy p');
   if (heroP && h.subtitle) heroP.textContent = h.subtitle;
+  const teamPhoto = document.querySelector('[data-team-photo]');
+  if (teamPhoto && h.teamPhoto) {
+    teamPhoto.src = /^(https?:|assets\/)/.test(h.teamPhoto) ? h.teamPhoto : `assets/${h.teamPhoto}`;
+  }
 
   const r = fb.roles || {};
   const rolesH2 = document.querySelector('.roles-header h2');
   if (rolesH2 && r.heading) rolesH2.textContent = r.heading;
+
+  const jobs = Array.isArray(r.jobs) ? r.jobs : (r.jobs ? Object.values(r.jobs) : []);
+  const roleList = document.querySelector('[data-role-list]');
+  if (roleList && jobs.length) {
+    roleList.innerHTML = jobs.map((job) => {
+      const meta = [job.department, job.locationType, job.location, job.experience]
+        .filter(Boolean)
+        .map((m) => `<span>${m}</span>`)
+        .join('\n                ');
+      return `<article class="role-card" data-animate>
+              <h3>${job.title || ''} <span>Job ID: ${job.jobId || ''}</span></h3>
+              <p class="role-meta">
+                ${meta}
+              </p>
+            </article>`;
+    }).join('\n            ');
+
+    // Rebuild the Department/Location filter options from the actual job
+    // data so the dropdowns always match what's really filterable. The
+    // first ("select department" / "select location") placeholder option
+    // is preserved as-is; the rest are deduplicated values pulled from the
+    // freshly-rendered jobs.
+    const rebuildSelectOptions = (select, values) => {
+      if (!select) return;
+      const placeholder = select.querySelector('option')?.cloneNode(true);
+      select.innerHTML = '';
+      if (placeholder) select.appendChild(placeholder);
+      Array.from(new Set(values.filter(Boolean))).forEach((v) => {
+        const opt = document.createElement('option');
+        opt.textContent = v;
+        select.appendChild(opt);
+      });
+    };
+    rebuildSelectOptions(document.getElementById('department'), jobs.map((j) => j.department));
+    rebuildSelectOptions(document.getElementById('location'), jobs.map((j) => j.location));
+  }
 }
 
 const initCareers = async () => {
   initNavToggle();
   initScrollAnimations();
-  initFilters();
 
   try {
     const content = await loadContent();
@@ -134,8 +173,12 @@ const initCareers = async () => {
     if (window.DEFAULT_CONTENT?.footer) renderFooter(buildFooter(window.DEFAULT_CONTENT.footer));
   }
 
+  // Apply CMS content BEFORE wiring filters, since job cards may be rebuilt
+  // from CMS data and initFilters() needs the final .role-card DOM nodes.
   const fbRaw = await fetchPageContent('pages/careers');
   applyCareersContent(fbRaw ? deepStripTags(fbRaw) : null);
+
+  initFilters();
 };
 
 initCareers();

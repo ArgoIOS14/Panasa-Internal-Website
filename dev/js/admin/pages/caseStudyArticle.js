@@ -41,6 +41,12 @@ const CASE_STUDY_SECTIONS = [
     { key: 'background', label: 'Hero background image', type: 'image',
       help: 'Full-bleed background image for the hero (e.g. assets/cs-ops-backbone-hero-bg.webp). WebP at ~1600×900 works best.' },
   ]},
+  { key: 'heroImage', label: 'Hero Image (right side of card)', parentKey: '_root', fields: [
+    { key: 'heroImage', label: 'Hero image', type: 'image',
+      help: 'Image shown on the right side of the case-study hero card + used as the social share image if no separate SEO image is set. Leave blank to keep the existing "assets/cover-<slug>.webp" cover — that is the default until you upload one here and republish.' },
+    { key: 'heroImageAlt', label: 'Hero image alt text', type: 'text',
+      help: 'Accessibility text describing the hero image. Optional — the image is decorative on most case studies.' },
+  ]},
   { key: 'metaTiles', label: 'Meta Tiles strip (1–5 tiles)', parentKey: '_root', fields: [
     { key: 'metaTiles', label: 'Tiles', type: 'meta-tiles',
       help: 'Quick facts strip below the hero. Up to 5 tiles. Each tile has an icon, an uppercase label (e.g. LOCATION) and a value (e.g. Japan).' },

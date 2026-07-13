@@ -178,18 +178,18 @@ $ext = match ($mimeType) {
 };
 
 $filename = 'img_' . bin2hex(random_bytes(16)) . '.' . $ext;
-$uploadDir = __DIR__ . '/../assets/uploads/';
 
-if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
-}
+// ── Upload to Firebase Storage ──
 
-$destination = $uploadDir . $filename;
+require_once __DIR__ . '/firebase-storage.php';
 
-if (!move_uploaded_file($file['tmp_name'], $destination)) {
+try {
+    $url = fb_storage_upload('uploads/' . $filename, file_get_contents($file['tmp_name']), $mimeType);
+} catch (Throwable $e) {
+    error_log('upload.php: ' . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => 'Failed to save file']);
     exit;
 }
 
-echo json_encode(['url' => 'assets/uploads/' . $filename]);
+echo json_encode(['url' => $url]);

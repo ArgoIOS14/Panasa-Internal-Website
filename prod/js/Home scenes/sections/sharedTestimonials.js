@@ -21,7 +21,9 @@ export const renderSharedTestimonials = (data, selectors = {}) => {
   } = selectors;
 
   const titleEl = document.querySelector(titleSelector);
-  if (titleEl) titleEl.innerHTML = 'Trusted by <span>Fintech Leaders</span>';
+  if (titleEl && (data.title || data.titleEmphasis)) {
+    titleEl.innerHTML = `${data.title || ''} <span>${data.titleEmphasis || ''}</span>`;
+  }
   setText(subtitleSelector, data.subtitle);
 
   const track = document.querySelector(trackSelector);

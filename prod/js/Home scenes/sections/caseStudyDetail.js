@@ -33,6 +33,17 @@ const setMeta = (selector, value) => {
   if (el) el.setAttribute('content', value);
 };
 
+const ensureMeta = (attr, name, value) => {
+  if (!value) return;
+  let el = document.querySelector(`meta[${attr}="${name}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', value);
+};
+
 const updateSeoMeta = (data) => {
   const title = data.meta?.title || data.hero?.title;
   const description = data.meta?.description;
@@ -52,10 +63,41 @@ const updateSeoMeta = (data) => {
   setMeta('meta[property="og:url"]', url);
   setMeta('meta[property="og:image"]', image);
   setMeta('meta[name="twitter:image"]', image);
+
+  if (data.author) ensureMeta('name', 'author', data.author);
+  if (data.datePublished) ensureMeta('property', 'article:published_time', data.datePublished);
+  if (data.dateModified || data.datePublished) {
+    ensureMeta('property', 'article:modified_time', data.dateModified || data.datePublished);
+  }
+  if (data.author) ensureMeta('property', 'article:author', data.author);
+};
+
+/* Update the JSON-LD Article block with fresh date/author data, so CMS edits
+   flow through to structured data without a rebuild (mirrors blogDetail.js). */
+const updateJsonLdArticle = (data) => {
+  const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+  const match = scripts.find((s) => {
+    try {
+      const obj = JSON.parse(s.textContent || '{}');
+      return obj && obj['@type'] === 'Article';
+    } catch (_) { return false; }
+  });
+  if (!match) return;
+
+  try {
+    const obj = JSON.parse(match.textContent || '{}');
+    if (data.datePublished) obj.datePublished = data.datePublished;
+    if (data.dateModified || data.datePublished) obj.dateModified = data.dateModified || data.datePublished;
+    if (data.author) obj.author = { '@type': 'Organization', name: data.author };
+    match.textContent = JSON.stringify(obj);
+  } catch (err) {
+    console.warn('[caseStudyDetail] could not update JSON-LD', err);
+  }
 };
 
 /* ── Hero (feature-card component with eyebrow + title + accent + meta). */
-const renderHero = (hero) => {
+const renderHero = (data) => {
+  const hero = data.hero;
   if (!hero) return;
   setText('[data-case-eyebrow]', hero.eyebrow || 'CASE STUDY');
 
@@ -90,9 +132,12 @@ const renderHero = (hero) => {
     }
   }
 
-  /* Populate date + read-time if provided by the content JSON. */
-  if (hero.date)     setText('[data-case-date]',      hero.date);
-  if (hero.readTime) setText('[data-case-read-time]', hero.readTime);
+  /* Populate date + read-time — these live at the top level of the article
+     JSON (set by the admin's "Case Study Identity" section), not under hero. */
+  const date = data.date || hero.date;
+  const readTime = data.readTime || hero.readTime;
+  if (date)     setText('[data-case-date]',      date);
+  if (readTime) setText('[data-case-read-time]', readTime);
 
   /* The artwork image src is set statically in the HTML to case-study-image-1.webp.
      Do NOT overwrite it with the old per-case hero background path.
@@ -562,7 +607,8 @@ export const renderCaseStudyDetail = (data, resourcesData) => {
   if (!data) return;
 
   updateSeoMeta(data);
-  renderHero(data.hero);
+  updateJsonLdArticle(data);
+  renderHero(data);
   renderMetaTiles(data.metaTiles);
   renderSections(data);
   wireShare(data.hero?.title);

@@ -19,16 +19,31 @@ const getSlug = () =>
   (location.pathname.match(/\/(?:blog|insights)\/([^/]+?)(?:\.html)?$/) || [])[1] ||
   '';
 
+// Insights pages are served from /insights/, blog pages from /blog/ — the
+// admin rebuild pipeline (PageRegistry.php) writes NEW insight articles' JSON
+// to content/Insights/, while the pre-existing live insight articles still
+// have their JSON under content/Blog/ (legacy, before the Insights folder
+// split existed). Try the folder matching the current page type first, then
+// fall back to the other folder so neither legacy nor newly-published
+// articles 404.
+const isInsightsPage = () => /\/insights\//.test(location.pathname);
+
 const loadBlogContent = async (slug) => {
   if (!slug) return null;
-  try {
-    const res = await fetch(`../content/Blog/${slug}.json`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } catch (error) {
-    console.warn(`Falling back to default blog content for ${slug}:`, error);
-    return window.DEFAULT_BLOG_CONTENT || null;
+  const primaryFolder = isInsightsPage() ? 'Insights' : 'Blog';
+  const fallbackFolder = primaryFolder === 'Insights' ? 'Blog' : 'Insights';
+  for (const folder of [primaryFolder, fallbackFolder]) {
+    try {
+      const res = await fetch(`../content/${folder}/${slug}.json`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (error) {
+      if (folder === fallbackFolder) {
+        console.warn(`Falling back to default blog content for ${slug}:`, error);
+      }
+    }
   }
+  return window.DEFAULT_BLOG_CONTENT || null;
 };
 
 const loadResourcesIndex = async () => {

@@ -85,7 +85,7 @@ const buildPopup = (cfg) => {
 
   const input = createEl('input', 'email-capture__input');
   input.type = 'email';
-  input.placeholder = 'your@email.com';
+  input.placeholder = cfg.inputPlaceholder || 'your@email.com';
   input.required = true;
   input.setAttribute('aria-label', 'Email address');
   input.autocomplete = 'email';

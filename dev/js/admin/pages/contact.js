@@ -24,8 +24,17 @@ export const defaults = {
     subtitle: 'Talk to our team about engineering, operations, or scaling your payment infrastructure.',
   },
   form: {
-    heading: 'Send us a message',
     submitButton: 'Send Message',
+    firstNameLabel: 'First Name',
+    firstNamePlaceholder: 'Enter First Name',
+    lastNameLabel: 'Last Name',
+    lastNamePlaceholder: 'Enter Last Name',
+    emailLabel: 'Email',
+    emailPlaceholder: 'Enter Email',
+    phoneLabel: 'Phone Number',
+    phonePlaceholder: 'Enter Phone Number',
+    messageLabel: 'How can we help?',
+    messagePlaceholder: 'Enter your requirements',
   },
   contactInfo: {
     heading: 'You can reach us anytime via',
@@ -39,8 +48,8 @@ export const defaults = {
     titleEmphasis: 'Locations',
     subtitle: 'Serving global fintech teams across key regions with reliable delivery and support.',
     offices: [
-      { country: 'India', address: '9th Floor, Carnival Infopark Phase 2, Infopark Phase 2, Kakkanad, Kochi, Kerala, India 682042' },
-      { country: 'United Kingdom', address: 'Maritime House, Basin Rd North, Brighton & Hove, United Kingdom BN41 1WR' },
+      { country: 'India', address: '9th Floor, Carnival Infopark Phase 2, Kakkanad, Kochi, Kerala, India 682042', photo: '' },
+      { country: 'United Kingdom', address: 'Maritime House, Basin Rd North\nBrighton & Hove, United Kingdom BN41 1WR', photo: '' },
     ],
   },
 };
@@ -57,8 +66,17 @@ export const sections = [
     { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
   ]},
   { key: 'form', label: 'Contact Form', fields: [
-    { key: 'heading', label: 'Form heading', type: 'text' },
     { key: 'submitButton', label: 'Submit button text', type: 'text' },
+    { key: 'firstNameLabel', label: 'First name — label', type: 'text' },
+    { key: 'firstNamePlaceholder', label: 'First name — placeholder', type: 'text' },
+    { key: 'lastNameLabel', label: 'Last name — label', type: 'text' },
+    { key: 'lastNamePlaceholder', label: 'Last name — placeholder', type: 'text' },
+    { key: 'emailLabel', label: 'Email — label', type: 'text' },
+    { key: 'emailPlaceholder', label: 'Email — placeholder', type: 'text' },
+    { key: 'phoneLabel', label: 'Phone — label', type: 'text' },
+    { key: 'phonePlaceholder', label: 'Phone — placeholder', type: 'text' },
+    { key: 'messageLabel', label: 'Message — label', type: 'text' },
+    { key: 'messagePlaceholder', label: 'Message — placeholder', type: 'text' },
   ]},
   { key: 'contactInfo', label: 'Contact Info', fields: [
     { key: 'heading', label: 'Heading', type: 'text' },

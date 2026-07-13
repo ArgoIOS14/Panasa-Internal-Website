@@ -210,7 +210,7 @@
   },
   "why": {
     "pill": "",
-    "title": "Why fintechs choose Panasa",
+    "title": "Why Fintechs",
     "subtitle": "What sets us apart in the fintech development landscape.",
     "cards": [
       {
@@ -246,11 +246,12 @@
         "text": "ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Built-in audit readiness from day one.",
         "imageType": "image"
       }
-    ]
+    ],
+    "titleEmphasis": "Choose Panasa"
   },
   "caseStudies": {
     "pill": "",
-    "title": "Proven results for leading platforms",
+    "title": "Proven Results",
     "subtitle": "Real outcomes from real projects with issuer processors and neobanks",
     "slides": [
       {
@@ -297,7 +298,8 @@
           "href": "case-studies/operations-backbone-global-issuer-processor"
         }
       }
-    ]
+    ],
+    "titleEmphasis": "for Leading Platforms"
   },
   "knowledgeHub": {
     "title": "Payments",
@@ -333,7 +335,8 @@
   },
   "testimonials": {
     "pill": "",
-    "title": "Trusted by Fintech Leaders",
+    "title": "Trusted by",
+    "titleEmphasis": "Fintech Leaders",
     "subtitle": "Feedback from fintech partners delivering secure, scalable, compliant card platforms.",
     "cards": [
       {
@@ -634,6 +637,18 @@
   "emailCapture": {
     "promptHeading": "",
     "promptSubtext": "",
-    "buttonLabel": ""
+    "buttonLabel": "",
+    "inputPlaceholder": "",
+    "successMessage": "",
+    "errorMessage": ""
+  },
+  "newsletter": {
+    "title": "Payments Deconstructed",
+    "subtitle": "Every two weeks, we break down the systems, rules, and developments that drive the payments world.",
+    "inputPlaceholder": "Enter Email Address",
+    "submitLabel": "Subscribe",
+    "fineText": "No spam. Unsubscribe anytime.",
+    "successMessage": "You're in. Check your inbox for the next issue.",
+    "errorMessage": "Please enter a valid email address."
   }
 }

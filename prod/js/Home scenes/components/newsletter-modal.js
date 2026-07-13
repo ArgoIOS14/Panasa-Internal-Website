@@ -29,6 +29,34 @@ let isOpen = false;
 let lastFocused = null;     // restore focus on close
 let initialised = false;    // global click/keydown delegation flag
 
+const DEFAULT_CONTENT = {
+  title: 'Payments Deconstructed',
+  subtitle: 'Every two weeks, we break down the systems, rules, and developments that drive the payments world.',
+  inputPlaceholder: 'Enter Email Address',
+  submitLabel: 'Subscribe',
+  fineText: 'No spam. Unsubscribe anytime.',
+  successMessage: "You're in. Check your inbox for the next issue.",
+  errorMessage: 'Please enter a valid email address.',
+};
+
+let modalContent = { ...DEFAULT_CONTENT };
+
+/**
+ * Apply CMS-provided copy for the newsletter modal. Safe to call before or
+ * after the modal DOM has been built — if it's already built, patches the
+ * live nodes directly; otherwise the next buildModal() picks up the config.
+ */
+export const setNewsletterModalContent = (data) => {
+  if (!data) return;
+  modalContent = { ...modalContent, ...Object.fromEntries(Object.entries(data).filter(([, v]) => v)) };
+  if (!modalEls) return;
+  modalEls.titleEl.textContent = modalContent.title;
+  modalEls.subtitleEl.textContent = modalContent.subtitle;
+  modalEls.input.placeholder = modalContent.inputPlaceholder;
+  modalEls.submit.textContent = modalContent.submitLabel;
+  modalEls.fine.textContent = modalContent.fineText;
+};
+
 const isTriggerEl = (el) => {
   if (!(el instanceof Element)) return false;
   if (el.matches('[data-newsletter-trigger]')) return true;
@@ -80,43 +108,42 @@ const buildModal = () => {
 
   const body = createEl('div', 'newsletter-modal__body');
 
-  const title = createEl('h2', 'newsletter-modal__title');
-  title.id = 'newsletter-modal-title';
-  title.textContent = 'Payments Deconstructed';
+  const titleEl = createEl('h2', 'newsletter-modal__title');
+  titleEl.id = 'newsletter-modal-title';
+  titleEl.textContent = modalContent.title;
 
-  const subtitle = createEl('p', 'newsletter-modal__subtitle');
-  subtitle.textContent =
-    'Every two weeks, we break down the systems, rules, and developments that drive the payments world.';
+  const subtitleEl = createEl('p', 'newsletter-modal__subtitle');
+  subtitleEl.textContent = modalContent.subtitle;
 
   const form = createEl('form', 'newsletter-modal__form');
   form.setAttribute('novalidate', '');
 
   const input = createEl('input', 'newsletter-modal__input');
   input.type = 'email';
-  input.placeholder = 'Enter Email Address';
+  input.placeholder = modalContent.inputPlaceholder;
   input.required = true;
   input.autocomplete = 'email';
   input.setAttribute('aria-label', 'Email address');
 
   const submit = createEl('button', 'newsletter-modal__submit');
   submit.type = 'submit';
-  submit.textContent = 'Subscribe';
+  submit.textContent = modalContent.submitLabel;
 
   form.append(input, submit);
 
   const fine = createEl('p', 'newsletter-modal__fine');
-  fine.textContent = 'No spam. Unsubscribe anytime.';
+  fine.textContent = modalContent.fineText;
 
   const status = createEl('p', 'newsletter-modal__status');
   status.setAttribute('aria-live', 'polite');
 
-  body.append(title, subtitle, form, status, fine);
+  body.append(titleEl, subtitleEl, form, status, fine);
 
   card.append(closeBtn, visual, body);
   overlay.append(card);
   document.body.appendChild(overlay);
 
-  return { overlay, card, closeBtn, form, input, submit, status, fine };
+  return { overlay, card, closeBtn, form, input, submit, status, fine, titleEl, subtitleEl };
 };
 
 const setStatus = (text, variant) => {
@@ -132,7 +159,7 @@ const resetForm = () => {
   modalEls.fine.style.display = '';
   modalEls.input.value = '';
   modalEls.submit.disabled = false;
-  modalEls.submit.textContent = 'Subscribe';
+  modalEls.submit.textContent = modalContent.submitLabel;
   setStatus('', null);
 };
 
@@ -140,7 +167,7 @@ const showSuccessState = () => {
   if (!modalEls) return;
   modalEls.form.style.display = 'none';
   modalEls.fine.style.display = 'none';
-  setStatus("You're in. Check your inbox for the next issue.", 'success');
+  setStatus(modalContent.successMessage, 'success');
 };
 
 const openModal = () => {
@@ -213,7 +240,7 @@ const wireModalEvents = () => {
     const email = modalEls.input.value.trim();
     if (!EMAIL_RE.test(email)) {
       modalEls.input.classList.add('is-error');
-      setStatus('Please enter a valid email address.', 'error');
+      setStatus(modalContent.errorMessage, 'error');
       modalEls.input.focus();
       return;
     }

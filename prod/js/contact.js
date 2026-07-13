@@ -352,6 +352,63 @@ function applyContactContent(fb) {
   if (infoH2 && ci.heading) infoH2.textContent = ci.heading;
   const emailLink = document.querySelector('.contact-info .info-link-row a[href^="mailto"]');
   if (emailLink && ci.email) { emailLink.textContent = ci.email; emailLink.href = `mailto:${ci.email}`; }
+  const emailHeadingEl = document.querySelector('[data-contact-email-heading]');
+  if (emailHeadingEl && ci.emailHeading) emailHeadingEl.textContent = ci.emailHeading;
+  const phoneHeadingEl = document.querySelector('[data-contact-phone-heading]');
+  if (phoneHeadingEl && ci.phoneHeading) phoneHeadingEl.textContent = ci.phoneHeading;
+
+  const phones = Array.isArray(ci.phones) ? ci.phones : (ci.phones ? Object.values(ci.phones) : []);
+  if (phones.length) {
+    // Dynamically size the phone-row list to match the CMS array so any
+    // number of phone numbers can be shown, cloning the existing row markup
+    // for extras. When the array still has exactly 2 entries (today's
+    // default), no rows are added/removed and output is unchanged.
+    let phoneRows = Array.from(document.querySelectorAll('[data-contact-phone-row]'));
+    const container = phoneRows[0]?.parentElement;
+    const template = phoneRows[phoneRows.length - 1];
+    if (container && template) {
+      while (phoneRows.length < phones.length) {
+        const clone = template.cloneNode(true);
+        container.appendChild(clone);
+        phoneRows.push(clone);
+      }
+      while (phoneRows.length > phones.length) {
+        const extra = phoneRows.pop();
+        extra.remove();
+      }
+    }
+    phoneRows.forEach((row, i) => {
+      const phone = phones[i];
+      if (!row || !phone) return;
+      const a = row.querySelector('a');
+      const copyBtn = row.querySelector('.copy-btn');
+      const tel = `tel:${String(phone).replace(/\s|\(|\)/g, '')}`;
+      if (a) { a.textContent = phone; a.href = tel; }
+      if (copyBtn) copyBtn.setAttribute('data-copy', phone);
+    });
+  }
+
+  const submitBtn = document.querySelector('[data-contact-submit-btn]');
+  if (submitBtn && fb.form?.submitButton) submitBtn.textContent = fb.form.submitButton;
+
+  // Contact form field labels/placeholders (optional CMS overrides applied
+  // to the existing form markup — no new elements added).
+  const formCfg = fb.form || {};
+  const applyFieldLabel = (inputSelector, labelText, placeholderText) => {
+    const input = document.querySelector(inputSelector);
+    if (!input) return;
+    if (labelText) {
+      const label = input.closest('label.field');
+      const span = label?.querySelector(':scope > span');
+      if (span) span.textContent = labelText;
+    }
+    if (placeholderText) input.setAttribute('placeholder', placeholderText);
+  };
+  applyFieldLabel('input[name="firstName"]', formCfg.firstNameLabel, formCfg.firstNamePlaceholder);
+  applyFieldLabel('input[name="lastName"]', formCfg.lastNameLabel, formCfg.lastNamePlaceholder);
+  applyFieldLabel('input[name="email"]', formCfg.emailLabel, formCfg.emailPlaceholder);
+  applyFieldLabel('input[name="phone"]', formCfg.phoneLabel, formCfg.phonePlaceholder);
+  applyFieldLabel('textarea[name="requirements"]', formCfg.messageLabel, formCfg.messagePlaceholder);
 
   const loc = fb.locations || {};
   const locTitle = document.querySelector('.locations-title h2');
@@ -360,14 +417,27 @@ function applyContactContent(fb) {
   if (locP && loc.subtitle) locP.textContent = loc.subtitle;
   const offices = Array.isArray(loc.offices) ? loc.offices : (loc.offices ? Object.values(loc.offices) : []);
   const officeCards = document.querySelectorAll('.office-card');
-  offices.forEach((o, i) => { if (!officeCards[i]) return; const h3 = officeCards[i].querySelector('h3'); const p = officeCards[i].querySelector('.office-overlay p'); if (h3 && o.country) h3.textContent = o.country; if (p && o.address) p.textContent = o.address; });
+  offices.forEach((o, i) => {
+    if (!officeCards[i]) return;
+    const h3 = officeCards[i].querySelector('h3');
+    if (h3 && o.country) h3.textContent = o.country;
+    if (o.address) {
+      // Each office card renders its address as one <p> per line (street,
+      // then city/postcode). Split the CMS address on newlines and fill the
+      // existing <p> elements in order — never adding/removing paragraphs,
+      // and never blanking a line that has no corresponding CMS text.
+      const lines = String(o.address).split('\n').map((s) => s.trim()).filter(Boolean);
+      const paragraphs = officeCards[i].querySelectorAll('.office-overlay p');
+      lines.forEach((line, li) => { if (paragraphs[li]) paragraphs[li].textContent = line; });
+    }
+    const photo = officeCards[i].querySelector('img');
+    if (photo && o.photo) photo.setAttribute('src', o.photo);
+  });
 }
 
 const initContact = async () => {
   initNavToggle();
   initScrollAnimations();
-  initContactForm();
-  initCopyButtons();
 
   try {
     const content = await loadContent();
@@ -379,8 +449,13 @@ const initContact = async () => {
     if (window.DEFAULT_CONTENT?.footer) renderFooter(buildContactFooter(window.DEFAULT_CONTENT.footer));
   }
 
+  // Apply CMS content BEFORE wiring the form, so initContactForm() captures
+  // the correct (possibly CMS-overridden) submit-button label as its reset state.
   const fbRaw = await fetchPageContent('pages/contact');
   applyContactContent(fbRaw ? deepStripTags(fbRaw) : null);
+
+  initContactForm();
+  initCopyButtons();
 };
 
 initContact();

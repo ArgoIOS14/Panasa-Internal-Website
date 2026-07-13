@@ -14,7 +14,9 @@ export const renderWhy = (data) => {
 
   const titleEl = document.querySelector('[data-why-title]');
   if (titleEl) {
-    titleEl.innerHTML = 'Why Fintechs <span>Choose Panasa</span>';
+    const title = data.title || 'Why Fintechs';
+    const emphasis = data.titleEmphasis || 'Choose Panasa';
+    titleEl.innerHTML = `${title} <span>${emphasis}</span>`;
   }
 
   setText('[data-why-subtitle]', data.subtitle);

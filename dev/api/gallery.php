@@ -63,26 +63,32 @@ if (empty($tokenData['users'][0]['localId'])) {
 
 // ── Handle requests ──
 
-$uploadDir = __DIR__ . '/../assets/uploads/';
+require_once __DIR__ . '/firebase-storage.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $images = [];
-    if (is_dir($uploadDir)) {
-        $files = scandir($uploadDir);
-        foreach ($files as $file) {
-            if ($file === '.' || $file === '..') continue;
-            $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'svg', 'webp', 'gif'])) continue;
-            $path = $uploadDir . $file;
-            $images[] = [
-                'name' => $file,
-                'url' => 'assets/uploads/' . $file,
-                'size' => filesize($path),
-                'modified' => filemtime($path),
-            ];
-        }
-        usort($images, fn($a, $b) => $b['modified'] - $a['modified']);
+    try {
+        $items = fb_storage_list('uploads/');
+    } catch (Throwable $e) {
+        error_log('gallery.php: ' . $e->getMessage());
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to list images']);
+        exit;
     }
+
+    $images = [];
+    foreach ($items as $item) {
+        $name = basename($item['name']);
+        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        if (!in_array($ext, ['jpg', 'jpeg', 'png', 'svg', 'webp', 'gif'])) continue;
+        $images[] = [
+            'name' => $name,
+            'url' => fb_storage_download_url($item['name']),
+            'size' => (int) ($item['size'] ?? 0),
+            'modified' => strtotime($item['updated'] ?? $item['timeCreated'] ?? 'now'),
+        ];
+    }
+    usort($images, fn($a, $b) => $b['modified'] - $a['modified']);
+
     echo json_encode(['images' => $images]);
     exit;
 }
@@ -98,23 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         exit;
     }
 
-    $filepath = realpath($uploadDir . $filename);
-    $uploadDirReal = realpath($uploadDir);
-
-    // Path traversal protection
-    if (!$filepath || !str_starts_with($filepath, $uploadDirReal)) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Invalid file path']);
-        exit;
-    }
-
-    if (!file_exists($filepath)) {
-        http_response_code(404);
-        echo json_encode(['error' => 'File not found']);
-        exit;
-    }
-
-    if (unlink($filepath)) {
+    if (fb_storage_delete('uploads/' . $filename)) {
         echo json_encode(['success' => true]);
     } else {
         http_response_code(500);

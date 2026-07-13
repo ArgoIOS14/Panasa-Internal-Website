@@ -50,17 +50,23 @@ class ArticleRebuilder {
         elseif ($type === 'case-studies') $folder = 'case-studies';
         else $folder = 'guides';
         $canonical = $data['meta']['canonical'] ?? "{$canonicalBase}/{$folder}/{$slug}";
-        $ogImage = $data['meta']['ogImage'] ?? '';
-        if (empty($ogImage)) {
-            $hero = $data['heroImage'] ?? '';
-            if ($hero) {
-                if (str_starts_with($hero, 'http')) $ogImage = $hero;
-                elseif (str_starts_with($hero, '../')) $ogImage = $canonicalBase . '/' . substr($hero, 3);
-                else $ogImage = $canonicalBase . '/' . ltrim($hero, '/');
-            }
-        }
+
+        // Hero image: explicit CMS value wins. Case studies had no `heroImage` field
+        // until the feature-card hero rework — default to the pre-existing per-slug
+        // cover convention so currently-live case studies keep their exact image
+        // until an editor sets one explicitly via the admin CMS and republishes.
         $heroImage = $data['heroImage'] ?? '';
-        $heroAlt   = $data['heroImageAlt'] ?? '';
+        if ($heroImage === '' && $type === 'case-studies') {
+            $heroImage = "../assets/cover-{$slug}.webp";
+        }
+        $heroAlt = $data['heroImageAlt'] ?? '';
+
+        $ogImage = $data['meta']['ogImage'] ?? '';
+        if (empty($ogImage) && $heroImage) {
+            if (str_starts_with($heroImage, 'http')) $ogImage = $heroImage;
+            elseif (str_starts_with($heroImage, '../')) $ogImage = $canonicalBase . '/' . substr($heroImage, 3);
+            else $ogImage = $canonicalBase . '/' . ltrim($heroImage, '/');
+        }
         $author    = $data['author'] ?? 'Panasa Team';
         $datePub   = $data['datePublished'] ?? date('Y-m-d');
         $dateMod   = $data['dateModified'] ?? $datePub;
@@ -83,9 +89,45 @@ class ArticleRebuilder {
         $titleHighlightHtml = '';
         if ($type === 'guides' && !empty($data['titleHighlight'])) {
             $highlight = $data['titleHighlight'];
-            $titleHighlightHtml = ' <span class="guide-hero-title-accent" data-guide-title-accent>' . htmlspecialchars($highlight, ENT_QUOTES) . '</span>';
+            // Class matches the shared feature-card component (feature-card-title-accent),
+            // not the retired guide-only "guide-hero-title-accent" class.
+            $titleHighlightHtml = ' <span class="feature-card-title-accent" data-guide-title-accent>' . htmlspecialchars($highlight, ENT_QUOTES) . '</span>';
             // Strip the highlight phrase from the title in display so it doesn't duplicate
             $title = trim(preg_replace('/' . preg_quote($highlight, '/') . '\s*$/u', '', $title));
+        }
+
+        // Guide hero description: the on-page copy under the guide title is the
+        // top-level `description` field, distinct from the SEO `meta.description`
+        // used for {{DESCRIPTION}} above (they intentionally differ per article).
+        $guideDescription = $type === 'guides' ? ($data['description'] ?? $description) : '';
+
+        // Author avatar: reuses the same `assets/about-leader-<slug>.webp` convention
+        // as the About page leaders. Only emit the <img> when the asset actually
+        // exists so an unrecognised/organisation author (e.g. "Panasa Team") falls
+        // back to plain text instead of a broken image.
+        $authorAvatarHtml = '';
+        $authorSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $author), '-'));
+        if ($authorSlug !== '' && file_exists(__DIR__ . '/../../assets/about-leader-' . $authorSlug . '.webp')) {
+            $authorAvatarHtml = '<img class="blog-author-avatar" src="../assets/about-leader-' . htmlspecialchars($authorSlug, ENT_QUOTES) . '.webp" alt="" loading="lazy" decoding="async" />';
+        }
+
+        // Case-study hero eyebrow + title HTML: mirrors the accent-span markup already
+        // baked into the 4 currently-live case-study pages (feature-card-title-accent
+        // span wrapping hero.titleAccent, followed by plain hero.titleSuffix text).
+        // Falls back to the plain computed $title for legacy studies that only set
+        // hero.title (no titleAccent/titleSuffix split).
+        $caseEyebrow = '';
+        $caseTitleHtml = '';
+        if ($type === 'case-studies') {
+            $caseEyebrow = trim((string)($data['hero']['eyebrow'] ?? self::defaultTagText($type)));
+            $caseTitleAccent = trim((string)($data['hero']['titleAccent'] ?? ''));
+            $caseTitleSuffix = trim((string)($data['hero']['titleSuffix'] ?? ''));
+            if ($caseTitleAccent !== '') {
+                $caseTitleHtml = '<span class="feature-card-title-accent" data-case-title-accent>' . htmlspecialchars($caseTitleAccent, ENT_QUOTES) . '</span>'
+                    . ($caseTitleSuffix !== '' ? ' ' . htmlspecialchars($caseTitleSuffix, ENT_QUOTES) : '');
+            } else {
+                $caseTitleHtml = htmlspecialchars($title, ENT_QUOTES);
+            }
         }
 
         $tokens = [
@@ -113,6 +155,10 @@ class ArticleRebuilder {
             '{{SLUG}}'               => htmlspecialchars($slug, ENT_QUOTES),
             '{{JS_FILE}}'            => htmlspecialchars($jsFile, ENT_QUOTES),
             '{{TITLE_HIGHLIGHT_HTML}}' => $titleHighlightHtml,
+            '{{GUIDE_DESCRIPTION}}'  => htmlspecialchars($guideDescription, ENT_QUOTES),
+            '{{AUTHOR_AVATAR_HTML}}' => $authorAvatarHtml,
+            '{{CASE_EYEBROW}}'       => htmlspecialchars($caseEyebrow, ENT_QUOTES),
+            '{{CASE_TITLE_HTML}}'    => $caseTitleHtml,
         ];
         return strtr($template, $tokens);
     }

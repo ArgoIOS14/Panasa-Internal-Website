@@ -837,20 +837,25 @@ export function renderField(sectionKey, field, value, data, onRerender) {
     case 'stats': renderStats(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'numbered-cards': renderNumberedCards(group, sectionKey, toArr(value), ctx); break;
     case 'stages': renderStages(group, sectionKey, field.key, toArr(value), ctx); break;
-    case 'columns': renderColumns(group, sectionKey, toArr(value), ctx); break;
+    case 'columns': renderColumns(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'heading-body-cards': renderHBCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'pill-cards': renderPillCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'string-list': renderStringList(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'link-list': renderLinkList(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'image-list': renderImageList(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'cert-single-image': group.appendChild(renderCertSingleImage(value || {})); break;
     case 'service-cards': renderServiceCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'why-cards': renderWhyCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'case-slides': renderCaseSlides(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'testimonial-cards': renderTestimonialCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'engagement-cards': renderEngagementCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'growth-cards': renderGrowthCards(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'nav-links': renderNavLinks(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'footer-columns': renderFooterColumns(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'leader-cards': renderLeaderCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'faq-items': renderFaqItems(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'knowledge-cards': renderKnowledgeCards(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'home-faq-items': renderHomeFaqItems(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'office-cards': renderOfficeCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'job-cards': renderJobCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'service-blocks': renderServiceBlocks(group, sectionKey, field.key, toArr(value), ctx); break;
@@ -1005,7 +1010,7 @@ function renderStages(group, sectionKey, arrayKey, items, ctx) {
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
-function renderColumns(group, sectionKey, columns, ctx) {
+function renderColumns(group, sectionKey, arrayKey, columns, ctx) {
   const container = el('div', 'repeatable-container');
   columns.forEach((col, ci) => {
     const card = el('div', 'section-card');
@@ -1024,23 +1029,23 @@ function renderColumns(group, sectionKey, columns, ctx) {
       removeBtn.className = 'bullet-remove';
       removeBtn.innerHTML = '&times;';
       removeBtn.setAttribute('aria-label', 'Delete bullet');
-      removeBtn.addEventListener('click', () => { if (!confirmDeleteDefault(bi, sectionKey, 'columns')) return; ctx.onRerender.readForms(); ctx.data[sectionKey].columns[ci].bullets.splice(bi, 1); ctx.onRerender(); });
+      removeBtn.addEventListener('click', () => { if (!confirmDeleteDefault(bi, sectionKey, arrayKey)) return; ctx.onRerender.readForms(); ctx.data[sectionKey][arrayKey][ci].bullets.splice(bi, 1); ctx.onRerender(); });
       row.appendChild(removeBtn);
       bulletsDiv.appendChild(row);
     });
     card.appendChild(bulletsDiv);
     const addBulletBtn = el('button', 'add-bullet-btn');
     addBulletBtn.textContent = '+ Add bullet';
-    addBulletBtn.addEventListener('click', () => { ctx.onRerender.readForms(); ctx.data[sectionKey].columns[ci].bullets.push({ icon: null, text: '' }); ctx.onRerender(); });
+    addBulletBtn.addEventListener('click', () => { ctx.onRerender.readForms(); ctx.data[sectionKey][arrayKey][ci].bullets.push({ icon: null, text: '' }); ctx.onRerender(); });
     card.appendChild(addBulletBtn);
     container.appendChild(card);
   });
   container.querySelectorAll('.remove-col-btn').forEach(btn => {
-    btn.addEventListener('click', () => { if (!confirmDeleteDefault(Number(btn.dataset.idx), sectionKey, 'columns')) return; ctx.onRerender.readForms(); ctx.data[sectionKey].columns.splice(Number(btn.dataset.idx), 1); ctx.onRerender(); });
+    btn.addEventListener('click', () => { if (!confirmDeleteDefault(Number(btn.dataset.idx), sectionKey, arrayKey)) return; ctx.onRerender.readForms(); ctx.data[sectionKey][arrayKey].splice(Number(btn.dataset.idx), 1); ctx.onRerender(); });
   });
   const addBtn = el('button', 'add-section-btn');
   addBtn.textContent = '+ Add Column';
-  addBtn.addEventListener('click', () => { ctx.onRerender.readForms(); ctx.data[sectionKey].columns.push({ heading: '', bullets: [{ icon: null, text: '' }] }); ctx.onRerender(); });
+  addBtn.addEventListener('click', () => { ctx.onRerender.readForms(); ctx.data[sectionKey][arrayKey].push({ heading: '', bullets: [{ icon: null, text: '' }] }); ctx.onRerender(); });
   group.appendChild(container);
   group.appendChild(addBtn);
 }
@@ -1152,6 +1157,22 @@ function renderImageList(group, sectionKey, arrayKey, items, ctx) {
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
+/* Single {src, alt} image field — non-repeatable. Used for hero.certImage,
+   an existing-but-previously-unwired alternate render path in hero.js that
+   swaps the cert badge row for one single image when set. Left empty (no
+   src), the field reads back as `undefined` so hero.js's `if (data.certImage)`
+   check stays falsy and the default certBadges list keeps rendering. */
+function renderCertSingleImage(value) {
+  const wrap = el('div', 'nested-card cert-single-image');
+  const v = value && typeof value === 'object' ? value : {};
+  wrap.appendChild(imageInput(v.src || '', 'ci-src'));
+  const altRow = el('div', 'card-row');
+  altRow.style.marginTop = '6px';
+  altRow.innerHTML = `<input type="text" class="ci-alt" value="${esc(v.alt || '')}" placeholder="Alt text">`;
+  wrap.appendChild(altRow);
+  return wrap;
+}
+
 // ── Home page specific ──
 
 function renderServiceCards(group, sectionKey, arrayKey, items, ctx) {
@@ -1179,11 +1200,34 @@ function renderWhyCards(group, sectionKey, arrayKey, cards, ctx) {
   cards.forEach((c, i) => {
     const card = el('div', 'nested-card');
     card.innerHTML = `<div class="card-row"><input type="text" class="wc-title" value="${esc(c.title || '')}" placeholder="Card title"><input type="text" class="wc-style" value="${esc(c.style || 'light')}" placeholder="Style" style="width:120px"><button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="wc-text" placeholder="Card text">${esc(c.text || '')}</textarea>`;
+    // Visual type toggle — 'tags' is an existing render path in why.js
+    // (renders a chip-tags list instead of an image) that previously had
+    // no admin input, so new/edited cards always fell back to 'image'.
+    const imgType = c.imageType === 'tags' ? 'tags' : 'image';
+    const typeRow = el('div', 'card-row');
+    typeRow.style.cssText = 'margin-top:6px;align-items:center;';
+    typeRow.innerHTML = `<label style="font-size:12px;color:var(--admin-text-muted,#6b7280);display:inline-flex;align-items:center;gap:6px;">Visual type
+      <select class="wc-imageType" style="max-width:160px;padding:6px 8px;">
+        <option value="image"${imgType === 'image' ? ' selected' : ''}>Image</option>
+        <option value="tags"${imgType === 'tags' ? ' selected' : ''}>Tag chips</option>
+      </select>
+    </label>`;
+    card.appendChild(typeRow);
     card.appendChild(imageInput(c.image || '', 'wc-image'));
+    const tagsLabel = el('div', 'field-label');
+    tagsLabel.textContent = 'Tag chips (used when Visual type = "Tag chips") — one per line';
+    tagsLabel.style.cssText = 'margin-top:8px;font-size:12px;';
+    card.appendChild(tagsLabel);
+    const tagsTa = document.createElement('textarea');
+    tagsTa.className = 'wc-tags field-input';
+    tagsTa.rows = 3;
+    tagsTa.placeholder = 'Card platforms\nScheme integrations\nAuthorization flows';
+    tagsTa.value = toArr(c.tags).join('\n');
+    card.appendChild(tagsTa);
     container.appendChild(card);
   });
   addButton(group, container, '+ Add card', () => {
-    ctx.data[sectionKey][arrayKey].push({ title: '', text: '', style: 'light', image: '', imageType: 'image' });
+    ctx.data[sectionKey][arrayKey].push({ title: '', text: '', style: 'light', image: '', imageType: 'image', tags: [] });
     ctx.onRerender();
   });
   attachRemove(container, ctx, sectionKey, arrayKey);
@@ -1197,6 +1241,7 @@ function renderCaseSlides(group, sectionKey, arrayKey, slides, ctx) {
     card.innerHTML = `
       <div class="card-row"><input type="text" class="cs-eyebrow" value="${esc(s.eyebrow || '')}" placeholder="Eyebrow"><button class="bullet-remove" data-idx="${i}">&times;</button></div>
       <input type="text" class="cs-title field-input" value="${esc(s.title || '')}" placeholder="Title">
+      <div class="card-row"><input type="text" class="cs-date" value="${esc(s.date || '')}" placeholder="Date (e.g. 26 May 2025)"><input type="text" class="cs-readTime" value="${esc(s.readTime || '')}" placeholder="Read time (e.g. 20 Mins Read)"></div>
       <textarea class="cs-text" placeholder="Summary">${esc(s.text || '')}</textarea>
       <div class="card-row"><input type="text" class="cs-cta-label" value="${esc(s.cta?.label || '')}" placeholder="CTA label"><input type="text" class="cs-cta-href" value="${esc(s.cta?.href || '')}" placeholder="CTA href"></div>`;
     card.appendChild(imageInput(s.image || '', 'cs-image'));
@@ -1212,7 +1257,7 @@ function renderCaseSlides(group, sectionKey, arrayKey, slides, ctx) {
     container.appendChild(card);
   });
   addButton(group, container, '+ Add case study', () => {
-    ctx.data[sectionKey][arrayKey].push({ eyebrow: '', title: '', text: '', image: '', cta: { label: 'Read Full Case Study', href: 'contact.html' }, metrics: [] });
+    ctx.data[sectionKey][arrayKey].push({ eyebrow: '', title: '', date: '', readTime: '', text: '', image: '', cta: { label: 'Read Full Case Study', href: 'contact.html' }, metrics: [] });
     ctx.onRerender();
   });
   attachRemove(container, ctx, sectionKey, arrayKey);
@@ -1247,7 +1292,7 @@ function renderEngagementCards(group, sectionKey, arrayKey, items, ctx) {
   const container = el('div', 'repeatable-container');
   items.forEach((item, i) => {
     const card = el('div', 'nested-card');
-    card.innerHTML = `<div class="card-row"><input type="text" class="ec-title" value="${esc(item.title || '')}" placeholder="Title">${variantSelect(item.variant || 'light', 'ec-variant')}<button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="ec-text" placeholder="Description">${esc(item.text || '')}</textarea><div class="card-row"><input type="text" class="ec-cta" value="${esc(item.cta || '')}" placeholder="CTA label"></div>`;
+    card.innerHTML = `<div class="card-row"><input type="text" class="ec-title" value="${esc(item.title || '')}" placeholder="Title">${variantSelect(item.variant || 'light', 'ec-variant')}<button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="ec-text" placeholder="Description">${esc(item.text || '')}</textarea><div class="card-row"><input type="text" class="ec-bestSuited" value="${esc(item.bestSuitedFor || '')}" placeholder="Best suited for"><input type="text" class="ec-cta" value="${esc(item.cta || '')}" placeholder="CTA label"></div><input type="text" class="ec-outcome field-input" value="${esc(item.outcome || '')}" placeholder="Outcome">`;
     // Image upload widget — after CTA, before bullets
     card.appendChild(imageInput(item.image || '', 'ec-image'));
     // Bullets section with clear separator
@@ -1287,7 +1332,7 @@ function renderEngagementCards(group, sectionKey, arrayKey, items, ctx) {
   });
   addButton(group, container, '+ Add engagement model', () => {
     const r = resolveDataRef(ctx.data, sectionKey);
-    r[arrayKey].push({ title: '', text: '', variant: 'light', image: '', cta: 'Talk to us', bullets: [] });
+    r[arrayKey].push({ title: '', text: '', variant: 'light', image: '', bestSuitedFor: '', cta: 'Talk to us', outcome: '', bullets: [] });
     ctx.onRerender();
   });
   attachRemove(container, ctx, sectionKey, arrayKey);
@@ -1343,6 +1388,98 @@ function renderGrowthCards(group, sectionKey, arrayKey, items, ctx) {
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
+function renderNavLinks(group, sectionKey, arrayKey, items, ctx) {
+  const container = el('div', 'repeatable-container');
+  items.forEach((item, i) => {
+    const card = el('div', 'nested-card');
+    card.innerHTML = `<div class="card-row"><input type="text" class="nl-label" value="${esc(item.label || '')}" placeholder="Label"><input type="text" class="nl-href" value="${esc(item.href || '')}" placeholder="Link (e.g. about)"><button class="bullet-remove" data-idx="${i}">&times;</button></div>`;
+    const childrenLabel = el('div', 'field-label');
+    childrenLabel.textContent = 'Dropdown links (optional)';
+    childrenLabel.style.marginTop = '8px';
+    childrenLabel.style.paddingTop = '8px';
+    childrenLabel.style.borderTop = '1px solid var(--admin-border)';
+    card.appendChild(childrenLabel);
+    toArr(item.children).forEach((child, ci) => {
+      const row = el('div', 'card-row nl-child-row');
+      row.innerHTML = `<input type="text" class="nl-child-label" value="${esc(child.label || '')}" placeholder="Child label"><input type="text" class="nl-child-href" value="${esc(child.href || '')}" placeholder="Child link"><button class="bullet-remove nl-child-rm" data-parent="${i}" data-idx="${ci}">&times;</button>`;
+      card.appendChild(row);
+    });
+    const addChildBtn = el('button', 'add-bullet-btn');
+    addChildBtn.textContent = '+ Add dropdown link';
+    addChildBtn.addEventListener('click', () => {
+      ctx_readForms();
+      const r = resolveDataRef(ctx.data, sectionKey);
+      const arr = r[arrayKey];
+      if (Array.isArray(arr) && arr[i]) { arr[i].children = toArr(arr[i].children); arr[i].children.push({ label: '', href: '' }); }
+      ctx.onRerender();
+    });
+    card.appendChild(addChildBtn);
+    container.appendChild(card);
+  });
+  addButton(group, container, '+ Add nav link', () => {
+    ctx.data[sectionKey][arrayKey].push({ label: '', href: '', children: [] });
+    ctx.onRerender();
+  });
+  attachRemove(container, ctx, sectionKey, arrayKey);
+  container.querySelectorAll('.nl-child-rm').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      ctx_readForms();
+      const r = resolveDataRef(ctx.data, sectionKey);
+      const arr = r[arrayKey];
+      if (Array.isArray(arr) && arr[Number(btn.dataset.parent)]) {
+        arr[Number(btn.dataset.parent)].children.splice(Number(btn.dataset.idx), 1);
+      }
+      ctx.onRerender();
+    });
+  });
+}
+
+function renderFooterColumns(group, sectionKey, arrayKey, columns, ctx) {
+  const container = el('div', 'repeatable-container');
+  columns.forEach((col, i) => {
+    const card = el('div', 'nested-card');
+    card.innerHTML = `<div class="card-row"><input type="text" class="fc-title" value="${esc(col.title || '')}" placeholder="Column title"><label style="display:inline-flex;align-items:center;gap:4px;font-size:12px;white-space:nowrap;"><input type="checkbox" class="fc-col-visible"${col.visible !== false ? ' checked' : ''}>Visible</label><button class="bullet-remove" data-idx="${i}">&times;</button></div>`;
+    const linksLabel = el('div', 'field-label');
+    linksLabel.textContent = 'Links';
+    linksLabel.style.marginTop = '8px';
+    linksLabel.style.paddingTop = '8px';
+    linksLabel.style.borderTop = '1px solid var(--admin-border)';
+    card.appendChild(linksLabel);
+    toArr(col.links).forEach((link, li) => {
+      const row = el('div', 'card-row fc-link-row');
+      row.innerHTML = `<input type="text" class="fc-link-label" value="${esc(link.label || '')}" placeholder="Label"><input type="text" class="fc-link-href" value="${esc(link.href || '')}" placeholder="Link"><input type="text" class="fc-link-badge-type" value="${esc(link.badge || '')}" placeholder="Badge type (e.g. hiring, new)" style="max-width:130px"><input type="text" class="fc-link-badge" value="${esc(link.badgeText || '')}" placeholder="Badge text (optional)" style="max-width:120px"><label style="display:inline-flex;align-items:center;gap:4px;font-size:12px;white-space:nowrap;"><input type="checkbox" class="fc-link-visible"${link.visible !== false ? ' checked' : ''}>Visible</label><button class="bullet-remove fc-link-rm" data-parent="${i}" data-idx="${li}">&times;</button>`;
+      card.appendChild(row);
+    });
+    const addLinkBtn = el('button', 'add-bullet-btn');
+    addLinkBtn.textContent = '+ Add link';
+    addLinkBtn.addEventListener('click', () => {
+      ctx_readForms();
+      const r = resolveDataRef(ctx.data, sectionKey);
+      const arr = r[arrayKey];
+      if (Array.isArray(arr) && arr[i]) { arr[i].links = toArr(arr[i].links); arr[i].links.push({ label: '', href: '', visible: true }); }
+      ctx.onRerender();
+    });
+    card.appendChild(addLinkBtn);
+    container.appendChild(card);
+  });
+  addButton(group, container, '+ Add column', () => {
+    ctx.data[sectionKey][arrayKey].push({ title: '', visible: true, links: [] });
+    ctx.onRerender();
+  });
+  attachRemove(container, ctx, sectionKey, arrayKey);
+  container.querySelectorAll('.fc-link-rm').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      ctx_readForms();
+      const r = resolveDataRef(ctx.data, sectionKey);
+      const arr = r[arrayKey];
+      if (Array.isArray(arr) && arr[Number(btn.dataset.parent)]) {
+        arr[Number(btn.dataset.parent)].links.splice(Number(btn.dataset.idx), 1);
+      }
+      ctx.onRerender();
+    });
+  });
+}
+
 // ── About page specific ──
 
 function renderLeaderCards(group, sectionKey, arrayKey, items, ctx) {
@@ -1378,17 +1515,57 @@ function renderFaqItems(group, sectionKey, arrayKey, items, ctx) {
   attachRemove(container, ctx, sectionKey, arrayKey);
 }
 
+function renderKnowledgeCards(group, sectionKey, arrayKey, cards, ctx) {
+  const container = el('div', 'repeatable-container');
+  cards.forEach((c, i) => {
+    const card = el('div', 'nested-card');
+    card.innerHTML = `
+      <div class="card-row"><input type="text" class="kc-category" value="${esc(c.category || '')}" placeholder="Category (e.g. Blog, Guide, Insights)"><button class="bullet-remove" data-idx="${i}">&times;</button></div>
+      <input type="text" class="kc-title field-input" value="${esc(c.title || '')}" placeholder="Title">
+      <div class="card-row"><input type="text" class="kc-date" value="${esc(c.date || '')}" placeholder="Date (e.g. 16 APR 2026)"><input type="text" class="kc-href" value="${esc(c.href || '')}" placeholder="Link (e.g. blog/anatomy-of-a-swipe)"></div>`;
+    card.appendChild(imageInput(c.image || '', 'kc-image'));
+    container.appendChild(card);
+  });
+  addButton(group, container, '+ Add card', () => {
+    ctx.data[sectionKey][arrayKey].push({ category: '', title: '', date: '', image: '', href: '' });
+    ctx.onRerender();
+  });
+  attachRemove(container, ctx, sectionKey, arrayKey);
+}
+
+function renderHomeFaqItems(group, sectionKey, arrayKey, items, ctx) {
+  const container = el('div', 'repeatable-container');
+  items.forEach((f, i) => {
+    const card = el('div', 'nested-card');
+    card.innerHTML = `
+      <div class="card-row"><input type="text" class="hfq-q" value="${esc(f.q || '')}" placeholder="Question"><button class="bullet-remove" data-idx="${i}">&times;</button></div>
+      <textarea class="hfq-a" placeholder="Answer">${esc(f.a || '')}</textarea>`;
+    container.appendChild(card);
+  });
+  addButton(group, container, '+ Add FAQ', () => {
+    ctx.data[sectionKey][arrayKey].push({ q: '', a: '' });
+    ctx.onRerender();
+  });
+  attachRemove(container, ctx, sectionKey, arrayKey);
+}
+
 // ── Contact, Careers, Services Overview specific ──
 
 function renderOfficeCards(group, sectionKey, arrayKey, items, ctx) {
   const container = el('div', 'repeatable-container');
   items.forEach((o, i) => {
     const card = el('div', 'nested-card');
-    card.innerHTML = `<div class="card-row"><input type="text" class="oc-country" value="${esc(o.country || '')}" placeholder="Country"><button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="oc-address" placeholder="Address">${esc(o.address || '')}</textarea>`;
+    card.innerHTML = `<div class="card-row"><input type="text" class="oc-country" value="${esc(o.country || '')}" placeholder="Country"><button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="oc-address" placeholder="Address (use a new line to separate the street and city/postcode lines)">${esc(o.address || '')}</textarea>`;
+    const photoLabel = el('div', 'field-label');
+    photoLabel.textContent = 'Office photo (optional)';
+    photoLabel.style.fontSize = '12px';
+    photoLabel.style.marginTop = '4px';
+    card.appendChild(photoLabel);
+    card.appendChild(imageInput(o.photo || '', 'oc-photo'));
     container.appendChild(card);
   });
   addButton(group, container, '+ Add office', () => {
-    ctx.data[sectionKey][arrayKey].push({ country: '', address: '' });
+    ctx.data[sectionKey][arrayKey].push({ country: '', address: '', photo: '' });
     ctx.onRerender();
   });
   attachRemove(container, ctx, sectionKey, arrayKey);
@@ -3260,20 +3437,25 @@ export function readAllForms(editorSections, sections, data) {
         case 'stats': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ value: c.querySelector('.rep-value')?.value || '', label: c.querySelector('.rep-label')?.value || '', icon: c.querySelector('.rep-icon')?.value || '' })); break; }
         case 'numbered-cards': { ref.cards = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ number: c.querySelector('.nc-number')?.value || '', title: c.querySelector('.nc-title')?.value || '', body: c.querySelector('.nc-body')?.value || '' })); break; }
         case 'stages': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ heading: c.querySelector('.rep-heading')?.value || '', description: c.querySelector('.rep-description')?.value || '' })); break; }
-        case 'columns': { ref.columns = Array.from(group.querySelectorAll('.section-card')).map(card => ({ heading: card.querySelector('.col-heading')?.value || '', bullets: Array.from(card.querySelectorAll('.bullet-row')).map(row => ({ icon: row.querySelector('.icon-input')?.value || null, text: row.querySelector('.bullet-text')?.value || '' })) })); break; }
+        case 'columns': { ref[field.key] = Array.from(group.querySelectorAll('.section-card')).map(card => ({ heading: card.querySelector('.col-heading')?.value || '', bullets: Array.from(card.querySelectorAll('.bullet-row')).map(row => ({ icon: row.querySelector('.icon-input')?.value || null, text: row.querySelector('.bullet-text')?.value || '' })) })); break; }
         case 'heading-body-cards': case 'pill-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => { const obj = { heading: c.querySelector('.hb-heading')?.value || '', body: c.querySelector('.hb-body')?.value || '' }; const pill = c.querySelector('.hb-pill'); if (pill) obj.pill = pill.value; return obj; }); break; }
         case 'string-list': { ref[field.key] = Array.from(group.querySelectorAll('.card-row')).map(r => r.querySelector('.str-item')?.value || ''); break; }
         case 'link-list': { ref[field.key] = Array.from(group.querySelectorAll('.link-list-row')).map(r => ({ label: r.querySelector('.ll-label')?.value || '', href: r.querySelector('.ll-href')?.value || '' })); break; }
         case 'image-list': { ref[field.key] = Array.from(group.querySelectorAll('.image-list-card')).map(c => ({ src: c.querySelector('.il-src')?.value || '', alt: c.querySelector('.il-alt')?.value || '' })); break; }
+        case 'cert-single-image': { const src = group.querySelector('.ci-src')?.value || ''; ref[field.key] = src ? { src, alt: group.querySelector('.ci-alt')?.value || '' } : undefined; break; }
         case 'service-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, eyebrow: c.querySelector('.sc-eyebrow')?.value || '', title: c.querySelector('.sc-title')?.value || '', href: c.querySelector('.sc-href')?.value || '', icon: c.querySelector('.sc-icon')?.value || '', bullets: Array.from(c.querySelectorAll('.sc-bullet')).map(b => b.value) }; }); break; }
-        case 'why-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.wc-title')?.value || '', text: c.querySelector('.wc-text')?.value || '', style: c.querySelector('.wc-style')?.value || 'light', image: c.querySelector('.wc-image')?.value || '' }; }); break; }
-        case 'case-slides': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; const mvs = c.querySelectorAll('.cs-metric-value'); const mls = c.querySelectorAll('.cs-metric-label'); return { ...existing, eyebrow: c.querySelector('.cs-eyebrow')?.value || '', title: c.querySelector('.cs-title')?.value || '', text: c.querySelector('.cs-text')?.value || '', image: c.querySelector('.cs-image')?.value || '', cta: { label: c.querySelector('.cs-cta-label')?.value || '', href: c.querySelector('.cs-cta-href')?.value || '' }, metrics: Array.from(mvs).map((mv, mi) => ({ value: mv.value, label: mls[mi]?.value || '' })) }; }); break; }
+        case 'why-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.wc-title')?.value || '', text: c.querySelector('.wc-text')?.value || '', style: c.querySelector('.wc-style')?.value || 'light', image: c.querySelector('.wc-image')?.value || '', imageType: c.querySelector('.wc-imageType')?.value || 'image', tags: (c.querySelector('.wc-tags')?.value || '').split('\n').map(t => t.trim()).filter(Boolean) }; }); break; }
+        case 'case-slides': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; const mvs = c.querySelectorAll('.cs-metric-value'); const mls = c.querySelectorAll('.cs-metric-label'); return { ...existing, eyebrow: c.querySelector('.cs-eyebrow')?.value || '', title: c.querySelector('.cs-title')?.value || '', date: c.querySelector('.cs-date')?.value || '', readTime: c.querySelector('.cs-readTime')?.value || '', text: c.querySelector('.cs-text')?.value || '', image: c.querySelector('.cs-image')?.value || '', cta: { label: c.querySelector('.cs-cta-label')?.value || '', href: c.querySelector('.cs-cta-href')?.value || '' }, metrics: Array.from(mvs).map((mv, mi) => ({ value: mv.value, label: mls[mi]?.value || '' })) }; }); break; }
         case 'testimonial-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ text: c.querySelector('.tc-text')?.value || '', name: c.querySelector('.tc-name')?.value || '', role: c.querySelector('.tc-role')?.value || '', logo: c.querySelector('.tc-logo')?.value || '', logoAlt: c.querySelector('.tc-logoAlt')?.value || '' })); break; }
-        case 'engagement-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.ec-title')?.value || '', text: c.querySelector('.ec-text')?.value || '', variant: c.querySelector('.ec-variant')?.value || 'light', image: c.querySelector('.ec-image')?.value || '', cta: c.querySelector('.ec-cta')?.value || '', bullets: Array.from(c.querySelectorAll('.ec-bullet')).map(b => b.value) }; }); break; }
+        case 'engagement-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, title: c.querySelector('.ec-title')?.value || '', text: c.querySelector('.ec-text')?.value || '', variant: c.querySelector('.ec-variant')?.value || 'light', image: c.querySelector('.ec-image')?.value || '', bestSuitedFor: c.querySelector('.ec-bestSuited')?.value || '', cta: c.querySelector('.ec-cta')?.value || '', outcome: c.querySelector('.ec-outcome')?.value || '', bullets: Array.from(c.querySelectorAll('.ec-bullet')).map(b => b.value) }; }); break; }
         case 'growth-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = ref[field.key]?.[i] || {}; return { ...existing, image: c.querySelector('.gc-image')?.value || '', title: c.querySelector('.gc-title')?.value || '', text: c.querySelector('.gc-text')?.value || '', variant: c.querySelector('.gc-variant')?.value || 'light', bestSuitedFor: c.querySelector('.gc-bestSuited')?.value || '', cta: c.querySelector('.gc-cta')?.value || '', outcome: c.querySelector('.gc-outcome')?.value || '', bullets: Array.from(c.querySelectorAll('.gc-bullet')).map(b => b.value) }; }); break; }
+        case 'nav-links': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ label: c.querySelector('.nl-label')?.value || '', href: c.querySelector('.nl-href')?.value || '', children: Array.from(c.querySelectorAll('.nl-child-row')).map(row => ({ label: row.querySelector('.nl-child-label')?.value || '', href: row.querySelector('.nl-child-href')?.value || '' })).filter((ch) => ch.label || ch.href) })); break; }
+        case 'footer-columns': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existingCol = ref[field.key]?.[i] || {}; const links = Array.from(c.querySelectorAll('.fc-link-row')).map((row, li) => { const existingLink = (existingCol.links || [])[li] || {}; return { ...existingLink, label: row.querySelector('.fc-link-label')?.value || '', href: row.querySelector('.fc-link-href')?.value || '', badge: row.querySelector('.fc-link-badge-type')?.value || '', badgeText: row.querySelector('.fc-link-badge')?.value || '', visible: row.querySelector('.fc-link-visible')?.checked !== false }; }); return { ...existingCol, title: c.querySelector('.fc-title')?.value || '', visible: c.querySelector('.fc-col-visible')?.checked !== false, links }; }); break; }
         case 'leader-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ name: c.querySelector('.ld-name')?.value || '', role: c.querySelector('.ld-role')?.value || '', bio: c.querySelector('.ld-bio')?.value || '', image: c.querySelector('.ld-image')?.value || '' })); break; }
         case 'faq-items': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ question: c.querySelector('.fq-question')?.value || '', answer: c.querySelector('.fq-answer')?.value || '' })); break; }
-        case 'office-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ country: c.querySelector('.oc-country')?.value || '', address: c.querySelector('.oc-address')?.value || '' })); break; }
+        case 'knowledge-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ category: c.querySelector('.kc-category')?.value || '', title: c.querySelector('.kc-title')?.value || '', date: c.querySelector('.kc-date')?.value || '', image: c.querySelector('.kc-image')?.value || '', href: c.querySelector('.kc-href')?.value || '' })); break; }
+        case 'home-faq-items': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ q: c.querySelector('.hfq-q')?.value || '', a: c.querySelector('.hfq-a')?.value || '' })); break; }
+        case 'office-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ country: c.querySelector('.oc-country')?.value || '', address: c.querySelector('.oc-address')?.value || '', photo: c.querySelector('.oc-photo')?.value || '' })); break; }
         case 'job-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ title: c.querySelector('.jc-title')?.value || '', jobId: c.querySelector('.jc-jobId')?.value || '', department: c.querySelector('.jc-department')?.value || '', locationType: c.querySelector('.jc-locationType')?.value || '', location: c.querySelector('.jc-location')?.value || '', experience: c.querySelector('.jc-experience')?.value || '' })); break; }
         case 'service-blocks': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map((c, i) => { const existing = (Array.isArray(ref[field.key]) ? ref[field.key] : Object.values(ref[field.key] || {}))[i] || {}; return { ...existing, kicker: c.querySelector('.sb-kicker')?.value || '', heading: c.querySelector('.sb-heading')?.value || '', href: c.querySelector('.sb-href')?.value || '', items: Array.from(c.querySelectorAll('.sb-item')).map(b => b.value) }; }); break; }
         case 'blocks': {

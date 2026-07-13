@@ -23,6 +23,8 @@ export const defaults = {
     title: 'Four ways we work with',
     titleEmphasis: 'Payment Businesses',
     subtitle: "Whether you're building new infrastructure, modernising what you have, governing the AI models you use, or running operations at scale. We have a team that has done it before.",
+    primaryCta: { label: 'Talk to our team', href: 'contact.html' },
+    secondaryCta: { label: 'Compare Models', href: '#engagement' },
   },
   serviceBlocks: [
     { kicker: 'Core Build', heading: 'AI Accelerated Fintech Engineering', href: 'ai-accelerated-fintech-engineering.html', items: ['AI Agent Swarm Powered Legacy App', 'AI-Led Fintech Engineering', 'AI Strategy & Implementation', 'Agentic AI & Automation', 'New Product and Platform', 'Business Intelligence & Advanced Analytics'] },
@@ -30,18 +32,6 @@ export const defaults = {
     { kicker: 'Core Operate', heading: 'Intelligent Operations', href: 'intelligent-operations.html', items: ['24x7 Transaction Monitoring', 'Fraud Detection & Risk Management Workflows', 'Customer & Cardholder Support (L1-L3)', 'Disputes & Chargeback Lifecycle Handling', 'Reporting, Reconciliation & Audit Pipelines', 'Onboarding & Operational Playbooks'] },
     { kicker: 'Core Modernise', heading: 'AI-Led Legacy Modernisation', href: 'ai-powered-legacy-modernisation.html', items: ['Legacy Code & Business Logic Extraction', 'System Decomposition & Migration Planning', 'AI-Assisted Code Generation & Rebuild', 'Multi-Level Validation & Testing Framework', 'Cloud, Microservices & Platform Migration', 'Parallel Rollout & Zero-Loss Deployment'] },
   ],
-  engagement: {
-    title: 'Engagement Models',
-    titleEmphasis: 'Built for Your Growth',
-    subtitle: "Flexible operating models designed to match your fintech's stage, scale, and regulatory complexity.",
-    cards: [
-      { heading: 'Engineering Squads', text: 'Extend your team with our payment specialists. Flex capacity up or down based on project needs.', bullets: ['Month-to-month flexibility', 'Defined timeline', 'Milestone payments', 'End-to-end ownership', 'Predictable costs'], variant: 'light' },
-      { heading: 'Managed Services', text: 'Full operational ownership with SLA-backed performance. From build to 24/7 operations.', bullets: ['24/7 coverage', 'SLA guarantees', 'Outcome-based pricing', 'Complete ownership', 'Continuous optimisation'], variant: 'featured' },
-      { heading: 'Project-Based', text: 'Fixed scope, fixed budget, clear deliverables. Perfect for well-defined projects with set timelines.', bullets: ['Clear deliverables', 'Defined timeline', 'Milestone payments', 'End-to-end ownership', 'Predictable costs'], variant: 'light' },
-      { heading: 'GCC Delivery Model', text: 'Build and scale your global delivery hub with structured talent, operations, and performance frameworks.', bullets: ['Talent Advisory Workspaces', 'AI-Powered Business Operations', 'Market Intelligence & Benchmarking', 'Workforce Planning', 'Build-Operate-Transfer (BOT)'], variant: 'light' },
-    ],
-    note: '*Most clients start with a project and graduate to managed services as they scale',
-  },
   faq: {
     title: 'Frequently Asked',
     titleEmphasis: 'Questions',
@@ -73,22 +63,17 @@ export const sections = [
     { key: 'title', label: 'Title', type: 'text' },
     { key: 'titleEmphasis', label: 'Title emphasis', type: 'text' },
     { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+    { key: 'primaryCta', label: 'Primary CTA', type: 'label-href' },
+    { key: 'secondaryCta', label: 'Secondary CTA', type: 'label-href' },
   ]},
   { key: 'serviceBlocks', label: 'Service Blocks', fields: [
     { key: 'serviceBlocks', label: 'Service blocks', type: 'service-blocks', arrayAtRoot: true },
-  ]},
-  { key: 'engagement', label: 'Engagement Models', fields: [
-    { key: 'title', label: 'Title', type: 'text' },
-    { key: 'titleEmphasis', label: 'Title emphasis', type: 'text' },
-    { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
-    { key: 'cards', label: 'Engagement cards', type: 'engagement-cards' },
-    { key: 'note', label: 'Footer note', type: 'text' },
   ]},
   { key: 'faq', label: 'FAQ', fields: [
     { key: 'title', label: 'Title', type: 'text' },
     { key: 'titleEmphasis', label: 'Title emphasis', type: 'text' },
     { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
-    { key: 'items', label: 'FAQ items', type: 'faq-items' },
+    { key: 'items', label: 'FAQ items', type: 'faq-items', help: 'The page only has 5 FAQ slots — only the first 5 items render.' },
   ]},
   { key: 'footerCta', label: 'Footer CTA', fields: [
     { key: 'title', label: 'CTA title', type: 'text' },
