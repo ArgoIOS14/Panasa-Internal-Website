@@ -29,8 +29,10 @@ function fb_base64url($data) {
 
 // Cached OAuth2 access token (server-side JWT-bearer flow), reused across
 // requests until near expiry to avoid signing + calling Google on every hit.
-function fb_get_access_token() {
-    $cacheFile = sys_get_temp_dir() . '/panasa_fb_storage_token.json';
+// Cached per-scope so a Storage-scoped token is never reused for an Identity
+// Toolkit (Auth admin) call or vice versa.
+function fb_get_access_token($scope = 'https://www.googleapis.com/auth/devstorage.read_write') {
+    $cacheFile = sys_get_temp_dir() . '/panasa_fb_token_' . md5($scope) . '.json';
     if (file_exists($cacheFile)) {
         $cached = json_decode(file_get_contents($cacheFile), true);
         if (!empty($cached['token']) && !empty($cached['expires']) && $cached['expires'] > time() + 60) {
@@ -43,7 +45,7 @@ function fb_get_access_token() {
     $header = fb_base64url(json_encode(['alg' => 'RS256', 'typ' => 'JWT']));
     $claims = fb_base64url(json_encode([
         'iss'   => $sa['client_email'],
-        'scope' => 'https://www.googleapis.com/auth/devstorage.read_write',
+        'scope' => $scope,
         'aud'   => 'https://oauth2.googleapis.com/token',
         'iat'   => $now,
         'exp'   => $now + 3600,
@@ -52,7 +54,7 @@ function fb_get_access_token() {
 
     $signature = '';
     if (!openssl_sign($signingInput, $signature, $sa['private_key'], 'sha256WithRSAEncryption')) {
-        throw new RuntimeException('Failed to sign JWT for Firebase Storage auth');
+        throw new RuntimeException('Failed to sign JWT for Firebase auth');
     }
     $jwt = $signingInput . '.' . fb_base64url($signature);
 
@@ -70,12 +72,12 @@ function fb_get_access_token() {
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($httpCode !== 200) {
-        throw new RuntimeException('Firebase Storage auth failed (' . $httpCode . ')');
+        throw new RuntimeException('Firebase auth failed (' . $httpCode . ')');
     }
 
     $data = json_decode($response, true);
     if (empty($data['access_token'])) {
-        throw new RuntimeException('Firebase Storage auth response missing access_token');
+        throw new RuntimeException('Firebase auth response missing access_token');
     }
 
     file_put_contents($cacheFile, json_encode([
@@ -85,6 +87,35 @@ function fb_get_access_token() {
     chmod($cacheFile, 0600);
 
     return $data['access_token'];
+}
+
+/**
+ * Enable/disable a Firebase Auth account by uid via the Identity Toolkit
+ * Admin REST API. This is what actually revokes access on "deactivate" —
+ * flipping users/{uid}.active in RTDB alone only blocks the RTDB-backed SPA
+ * and the PHP endpoints (which now check that flag too); it does not stop
+ * the underlying Firebase Auth session from being renewed. This closes that
+ * gap by disabling the Auth account itself, which invalidates all of that
+ * user's existing and future ID tokens immediately.
+ */
+function fb_auth_set_disabled($uid, $disabled) {
+    $token = fb_get_access_token('https://www.googleapis.com/auth/identitytoolkit');
+    $ch = curl_init('https://identitytoolkit.googleapis.com/v1/accounts:update');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => json_encode(['localId' => $uid, 'disableUser' => (bool)$disabled]),
+        CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $token, 'Content-Type: application/json'],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($httpCode < 200 || $httpCode >= 300) {
+        error_log('fb_auth_set_disabled failed (' . $httpCode . '): ' . $response);
+        throw new RuntimeException('Failed to update Firebase Auth account status');
+    }
+    return true;
 }
 
 function fb_storage_download_url($objectPath) {

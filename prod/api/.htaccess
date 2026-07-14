@@ -1,4 +1,6 @@
-<FilesMatch "^(\.env|firebase-service-account\.json)$">
+<FilesMatch "^(\.env|firebase-service-account\.json|firebase-storage\.php|_.*\.php)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
+
+Options -Indexes

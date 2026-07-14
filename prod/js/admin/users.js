@@ -19,6 +19,30 @@ export function initUsers() {
   if (btn) btn.addEventListener('click', showUsersModal);
 }
 
+/**
+ * Disable/re-enable the target's underlying Firebase Auth account so
+ * deactivation actually revokes access, not just the RTDB-backed SPA.
+ * Best-effort: the RTDB active flag (already set by the caller) remains the
+ * primary, immediately-effective gate even if this call fails.
+ */
+async function setAuthDisabled(uid, disabled) {
+  try {
+    const idToken = await auth.currentUser.getIdToken();
+    const res = await fetch('/api/manage-user.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+      body: JSON.stringify({ uid, disabled }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.message || `HTTP ${res.status}`);
+    }
+  } catch (e) {
+    console.warn('setAuthDisabled failed (RTDB active flag still applied):', e.message);
+    showToast('Account flag updated, but revoking the login session failed: ' + e.message, 'error');
+  }
+}
+
 async function showUsersModal() {
   if (!canManageUsers()) {
     showToast('Only super admins can manage users.', 'error');
@@ -273,6 +297,7 @@ async function renderUsersList(modal) {
       if (!confirm(`Deactivate ${targetEmail}? They will be unable to sign in.`)) return;
       try {
         await update(ref(db, `users/${uid}`), { active: false });
+        await setAuthDisabled(uid, true);
         logAction('deactivate_user', null, { targetUser: targetEmail });
         showToast('User deactivated.', 'success');
         renderUsersList(modal);
@@ -288,6 +313,7 @@ async function renderUsersList(modal) {
       const targetEmail = users.find(u => u.uid === uid)?.email;
       try {
         await update(ref(db, `users/${uid}`), { active: true });
+        await setAuthDisabled(uid, false);
         logAction('reactivate_user', null, { targetUser: targetEmail });
         showToast('User reactivated.', 'success');
         renderUsersList(modal);

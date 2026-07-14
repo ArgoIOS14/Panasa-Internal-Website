@@ -46,42 +46,25 @@ if (!$originAllowed && !empty($origin)) {
     jsonResponse('error', 'Forbidden origin');
 }
 
-// ── Firebase token verification ──
+// ── Firebase auth + role verification ──
+// Any active user may request a 'preview' render (dev-only, never touches
+// prod). Everything else — normal publish, delete — writes live content to
+// prod and must be restricted to superadmin/approver, matching what the
+// admin UI already implies (editors are routed to submit-for-review instead).
 
-$authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-if (!str_starts_with($authHeader, 'Bearer ')) {
-    http_response_code(401);
-    jsonResponse('error', 'Missing authorization token');
-}
+require_once __DIR__ . '/_auth.php';
 
-$idToken = substr($authHeader, 7);
-$verifyUrl = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=AIzaSyD4yz8pUs9nnozh61VOWJ9JVP8E1b489eY";
-$ch = curl_init($verifyUrl);
-curl_setopt_array($ch, [
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => json_encode(['idToken' => $idToken]),
-    CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT        => 10,
-]);
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-// curl_close() omitted — deprecated in PHP 8.0+
+$bodyForAuth = json_decode(file_get_contents('php://input'), true);
+$actionForAuth = $bodyForAuth['action'] ?? null;
 
-if ($httpCode !== 200) {
-    http_response_code(401);
-    jsonResponse('error', 'Invalid or expired token');
-}
-
-$tokenData = json_decode($response, true);
-if (empty($tokenData['users'][0]['localId'])) {
-    http_response_code(401);
-    jsonResponse('error', 'Token verification failed');
-}
+$auth = ($actionForAuth === 'preview')
+    ? requireActiveUser()
+    : requireActiveUser(['superadmin', 'approver']);
+$idToken = $auth['idToken'];
 
 // ── Parse request body ──
 
-$body = json_decode(file_get_contents('php://input'), true);
+$body = $bodyForAuth;
 if (!$body || empty($body['pageKey'])) {
     http_response_code(400);
     jsonResponse('error', 'Missing pageKey in request body');

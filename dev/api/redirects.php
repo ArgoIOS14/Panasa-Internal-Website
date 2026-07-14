@@ -47,36 +47,11 @@ if (!$originAllowed && !empty($origin)) {
     exit;
 }
 
-// ── Firebase token verification ──
-$authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-if (!str_starts_with($authHeader, 'Bearer ')) {
-    http_response_code(401);
-    echo json_encode(['status' => 'error', 'message' => 'Missing authorization token']);
-    exit;
-}
-$idToken = substr($authHeader, 7);
-$verifyUrl = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=AIzaSyD4yz8pUs9nnozh61VOWJ9JVP8E1b489eY";
-$ch = curl_init($verifyUrl);
-curl_setopt_array($ch, [
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => json_encode(['idToken' => $idToken]),
-    CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT        => 10,
-]);
-$resp = curl_exec($ch);
-$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-if ($code !== 200) {
-    http_response_code(401);
-    echo json_encode(['status' => 'error', 'message' => 'Invalid or expired token']);
-    exit;
-}
-$tokenData = json_decode($resp, true);
-if (empty($tokenData['users'][0]['localId'])) {
-    http_response_code(401);
-    echo json_encode(['status' => 'error', 'message' => 'Token verification failed']);
-    exit;
-}
+// ── Firebase auth + role verification ──
+// Site-wide URL routing — a bad redirect rule can break live pages.
+require_once __DIR__ . '/_auth.php';
+$auth = requireActiveUser(['superadmin', 'approver']);
+$idToken = $auth['idToken'];
 
 // ── Parse + validate ──
 $body = json_decode(file_get_contents('php://input'), true);

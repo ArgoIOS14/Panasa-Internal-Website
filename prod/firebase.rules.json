@@ -7,7 +7,7 @@
       ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true",
       "$uid": {
         ".read": "auth != null && $uid === auth.uid",
-        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || (!data.exists() && auth.uid === $uid))",
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || (!data.exists() && auth.uid === $uid && newData.child('email').val() === auth.token.email && ((newData.child('role').val() === 'superadmin' && auth.token.email === 'arjun.g@panasatech.com') || (newData.child('_claimedInvite').isString() && root.child('invites').child(newData.child('_claimedInvite').val()).child('email').val() === auth.token.email && root.child('invites').child(newData.child('_claimedInvite').val()).child('role').val() === newData.child('role').val()))))",
         ".validate": "newData.hasChildren(['email','role','active'])",
         "role": { ".validate": "newData.val() === 'superadmin' || newData.val() === 'approver' || newData.val() === 'editor'" },
         "email": { ".validate": "newData.isString()" },
@@ -15,6 +15,7 @@
         "createdAt": { ".validate": "newData.isNumber()" },
         "lastActive": { ".validate": "newData.isNumber()" },
         "invitedBy": { ".validate": "newData.isString()" },
+        "_claimedInvite": { ".validate": "newData.isString() || !newData.exists()" },
         "$other": { ".validate": true }
       }
     },
@@ -54,7 +55,10 @@
       ".indexOn": ["status", "submittedBy/uid"],
       "$reviewId": {
         ".read": "auth != null && data.child('submittedBy/uid').val() === auth.uid",
-        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (!data.exists() || root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver' || data.child('submittedBy/uid').val() === auth.uid)"
+        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver' || (!data.exists() && newData.child('submittedBy/uid').val() === auth.uid) || (data.exists() && data.child('submittedBy/uid').val() === auth.uid && data.child('status').val() === 'pending' && newData.child('status').val() === 'withdrawn'))",
+        "status": { ".validate": "newData.val() === 'pending' || newData.val() === 'approved' || newData.val() === 'rejected' || newData.val() === 'withdrawn'" },
+        "reviewedBy": { ".validate": "root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver'" },
+        "reviewedAt": { ".validate": "root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver'" }
       }
     },
 
@@ -71,15 +75,16 @@
     "audit": {
       ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver')",
       "$ts": {
-        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && !data.exists()"
+        ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && !data.exists() && (newData.child('user').val() === auth.token.email || newData.child('user').val() === auth.uid)",
+        "action": { ".validate": "newData.val() === 'approve_review' || newData.val() === 'approve_review_delete' || newData.val() === 'bulk_discard' || newData.val() === 'bulk_publish' || newData.val() === 'bulk_rebuild' || newData.val() === 'change_role' || newData.val() === 'deactivate_user' || newData.val() === 'invite_user' || newData.val() === 'publish' || newData.val() === 'reactivate_user' || newData.val() === 'reject_review' || newData.val() === 'restore_history' || newData.val() === 'revert' || newData.val() === 'save_draft' || newData.val() === 'submit_review'" }
       }
     },
 
-    "presence": {
+    "editing": {
       ".read": "auth != null",
       "$pageKey": {
         ".write": "auth != null",
-        "$sessionId": { ".write": "auth != null" }
+        "$uid": { ".write": "auth != null && $uid === auth.uid" }
       }
     },
 

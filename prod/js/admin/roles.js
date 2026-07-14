@@ -82,11 +82,13 @@ export async function loadUserRole(user) {
   // before the collision fix).
   const inviteKey = sanitizeEmailKey(email);
   const legacyKey = legacyEmailKey(email);
+  let matchedKey = inviteKey;
   let inviteRef = ref(db, `invites/${inviteKey}`);
   let inviteSnap;
   try {
     inviteSnap = await get(inviteRef);
     if (!inviteSnap.exists() && legacyKey !== inviteKey) {
+      matchedKey = legacyKey;
       inviteRef = ref(db, `invites/${legacyKey}`);
       inviteSnap = await get(inviteRef);
     }
@@ -105,6 +107,10 @@ export async function loadUserRole(user) {
       createdAt: Date.now(),
       lastActive: Date.now(),
       invitedBy: invite.invitedBy || 'system',
+      // Referenced by firebase.rules.json so the server can verify this
+      // self-created record's role actually matches a real invite, instead
+      // of trusting the client. Must be set BEFORE the invite is deleted below.
+      _claimedInvite: matchedKey,
     };
     await set(userRef, newRec);
     await set(inviteRef, null);
