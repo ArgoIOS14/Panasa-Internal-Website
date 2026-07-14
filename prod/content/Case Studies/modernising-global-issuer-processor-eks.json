@@ -14,7 +14,7 @@
     "title": "Modernising a Global Issuer Processor: From Monolith to Amazon EKS | Panasa",
     "description": "How Panasa moved a global issuer processor from EC2 monoliths to a container-based Amazon EKS platform with automated pipelines, IaC, and observability.",
     "canonical": "https://www.panasatech.com/case-studies/modernising-global-issuer-processor-eks",
-    "ogImage": "https://www.panasatech.com/assets/case-study-image-1.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-modernising-global-issuer-processor-eks.webp"
   },
   "hero": {
     "eyebrow": "CASE STUDY",
