@@ -1952,6 +1952,9 @@ const initServicesPage = async () => {
       applyServiceMode();
       applyModeCopy();
       applyEmailCaptureOverride(fb);
+      // Same DOM-replacement caveat as the live-preview path below: re-observe
+      // the freshly-injected [data-animate] nodes so they aren't stuck at opacity:0.
+      initScrollAnimations();
     }
   }
 };
@@ -1970,6 +1973,10 @@ if (new URLSearchParams(window.location.search).get('preview') === 'true') {
       applyServiceMode();
       applyModeCopy();
       applyEmailCaptureOverride(fb);
+      // applyServiceMode()/applyModeCopy() replace section innerHTML wholesale,
+      // so freshly-injected [data-animate] nodes were never seen by the
+      // scroll-reveal observer and would otherwise stay stuck at opacity:0.
+      initScrollAnimations();
     } catch (e) { console.warn('[live-preview] services failed:', e); }
   };
 }
