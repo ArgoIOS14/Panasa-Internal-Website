@@ -1,0 +1,92 @@
+window.DEFAULT_BLOG_CONTENT = {
+  "meta": {
+    "title": "Should You Build or Buy a Card Issuing Platform in 2026? | Panasa",
+    "description": "A practical build-vs-buy framework for card issuing platforms in 2026 — time to market, cost, compliance, scale, and the one question that decides it.",
+    "canonical": "https://www.panasatech.com/insights/build-or-buy-card-issuing-platform",
+    "ogImage": "https://www.panasatech.com/assets/cover-build-or-buy-card-issuing-platform.webp"
+  },
+  "slug": "build-or-buy-card-issuing-platform",
+  "category": "Insights",
+  "tag": "INSIGHT",
+  "title": "Should You Build or Buy a Card Issuing Platform in 2026?",
+  "date": "14 JUL 2026",
+  "readTime": "9 MINS READ",
+  "datePublished": "2026-07-14",
+  "dateModified": "2026-07-14",
+  "author": "Fathima Roshni",
+  "tags": [
+    "Card issuing",
+    "Build vs buy",
+    "Issuer processors",
+    "BIN sponsorship",
+    "Compliance",
+    "Payments infrastructure"
+  ],
+  "heroImage": "../assets/cover-build-or-buy-card-issuing-platform.webp",
+  "heroImageTablet": "../assets/cover-build-or-buy-card-issuing-platform.webp",
+  "heroImageMobile": "../assets/cover-build-or-buy-card-issuing-platform.webp",
+  "heroImageAlt": "Build versus buy comparison for a card issuing platform",
+  "body": [
+    {
+      "type": "html",
+      "content": "<p>With the rise of embedded finance and digital payments, more businesses are exploring card issuance. At some point in that process, a decision comes up. Should the infrastructure be built in-house or bought from an existing platform?</p><p>The answer to this question shapes:</p><ul><li>Time to market</li><li>Long-term costs</li><li>Compliance risk</li><li>The program's ability to scale</li></ul><p>The card issuing market has changed significantly. Modern card issuing platforms now offer capabilities that previously required a full in-house build to achieve. That makes buying more viable than before. But the right decision still depends on where the program creates value.</p>"
+    },
+    {
+      "type": "html",
+      "content": "<h2>Build vs Buy: A Side-by-Side Comparison</h2><p>Before getting into the detail, here is how the two paths compare at a glance across the factors that matter most.</p><div class=\"blog-table\"><table><thead><tr><th scope=\"col\"></th><th scope=\"col\">Build</th><th scope=\"col\">Buy</th></tr></thead><tbody><tr><th scope=\"row\">Time to market</th><td>Can take two to five years</td><td>Months</td></tr><tr><th scope=\"row\">Upfront cost</th><td>High: engineering, hiring, certifications</td><td>Lower: setup and integration fees</td></tr><tr><th scope=\"row\">Ongoing cost</th><td>Maintenance, audits, compliance, upgrades</td><td>Predictable per-card and transaction fees</td></tr></tbody></table></div><div class=\"blog-table\"><table><thead><tr><th scope=\"col\"></th><th scope=\"col\">Build</th><th scope=\"col\">Buy</th></tr></thead><tbody><tr><th scope=\"row\">Authorization infrastructure</th><td>Must build and certify from scratch</td><td>Pre-certified, network-adjacent</td></tr><tr><th scope=\"row\">Compliance and regulatory coverage</th><td>Must build independently</td><td>Built into the platform</td></tr><tr><th scope=\"row\">Control over processing logic</th><td>Full</td><td>Configurable within platform limits</td></tr><tr><th scope=\"row\">Scalability</th><td>Dependent on internal engineering capacity</td><td>Platform scales with volume</td></tr><tr><th scope=\"row\">Principal membership</th><td>Required for a full in-house build</td><td>Not required: handled via BIN sponsorship</td></tr><tr><th scope=\"row\">Best suited for</th><td>Large-scale programs with large engineering teams and long-time horizons</td><td>Most fintechs and card programs at launch and growth stage</td></tr></tbody></table></div>"
+    },
+    {
+      "type": "html",
+      "content": "<h2>What is a card issuing platform and how does it work?</h2><p>A card issuing platform is the infrastructure behind every card program. It handles:</p><ul><li>Authorization</li><li>Card controls</li><li>BIN management</li><li>Compliance</li><li>Network connectivity</li><li>Card lifecycle management</li><li>Dispute processing</li></ul><p>When a cardholder taps their card at a terminal, the issuing platform approves or declines the transaction in real time. Most card programs access this infrastructure through an issuer processor. That processor holds the direct relationship with Visa or Mastercard. It manages scheme certification and provides the API layer through which the card program configures rules, sets limits, and monitors transactions. The platform is not visible to the cardholder.</p>"
+    },
+    {
+      "type": "html",
+      "content": "<h2>What does &ldquo;buy&rdquo; mean in card issuing?</h2><p>Buying means contracting with an issuer processor to provide the card infrastructure. Providers such as Marqeta, Galileo, Lithic, and Enfuce offer access to this infrastructure via API. Each platform includes:</p><ul><li>Authorization infrastructure</li><li>Scheme connectivity</li><li>A compliance layer</li><li>BIN sponsorship</li></ul><p>The card program configures its rules, card controls, and product features on top of that infrastructure. The program manager is responsible for the product experience and configuration. The processor handles the underlying infrastructure.</p><p>BIN sponsorship may or may not be part of this model. Some programs issue cards under their own BIN through a direct sponsor bank relationship, using the processor purely for the processing infrastructure. Others rely on the processor or a third-party sponsor bank to provide BIN sponsorship, which allows them to go to market without the regulatory and capital requirements that come with direct network membership. The right arrangement depends on the program's regulatory status, target markets, and how much control it wants over its BIN.</p>"
+    },
+    {
+      "type": "html",
+      "content": "<h2>What does &ldquo;build&rdquo; mean in card issuing?</h2><p>Building means constructing the card issuing infrastructure in-house. This includes building:</p><ul><li>Authorization stack</li><li>Compliance systems</li><li>Network integrations</li><li>Card lifecycle management</li></ul><p>It typically involves becoming a principal member of Visa or Mastercard directly. Principal membership means owning BINs, holding settlement risk, and hosting the processing infrastructure independently. As a principal member, the institution works directly with the card networks. It holds its own ICA (Interbank Card Association number) and BIN ranges. It manages its own compliance reporting to the schemes. It takes on full settlement responsibility. It can also sponsor other programs under its membership.</p><p>This model gives the program full control over its processing logic, authorization rules, and data. It also carries full operational responsibility for:</p><ul><li>Scheme certification</li><li>PCI DSS compliance</li><li>Infrastructure maintenance</li><li>Ongoing regulatory obligations</li></ul><p>It is the model used by large banks and a small number of established fintechs with large engineering teams and regulatory systems in place.</p>"
+    },
+    {
+      "type": "callout",
+      "title": "Weighing build against buy?",
+      "text": "We help card programs scope issuer-processor selection, BIN sponsorship, and in-house builds. Let's talk through your case.",
+      "cta": {
+        "label": "Talk to our team",
+        "href": "../contact",
+        "variant": "dark"
+      }
+    },
+    {
+      "type": "html",
+      "content": "<h2>The case for buying a card issuing platform in 2026</h2><p>For most card programs, buying is the more practical path, which can be explained by three reasons.</p><p><strong>Time to market.</strong> With the right provider, a card program can go live in months. Building competing infrastructure from scratch can take two to five years. A two to five year build cycle means no revenue for years, which makes the build route harder to justify.</p><p><strong>Authorization infrastructure.</strong> The authorization decision window for a card transaction is typically under 200 milliseconds from end to end. Meeting that time requirement requires certified, network-adjacent infrastructure that processors like Marqeta, Galileo, Thredd, Paymentology, Lithic and many more have spent years building and certifying. Building competing infrastructure from scratch cannot reliably meet that window.</p><p><strong>Compliance and regulatory coverage.</strong> A card program operating in the EU or UK must meet:</p><ul><li>PCI DSS requirements</li><li>Scheme compliance rules</li><li>KYC/AML obligations</li></ul><p>Modern platforms carry these certifications as part of the infrastructure. The buy model also includes BIN sponsorship arrangements, which let programs issue cards without direct principal membership. Building these independently is a separate effort that runs in parallel with engineering and adds to the timeline and cost.</p><p>The buy model also has a predictable cost structure:</p><ul><li>Setup fees</li><li>Per-card fees</li><li>Transaction-based pricing</li></ul><p>That is easier to manage than the ongoing cost of internal engineering, audits, compliance maintenance, and platform upgrades.</p>"
+    },
+    {
+      "type": "html",
+      "content": "<h2>When building your card issuing infrastructure in-house makes sense</h2><p>Building in-house is justified in specific circumstances. Transaction scale is one of them. At very high volumes, per-transaction platform fees can become too expensive compared to owning the infrastructure. Consider an EMI targeting several million active cards with high transaction frequency. It will pay per-transaction fees to a third-party processor on every single authorization. At that scale, those fees compound significantly. The point at which building becomes economically viable depends on the specific processor contract and average transaction volumes, but it is generally considered relevant only for programs operating at a very large scale with the engineering depth to support it. Proprietary authorization logic or risk decisions are another reason. If that logic is what sets the program apart and cannot be replicated within a third-party platform's configuration options, building may be the right answer.</p><p>The program also needs the right conditions in place:</p><ul><li>A strong in-house engineering team</li><li>A long-time horizon before requiring revenue</li><li>The capacity to manage scheme certification, PCI DSS compliance, and ongoing infrastructure maintenance independently</li></ul><p>That profile fits a very small proportion of teams entering the market.</p>"
+    },
+    {
+      "type": "html",
+      "content": "<h2>The one question that determines whether to build or buy</h2><p>Is the advantage in the product or in the infrastructure? If the advantage comes from the cardholder experience, the spend controls, or the product design, buy the infrastructure and build the product on top of it. If the advantage is in the processing logic, the risk model, or the routing rules, and those cannot be replicated within a modern platform's configuration options and you have the transaction volumes, then building may be the right answer.</p>"
+    },
+    {
+      "type": "html",
+      "content": "<h2>Conclusion</h2><p>The build vs buy decision in card issuing is about where the program creates value. The infrastructure layer is rarely where that value lives. For most card programs in 2026, the platform market offers the processing capability, compliance coverage, and scheme connectivity that previously required a full in-house build.</p>"
+    },
+    {
+      "type": "callout",
+      "title": "Building the product on top of a bought platform?",
+      "text": "Our engineering team builds cardholder experiences, spend controls, and program logic on modern issuer-processor stacks.",
+      "cta": {
+        "label": "View our services",
+        "href": "../services",
+        "variant": "ghost"
+      }
+    }
+  ],
+  "relatedSlugs": [
+    "embedded-finance-real-card-issuing-market",
+    "card-lifecycle-management",
+    "five-things-card-program-migration"
+  ]
+};

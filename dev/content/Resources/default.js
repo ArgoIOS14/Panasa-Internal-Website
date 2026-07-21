@@ -27,6 +27,32 @@ window.DEFAULT_RESOURCES_CONTENT = {
   "items": [
     {
       "category": "Insights",
+      "title": "Should You Build or Buy a Card Issuing Platform in 2026?",
+      "titleAccent": "Should You Build or Buy",
+      "excerpt": "Modern issuer processors now offer what once required a full in-house build. A build-vs-buy framework across time to market, cost, compliance, and scale — plus the one question that decides it.",
+      "date": "14 JUL 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/cover-build-or-buy-card-issuing-platform.webp",
+      "slug": "build-or-buy-card-issuing-platform",
+      "href": "insights/build-or-buy-card-issuing-platform",
+      "datePublished": "2026-07-14",
+      "readTime": "9 MINS READ"
+    },
+    {
+      "category": "Guide",
+      "title": "The Ultimate Guide to Migrating Your Card Program",
+      "titleAccent": "The Ultimate Guide",
+      "excerpt": "Moving a card portfolio to a new issuer processor without disrupting cardholders — why programs migrate, the migration types, choosing a processor, and the post-cutover checklist.",
+      "date": "14 JUL 2026",
+      "author": "Fathima Roshni",
+      "image": "assets/cover-migrating-your-card-program.webp",
+      "slug": "migrating-your-card-program",
+      "href": "guides/migrating-your-card-program",
+      "datePublished": "2026-07-14",
+      "readTime": "14 MINS READ"
+    },
+    {
+      "category": "Insights",
       "title": "Embedded Finance Is the Real Card-Issuing Market",
       "titleAccent": "Embedded Finance",
       "excerpt": "Non-financial platforms are now some of the most active card issuers in the world. Inside the $17.6B embedded card issuing market and what it means for banks, processors, and card program builders.",
@@ -234,4 +260,5 @@ window.DEFAULT_RESOURCES_CONTENT = {
       "readTime": "9 MINS READ"
     }
   ]
-};
+}
+;

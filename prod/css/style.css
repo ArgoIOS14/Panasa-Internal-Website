@@ -2416,6 +2416,7 @@ section {
 
 .knowledge-hub .section-title-split h2 span {
   color: #10b36a;
+  display: block;
 }
 
 .knowledge-hub .section-title-split p {

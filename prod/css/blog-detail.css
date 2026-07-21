@@ -687,3 +687,36 @@ ul { list-style: none; }
 
   .resource-card { min-height: 0; }
 }
+/* ── Comparison tables inside article body (build-vs-buy, etc.) ── */
+.blog-body .blog-table {
+  margin: 28px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.blog-body table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+.blog-body th,
+.blog-body td {
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: top;
+}
+.blog-body thead th {
+  background: #0c3b2e;
+  color: #ffffff;
+  font-weight: 600;
+  border-color: rgba(255, 255, 255, 0.16);
+  white-space: nowrap;
+}
+.blog-body tbody th {
+  background: #f4f9f6;
+  font-weight: 600;
+  width: 24%;
+}
+.blog-body tbody td { color: var(--text-muted); }
