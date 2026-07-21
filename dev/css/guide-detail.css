@@ -74,34 +74,49 @@ ul { list-style: none; }
   padding: 0 var(--page-gutter);
 }
 
-/* Edge fade hints — surface only when the strip actually overflows its
-   scroller (data-overflow-left / data-overflow-right set in guideDetail.js),
-   so short guides that fit show no fade. Signals the last/first tab scrolls
-   instead of the label being hard-clipped at the edge. */
+/* Edge scroll affordance — a fade + directional chevron that surfaces only
+   on the side that can still scroll (data-overflow-left / data-overflow-right
+   set in guideDetail.js). Signals the strip scrolls instead of the label
+   being hard-clipped, and marks the hover hot-zone that auto-scrolls the
+   strip (see the edge auto-scroll handler in guideDetail.js). */
 .guide-section-tabs::before,
 .guide-section-tabs::after {
-  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 46px;
+  width: 52px;
   z-index: 6;
+  display: flex;
+  align-items: center;
   pointer-events: none;
   opacity: 0;
   transition: opacity 180ms ease;
+  color: #0c3b2e;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
 }
 .guide-section-tabs::before {
+  content: "\2039"; /* ‹ */
   left: var(--page-gutter);
-  background: linear-gradient(90deg, var(--guide-tab-bg) 35%, rgba(237, 239, 232, 0));
+  justify-content: flex-start;
+  padding-left: 10px;
+  background: linear-gradient(90deg, var(--guide-tab-bg) 45%, rgba(237, 239, 232, 0));
   border-radius: 14px 0 0 14px;
 }
 .guide-section-tabs::after {
+  content: "\203A"; /* › */
   right: var(--page-gutter);
-  background: linear-gradient(270deg, var(--guide-tab-bg) 35%, rgba(237, 239, 232, 0));
+  justify-content: flex-end;
+  padding-right: 10px;
+  background: linear-gradient(270deg, var(--guide-tab-bg) 45%, rgba(237, 239, 232, 0));
   border-radius: 0 14px 14px 0;
 }
 .guide-section-tabs[data-overflow-left='true']::before { opacity: 1; }
 .guide-section-tabs[data-overflow-right='true']::after { opacity: 1; }
+/* While the pointer sits in an edge hot-zone the strip auto-scrolls; hint it. */
+.guide-section-tabs-inner[data-edge-scroll='right'],
+.guide-section-tabs-inner[data-edge-scroll='left'] { cursor: ew-resize; }
 
 .guide-section-tabs-inner {
   position: relative;

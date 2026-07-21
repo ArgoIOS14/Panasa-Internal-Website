@@ -42,7 +42,7 @@
     {
       "slug": "why-card-programs-migrate",
       "number": 1,
-      "title": "Why Card Programs Migrate",
+      "title": "Why Programs Migrate",
       "blocks": [
         {
           "type": "html",
@@ -53,7 +53,7 @@
     {
       "slug": "questions-to-ask-before-planning",
       "number": 2,
-      "title": "Questions to Ask Before Planning a Card Program Migration",
+      "title": "Before You Start",
       "blocks": [
         {
           "type": "html",
@@ -64,7 +64,7 @@
     {
       "slug": "deciding-the-type-of-migration",
       "number": 3,
-      "title": "Deciding the Type of Card Program Migration",
+      "title": "Migration Type",
       "blocks": [
         {
           "type": "html",
@@ -91,7 +91,7 @@
     {
       "slug": "migration-approach",
       "number": 4,
-      "title": "Migration Approach: Phased, Parallel, or Big Bang",
+      "title": "The Approach",
       "blocks": [
         {
           "type": "html",
@@ -102,7 +102,7 @@
     {
       "slug": "choosing-a-new-processor",
       "number": 5,
-      "title": "What to Look for in a New Issuer Processor",
+      "title": "Choosing a Processor",
       "blocks": [
         {
           "type": "html",
@@ -113,7 +113,7 @@
     {
       "slug": "key-steps-in-migration",
       "number": 6,
-      "title": "Key Steps in Card Program Migration",
+      "title": "Key Steps",
       "blocks": [
         {
           "type": "html",
@@ -134,7 +134,7 @@
     {
       "slug": "wallet-tokens",
       "number": 7,
-      "title": "What Happens to Wallet Tokens When You Migrate Your Card Program?",
+      "title": "Wallet Tokens",
       "blocks": [
         {
           "type": "html",
@@ -151,7 +151,7 @@
     {
       "slug": "cardholder-communication",
       "number": 8,
-      "title": "What Cardholders Need to Be Told and When",
+      "title": "Notifying Cardholders",
       "blocks": [
         {
           "type": "html",
@@ -162,7 +162,7 @@
     {
       "slug": "post-migration-checklist",
       "number": 9,
-      "title": "Post-Migration Checklist: What to Monitor After Cutover",
+      "title": "Post-Migration",
       "blocks": [
         {
           "type": "html",

@@ -413,6 +413,46 @@ const renderSectionTabs = (data) => {
   // programmatic scrollActiveIntoView above).
   inner.addEventListener('scroll', updateOverflowHints, { passive: true, signal });
 
+  /* Edge auto-scroll: while the pointer rests in the left/right hot-zone of
+     the strip (the same band the chevron marks), scroll that way one frame at
+     a time, stopping at the bounds or when the pointer leaves. */
+  const EDGE_ZONE = 60; // px hot-zone at each end
+  const EDGE_SPEED = 9; // px per frame
+  let autoDir = 0;
+  let autoRaf = 0;
+  const stepAuto = () => {
+    autoRaf = 0;
+    if (!autoDir) return;
+    const max = inner.scrollWidth - inner.clientWidth;
+    inner.scrollLeft = Math.max(0, Math.min(max, inner.scrollLeft + autoDir * EDGE_SPEED));
+    if ((autoDir < 0 && inner.scrollLeft <= 0) || (autoDir > 0 && inner.scrollLeft >= max)) {
+      autoDir = 0;
+      inner.removeAttribute('data-edge-scroll');
+      return;
+    }
+    autoRaf = requestAnimationFrame(stepAuto);
+  };
+  const setAuto = (dir) => {
+    if (dir === autoDir) return;
+    autoDir = dir;
+    if (dir) {
+      inner.dataset.edgeScroll = dir > 0 ? 'right' : 'left';
+      if (!autoRaf) autoRaf = requestAnimationFrame(stepAuto);
+    } else {
+      inner.removeAttribute('data-edge-scroll');
+    }
+  };
+  inner.addEventListener('mousemove', (e) => {
+    const max = inner.scrollWidth - inner.clientWidth;
+    if (max <= 0) { setAuto(0); return; }
+    const r = inner.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    if (x > r.width - EDGE_ZONE && inner.scrollLeft < max - 1) setAuto(1);
+    else if (x < EDGE_ZONE && inner.scrollLeft > 1) setAuto(-1);
+    else setAuto(0);
+  }, { signal });
+  inner.addEventListener('mouseleave', () => setAuto(0), { signal });
+
   // Initial position — wait for layout/fonts so the indicator measurement
   // is accurate. requestAnimationFrame catches the first layout pass.
   requestAnimationFrame(() => { setActive(sections[0].slug); updateOverflowHints(); });
