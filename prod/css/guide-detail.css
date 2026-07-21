@@ -74,6 +74,35 @@ ul { list-style: none; }
   padding: 0 var(--page-gutter);
 }
 
+/* Edge fade hints — surface only when the strip actually overflows its
+   scroller (data-overflow-left / data-overflow-right set in guideDetail.js),
+   so short guides that fit show no fade. Signals the last/first tab scrolls
+   instead of the label being hard-clipped at the edge. */
+.guide-section-tabs::before,
+.guide-section-tabs::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 46px;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.guide-section-tabs::before {
+  left: var(--page-gutter);
+  background: linear-gradient(90deg, var(--guide-tab-bg) 35%, rgba(237, 239, 232, 0));
+  border-radius: 14px 0 0 14px;
+}
+.guide-section-tabs::after {
+  right: var(--page-gutter);
+  background: linear-gradient(270deg, var(--guide-tab-bg) 35%, rgba(237, 239, 232, 0));
+  border-radius: 0 14px 14px 0;
+}
+.guide-section-tabs[data-overflow-left='true']::before { opacity: 1; }
+.guide-section-tabs[data-overflow-right='true']::after { opacity: 1; }
+
 .guide-section-tabs-inner {
   position: relative;
   display: flex;

@@ -334,6 +334,33 @@ const renderSectionTabs = (data) => {
     indicator.style.width = `${tab.offsetWidth}px`;
   };
 
+  /* Toggle the edge fade hints (see guide-detail.css) based on how far the
+     strip is scrolled, so a clipped first/last tab reads as "scrolls" rather
+     than "cut off". No-op visually when the strip fits (max <= 0). */
+  const updateOverflowHints = () => {
+    const max = inner.scrollWidth - inner.clientWidth;
+    tabsEl.dataset.overflowLeft = inner.scrollLeft > 2 ? 'true' : 'false';
+    tabsEl.dataset.overflowRight = max > 2 && inner.scrollLeft < max - 2 ? 'true' : 'false';
+  };
+
+  /* Keep the active tab within the visible scroll window so its label is
+     never stranded (and clipped) at an edge as the reader moves through the
+     article. */
+  const scrollActiveIntoView = (slug) => {
+    const tab = tabsBySlug.get(slug);
+    if (!tab) return;
+    const pad = 16;
+    const left = tab.offsetLeft;
+    const right = left + tab.offsetWidth;
+    const viewLeft = inner.scrollLeft;
+    const viewRight = viewLeft + inner.clientWidth;
+    if (left < viewLeft + pad) {
+      inner.scrollTo({ left: Math.max(0, left - pad), behavior: 'smooth' });
+    } else if (right > viewRight - pad) {
+      inner.scrollTo({ left: right - inner.clientWidth + pad, behavior: 'smooth' });
+    }
+  };
+
   const setActive = (slug) => {
     if (slug === currentSlug) return;
     currentSlug = slug;
@@ -341,6 +368,7 @@ const renderSectionTabs = (data) => {
       tab.classList.toggle('is-active', s === slug);
     });
     positionIndicator(slug);
+    scrollActiveIntoView(slug);
   };
 
   sections.forEach((section, idx) => {
@@ -381,11 +409,15 @@ const renderSectionTabs = (data) => {
   tabsEl.innerHTML = '';
   tabsEl.appendChild(inner);
 
+  // Update the edge fade hints as the strip is scrolled (drag, wheel, or the
+  // programmatic scrollActiveIntoView above).
+  inner.addEventListener('scroll', updateOverflowHints, { passive: true, signal });
+
   // Initial position — wait for layout/fonts so the indicator measurement
   // is accurate. requestAnimationFrame catches the first layout pass.
-  requestAnimationFrame(() => setActive(sections[0].slug));
+  requestAnimationFrame(() => { setActive(sections[0].slug); updateOverflowHints(); });
   if (document.fonts?.ready?.then) {
-    document.fonts.ready.then(() => positionIndicator(currentSlug || sections[0].slug));
+    document.fonts.ready.then(() => { positionIndicator(currentSlug || sections[0].slug); updateOverflowHints(); });
   }
 
   // Reposition the indicator on viewport resize so it tracks tab widths.
@@ -394,6 +426,7 @@ const renderSectionTabs = (data) => {
     if (resizeRaf) cancelAnimationFrame(resizeRaf);
     resizeRaf = requestAnimationFrame(() => {
       if (currentSlug) positionIndicator(currentSlug);
+      updateOverflowHints();
     });
   }, { signal });
 
