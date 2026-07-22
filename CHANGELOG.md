@@ -4,6 +4,27 @@ All notable changes to the Panasa website are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [3.2] - 2026-07-22
+
+### Added
+- 3 new case studies: Accelovate ("Launch Your Fintech in Weeks"), Cleva Cards ("Building Safer Payments for Vulnerable Cardholders"), and a global issuer processor's EKS migration ("Modernising a Global Issuer Processor: From Monolith to Amazon EKS"), each with bespoke cover artwork
+- New guide: "The Ultimate Guide to Migrating Your Card Program"
+- New insight: "Should You Build or Buy a Card Issuing Platform in 2026?" (with build-vs-buy comparison tables)
+- New blog post: "Tokenisation for Issuers"
+- New home page sections: Payments Knowledge Hub and FAQ
+- Shared `feature-card` component unifying the Resources list "featured card" and every blog/guide/insight/case-study detail-page hero, with per-category background art (blog/guide/insight)
+- Bespoke cover artwork across existing blog, guide, insight, and case-study articles
+- Guide table-of-contents strip: sticky scroll-spy tabs with an edge-fade + directional chevron scroll cue, active-tab auto-scroll-into-view, and dedicated mobile swipe support (hover-only auto-scroll is now gated off touch devices so it never fights a finger swipe)
+- `AGENTS.md` consolidated as the single canonical source of project rules and context
+
+### Changed
+- Case Studies home page section redesigned (green card, cover image, date · read-time, no metrics)
+- Home page section order: Engagement Models moved before Testimonials; testimonial logos refreshed
+- Detail-page newsletter sections unified to a single background treatment across blog, guide, and case-study pages
+- Payments Knowledge Hub heading now stacks ("Payments" / "Knowledge Hub" on separate lines)
+- Mobile case-studies carousel: card height now equalised across slides (previously varied with title line count) and a visible gap restored between cards while swiping
+- Migration guide's section titles shortened for a cleaner table-of-contents strip
+
 ## [Unreleased]
 
 ### Added
