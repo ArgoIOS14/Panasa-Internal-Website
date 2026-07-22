@@ -230,28 +230,95 @@
             </p>
           </div>
 
-          <div class="challenge-grid" data-animate>
-            <article class="challenge-card">
-              <span class="challenge-number">01</span>
-              <h3>Scale breaks manual processes</h3>
-              <p>
-                What works at a million transactions falls apart at ten million. Exception handling, edge cases, and reconciliation gaps multiply faster than teams can patch them.
-              </p>
-            </article>
-            <article class="challenge-card">
-              <span class="challenge-number">02</span>
-              <h3>Compliance slows every release</h3>
-              <p>
-                PCI recertification, scheme mandate updates, FCA reporting changes &mdash; each one adds weeks to your release cycle when bolted on at the end instead of built in from the start.
-              </p>
-            </article>
-            <article class="challenge-card">
-              <span class="challenge-number">03</span>
-              <h3>Tech debt compounds quietly</h3>
-              <p>
-                Legacy code written three years ago now consumes most of your sprint capacity. New features get squeezed into whatever time remains, and quality suffers.
-              </p>
-            </article>
+          <div class="svc-problem" data-animate>
+            <div class="svc-problem-left">
+              <div class="svc-acc">
+                <div class="svc-acc-item is-open" data-i="0">
+                  <button class="svc-acc-trigger" type="button">
+                    <span class="svc-acc-check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#073c28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg>
+                    </span>
+                    <span class="challenge-number">01</span>
+                    <h3>Scale breaks manual processes</h3>
+                  </button>
+                  <div class="svc-acc-panel">
+                    <p>What works at a million transactions falls apart at ten million. Exception handling, edge cases, and reconciliation gaps multiply faster than teams can patch them.</p>
+                  </div>
+                  <div class="svc-acc-rule"></div>
+                </div>
+                <div class="svc-acc-item" data-i="1">
+                  <button class="svc-acc-trigger" type="button">
+                    <span class="svc-acc-check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#073c28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg>
+                    </span>
+                    <span class="challenge-number">02</span>
+                    <h3>Compliance slows every release</h3>
+                  </button>
+                  <div class="svc-acc-panel">
+                    <p>PCI recertification, scheme mandate updates, FCA reporting changes &mdash; each one adds weeks to your release cycle when bolted on at the end instead of built in from the start.</p>
+                  </div>
+                  <div class="svc-acc-rule"></div>
+                </div>
+                <div class="svc-acc-item" data-i="2">
+                  <button class="svc-acc-trigger" type="button">
+                    <span class="svc-acc-check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#073c28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg>
+                    </span>
+                    <span class="challenge-number">03</span>
+                    <h3>Tech debt compounds quietly</h3>
+                  </button>
+                  <div class="svc-acc-panel">
+                    <p>Legacy code written three years ago now consumes most of your sprint capacity. New features get squeezed into whatever time remains, and quality suffers.</p>
+                  </div>
+                  <div class="svc-acc-rule"></div>
+                </div>
+              </div>
+              <div class="svc-dots" aria-hidden="true">
+                <span class="svc-dot" data-i="0"><i></i></span>
+                <span class="svc-dot" data-i="1"><i></i></span>
+                <span class="svc-dot" data-i="2"><i></i></span>
+              </div>
+            </div>
+
+            <div class="svc-viz-card">
+              <div class="svc-viz-frame" data-f="0">
+                <svg class="svc-viz-svg" viewBox="0 0 420 290" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Transaction volume outgrowing manual capacity">
+                  <text class="svc-vz-label" x="6" y="20">Transaction volume vs. manual capacity</text>
+                  <line class="svc-vz-cap" x1="28" y1="150" x2="412" y2="150"/>
+                  <text class="svc-vz-caplbl" x="412" y="144" text-anchor="end">manual capacity</text>
+                  <g class="svc-vz-bars"></g>
+                  <line class="svc-vz-axis" x1="28" y1="250" x2="412" y2="250"/>
+                  <g class="svc-vz-chip" opacity="0">
+                    <rect x="226" y="30" width="186" height="26" rx="7"/>
+                    <text x="244" y="47">reconciliation gaps multiply</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="svc-viz-frame" data-f="1">
+                <svg class="svc-viz-svg" viewBox="0 0 420 290" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Compliance gates extend the release timeline">
+                  <text class="svc-vz-label" x="6" y="20">Release timeline</text>
+                  <text class="svc-vz-sub" x="6" y="86">Built in from the start</text>
+                  <rect class="svc-vz-track" x="6" y="98" width="270" height="20" rx="6"/>
+                  <rect class="svc-vz-fill-g" x="6" y="98" width="0" height="20" rx="6"/>
+                  <text class="svc-vz-sub" x="6" y="176">Bolted on at the end</text>
+                  <rect class="svc-vz-track" x="6" y="188" width="406" height="20" rx="6"/>
+                  <rect class="svc-vz-fill-d" x="6" y="188" width="0" height="20" rx="6"/>
+                  <g class="svc-vz-gates"></g>
+                  <text class="svc-vz-delay" x="412" y="244" text-anchor="end" opacity="0">+6 weeks</text>
+                </svg>
+              </div>
+              <div class="svc-viz-frame" data-f="2">
+                <svg class="svc-viz-svg" viewBox="0 0 420 290" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Maintenance crowding out feature work over sprints">
+                  <text class="svc-vz-label" x="6" y="20">Sprint capacity over time</text>
+                  <rect class="svc-vz-key-g" x="266" y="8" width="11" height="11" rx="3"/><text class="svc-vz-key" x="283" y="17">feature work</text>
+                  <rect class="svc-vz-key-d" x="266" y="25" width="11" height="11" rx="3"/><text class="svc-vz-key" x="283" y="34">maintenance</text>
+                  <g class="svc-vz-stacks"></g>
+                  <polyline class="svc-vz-trend" points=""/>
+                  <line class="svc-vz-axis" x1="28" y1="250" x2="412" y2="250"/>
+                  <text class="svc-vz-end" x="412" y="272" text-anchor="end" opacity="0">features squeezed out</text>
+                </svg>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -270,30 +337,36 @@
           </div>
 
           <div class="domains-grid" data-animate>
-            <div class="process-grid">
-              <ol class="process-flow" aria-label="Fintech engineering process">
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">1</span>
+            <div class="svc-flow">
+              <div class="svc-flow-line" aria-hidden="true">
+                <svg class="svc-flow-connector" viewBox="0 0 1000 4" preserveAspectRatio="none">
+                  <line class="svc-flow-track" x1="100" y1="2" x2="900" y2="2" />
+                  <line class="svc-flow-flow" x1="100" y1="2" x2="900" y2="2" />
+                </svg>
+              </div>
+              <ol class="svc-flow-track-list" aria-label="Fintech engineering process">
+                <li class="svc-flow-step">
+                  <span class="svc-flow-node" data-n="0"><span aria-hidden="true">1</span></span>
                   <strong>Scope</strong>
                   <p>Problem framing, acceptance criteria, scheme rules mapped to requirements.</p>
                 </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">2</span>
+                <li class="svc-flow-step">
+                  <span class="svc-flow-node" data-n="1"><span aria-hidden="true">2</span></span>
                   <strong>Prototype</strong>
                   <p>Competing approaches built on separate branches. Working code in days, not weeks.</p>
                 </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">3</span>
+                <li class="svc-flow-step">
+                  <span class="svc-flow-node" data-n="2"><span aria-hidden="true">3</span></span>
                   <strong>Validate</strong>
                   <p>Automated linting, security scans, type checks. Issues caught and fixed before review.</p>
                 </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">4</span>
+                <li class="svc-flow-step">
+                  <span class="svc-flow-node" data-n="3"><span aria-hidden="true">4</span></span>
                   <strong>Test</strong>
                   <p>AI-generated test suites from acceptance criteria. 80%+ coverage enforced at the pipeline level.</p>
                 </li>
-                <li class="process-flow-item">
-                  <span class="process-flow-index" aria-hidden="true">5</span>
+                <li class="svc-flow-step">
+                  <span class="svc-flow-node" data-n="4"><span aria-hidden="true">5</span></span>
                   <strong>Deploy</strong>
                   <p>Progressive rollout with canary releases, automated rollback triggers, and full observability.</p>
                 </li>
@@ -316,51 +389,187 @@
             </p>
           </div>
 
-          <div class="engineering-build-grid" data-animate>
-            <article class="engineering-build-column">
-              <h3>Payment &amp; Issuing</h3>
-              <ul class="engineering-build-list">
-                <li>Card issuing and programme management</li>
-                <li>Authorisation and payment processing engines</li>
-                <li>Visa and Mastercard scheme integrations</li>
-                <li>Tokenisation and digital wallet enablement</li>
-                <li>Open banking and embedded finance APIs</li>
-              </ul>
-            </article>
-            <article class="engineering-build-column">
-              <h3>Platform Architecture</h3>
-              <ul class="engineering-build-list">
-                <li>API-first microservices for composability</li>
-                <li>Event-driven workflows for real-time processing</li>
-                <li>Multi-tenant design for programme managers</li>
-                <li>Zero-trust partner integrations</li>
-              </ul>
-            </article>
+          <div class="svc-build" data-animate>
+            <div class="svc-build-grid svc-build-grid-top">
+              <article class="svc-build-card" data-viz="issuing">
+                <div class="svc-build-viz">
+                  <svg class="svc-scene" viewBox="0 0 300 210" role="img" aria-label="Card issuing flow">
+                    <defs><clipPath id="i-clip"><rect x="20" y="66" width="128" height="80" rx="10"/></clipPath></defs>
+                    <path class="svc-conn" id="i-p1" d="M148,106 C182,106 182,64 210,64"/>
+                    <path class="svc-conn" id="i-p2" d="M148,106 L210,106"/>
+                    <path class="svc-conn" id="i-p3" d="M148,106 C182,106 182,148 210,148"/>
+                    <g class="svc-cardmock">
+                      <rect class="svc-card-face" x="20" y="66" width="128" height="80" rx="10"/>
+                      <rect class="svc-cardchip" x="34" y="82" width="20" height="15" rx="3"/>
+                      <text class="svc-cardnum" x="34" y="128">3292 8765 1272</text>
+                      <text class="svc-cardexp" x="34" y="140">12 / 30</text>
+                      <path class="svc-wave" d="M118,80 a10,10 0 0 1 10,10"/>
+                      <path class="svc-wave" d="M114,76 a15,15 0 0 1 15,15"/>
+                      <path class="svc-wave" d="M110,72 a20,20 0 0 1 20,20"/>
+                      <g clip-path="url(#i-clip)"><rect class="svc-sheen" x="4" y="66" width="22" height="80"/></g>
+                    </g>
+                    <circle class="svc-endnode" cx="210" cy="64" r="13"/>
+                    <circle class="svc-endnode" cx="210" cy="106" r="13"/>
+                    <circle class="svc-endnode" cx="210" cy="148" r="13"/>
+                    <text class="svc-nodelbl" x="230" y="67">Activate</text>
+                    <text class="svc-nodelbl" x="230" y="109">Control</text>
+                    <text class="svc-nodelbl" x="230" y="151">Manage</text>
+                  </svg>
+                </div>
+                <div class="svc-build-body">
+                  <h3>Payment &amp; Issuing</h3>
+                  <p>Create and manage modern card programmes across multiple markets.</p>
+                </div>
+              </article>
+
+              <article class="svc-build-card" data-viz="processing">
+                <div class="svc-build-viz">
+                  <svg class="svc-scene" viewBox="0 0 300 210" role="img" aria-label="Payment processing pipeline">
+                    <path class="svc-conn" id="pr-p1" d="M76,105 L118,105"/>
+                    <path class="svc-conn" id="pr-p2" d="M182,105 L224,105"/>
+                    <rect class="svc-blocknode" x="36" y="87" width="40" height="36" rx="9"/>
+                    <text class="svc-nodelbl" x="56" y="140" text-anchor="middle">Authorize</text>
+                    <circle class="svc-proc" cx="150" cy="105" r="28"/>
+                    <circle class="svc-ring" cx="150" cy="105" r="35"/>
+                    <text class="svc-nodelbl" x="150" y="156" text-anchor="middle">Process</text>
+                    <rect class="svc-blocknode" x="224" y="87" width="40" height="36" rx="9"/>
+                    <text class="svc-nodelbl" x="244" y="140" text-anchor="middle">Settle</text>
+                  </svg>
+                </div>
+                <div class="svc-build-body">
+                  <h3>Payment Processing</h3>
+                  <p>Authorisation flows and transaction processing at scale.</p>
+                </div>
+              </article>
+
+              <article class="svc-build-card" data-viz="openbanking">
+                <div class="svc-build-viz">
+                  <svg class="svc-scene" viewBox="0 0 300 210" role="img" aria-label="Open banking connectivity">
+                    <circle class="svc-radar" cx="150" cy="105" r="28"/>
+                    <circle class="svc-radar" cx="150" cy="105" r="48"/>
+                    <circle class="svc-radar" cx="150" cy="105" r="68"/>
+                    <circle class="svc-radar" cx="150" cy="105" r="88"/>
+                    <path class="svc-conn" id="ob-p1" d="M62,105 L104,105"/>
+                    <path class="svc-conn" id="ob-p2" d="M196,105 L238,105"/>
+                    <rect class="svc-oblabel-bg" x="106" y="94" width="88" height="24" rx="12"/>
+                    <text class="svc-oblabel" x="150" y="110" text-anchor="middle">Open Banking</text>
+                    <rect class="svc-blocknode" x="26" y="88" width="34" height="34" rx="9"/>
+                    <rect class="svc-blocknode" x="240" y="88" width="34" height="34" rx="9"/>
+                  </svg>
+                </div>
+                <div class="svc-build-body">
+                  <h3>Open Banking</h3>
+                  <p>Secure connectivity across banks, partners, and ecosystems.</p>
+                </div>
+              </article>
+            </div>
+
+            <div class="svc-build-grid svc-build-grid-bottom">
+              <article class="svc-build-card svc-build-card-wide" data-viz="ledger">
+                <div class="svc-build-viz">
+                  <svg class="svc-scene" viewBox="0 0 520 200" role="img" aria-label="Ledger and core banking">
+                    <g class="svc-chip"><rect x="4" y="40" width="152" height="30" rx="15"/><text x="24" y="59">Audit-ready records</text></g>
+                    <g class="svc-chip"><rect x="4" y="84" width="152" height="30" rx="15"/><text x="24" y="103">Double-entry ledger</text></g>
+                    <g class="svc-chip"><rect x="4" y="128" width="152" height="30" rx="15"/><text x="24" y="147">Multi-currency support</text></g>
+                    <rect class="svc-ledger-bg" x="210" y="18" width="300" height="164" rx="12"/>
+                    <rect class="svc-rowhl" x="216" y="46" width="288" height="30" rx="4"/>
+                    <text class="svc-th" x="228" y="40">DATE</text>
+                    <text class="svc-th" x="292" y="40">DESCRIPTION</text>
+                    <text class="svc-th svc-th-r" x="500" y="40" text-anchor="end">AMOUNT</text>
+                    <text class="svc-td" x="228" y="66">Jun 26</text>
+                    <text class="svc-td" x="292" y="66">Card Authorization</text>
+                    <text class="svc-td svc-td-g" x="500" y="66" text-anchor="end">1,25,000</text>
+                    <text class="svc-td" x="228" y="100">Jun 26</text>
+                    <text class="svc-td" x="292" y="100">Capture</text>
+                    <text class="svc-td" x="500" y="100" text-anchor="end">1,25,000</text>
+                    <text class="svc-td" x="228" y="134">Jun 26</text>
+                    <text class="svc-td" x="292" y="134">Merchant Payout</text>
+                    <text class="svc-td svc-td-g" x="500" y="134" text-anchor="end">2,00,000</text>
+                  </svg>
+                </div>
+                <div class="svc-build-body">
+                  <h3>Ledger &amp; Core Banking</h3>
+                  <p>The financial system of record powering balances, postings, and the full transaction lifecycle.</p>
+                </div>
+              </article>
+
+              <article class="svc-build-card svc-build-card-wide" data-viz="settlement">
+                <div class="svc-build-viz">
+                  <svg class="svc-scene" viewBox="0 0 520 200" role="img" aria-label="Settlement and reconciliation">
+                    <path class="svc-conn" id="st-s1" d="M132,54 C220,54 235,100 288,100"/>
+                    <path class="svc-conn" id="st-s2" d="M132,100 L288,100"/>
+                    <path class="svc-conn" id="st-s3" d="M132,146 C220,146 235,100 288,100"/>
+                    <path class="svc-conn" id="st-r1" d="M352,100 C395,100 405,66 388,66"/>
+                    <path class="svc-conn" id="st-r2" d="M352,100 C395,100 405,134 388,134"/>
+                    <g class="svc-pill-s"><rect x="20" y="40" width="112" height="28" rx="14"/><text x="76" y="58" text-anchor="middle">Schemes</text></g>
+                    <g class="svc-pill-s"><rect x="20" y="86" width="112" height="28" rx="14"/><text x="76" y="104" text-anchor="middle">Banks</text></g>
+                    <g class="svc-pill-s"><rect x="20" y="132" width="112" height="28" rx="14"/><text x="76" y="150" text-anchor="middle">Acquirers</text></g>
+                    <circle class="svc-proc" cx="320" cy="100" r="28"/>
+                    <circle class="svc-ring" cx="320" cy="100" r="35"/>
+                    <g class="svc-pill-s"><rect x="388" y="52" width="122" height="28" rx="14"/><text x="449" y="70" text-anchor="middle">Merchant A/C</text></g>
+                    <g class="svc-pill-s"><rect x="388" y="120" width="122" height="28" rx="14"/><text x="449" y="138" text-anchor="middle">Reports &amp; Exports</text></g>
+                  </svg>
+                </div>
+                <div class="svc-build-body">
+                  <h3>Settlement &amp; Reconciliation</h3>
+                  <p>Automate settlement, reconciliation, and reporting across schemes, banks, and payment partners.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="svc-timeline" data-animate>
+          <div class="section-head section-head-dark" data-animate>
+            <div class="section-title">
+              <span class="section-kicker">What Makes Delivery Faster</span>
+              <h2>
+                <em>Same Scope</em>
+                <span>Half the Timeline</span>
+              </h2>
+            </div>
+            <p>
+              AI-accelerated engineering collapses build and review without skipping quality gates.
+            </p>
           </div>
 
-          <div class="engineering-build-divider" data-animate></div>
+          <div class="svc-tl" data-animate>
+            <div class="svc-tl-axis">
+              <span style="left: 0%">0m</span>
+              <span style="left: 33.33%">2m</span>
+              <span style="left: 66.66%">4m</span>
+              <span class="svc-tl-end" style="left: 100%">6m</span>
+            </div>
+            <div class="svc-tl-rows">
+              <div class="svc-tl-grid" style="left: 0%"></div>
+              <div class="svc-tl-grid" style="left: 33.33%"></div>
+              <div class="svc-tl-grid" style="left: 66.66%"></div>
+              <div class="svc-tl-grid" style="left: 100%"></div>
 
-          <div class="engineering-build-footer" data-animate>
-            <span class="engineering-build-kicker">What Makes Delivery Faster</span>
-            <div class="engineering-build-cards">
-              <article class="engineering-build-card">
-                <h3>Specs generated from requirements</h3>
-                <p>
-                  Business requirements become implementation-ready specs with automated consistency checks across service boundaries. Less ambiguity, fewer rounds of clarification.
-                </p>
-              </article>
-              <article class="engineering-build-card">
-                <h3>Tests written alongside features</h3>
-                <p>
-                  Test suites are generated in parallel with code, not queued after it. The QA bottleneck that delays most fintech releases doesn't exist in our process.
-                </p>
-              </article>
-              <article class="engineering-build-card">
-                <h3>Scheme playbooks, not guesswork</h3>
-                <p>
-                  We maintain runbooks for Visa and Mastercard certification, partner onboarding sequences, and compliance checkpoints. Repeatable process, fewer surprises.
-                </p>
-              </article>
+              <div class="svc-tl-rowlabel">
+                <span class="svc-tl-name">Traditional Delivery</span>
+                <span class="svc-tl-dur">~ 6 Months</span>
+              </div>
+              <div class="svc-tl-bar svc-tl-bar-trad">
+                <div class="svc-tl-seg-t" style="width: 16%">Scope</div>
+                <div class="svc-tl-seg-t" style="width: 44%">Build</div>
+                <div class="svc-tl-seg-t" style="width: 22%">Review</div>
+                <div class="svc-tl-seg-t" style="width: 18%">Ship</div>
+              </div>
+
+              <div class="svc-tl-rowlabel">
+                <span class="svc-tl-name">AI-Accelerated <span class="svc-tl-brand">&bull; Panasa</span></span>
+                <span class="svc-tl-dur svc-tl-dur-g">~ 3 Months</span>
+              </div>
+              <div class="svc-tl-aiwrap">
+                <div class="svc-tl-faster" style="left: 50%; width: 50%"><span aria-hidden="true">&#9889;</span> 50% Faster Delivery</div>
+                <div class="svc-tl-bar svc-tl-bar-ai" style="width: 50%">
+                  <div class="svc-tl-seg scope" style="width: 30%">Scope</div>
+                  <div class="svc-tl-seg build" style="width: 32%">Build</div>
+                  <div class="svc-tl-seg review" style="width: 20%">Review</div>
+                  <div class="svc-tl-seg ship" style="width: 18%">Ship</div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

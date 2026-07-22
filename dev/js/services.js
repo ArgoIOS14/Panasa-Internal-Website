@@ -1,4 +1,5 @@
 import { initScrollAnimations } from './Home scenes/components/animations.js';
+import { initServiceAnimations } from './service-animations.js';
 import './smooth-scroll.js';
 import { loadContent } from './Home scenes/data/loadContent.js';
 import { renderFooter } from './Home scenes/sections/footer.js';
@@ -304,7 +305,9 @@ const applyAIAcceleratedPageCopy = () => {
     );
     setText(challengeSection.querySelector('.section-head p'), copy.challenge.summary);
 
-    const cards = challengeSection.querySelectorAll('.challenge-card');
+    // The Problem section is now an accordion (.svc-acc-item) rather than
+    // static cards; copy still hydrates into each item's number/h3/p.
+    const cards = challengeSection.querySelectorAll('.svc-acc-item, .challenge-card');
     copy.challenge.cards.forEach((item, index) => {
       const card = cards[index];
       if (!card) return;
@@ -972,103 +975,17 @@ const applyServiceMode = () => {
     setSafeHTML(title, `<em>${AI_ACCELERATED_COPY.howWeWork.title[0]}</em><span>${AI_ACCELERATED_COPY.howWeWork.title[1]}</span>`);
     summary.textContent = AI_ACCELERATED_COPY.howWeWork.summary;
 
-    setSafeHTML(content, `
-      <div class="process-grid">
-        <ol class="process-flow" aria-label="Fintech engineering process">
-          <li class="process-flow-item">
-            <span class="process-flow-index" aria-hidden="true">1</span>
-            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[0].heading}</strong>
-            <p>${AI_ACCELERATED_COPY.howWeWork.stages[0].description}</p>
-          </li>
-          <li class="process-flow-item">
-            <span class="process-flow-index" aria-hidden="true">2</span>
-            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[1].heading}</strong>
-            <p>${AI_ACCELERATED_COPY.howWeWork.stages[1].description}</p>
-          </li>
-          <li class="process-flow-item">
-            <span class="process-flow-index" aria-hidden="true">3</span>
-            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[2].heading}</strong>
-            <p>${AI_ACCELERATED_COPY.howWeWork.stages[2].description}</p>
-          </li>
-          <li class="process-flow-item">
-            <span class="process-flow-index" aria-hidden="true">4</span>
-            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[3].heading}</strong>
-            <p>${AI_ACCELERATED_COPY.howWeWork.stages[3].description}</p>
-          </li>
-          <li class="process-flow-item">
-            <span class="process-flow-index" aria-hidden="true">5</span>
-            <strong>${AI_ACCELERATED_COPY.howWeWork.stages[4].heading}</strong>
-            <p>${AI_ACCELERATED_COPY.howWeWork.stages[4].description}</p>
-          </li>
-        </ol>
-      </div>
-    `);
-
+    // NOTE: The "How We Work" process flow and the "What We Build" payment-
+    // infrastructure grid are now rich, SVG-driven static markup authored
+    // directly in ai-accelerated-fintech-engineering.html and animated by
+    // js/service-animations.js (GSAP). The old setSafeHTML() template
+    // injection is intentionally NOT run for this mode: the sanitiser
+    // whitelist would strip the inline SVG. We only tag the sections here;
+    // their content lives in the HTML. Header copy still hydrates above and
+    // via applyAIAcceleratedPageCopy().
     initProcessSteps();
 
     deliverablesSection.classList.add('deliverables-section-engineering');
-    setSafeHTML(deliverablesSection, `
-      <div class="section-head section-head-dark" data-animate>
-        <div class="section-title">
-          <span class="section-kicker">${AI_ACCELERATED_COPY.whatWeBuild.kicker}</span>
-          <h2>
-            <em>${AI_ACCELERATED_COPY.whatWeBuild.title[0]}</em>
-            <span>${AI_ACCELERATED_COPY.whatWeBuild.title[1]}</span>
-          </h2>
-        </div>
-        <p>
-          ${AI_ACCELERATED_COPY.whatWeBuild.summary}
-        </p>
-      </div>
-
-      <div class="engineering-build-grid" data-animate>
-        <article class="engineering-build-column">
-          <h3>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].heading}</h3>
-          <ul class="engineering-build-list">
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[0]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[1]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[2]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[3]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[0].bullets[4]}</li>
-          </ul>
-        </article>
-        <article class="engineering-build-column">
-          <h3>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].heading}</h3>
-          <ul class="engineering-build-list">
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[0]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[1]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[2]}</li>
-            <li>${AI_ACCELERATED_COPY.whatWeBuild.columns[1].bullets[3]}</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="engineering-build-divider" data-animate></div>
-
-      <div class="engineering-build-footer" data-animate>
-        <span class="engineering-build-kicker">${AI_ACCELERATED_COPY.whatWeBuild.deliveryKicker}</span>
-        <div class="engineering-build-cards">
-          <article class="engineering-build-card">
-            <h3>${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[0].heading}</h3>
-            <p>
-              ${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[0].body}
-            </p>
-          </article>
-          <article class="engineering-build-card">
-            <h3>${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[1].heading}</h3>
-            <p>
-              ${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[1].body}
-            </p>
-          </article>
-          <article class="engineering-build-card">
-            <h3>${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[2].heading}</h3>
-            <p>
-              ${AI_ACCELERATED_COPY.whatWeBuild.deliveryCards[2].body}
-            </p>
-          </article>
-        </div>
-      </div>
-    `);
 
     roadmapSection.classList.add('roadmap-section-engineering');
     setSafeHTML(roadmapSection, `
@@ -1350,6 +1267,12 @@ const initServicesPage = async () => {
   }
   initFaqAccordion();
   initScrollAnimations();
+
+  if (getServiceMode() === 'ai-accelerated-fintech-engineering') {
+    // Fire-and-forget: loads GSAP lazily and animates the four bespoke sections.
+    // Must not block on the CMS fetch below, and no-ops if GSAP can't load.
+    initServiceAnimations();
+  }
 
   initEmailCapture({
     promptHeading: 'Want the full services breakdown?',
