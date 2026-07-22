@@ -440,8 +440,8 @@ export const renderBlogDetail = (data, resourcesData) => {
   const tagEl = document.querySelector('[data-blog-tag]');
   if (tagEl) {
     tagEl.textContent = data.tag || 'BLOG';
-    const tagCategory = data.category || (data.tag === 'BLOG' ? 'Blog' : (data.tag || 'Blog'));
-    tagEl.className = `resource-tag ${tagClassFor(tagCategory)}`;
+    // The eyebrow pill uses the shared .feature-card-eyebrow class only
+    tagEl.className = 'feature-card-eyebrow';
   }
   setText('[data-blog-title]', data.title);
   setText('[data-blog-date]', data.date);

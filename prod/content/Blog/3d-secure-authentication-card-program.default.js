@@ -3,7 +3,7 @@ window.DEFAULT_BLOG_CONTENT = {
     "title": "What Does 3D Secure Authentication Actually Mean for Your Card Program? | Panasa",
     "description": "How 3D Secure (3DS) works, the frictionless vs challenge decision, the liability shift, PSD2 SCA implications, and what card programs should actually be tuning.",
     "canonical": "https://www.panasatech.com/blog/3d-secure-authentication-card-program",
-    "ogImage": "https://www.panasatech.com/assets/blog-hero-desktop.webp"
+    "ogImage": "https://www.panasatech.com/assets/cover-3d-secure-authentication-card-program.webp"
   },
   "slug": "3d-secure-authentication-card-program",
   "tag": "BLOG",
@@ -11,9 +11,9 @@ window.DEFAULT_BLOG_CONTENT = {
   "date": "15 MAY 2026",
   "readTime": "8 MINS READ",
   "author": "Fathima Roshni",
-  "heroImage": "../assets/blog-hero-desktop.webp",
-  "heroImageTablet": "../assets/blog-hero-tablet.webp",
-  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImage": "../assets/cover-3d-secure-authentication-card-program.webp",
+  "heroImageTablet": "../assets/cover-3d-secure-authentication-card-program.webp",
+  "heroImageMobile": "../assets/cover-3d-secure-authentication-card-program.webp",
   "heroImageAlt": "3D Secure authentication illustration",
   "body": [
     {

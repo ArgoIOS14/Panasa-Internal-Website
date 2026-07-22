@@ -996,6 +996,7 @@ section {
   border-radius: 16px;
   overflow: hidden;
   isolation: isolate;
+  background: #0c3b2e url('../assets/case-study-card-bg.webp') center / cover no-repeat;
   transition:
     transform var(--motion-duration-md) var(--motion-ease-standard),
     box-shadow var(--motion-duration-md) ease;
@@ -1003,44 +1004,71 @@ section {
 
 .results-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 42px rgba(10, 36, 28, 0.12);
-}
-
-.results-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--case-slide-bg, url('../assets/case-results-visual.svg')) 54% center / cover no-repeat;
-  z-index: 0;
-  transform: scale(1.03);
-  transform-origin: center;
+  box-shadow: 0 24px 42px rgba(10, 36, 28, 0.18);
 }
 
 .results-copy {
   position: relative;
   z-index: 1;
-  width: min(100%, 410px);
+  width: min(100%, 430px);
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 38px 0 26px 30px;
+  padding: 40px 24px 32px 38px;
   box-sizing: border-box;
 }
 
 .results-copy h3 {
   max-width: 392px;
-  font-size: clamp(1.2rem, 1.55vw, 1.58rem);
+  font-size: clamp(1.25rem, 1.7vw, 1.72rem);
   line-height: 1.16;
-  letter-spacing: -0.04em;
-  margin-bottom: 10px;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.results-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 22px;
+}
+
+.results-meta-dot {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.results-visual {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.results-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
 }
 
 .results-copy p {
   max-width: 334px;
   font-size: 0.86rem;
   line-height: 1.48;
-  color: #516d61;
+  color: rgba(255, 255, 255, 0.78);
   margin-bottom: 20px;
 }
 
@@ -1070,15 +1098,14 @@ section {
   color: #ffffff;
 }
 
+.results-cta {
+  padding: 11px 18px;
+  font-size: 0.78rem;
+  border-radius: 6px;
+}
+
 .results-cta::before {
-  content: '';
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  background:
-    radial-gradient(circle at 50% 50%, #111111 0 2px, transparent 2.1px),
-    #ffffff;
-  flex: 0 0 auto;
+  display: none;
 }
 
 .results-metrics {
@@ -1107,7 +1134,7 @@ section {
 }
 
 .testimonials {
-  background: #101010;
+  background: linear-gradient(180deg, #0c3d2e 0%, #06301f 100%);
   color: #fff;
   padding-top: 68px;
   padding-bottom: 68px;
@@ -1132,6 +1159,15 @@ section {
 
 .testimonials .section-title h2 span {
   color: #10b36a;
+}
+
+/* Keep the green "Fintech Leaders" line from wrapping in the split heading */
+.testimonials .section-title-split h2 {
+  max-width: none;
+}
+
+.testimonials .section-title-split h2 span {
+  white-space: nowrap;
 }
 
 .testimonials .section-title p {
@@ -1334,7 +1370,7 @@ section {
 }
 
 .engagement-card.featured {
-  background: var(--bg-dark);
+  background: linear-gradient(225deg, #1a8f5e 0%, #0c4a34 50%, #082e20 100%);
   color: #fff;
   box-shadow: 0 12px 24px rgba(10, 40, 30, 0.18);
 }
@@ -2084,8 +2120,20 @@ section {
     margin-bottom: 22px;
   }
 
+  /* Inset each card from the swipe track's edges so consecutive slides don't
+     touch — same idea as .services-slide's own padding-inline. */
   .slide {
-    padding: 0;
+    padding: 0 12px;
+  }
+
+  /* Mobile: let the case-study carousel fill the section content box (16px
+     gutters) instead of the --page-shell cap that leaves an extra 8px auto
+     margin (24px gutters). Matches the first section's card spacing/sizing.
+     Desktop is unaffected — the base .carousel max-width stays. */
+  .results .carousel {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .results-copy h3 {
@@ -2352,4 +2400,367 @@ section {
     flex-wrap: nowrap;
   }
 
+}
+
+/* ==========================================================================
+   PAYMENTS KNOWLEDGE HUB (Home) — dark section, 3 article cards
+   ========================================================================== */
+.knowledge-hub {
+  background: #0a0a0a;
+  color: #fff;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.knowledge-hub .section-title-split {
+  max-width: var(--page-shell);
+  margin: 0 auto 30px;
+  gap: 24px;
+}
+
+.knowledge-hub .section-title-split h2 {
+  color: #fff;
+  max-width: 340px;
+  font-size: clamp(2rem, 2.7vw, 2.8rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.knowledge-hub .section-title-split h2 span {
+  color: #10b36a;
+  display: block;
+}
+
+.knowledge-hub .section-title-split p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.knowledge-grid {
+  max-width: var(--page-shell);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.knowledge-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  color: inherit;
+  transition:
+    transform var(--motion-duration-md) var(--motion-ease-standard),
+    border-color var(--motion-duration-md) ease,
+    box-shadow var(--motion-duration-md) ease;
+}
+
+.knowledge-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(16, 179, 106, 0.5);
+  box-shadow: 0 20px 38px rgba(0, 0, 0, 0.28);
+}
+
+.knowledge-card-image {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.knowledge-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.knowledge-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 18px 20px;
+  flex: 1;
+}
+
+/* Resource tag pills (palette mirrored from resources.css — not loaded on Home) */
+.knowledge-hub .resource-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  width: max-content;
+}
+.knowledge-hub .resource-tag-case-study { background: #d5f3e3; color: #16ab6d; }
+.knowledge-hub .resource-tag-insights   { background: #ebdef9; color: #7b48be; }
+.knowledge-hub .resource-tag-blog        { background: #fde1d0; color: #f77a40; }
+.knowledge-hub .resource-tag-guide       { background: #d6e6fb; color: #2a8fde; }
+
+.knowledge-card-title {
+  font-size: 1.02rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0;
+}
+
+.knowledge-card-meta {
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.knowledge-card-read {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #10b36a;
+}
+
+.knowledge-card-read-arrow,
+.knowledge-cta-arrow {
+  font-size: 1.05em;
+  line-height: 1;
+  transition: transform var(--motion-duration-sm, 160ms) ease;
+}
+
+.knowledge-card:hover .knowledge-card-read-arrow {
+  transform: translateX(3px);
+}
+
+.knowledge-actions {
+  max-width: var(--page-shell);
+  margin: 30px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.knowledge-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   FREQUENTLY ASKED QUESTIONS (Home) — shared with Services sub-page UI element
+   ========================================================================== */
+.faq-section {
+  background: #151515;
+  color: #fff;
+  padding: 72px 24px 64px;
+}
+
+.faq-header {
+  max-width: var(--page-shell);
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.faq-header-title h2 {
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0;
+}
+
+.faq-header-title h2 span {
+  display: block;
+}
+
+.faq-header-title h2 em {
+  font-style: normal;
+  color: var(--accent-2);
+  display: block;
+}
+
+.faq-header > p {
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  padding-top: 8px;
+}
+
+.faq-list {
+  max-width: var(--page-shell);
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+}
+
+.faq-item {
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: transparent;
+}
+
+.faq-item.is-active {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.faq-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+}
+
+.faq-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.faq-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.faq-icon-vertical {
+  transition: opacity var(--motion-duration-panel) var(--motion-ease-standard);
+}
+
+.faq-item.is-active .faq-icon-vertical {
+  opacity: 0;
+}
+
+.faq-panel {
+  height: 0;
+  overflow: hidden;
+  transition: height var(--motion-duration-panel) var(--motion-ease-standard);
+}
+
+.faq-panel-inner {
+  padding: 0 18px 16px;
+}
+
+.faq-panel-inner p {
+  margin: 0;
+  max-width: 840px;
+  font-family: 'InterVariable', 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Light theme variant — same UI element on a white background (Home) */
+.faq-section-light {
+  background: #ffffff;
+}
+
+.faq-section-light .faq-header-title h2 {
+  color: #161616;
+}
+
+.faq-section-light .faq-header > p {
+  color: #51615a;
+}
+
+.faq-section-light .faq-item {
+  border-color: #e6e6e6;
+}
+
+.faq-section-light .faq-item.is-active {
+  background: #f6f8f7;
+}
+
+.faq-section-light .faq-toggle {
+  color: #161616;
+}
+
+.faq-section-light .faq-icon {
+  color: #51615a;
+}
+
+.faq-section-light .faq-panel-inner p {
+  color: #51615a;
+}
+
+/* ── Knowledge Hub + FAQ + Case-study responsive ───────────────────────── */
+@media (max-width: 900px) {
+  .knowledge-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .faq-header {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  /* Equalise card height across slides: titles wrap to 2 or 3 lines
+     depending on the case study, so a content-driven height (min-height:0)
+     made some cards taller than others. A shared min-height plus flex-grow
+     on the copy block absorbs the difference — the visual stays a fixed
+     height and the copy's own padding grows to fill the rest. */
+  .results-card {
+    height: auto;
+    min-height: 440px;
+    flex-direction: column;
+    border: none;
+  }
+  .results-copy {
+    width: 100%;
+    padding: 30px 26px 24px;
+    flex: 1 1 auto;
+  }
+  .results-visual {
+    width: 100%;
+    padding: 0 26px 28px;
+    min-height: 200px;
+    flex: 0 0 auto;
+  }
+  .results-visual img {
+    max-height: 240px;
+  }
+}
+
+@media (max-width: 640px) {
+  .knowledge-grid {
+    grid-template-columns: 1fr;
+  }
+  .knowledge-hub {
+    padding-top: 44px;
+    padding-bottom: 48px;
+  }
+  .faq-section {
+    padding: 44px 18px 48px;
+  }
+}
+
+/* Testimonials green background — higher specificity than .shared-testimonials */
+.testimonials.shared-testimonials {
+  background: linear-gradient(180deg, #0c3d2e 0%, #06301f 100%);
 }

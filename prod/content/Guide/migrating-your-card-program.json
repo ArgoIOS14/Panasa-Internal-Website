@@ -1,0 +1,199 @@
+{
+  "meta": {
+    "title": "The Ultimate Guide to Migrating Your Card Program | Panasa",
+    "description": "How to migrate a card portfolio to a new issuer processor without disrupting cardholders — migration types, approach, processor selection, and the post-cutover checklist.",
+    "canonical": "https://www.panasatech.com/guides/migrating-your-card-program",
+    "ogImage": "https://www.panasatech.com/assets/cover-migrating-your-card-program.webp"
+  },
+  "slug": "migrating-your-card-program",
+  "category": "Guide",
+  "tag": "GUIDE",
+  "title": "The Ultimate Guide to Migrating Your Card Program",
+  "titleHighlight": "Migrating Your Card Program",
+  "description": "Moving a card portfolio to a new issuer processor without disrupting cardholders — why programs migrate, the migration types, choosing a processor, and the post-cutover checklist.",
+  "date": "14 JUL 2026",
+  "readTime": "14 MINS READ",
+  "datePublished": "2026-07-14",
+  "dateModified": "2026-07-14",
+  "author": "Fathima Roshni",
+  "tags": [
+    "Card migration",
+    "Issuer processor",
+    "BIN migration",
+    "Wallet tokens",
+    "Card programs",
+    "Payments"
+  ],
+  "heroImage": "../assets/cover-migrating-your-card-program.webp",
+  "heroImageTablet": "../assets/cover-migrating-your-card-program.webp",
+  "heroImageMobile": "../assets/cover-migrating-your-card-program.webp",
+  "heroImageAlt": "A card program migrating cardholder data, BIN, and wallet tokens from an old issuer processor to a new one without disrupting cardholders",
+  "tocHeading": "On this page",
+  "introduction": {
+    "heading": "Introduction",
+    "blocks": [
+      {
+        "type": "html",
+        "content": "<p>Card program migration is the process of moving an existing portfolio of credit, debit and prepaid cards from one issuer processor to another while keeping the program running without any disruption. Depending on how the program was set up, it can also include migrating the BIN, the sponsor bank, or even the program manager layer.</p><p>It is a complex process as it touches every part of operations, and it carries real risk if not planned properly. The ultimate goal is to move over to a new processor with minimal disruption to cardholders and stakeholders.</p><p>This guide breaks down every stage of the process from ideation to execution. The starting point is understanding what drives a program to migrate, because the reason for moving shapes every decision that follows.</p>"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "slug": "why-card-programs-migrate",
+      "number": 1,
+      "title": "Why Programs Migrate",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>Card Program Migration is rarely triggered by a single event but some of the most common reasons include the following:</p><ul><li><strong>Scale:</strong> An issuer processor that worked well at 100K cards may not hold up at 50M. Latency may increase, API rate limits become a constant friction, and the support model would not have been built for that volume.</li><li><strong>Product limitations:</strong> Sometimes the current processor simply cannot support what the roadmap needs, whether that is virtual cards, real-time spend controls, or dynamic limits. In other cases, the integration timeline runs to a year or more. When that happens, migration becomes the only path forward.</li><li><strong>Regulatory and geographic expansion:</strong> When a brand enters a new market, the supporting processor must be licensed to operate in that market. Without that license, operating compliantly in a new region is not possible. Some programs migrate specifically to access a provider with the right regulatory footprint.</li><li><strong>Forced migration:</strong> Sometimes the decision is not voluntary. A processor exits a market, loses a licence, or gets acquired. This is the most difficult version because the timeline is set externally.</li><li><strong>Commercial pressure:</strong> As a program scales, the commercial terms with the current processor, including processing fees, revenue share arrangements, and minimum volume commitments, may no longer be competitive. In that case, migration is as much a financial decision as a technical one.</li></ul><p>Understanding the reason for migration matters because it determines the next set of options in front of the brand. For example, regulatory expansion comes with a fixed deadline. Commercial pressure allows more time to plan. Forced migration allows neither.</p>"
+        }
+      ]
+    },
+    {
+      "slug": "questions-to-ask-before-planning",
+      "number": 2,
+      "title": "Before You Start",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>These questions define the scope of the migration. Without clear answers, vendor conversations go nowhere.</p><ul><li><strong>What exactly is moving?</strong> Issuer processor only, or does it pull in the BIN, sponsor bank, or program manager layer? Switching processors while keeping the same bank may not require a BIN change at all. That distinction has significant implications for timeline and cardholder impact.</li><li><strong>What does the current processor own?</strong> Some processors hold the BIN on the program's behalf. Some have built dispute and chargeback integrations that exist only on their platform. Some have their own fraud monitoring systems and automated reconciliation engines. Everything that needs to be reconstructed or extracted should be identified before signing anything with a new provider.</li><li><strong>What are the contractual obligations?</strong> Notice periods, exit fees, and data portability clauses all need reviewing before any vendor conversations begin. A 90-day notice period combined with a six-month migration timeline means the current processor needs to be informed before due diligence on the replacement is finished.</li><li><strong>How cooperative will the current processor be?</strong> If the incumbent will not cooperate on data transfer, the program may have to close existing cards and reissue under a new BIN. That changes the entire migration scope, cardholder communication obligations, and timeline.</li><li><strong>What does success look like?</strong> Measurable thresholds need to be defined before starting: authorisation rate staying within an acceptable range of the pre-migration baseline, zero downtime during cutover (the point at which all traffic switches from the old processor to the new one), wallet token continuity for most cardholders and many more.</li></ul>"
+        }
+      ]
+    },
+    {
+      "slug": "deciding-the-type-of-migration",
+      "number": 3,
+      "title": "Migration Type",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>Once the scope is clear, the next decision is what type of migration you need to carry out.</p>"
+        },
+        {
+          "type": "subheading",
+          "text": "Type 1: Set up a new BIN"
+        },
+        {
+          "type": "html",
+          "content": "<p>A new BIN is set up with the existing bank or a new bank, and transaction volume is moved to the new processor incrementally. This carries a comparatively lower risk, with the option to pause or roll back at any time. However, the trade-off is running two programs simultaneously for a period, which adds to the operational complexity and overhead.</p>"
+        },
+        {
+          "type": "subheading",
+          "text": "Type 2: Transfer the existing BIN to the new processor"
+        },
+        {
+          "type": "html",
+          "content": "<p>As the name suggests, the existing BIN is transferred to the new processor. This is an operationally cleaner process, and the cardholders also keep the same card number. However, it is much harder to roll back, and it requires the current processor's active cooperation. In the case that cooperation is not available, this is not a viable path.</p><p>The right choice depends on the migration timelines, the current processor's willingness to support the transition, and the operational capacity available during the migration period.</p>"
+        }
+      ]
+    },
+    {
+      "slug": "migration-approach",
+      "number": 4,
+      "title": "The Approach",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>The migration type and approach together determine how much risk sits at any single point in the process.</p><ul><li><strong>Phased migration</strong> moves volume incrementally, by card type, geography, or customer cohort. Each phase is validated before the next begins. For example, a very popular spend management platform ran its issuer migration for approximately six months, with a phased migration of virtual and physical cards across EEA and UK. This meant lower risk per phase, but the total timeline was longer.</li><li><strong>Parallel running</strong> means both the old and new systems process identical transactions simultaneously. Outputs are compared and discrepancies resolved before any account commits to the new platform. This is the highest-confidence approach but also the most operationally demanding, as it requires maintaining two full environments at the same time.</li><li><strong>Big bang cutover</strong> moves everything in a single switch, scheduled at the lowest-traffic window, for example early morning on a weekday. It is the fastest approach with the least room for error. If something goes wrong after cutover, rollback affects live cardholders.</li></ul><p>Most mid-size program migrations use a phased approach with parallel running during each phase's validation window. Big bang is viable for smaller programs with experienced processors.</p>"
+        }
+      ]
+    },
+    {
+      "slug": "choosing-a-new-processor",
+      "number": 5,
+      "title": "Choosing a Processor",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>Not all processors approach migration the same way. These are the factors to evaluate when assessing a new provider.</p><ul><li><strong>Migration references</strong> &mdash; Ask for two or three references that match the program's card type, scale, geography, and scheme. A processor with relevant experience will have specific answers to your questions.</li><li><strong>Technical architecture</strong> &mdash; Is the platform API-first? Can it support the required volumes and authorisation speeds? Uptime metrics and SLA performance matter more than what is on the product page.</li><li><strong>Regulatory footprint</strong> &mdash; For EU and UK programs, a provider with licensing in both regions avoids the complexity of keeping licenses for both regions.</li><li><strong>Wallet token migration</strong> &mdash; Ask specifically how the issuer processor handles token continuity when a BIN changes. A clear, specific answer indicates experience.</li><li><strong>Rollback plan</strong> &mdash; A structured rollback plan is a mark of maturity. A processor without a clear answer to this question has not run enough migrations.</li></ul>"
+        }
+      ]
+    },
+    {
+      "slug": "key-steps-in-migration",
+      "number": 6,
+      "title": "Key Steps",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>Once these questions are answered, the migration itself can begin. It moves through five connected stages with each one surfacing risks that cost significantly more to resolve later than to catch early.</p><ul><li><strong>Discovery and data mapping</strong> is where the real work begins. Full program data needs to be extracted from the current processor. Items like cardholder records, card inventory, transaction history, authorisation rules, dispute status, fraud rule configurations, environment configurations, observability logs and many more. Every field in the current data model needs to map to its equivalent in the new platform. Data mapping and tool mapping is the highest risk activity in this stage and any discrepancies found here have to be fixed before moving to further stages.</li><li><strong>New environments build and certification.</strong> The new processor configures BIN profiles, authorisation rules, card controls, and dispute flows. Scheme certification for the different processes is done in this stage. The certification can take weeks and the timeline is set by the scheme. It should be accounted for early, not treated as a buffer at the end.</li><li><strong>Testing</strong> covers every transaction type the program processes. Standard purchases, contactless, card-not-present, recurring payments, refunds, disputes, edge cases like partial authorisations need to be tested. Shadow mode on the new fraud stack should run for at least one to two weeks before enabling live decisioning. Existing fraud rules need to be translated to the new engine's configuration, not copied across.</li><li><strong>Parallel running and validation</strong> are where both environments run on live transactions simultaneously. Authorisation rates, decline reason codes, and reconciliation outputs are compared. Go/no-go thresholds should be set before this stage begins. Wallet token migration also needs to be validated before this window closes.</li><li><strong>Cutover and stabilisation</strong> is the final stage. Operations, risk, and customer service teams need specific runbooks during this stage. Each team needs to know exactly what they are monitoring and what the escalation path is if something fails. Elevated monitoring should run for two to four weeks post-cutover. The old environment should remain accessible for reconciliation during this period.</li></ul>"
+        },
+        {
+          "type": "callout",
+          "title": "Planning a migration for your card program?",
+          "text": "Talk to our team about discovery, data mapping, certification, and cutover for issuer processor migrations.",
+          "cta": {
+            "label": "Talk to our team",
+            "href": "../contact",
+            "variant": "dark"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "wallet-tokens",
+      "number": 7,
+      "title": "Wallet Tokens",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>Every cardholder who has added a card to Apple Pay, Google Pay, or Samsung Pay holds a token. It is the Device Primary Account Number tied to the card and the device.</p><p>When the BIN changes, these tokens need to migrate through the card network's token service which is Visa Token Service for Visa programs and Mastercard Digital Enablement Service for Mastercard. This is also essential because in case token migration did not happen, wallet payments and recurring subscriptions will start failing impacting user experience. This is the consequence of not planning the token workstream in parallel with the technical migration. Token continuity needs to be validated with real provisioned devices before the cutover window opens.</p>"
+        },
+        {
+          "type": "note",
+          "variant": "key-insight",
+          "label": "KEY INSIGHT",
+          "text": "A BIN change forces every wallet token to migrate through the card network's token service — skip that workstream and wallet payments and recurring subscriptions start failing silently after cutover."
+        }
+      ]
+    },
+    {
+      "slug": "cardholder-communication",
+      "number": 8,
+      "title": "Notifying Cardholders",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>If the migration involves a BIN change or a change in issuing bank, there are communication obligations. In some markets, a change in issuing bank is typically treated as a material change to the card program, which triggers a regulatory notice requirement.</p><p>Both the outgoing and incoming sponsor banks should be involved in reviewing communication content before it goes out. That review time needs to be built into the timeline. It is typically longer than most teams expect.</p><p>The communication needs to answer three things clearly:</p><ul><li>What is changing.</li><li>When it is changing.</li><li>Whether the cardholder needs to take any action, such as updating card details with merchants or re-provisioning their digital wallet.</li></ul><p>For processor-side migrations that do not change the card number or issuing bank, cardholder communication may not be required. Legal and compliance teams should confirm this based on the specific scope and markets involved.</p>"
+        }
+      ]
+    },
+    {
+      "slug": "post-migration-checklist",
+      "number": 9,
+      "title": "Post-Migration",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>The two to four weeks after cutover are where issues that did not surface in testing appear in production. These are the areas to monitor.</p><ul><li><strong>Authorisation rate:</strong> Any drop beyond the pre-defined threshold against the pre-migration baseline needs an immediate root cause investigation.</li><li><strong>Decline reason codes:</strong> New patterns that were not present before cutover indicate that a rule did not translate correctly.</li><li><strong>Wallet token continuity:</strong> Token failures are silent until a cardholder hits a decline. Active monitoring across Apple Pay, Google Pay, and Samsung Pay is needed.</li><li><strong>Recurring payment success rate:</strong> Subscriptions and standing payments set up pre-migration are the highest-risk category for silent failures.</li><li><strong>Reconciliation:</strong> Settlement figures need to match between old and new environments during the overlap period. Discrepancies surface data mapping errors that were missed during validation.</li><li><strong>Dispute queue:</strong> Pre-migration disputes will continue arriving. The old environment needs to remain accessible for evidence retrieval. Closing it too early creates chargebacks that cannot be responded to.</li><li><strong>Customer service volume:</strong> A spike in card-not-working contacts is the earliest cardholder-facing signal that something has gone wrong.</li><li><strong>Fraud rules:</strong> Translated rules need to be confirmed as firing correctly on the new engine. A comparison against the pre-migration fraud flag rate will catch gaps in the translation.</li></ul>"
+        }
+      ]
+    },
+    {
+      "slug": "conclusion",
+      "number": 10,
+      "title": "Conclusion",
+      "blocks": [
+        {
+          "type": "html",
+          "content": "<p>Card program migration is not just an infrastructure change but rather an opportunity to remove the constraints that were holding the program back and build on a platform that can support what comes next. A successful migration means cardholders experience no disruption, operations run smoothly on the new platform, and the product roadmap is no longer limited by infrastructure. The migration is complete when the new environment is live and the value of it becomes clear in what gets built after.</p>"
+        },
+        {
+          "type": "callout",
+          "title": "Planning a card program migration?",
+          "text": "See how we've helped fintechs migrate issuer processors and BINs without disrupting cardholders.",
+          "cta": {
+            "label": "View Case Studies",
+            "href": "../resources?filter=case-studies",
+            "variant": "ghost"
+          }
+        }
+      ]
+    }
+  ],
+  "relatedSlugs": [
+    "five-things-card-program-migration",
+    "card-lifecycle-management"
+  ]
+}

@@ -75,8 +75,20 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://www.panasatech.com/insights/build-or-buy-card-issuing-platform</loc>
+    <lastmod>2026-07-14</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.panasatech.com/blog/anatomy-of-a-swipe</loc>
     <lastmod>2026-05-20</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.panasatech.com/blog/tokenisation-for-issuers</loc>
+    <lastmod>2026-06-15</lastmod>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -111,6 +123,24 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://www.panasatech.com/case-studies/accelovate-launch-fintech-in-weeks</loc>
+    <lastmod>2026-06-15</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.panasatech.com/case-studies/cleva-cards-safer-payments</loc>
+    <lastmod>2026-06-15</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.panasatech.com/case-studies/modernising-global-issuer-processor-eks</loc>
+    <lastmod>2026-06-15</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.panasatech.com/blog/3d-secure-authentication-card-program</loc>
     <lastmod>2026-05-20</lastmod>
     <priority>0.7</priority>
@@ -125,6 +155,12 @@
   <url>
     <loc>https://www.panasatech.com/guides/card-lifecycle-management</loc>
     <lastmod>2026-05-25</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.panasatech.com/guides/migrating-your-card-program</loc>
+    <lastmod>2026-07-14</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>

@@ -334,6 +334,33 @@ const renderSectionTabs = (data) => {
     indicator.style.width = `${tab.offsetWidth}px`;
   };
 
+  /* Toggle the edge fade hints (see guide-detail.css) based on how far the
+     strip is scrolled, so a clipped first/last tab reads as "scrolls" rather
+     than "cut off". No-op visually when the strip fits (max <= 0). */
+  const updateOverflowHints = () => {
+    const max = inner.scrollWidth - inner.clientWidth;
+    tabsEl.dataset.overflowLeft = inner.scrollLeft > 2 ? 'true' : 'false';
+    tabsEl.dataset.overflowRight = max > 2 && inner.scrollLeft < max - 2 ? 'true' : 'false';
+  };
+
+  /* Keep the active tab within the visible scroll window so its label is
+     never stranded (and clipped) at an edge as the reader moves through the
+     article. */
+  const scrollActiveIntoView = (slug) => {
+    const tab = tabsBySlug.get(slug);
+    if (!tab) return;
+    const pad = 16;
+    const left = tab.offsetLeft;
+    const right = left + tab.offsetWidth;
+    const viewLeft = inner.scrollLeft;
+    const viewRight = viewLeft + inner.clientWidth;
+    if (left < viewLeft + pad) {
+      inner.scrollTo({ left: Math.max(0, left - pad), behavior: 'smooth' });
+    } else if (right > viewRight - pad) {
+      inner.scrollTo({ left: right - inner.clientWidth + pad, behavior: 'smooth' });
+    }
+  };
+
   const setActive = (slug) => {
     if (slug === currentSlug) return;
     currentSlug = slug;
@@ -341,6 +368,7 @@ const renderSectionTabs = (data) => {
       tab.classList.toggle('is-active', s === slug);
     });
     positionIndicator(slug);
+    scrollActiveIntoView(slug);
   };
 
   sections.forEach((section, idx) => {
@@ -381,11 +409,63 @@ const renderSectionTabs = (data) => {
   tabsEl.innerHTML = '';
   tabsEl.appendChild(inner);
 
+  // Update the edge fade hints as the strip is scrolled (drag, wheel, or the
+  // programmatic scrollActiveIntoView above).
+  inner.addEventListener('scroll', updateOverflowHints, { passive: true, signal });
+
+  /* Edge auto-scroll: while the pointer rests in the left/right hot-zone of
+     the strip (the same band the chevron marks), scroll that way one frame at
+     a time, stopping at the bounds or when the pointer leaves. */
+  const EDGE_ZONE = 60; // px hot-zone at each end
+  const EDGE_SPEED = 9; // px per frame
+  let autoDir = 0;
+  let autoRaf = 0;
+  const stepAuto = () => {
+    autoRaf = 0;
+    if (!autoDir) return;
+    const max = inner.scrollWidth - inner.clientWidth;
+    inner.scrollLeft = Math.max(0, Math.min(max, inner.scrollLeft + autoDir * EDGE_SPEED));
+    if ((autoDir < 0 && inner.scrollLeft <= 0) || (autoDir > 0 && inner.scrollLeft >= max)) {
+      autoDir = 0;
+      inner.removeAttribute('data-edge-scroll');
+      return;
+    }
+    autoRaf = requestAnimationFrame(stepAuto);
+  };
+  const setAuto = (dir) => {
+    if (dir === autoDir) return;
+    autoDir = dir;
+    if (dir) {
+      inner.dataset.edgeScroll = dir > 0 ? 'right' : 'left';
+      if (!autoRaf) autoRaf = requestAnimationFrame(stepAuto);
+    } else {
+      inner.removeAttribute('data-edge-scroll');
+    }
+  };
+  /* Desktop only: the edge auto-scroll is driven by a real hover pointer.
+     On touch devices there is no hover, and synthesised mouse events from a
+     tap would fight the native finger-swipe — so gate it to hover pointers.
+     Mobile scrolls the strip by swiping (native overflow scroll; Lenis is
+     already disabled on touch), with the animated chevron cueing "more". */
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (canHover) {
+    inner.addEventListener('mousemove', (e) => {
+      const max = inner.scrollWidth - inner.clientWidth;
+      if (max <= 0) { setAuto(0); return; }
+      const r = inner.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      if (x > r.width - EDGE_ZONE && inner.scrollLeft < max - 1) setAuto(1);
+      else if (x < EDGE_ZONE && inner.scrollLeft > 1) setAuto(-1);
+      else setAuto(0);
+    }, { signal });
+    inner.addEventListener('mouseleave', () => setAuto(0), { signal });
+  }
+
   // Initial position — wait for layout/fonts so the indicator measurement
   // is accurate. requestAnimationFrame catches the first layout pass.
-  requestAnimationFrame(() => setActive(sections[0].slug));
+  requestAnimationFrame(() => { setActive(sections[0].slug); updateOverflowHints(); });
   if (document.fonts?.ready?.then) {
-    document.fonts.ready.then(() => positionIndicator(currentSlug || sections[0].slug));
+    document.fonts.ready.then(() => { positionIndicator(currentSlug || sections[0].slug); updateOverflowHints(); });
   }
 
   // Reposition the indicator on viewport resize so it tracks tab widths.
@@ -394,6 +474,7 @@ const renderSectionTabs = (data) => {
     if (resizeRaf) cancelAnimationFrame(resizeRaf);
     resizeRaf = requestAnimationFrame(() => {
       if (currentSlug) positionIndicator(currentSlug);
+      updateOverflowHints();
     });
   }, { signal });
 
@@ -514,7 +595,8 @@ const wireHeroImage = (data) => {
 };
 
 /* ── Hero title: replaces title text while preserving the accent highlight
-   span if titleHighlight is supplied. */
+   span if titleHighlight is supplied. Uses the shared .feature-card-title-accent
+   class so the accent colour matches the feature-card component. */
 const wireHeroTitle = (data) => {
   const titleEl = document.querySelector('[data-guide-title]');
   if (!titleEl) return;
@@ -524,7 +606,7 @@ const wireHeroTitle = (data) => {
   if (accent && full.includes(accent)) {
     const beforeText = full.slice(0, full.indexOf(accent));
     const before = document.createTextNode(beforeText);
-    const span = createEl('span', 'guide-hero-title-accent');
+    const span = createEl('span', 'feature-card-title-accent');
     span.textContent = accent;
     titleEl.append(before, span);
   } else {
@@ -663,8 +745,8 @@ export const renderGuideDetail = (data, resourcesData) => {
   const tagEl = document.querySelector('[data-guide-tag]');
   if (tagEl) {
     tagEl.textContent = data.tag || 'GUIDE';
-    const tagCategory = data.category || 'Guide';
-    tagEl.className = `resource-tag ${tagClassFor(tagCategory)}`;
+    // The eyebrow pill uses the shared .feature-card-eyebrow class only
+    tagEl.className = 'feature-card-eyebrow';
   }
   wireHeroTitle(data);
   setText('[data-guide-description]', data.description);

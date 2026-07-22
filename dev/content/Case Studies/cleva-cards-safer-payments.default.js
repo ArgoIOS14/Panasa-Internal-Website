@@ -1,0 +1,100 @@
+window.DEFAULT_CASE_STUDY_CONTENT = {
+  "category": "Case Study",
+  "newsletter": {
+    "eyebrow": "NEWSLETTER",
+    "title": "Enjoyed this Case Study?",
+    "titleAccent": "Get Payments Deconstructed.",
+    "description": "Our fortnightly newsletter simplifying the intricacies of the payments ecosystem, from authorization flows to disputes.",
+    "formNote": "No spam. Unsubscribe anytime.",
+    "placeholder": "Enter Email Address",
+    "submitLabel": "Subscribe"
+  },
+  "slug": "cleva-cards-safer-payments",
+  "meta": {
+    "title": "Cleva Cards: Building Safer Payments for Vulnerable Cardholders | Panasa",
+    "description": "How Panasa built controlled wallet-to-card funding, spend controls, and financial protection for a prepaid platform serving vulnerable cardholders.",
+    "canonical": "https://www.panasatech.com/case-studies/cleva-cards-safer-payments",
+    "ogImage": "https://www.panasatech.com/assets/cover-cleva-cards-safer-payments.webp"
+  },
+  "hero": {
+    "eyebrow": "CASE STUDY",
+    "titleAccent": "Building Safer Payments",
+    "titleSuffix": "for Vulnerable Cardholders",
+    "background": "assets/case-study-card-bg.webp"
+  },
+  "metaTiles": [
+    { "icon": "assets/cs-meta-location.svg", "label": "LOCATION", "value": "United Kingdom" },
+    { "icon": "assets/cs-meta-industry.svg", "label": "INDUSTRY", "value": "Prepaid Cards / Care" },
+    { "icon": "assets/cs-meta-team.svg", "label": "TEAM SIZE", "value": "NDA" },
+    { "icon": "assets/cs-meta-duration.svg", "label": "DURATION", "value": "NDA" },
+    { "icon": "assets/cs-meta-budget.svg", "label": "BUDGET", "value": "NDA" }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "body": "<p>Cleva Cards is an award-winning prepaid card, app, and management platform. It is designed to help local authorities, care agencies, residential care providers, appointees, and deputies across the UK handle expenses on behalf of vulnerable residents, completely replacing the need for paper receipts or petty cash.</p><p>The platform gives care teams complete visibility over spending patterns while preserving a degree of independence for residents.</p>"
+    },
+    {
+      "type": "overview",
+      "title": "The Challenge",
+      "body": "<p>The platform needed to enable real-time, controlled fund transfers from a central wallet to zero-balance cards issued to residents. The structural complexity was significant. Wallets and zero-balance cards belonged to different product lines and payment schemes, which complicated how balances could be linked, moved, and reconciled while maintaining scheme rules, full traceability, and complete auditability.</p><p>At the same time, the platform carried a duty of care. Vulnerable residents needed protection from financial abuse while still being able to make approved purchases for haircuts, chiropody, taxi rides, and many more.</p><p>The solution had to meet both needs without introducing friction that would slow down day-to-day care operations.</p>"
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Need scheme-compliant fund movement?",
+      "text": "We build controlled wallet-to-card flows with full audit trails. Here's how.",
+      "cta": { "label": "View Case Studies", "href": "../resources?filter=case-studies", "variant": "dark" }
+    },
+    {
+      "type": "approach",
+      "title": "Our Approach",
+      "renderMode": "steps",
+      "cardEyebrow": "Our Approach",
+      "cardSummary": "We built a connected set of tools to enable spend controls, financial protection, and operational visibility for care teams and residents, delivered across three workstreams.",
+      "steps": [
+        { "index": "01", "title": "Internal Transfer API", "body": "A purpose-built REST API linked resident zero-balance cards to the central wallet, enabling controlled funding and merchant settlement with enforced limits and audit logging at every step." },
+        { "index": "02", "title": "Client Web Application", "body": "A web application for care staff and local authority teams to manage cardholders, set spend controls, and view transaction history." },
+        { "index": "03", "title": "Resident Mobile Application", "body": "Android and iOS apps for residents to manage permitted card features and view their own transactions, with guardian visibility retained at all times." }
+      ]
+    },
+    {
+      "type": "techStack",
+      "title": "Technology Stack",
+      "groups": [
+        { "label": "BACKEND", "description": ".NET Services, REST APIs" },
+        { "label": "DATABASE", "description": "Microsoft SQL Server 2017" },
+        { "label": "MOBILE", "description": "Android, iOS" },
+        { "label": "WEB", "description": "Bootstrap, jQuery" }
+      ]
+    },
+    {
+      "type": "impactGrid",
+      "title": "Business Impact",
+      "summary": "Measurable outcomes achieved through spend controls, financial protection, and scalable care operations.",
+      "items": [
+        { "title": "Manual Task Reduction", "label": "Automated linking and funding flows reduced caseworker interventions and manual reconciliations.", "tag": "50% REDUCTION" },
+        { "title": "Processing Time", "label": "Real-time wallet-to-card transfers replaced batch funding and manual approvals, accelerating service delivery.", "tag": "60% DECREASE" },
+        { "title": "Admin Time Saved", "label": "Automated linking, funding, and reconciliation removed the manual handling that consumed caseworker hours.", "tag": "70 MINS / CLIENT / MONTH" },
+        { "title": "Platform Adoption", "label": "Platform supporting thousands of active residents, with rollout continuing across new cohorts.", "tag": "THOUSANDS OF RESIDENTS" }
+      ]
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Building a new card platform?",
+      "text": "Our engineering team has done this across a dozen+ issuer processors. Let's compare notes.",
+      "cta": { "label": "Talk to our team", "href": "contact", "variant": "dark" }
+    },
+    {
+      "type": "conclusion",
+      "title": "Conclusion",
+      "body": "<p>The platform gives local authorities and care teams a reliable way to manage resident finances with full visibility and control. Residents get access to approved spending through a simple mobile experience, while guardians retain oversight at every step. The result is a system that handles the operational and compliance requirements of care-managed finances in one place.</p>"
+    }
+  ],
+  "relatedSlugs": [
+    "accelovate-launch-fintech-in-weeks",
+    "modernising-global-issuer-processor-eks"
+  ]
+};

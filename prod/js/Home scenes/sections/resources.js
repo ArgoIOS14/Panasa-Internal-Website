@@ -166,9 +166,6 @@ export const renderResources = (data) => {
   // When "All" is active, picks the latest across the whole catalog.
   // Hides the section when no item matches (e.g. an empty filter).
   const featuredSection = document.querySelector('.resources-featured');
-  const featuredCardEl = document.querySelector('[data-featured-card]');
-  const featuredTagEl = document.querySelector('[data-featured-tag]');
-  const featuredImgEl = document.querySelector('[data-featured-image]');
 
   const pickFeaturedItem = (filterLabel) => {
     const pool = items.filter((it) => itemMatchesFilter(it, filterLabel));
@@ -186,19 +183,87 @@ export const renderResources = (data) => {
       return;
     }
     featuredSection.hidden = false;
-    if (featuredCardEl instanceof HTMLAnchorElement) {
-      featuredCardEl.href = item.href || '#';
-    }
+
+    // Eyebrow tag
+    const featuredTagEl = featuredSection.querySelector('[data-featured-tag]');
     if (featuredTagEl) {
       featuredTagEl.textContent = categoryLabel(item.category);
-      featuredTagEl.className = `resource-tag ${tagClassFor(item.category)}`;
     }
-    setText('[data-featured-title]', item.title);
-    setText('[data-featured-date]', item.date);
-    setText('[data-featured-author]', item.author);
+
+    // Title — accent span if titleAccent is present and title starts with it
+    const featuredTitleEl = featuredSection.querySelector('[data-featured-title]');
+    if (featuredTitleEl) {
+      featuredTitleEl.innerHTML = '';
+      if (item.titleAccent && item.title && item.title.startsWith(item.titleAccent)) {
+        const accentSpan = document.createElement('span');
+        accentSpan.className = 'feature-card-title-accent';
+        accentSpan.textContent = item.titleAccent;
+        const remainder = document.createTextNode(item.title.slice(item.titleAccent.length));
+        featuredTitleEl.appendChild(accentSpan);
+        featuredTitleEl.appendChild(remainder);
+      } else {
+        featuredTitleEl.textContent = item.title || '';
+      }
+    }
+
+    // Date
+    const featuredDateEl = featuredSection.querySelector('[data-featured-date]');
+    if (featuredDateEl) featuredDateEl.textContent = item.date || '';
+
+    // Read time — hide the meta item if missing
+    const featuredReadEl = featuredSection.querySelector('[data-featured-read]');
+    if (featuredReadEl) {
+      const readMetaItem = featuredReadEl.closest('.feature-card-meta-item');
+      if (item.readTime) {
+        featuredReadEl.textContent = item.readTime;
+        if (readMetaItem) readMetaItem.hidden = false;
+      } else {
+        if (readMetaItem) readMetaItem.hidden = true;
+      }
+    }
+
+    // CTA href + label
+    const featuredCtaEl = featuredSection.querySelector('[data-featured-cta]');
+    if (featuredCtaEl instanceof HTMLAnchorElement) {
+      featuredCtaEl.href = item.href || '#';
+    }
+    const featuredCtaLabelEl = featuredSection.querySelector('[data-featured-cta-label]');
+    if (featuredCtaLabelEl) {
+      const CTA_LABEL_BY_CATEGORY = {
+        'Blog':         'Read Full Blog',
+        'Blogs':        'Read Full Blog',
+        'Insights':     'Read Full Insight',
+        'Insight':      'Read Full Insight',
+        'Guide':        'Read Full Guide',
+        'Guides':       'Read Full Guide',
+        'Case Study':   'Read Full Case Study',
+        'Case Studies': 'Read Full Case Study',
+      };
+      featuredCtaLabelEl.textContent = CTA_LABEL_BY_CATEGORY[item.category] || 'Read More';
+    }
+
+    // Image
+    const featuredImgEl = featuredSection.querySelector('[data-featured-image]');
     if (featuredImgEl instanceof HTMLImageElement) {
       featuredImgEl.src = item.image || 'assets/resources-card-placeholder.webp';
       featuredImgEl.alt = item.title || '';
+    }
+
+    // Per-category background modifier (strip stale ones first so switching
+    // filters swaps the background cleanly). Case Study keeps the default bg.
+    const featuredCardEl = featuredSection.querySelector('.feature-card');
+    if (featuredCardEl) {
+      featuredCardEl.classList.remove('feature-card--blog', 'feature-card--guide', 'feature-card--insight');
+      const MOD_BY_CATEGORY = {
+        'Blog': 'feature-card--blog',
+        'Blogs': 'feature-card--blog',
+        'Guide': 'feature-card--guide',
+        'Guides': 'feature-card--guide',
+        'Insights': 'feature-card--insight',
+        'Insight': 'feature-card--insight',
+      };
+      const mod = MOD_BY_CATEGORY[item.category];
+      if (mod) featuredCardEl.classList.add(mod);
     }
   };
 

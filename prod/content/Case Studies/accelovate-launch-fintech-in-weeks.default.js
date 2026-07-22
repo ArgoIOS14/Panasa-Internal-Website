@@ -1,0 +1,100 @@
+window.DEFAULT_CASE_STUDY_CONTENT = {
+  "category": "Case Study",
+  "newsletter": {
+    "eyebrow": "NEWSLETTER",
+    "title": "Enjoyed this Case Study?",
+    "titleAccent": "Get Payments Deconstructed.",
+    "description": "Our fortnightly newsletter simplifying the intricacies of the payments ecosystem, from authorization flows to disputes.",
+    "formNote": "No spam. Unsubscribe anytime.",
+    "placeholder": "Enter Email Address",
+    "submitLabel": "Subscribe"
+  },
+  "slug": "accelovate-launch-fintech-in-weeks",
+  "meta": {
+    "title": "Launch Your Fintech in Weeks: An Accelovate Case Study | Panasa",
+    "description": "How Panasa delivered the API backbone, platform enhancements, and mobile integrations that let Accelovate launch fintech clients in weeks, not months.",
+    "canonical": "https://www.panasatech.com/case-studies/accelovate-launch-fintech-in-weeks",
+    "ogImage": "https://www.panasatech.com/assets/cover-accelovate-launch-fintech-in-weeks.webp"
+  },
+  "hero": {
+    "eyebrow": "CASE STUDY",
+    "titleAccent": "Launch Your Fintech in Weeks:",
+    "titleSuffix": "An Accelovate Case Study",
+    "background": "assets/case-study-card-bg.webp"
+  },
+  "metaTiles": [
+    { "icon": "assets/cs-meta-location.svg", "label": "LOCATION", "value": "NDA" },
+    { "icon": "assets/cs-meta-industry.svg", "label": "INDUSTRY", "value": "Fintech Solutions" },
+    { "icon": "assets/cs-meta-team.svg", "label": "TEAM SIZE", "value": "NDA" },
+    { "icon": "assets/cs-meta-duration.svg", "label": "DURATION", "value": "Weeks" },
+    { "icon": "assets/cs-meta-budget.svg", "label": "BUDGET", "value": "NDA" }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "body": "<p>Accelovate is a fintech solutions provider that helps businesses launch digital financial products quickly. Its platform consolidates cardholder administration, scheme integrations, compliance, and partner management into a single scalable solution. While traditional setups take 9 to 12 months, Accelovate delivers implementations within weeks.</p>"
+    },
+    {
+      "type": "overview",
+      "title": "The Challenge",
+      "body": "<p>Accelovate needed to develop API-driven fintech capabilities and integrate them into a marketplace environment. The key challenges were reducing the friction of multiple vendor negotiations and compliance overheads, delivering speed-to-market solutions without compromising on compliance, and providing clients with transparent and predictable pricing.</p><p>Traditional models required long timelines, fragmented vendor ecosystems, and complex regulatory processes. Accelovate needed a partner who could help them simplify, accelerate, and scale.</p>"
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Racing to launch a fintech product?",
+      "text": "We've taken card programmes live in weeks, not months. Here's how.",
+      "cta": { "label": "View Case Studies", "href": "../resources?filter=case-studies", "variant": "dark" }
+    },
+    {
+      "type": "approach",
+      "title": "Our Approach",
+      "renderMode": "steps",
+      "cardEyebrow": "Our Approach",
+      "cardSummary": "We contributed to the design and delivery of an API solution acting as the backbone for Accelovate's marketplace integration, working closely with their stakeholders to capture requirements early, anticipate risks, and stay aligned with their rapid-launch model.",
+      "steps": [
+        { "index": "01", "title": "API Development & Integration", "body": "We designed and built REST APIs that could be seamlessly integrated into Accelovate's marketplace environment, providing the technical foundation for their fintech offering." },
+        { "index": "02", "title": "Platform Enhancement", "body": "We extended the platform's functionality to include card management and administration capabilities for end users, giving Accelovate's clients the tools to manage cardholders directly." },
+        { "index": "03", "title": "Mobile Enablement", "body": "We delivered APIs integrated with Android and iOS applications, improving accessibility and usability for Accelovate's end customers." },
+        { "index": "04", "title": "Collaborative Execution", "body": "We worked closely with Accelovate stakeholders throughout the engagement, ensuring requirements were captured early, risks were anticipated, and delivery stayed aligned with their rapid-launch promise." }
+      ]
+    },
+    {
+      "type": "techStack",
+      "title": "Technology Stack",
+      "groups": [
+        { "label": "BACKEND", "description": ".NET, REST APIs" },
+        { "label": "FRONTEND", "description": "Angular, jQuery, Bootstrap" },
+        { "label": "DATABASE", "description": "Microsoft SQL Server 2017" },
+        { "label": "MOBILE", "description": "Android, iOS" }
+      ]
+    },
+    {
+      "type": "impactGrid",
+      "title": "Business Impact",
+      "summary": "Outcomes delivered across delivery speed and client satisfaction.",
+      "items": [
+        { "title": "Time to Market", "label": "Delivered implementation in weeks against an industry norm of 9 to 12 months.", "tag": "WEEKS VS MONTHS" },
+        { "title": "Partner Consolidation", "label": "Relationships with over 9 providers consolidated into a single agreement, reducing negotiation and contract overhead.", "tag": "1 AGREEMENT" },
+        { "title": "Client Satisfaction", "label": "High client confidence in delivery quality reflected in the post-engagement score.", "tag": "CSAT 9/10" }
+      ]
+    },
+    {
+      "type": "callout",
+      "variant": "mint",
+      "title": "Building a new card platform?",
+      "text": "Our engineering team has done this across a dozen+ issuer processors. Let's compare notes.",
+      "cta": { "label": "Talk to our team", "href": "contact", "variant": "dark" }
+    },
+    {
+      "type": "conclusion",
+      "title": "Conclusion",
+      "body": "<p>Accelovate's model is built on the promise of getting fintech clients to market faster than the industry standard. Delivering that promise required a technical foundation that was reliable, scalable, and built with their growth pathway in mind. The APIs, platform enhancements, and mobile integrations we delivered gave Accelovate the infrastructure to back that promise with a working product.</p>"
+    }
+  ],
+  "relatedSlugs": [
+    "cleva-cards-safer-payments",
+    "modernising-global-issuer-processor-eks"
+  ]
+};

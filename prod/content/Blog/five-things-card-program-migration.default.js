@@ -3,7 +3,7 @@ window.DEFAULT_BLOG_CONTENT = {
     "title": "Five Things to Look for When Migrating Your Card Program | Panasa",
     "description": "Card migration is not a back-end switch. It spans cardholder data, BINs, compliance, fraud controls, and daily experience. Five essentials to get right before you initiate anything.",
     "canonical": "https://www.panasatech.com/insights/five-things-card-program-migration",
-    "ogImage": "https://www.panasatech.com/assets/og-image.png"
+    "ogImage": "https://www.panasatech.com/assets/cover-five-things-card-program-migration.webp"
   },
   "slug": "five-things-card-program-migration",
   "category": "Insights",
@@ -22,9 +22,9 @@ window.DEFAULT_BLOG_CONTENT = {
     "Compliance",
     "Card program management"
   ],
-  "heroImage": "../assets/blog-hero-desktop.webp",
-  "heroImageTablet": "../assets/blog-hero-tablet.webp",
-  "heroImageMobile": "../assets/blog-hero-mobile.webp",
+  "heroImage": "../assets/cover-five-things-card-program-migration.webp",
+  "heroImageTablet": "../assets/cover-five-things-card-program-migration.webp",
+  "heroImageMobile": "../assets/cover-five-things-card-program-migration.webp",
   "heroImageAlt": "Card program migration illustration",
   "body": [
     {

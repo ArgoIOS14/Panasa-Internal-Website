@@ -15,38 +15,43 @@ Custom subagents live in `.claude/agents/` and are available in every Claude Cod
 
 **Adding more agents:** drop another `<name>.md` file into `.claude/agents/` with YAML frontmatter (`name`, `description`, `tools`) followed by the system prompt. Keep scope narrow — one agent per specialty (reviewer, migration runner, a11y auditor, etc.).
 
+## Development Model (strict)
+- **Development / implementation work → Sonnet** — including any subagents spawned to build in parallel (pass `model: sonnet`).
+- **Planning & exploration → Opus** — these require heavy lifting, so use Opus for plan agents, exploration/research agents, and the planning phase.
+- Review may use the default/inherited model.
+- Only deviate when the user explicitly names another model for a given task (e.g. "use Opus for this build").
+
 ## Project Overview
 - Project name: `Panasa Internal Website`
 - Type: static marketing website (HTML/CSS/JS)
-- Primary editable source: `src/`
-- Deployable/static mirror: `docs/` (used for sharing/GitHub Pages)
-- Brand spelling: `Panasa` (not `panosa`)
+- **Primary editable source: `dev/`** (QA → Netlify). **Production mirror: `prod/`** (SiteGround).
+  NOTE: older `src/`/`docs/` references in this doc are historical — the live folders are `dev/` and `prod/`.
+- Brand spelling: `Panasa` (not `panosa`). Always `Fintechs` (plural), never `Fintech's`.
 
-## Current Architecture
-- `src/index.html`: section structure and semantic layout
-- `src/css/style.css`: all section styling, responsiveness, animations
-- `src/js/main.js`: lightweight bootstrap/orchestrator
-- `src/js/Home scenes/`: all split JS modules (sections/components/utils/data)
-- `src/js/Home scenes/sections/hero.js`: hero section renderer, including trusted fintech marquee
-- `src/js/Home scenes/sections/services.js`: featured services carousel renderer
-- `src/js/Home scenes/components/carousel.js`: shared carousel logic for Services and Case Studies
-- `src/content/Home page/content.json`: primary content source
-- `src/content/Home page/default.js`: fallback content if JSON fetch fails
-- `src/assets/`: all icons, logos, placeholders, SVG design assets
-- `HOSTING.md`: static hosting and publishing note for GitHub Pages / static platforms
-- `AGENTS.md`: handoff and project operating context for new chats/accounts
+## Current Architecture (paths are under `dev/`, mirrored to `prod/`)
+- `dev/index.html`: home page — pre-rendered section markup + data-attributes hydrated by JS
+- `dev/css/style.css`: home page styling + design tokens (`:root`), responsiveness, animations
+- `dev/css/feature-card.css`: SHARED card component (Resources featured card + every resource detail-page hero) — see Resources system below
+- `dev/css/shared-layout.css` (nav/grid/tokens), `shared-footer.css`, `shared-testimonials.css`, `shared-logo-marquee.css`, `blog-detail.css`, `case-study-detail.css`, `guide-detail.css`, `resources.css`, `about.css`, `services-overview.css`, `email-capture.css`
+- `dev/js/main.js`: home bootstrap/orchestrator — `SECTION_KEYS` + `SECTION_RENDERERS`
+- `dev/js/Home scenes/sections/`: per-section renderers (hero, services, why, caseStudies, knowledgeHub, engagement, testimonials, faq, footer, nav, resources, blogDetail, guideDetail, caseStudyDetail, sharedTestimonials)
+- `dev/js/Home scenes/components/`: `carousel.js` (services + case studies), `animations.js`, `inline-newsletter.js`, `newsletter-modal.js`, `email-capture.js`
+- `dev/js/Home scenes/utils/dom.js`: `createEl`, `setText`
+- `dev/content/Home page/content.json` + `default.js`: home content (+ fallback `window.DEFAULT_CONTENT`)
+- `dev/content/Resources/`, `dev/content/Blog/` (blogs AND insights), `dev/content/Guide/`, `dev/content/Case Studies/`: per-area content + `*.default.js` fallbacks
+- `dev/assets/`: all icons, logos, covers, SVG/webp design assets
+- `dev/{blog,insights,guides,case-studies}/*.html`: resource detail pages (one directory deep → use `../` paths)
+- `dev/sitemap.xml`: every public page (new blog/insight/guide/case-study needs a `<url>` entry)
 
 ## Data Flow
-1. App tries to load `content/Home page/content.json`
-2. If loading fails, app falls back to `window.DEFAULT_CONTENT` from `content/Home page/default.js`
-3. For design/content consistency, update both `content.json` and `default.js` when content-sensitive changes are made
+1. App loads `content/<Area>/…json`; on failure falls back to the `window.DEFAULT_*` global from the matching `…default.js`
+2. **Always update BOTH `*.json` AND `*.default.js`** for any content change (keep them byte-identical). Quick regen: `{ echo -n "window.DEFAULT_X = "; cat x.json; echo ";"; } > x.default.js`. Verify parity before committing.
 
-## Build/Sync Rule
-- Any change in `src/` that must be reflected in production/shareable output should be synced to `docs/`:
-```bash
-rm -rf docs && mkdir -p docs && cp -R src/* docs/
-```
-- `docs/` should mirror `src/` folder structure (including `content/Home page/` and `js/Home scenes/`)
+## Build/Sync Rule — `dev/` → `prod/` (strict)
+- Every change in `dev/` that should ship must be mirrored to the matching `prod/` file.
+- Pure assets/CSS/JS/content: copy `dev/<file>` → `prod/<file>` directly.
+- HTML files: prod copies differ from dev ONLY by (a) the asset `?v=` version strings and (b) the dev-only `qa-banner.js` `<script>` line. Re-apply structural edits to prod by hand (or `sed -e '/qa-banner.js/d'`), never copy the qa-banner line into prod.
+- After syncing, confirm `dev` ↔ `prod` differ only by those two things, and run the QA-leak check (below).
 
 ## QA Deploy vs Production — strict separation
 
@@ -428,3 +433,59 @@ cd /Users/arjun.g/Documents/New\ project
 zip -r panasa-static-site.zip docs
 ```
 - For local handoff only; do not commit this zip to repository.
+
+## Resources & Detail-Page System (current — single source of truth)
+
+### Shared feature-card component (`dev/css/feature-card.css`)
+One reusable card used by BOTH the Resources list featured card and EVERY resource detail-page hero. Loaded via `<link href=".../css/feature-card.css">` on `resources.html` and all `{blog,insights,guides,case-studies}/*.html`.
+- Structure: `.feature-card` (green textured bg) → `.feature-card-copy` (`.feature-card-eyebrow` pill + `.feature-card-title` with green `.feature-card-title-accent` + `.feature-card-meta` date·read-time with `cal-published.svg`/`duration.svg` icons + `.feature-card-cta`) and `.feature-card-visual` (right-side artwork `<img>`).
+- `.feature-card--detail` modifier HIDES the CTA (used on detail heroes; the list featured card shows it).
+- CTA button is WHITE bg / green text.
+- **Per-category background modifiers** (apply to featured card AND detail heroes):
+  - `.feature-card--blog` → `assets/feature-card-bg-blog.png` (diagonal curves)
+  - `.feature-card--guide` → `assets/feature-card-bg-guide.png` (nested corners)
+  - `.feature-card--insight` → `assets/feature-card-bg-insight.png` (concentric arcs)
+  - Case studies use the default `assets/case-study-card-bg.webp`.
+  - `resources.js` `renderFeatured` adds the `feature-card--<category>` class by item category; detail HTML hard-codes it on the hero.
+- `url()` in feature-card.css uses `../assets/...` so it resolves correctly from `/css/` on both root and one-dir-deep pages.
+
+### Resources list (`dev/resources.html`, `dev/js/Home scenes/sections/resources.js`, `dev/css/resources.css`)
+- Content: `dev/content/Resources/content.json` (+ `default.js`, global `window.DEFAULT_RESOURCES_CONTENT`). Each item: `category` (Blog|Insights|Guide|Case Study), `title`, `titleAccent` (green leading substring; must be a prefix of `title`), `excerpt`, `date`, `author`, `image` (`assets/…`), `slug`, `href`, `datePublished` (ISO), `readTime`.
+- `renderFeatured` picks the latest item by `datePublished` for the active filter; sets eyebrow=category, two-tone title via `titleAccent`, date·readTime meta, artwork=`item.image`, and the per-category bg modifier. CTA label by category: "Read Full Blog/Insight/Guide/Case Study".
+- `renderCard` grid thumbnails use `item.image` directly. Featured card desktop height ≈ 460px (2:1).
+
+### Resource detail pages
+- Blog AND Insights content both live in `dev/content/Blog/<slug>.json` (+ `.default.js`, `window.DEFAULT_BLOG_CONTENT`), rendered by `blogDetail.js` (entry `js/blog-detail.js`; insights HTML reuses it). Guides: `dev/content/Guide/` + `guideDetail.js`. Case studies: `dev/content/Case Studies/` + `caseStudyDetail.js`.
+- Detail hero artwork: blog/insights/guide set via JSON `heroImage`/`heroImageTablet`/`heroImageMobile` (paths `../assets/…`) which the renderer applies; case-study hero artwork is the STATIC HTML `<img data-case-hero-image src>` (renderer does NOT override it).
+- Detail body is `body[]` blocks: `{type:"html", content:"…"}` and `{type:"callout", title, text, cta:{label,href,variant}}`.
+
+### Article cover artwork — wire ALL of these per article (keep in sync)
+1. Resources list `image` in `content/Resources/content.json` + `default.js`.
+2. Detail content JSON hero image: Blog/Insights/Guide → `heroImage`/`heroImageTablet`/`heroImageMobile` + `meta.ogImage`; Case Study → `meta.ogImage` (+ static HTML hero `src`).
+3. Detail HTML hero `<img … data-*-hero-image src="../assets/…">` and `og:image` + `twitter:image` meta.
+4. Naming convention: `assets/cover-<slug>.webp`. Covers with no matching article yet are STAGED (copied to assets, left unwired).
+
+### Detail-page newsletter section
+- `.blog-newsletter` (blog/insights/guide) and `.case-newsletter` (case studies) both use `background: #141414 url('../assets/newsletter-bg.svg') right top / cover` (dark card + faint concentric circles). Subscribe button is WHITE bg / green text. Per-type heading: "Enjoyed this Blog?/Insight?/Guide?/Case Study?" + green "Get Payments Deconstructed." + "No spam. Unsubscribe anytime." note. Hydrated by `inline-newsletter.js` (status element class `.blog-newsletter-status`; keep the form's `data-blog-newsletter`/`data-guide-newsletter`/`data-case-newsletter` attribute).
+
+### New blog/insight/guide/case-study article — checklist
+1. Clone the closest existing detail HTML as the template (e.g. `dev/blog/anatomy-of-a-swipe.html`); update `<title>`, meta description, og/twitter (title/desc/url/image), canonical + hreflang, BreadcrumbList + BlogPosting JSON-LD, `data-blog-slug`, the `…default.js` `<script src>`, the static hero (eyebrow/title/date/readTime/cover src/`feature-card--<cat>` class), and author avatar (`assets/about-leader-<name>.webp`).
+2. Create `content/<Area>/<slug>.json` + `<slug>.default.js` (parity).
+3. Add the item to `content/Resources/content.json` + `default.js` (regenerate default.js, verify parity).
+4. Add a `<url>` to `dev/sitemap.xml`.
+5. Add the cover `assets/cover-<slug>.webp`.
+6. Mirror everything to `prod/` (HTML without the qa-banner line).
+7. Authors live at `about#<name>`; reuse existing author names/avatars.
+
+### Home page section order (current)
+Hero → Compliance strip → Services → Why Fintechs Choose Panasa → Case Studies (green card carousel) → Payments Knowledge Hub (black) → Engagement Models → Testimonials (green, order: earnr, Osper, Kani, Cleava) → FAQ (white, Services-style accordion) → Footer CTA/footer. Home Case Studies carousel images use the `assets/cover-<case-study-slug>.webp` covers.
+
+### Verifying QA/prod separation (run before any prod deploy)
+```bash
+grep -rln "qa-banner\|qa-api-disabled\|QA BUILD" prod/ || echo "clean"
+ls prod/_redirects prod/netlify.toml prod/js/qa-banner.js 2>/dev/null && echo "LEAK" || echo "clean"
+```
+KNOWN pre-existing leak (not from recent work): `prod/_redirects` and `qa-banner.js` references inside `prod/insights/*.html` — flagged for a separate cleanup.
+
+### Local preview
+- Server config `.claude/launch.json`: `panasa-site` (php `dev/` on :8082), `panasa-prod` (php `prod/` on :8083). Use the preview tooling, not manual servers.
