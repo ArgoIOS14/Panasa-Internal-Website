@@ -2120,8 +2120,20 @@ section {
     margin-bottom: 22px;
   }
 
+  /* Inset each card from the swipe track's edges so consecutive slides don't
+     touch — same idea as .services-slide's own padding-inline. */
   .slide {
-    padding: 0;
+    padding: 0 12px;
+  }
+
+  /* Mobile: let the case-study carousel fill the section content box (16px
+     gutters) instead of the --page-shell cap that leaves an extra 8px auto
+     margin (24px gutters). Matches the first section's card spacing/sizing.
+     Desktop is unaffected — the base .carousel max-width stays. */
+  .results .carousel {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .results-copy h3 {
@@ -2708,20 +2720,27 @@ section {
     gap: 12px;
     margin-bottom: 28px;
   }
+  /* Equalise card height across slides: titles wrap to 2 or 3 lines
+     depending on the case study, so a content-driven height (min-height:0)
+     made some cards taller than others. A shared min-height plus flex-grow
+     on the copy block absorbs the difference — the visual stays a fixed
+     height and the copy's own padding grows to fill the rest. */
   .results-card {
     height: auto;
-    min-height: 0;
+    min-height: 440px;
     flex-direction: column;
     border: none;
   }
   .results-copy {
     width: 100%;
     padding: 30px 26px 24px;
+    flex: 1 1 auto;
   }
   .results-visual {
     width: 100%;
     padding: 0 26px 28px;
     min-height: 200px;
+    flex: 0 0 auto;
   }
   .results-visual img {
     max-height: 240px;

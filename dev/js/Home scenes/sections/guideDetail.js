@@ -442,16 +442,24 @@ const renderSectionTabs = (data) => {
       inner.removeAttribute('data-edge-scroll');
     }
   };
-  inner.addEventListener('mousemove', (e) => {
-    const max = inner.scrollWidth - inner.clientWidth;
-    if (max <= 0) { setAuto(0); return; }
-    const r = inner.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    if (x > r.width - EDGE_ZONE && inner.scrollLeft < max - 1) setAuto(1);
-    else if (x < EDGE_ZONE && inner.scrollLeft > 1) setAuto(-1);
-    else setAuto(0);
-  }, { signal });
-  inner.addEventListener('mouseleave', () => setAuto(0), { signal });
+  /* Desktop only: the edge auto-scroll is driven by a real hover pointer.
+     On touch devices there is no hover, and synthesised mouse events from a
+     tap would fight the native finger-swipe — so gate it to hover pointers.
+     Mobile scrolls the strip by swiping (native overflow scroll; Lenis is
+     already disabled on touch), with the animated chevron cueing "more". */
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (canHover) {
+    inner.addEventListener('mousemove', (e) => {
+      const max = inner.scrollWidth - inner.clientWidth;
+      if (max <= 0) { setAuto(0); return; }
+      const r = inner.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      if (x > r.width - EDGE_ZONE && inner.scrollLeft < max - 1) setAuto(1);
+      else if (x < EDGE_ZONE && inner.scrollLeft > 1) setAuto(-1);
+      else setAuto(0);
+    }, { signal });
+    inner.addEventListener('mouseleave', () => setAuto(0), { signal });
+  }
 
   // Initial position — wait for layout/fonts so the indicator measurement
   // is accurate. requestAnimationFrame catches the first layout pass.

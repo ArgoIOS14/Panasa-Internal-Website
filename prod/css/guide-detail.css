@@ -118,6 +118,34 @@ ul { list-style: none; }
 .guide-section-tabs-inner[data-edge-scroll='right'],
 .guide-section-tabs-inner[data-edge-scroll='left'] { cursor: ew-resize; }
 
+/* ── Mobile (touch, no hover): the strip is swiped with a finger. Add iOS
+   momentum and animate the edge chevron so it reads as "swipe for more".
+   Desktop keeps the static chevron + hover auto-scroll (handled in JS). */
+@media (hover: none) {
+  .guide-section-tabs-inner {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  .guide-section-tabs[data-overflow-right='true']::after {
+    animation: guide-tab-swipe-hint 1.5s ease-in-out infinite;
+  }
+  .guide-section-tabs[data-overflow-left='true']::before {
+    animation: guide-tab-swipe-hint-l 1.5s ease-in-out infinite;
+  }
+}
+@keyframes guide-tab-swipe-hint {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(4px); }
+}
+@keyframes guide-tab-swipe-hint-l {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guide-section-tabs::before,
+  .guide-section-tabs::after { animation: none !important; }
+}
+
 .guide-section-tabs-inner {
   position: relative;
   display: flex;
