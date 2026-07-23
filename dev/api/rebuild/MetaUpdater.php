@@ -104,7 +104,13 @@ class MetaUpdater {
             $html = self::updateJsonLdField($html, 'headline', $headline);
         }
 
-        if ($hreflang !== null) {
+        // An empty array is the field's untouched default (most pages never
+        // set this), not an explicit "clear the hreflang tags" request — an
+        // empty array here previously wiped out whatever hreflang links the
+        // static HTML already had, with no way for an editor to restore them
+        // since this field usually isn't populated. Only act when there's at
+        // least one real entry to write.
+        if (!empty($hreflang)) {
             $html = self::replaceHreflangBlock($html, $hreflang);
         }
 
