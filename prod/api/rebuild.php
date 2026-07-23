@@ -189,6 +189,14 @@ try {
         // About page body rebuild can be added here when needed
     }
 
+    // Careers is meta-only tier (no full body rebuild), but its hero team
+    // photo still needs baking into the static file — otherwise every page
+    // load flashes the old hardcoded default image before the client-side
+    // Firebase fetch replaces it a moment later.
+    if ($pageKey === 'careers') {
+        $html = updateCareersTeamPhoto($html, $data);
+    }
+
     // ── Phase 2.5: Validate rebuilt HTML before writing ──
 
     $originalHtml = file_get_contents($devHtmlPath);
@@ -262,6 +270,28 @@ try {
 function jsonResponse(string $status, string $message): void {
     echo json_encode(['status' => $status, 'message' => $message]);
     exit;
+}
+
+/**
+ * Bake the current hero.teamPhoto value into the static careers.html file,
+ * matching the same assets/-relative-path resolution careers.js uses
+ * client-side. No-op if the field is empty or the tag isn't found.
+ */
+function updateCareersTeamPhoto(string $html, array $data): string {
+    $photo = trim((string)($data['hero']['teamPhoto'] ?? ''));
+    if ($photo === '') return $html;
+
+    $resolved = preg_match('#^(https?:|assets/)#', $photo) ? $photo : ('assets/' . $photo);
+    $escaped  = str_replace('$', '\$', htmlspecialchars($resolved, ENT_QUOTES));
+
+    $updated = preg_replace(
+        '/(data-team-photo\s+src=")[^"]*(")/',
+        '${1}' . $escaped . '${2}',
+        $html,
+        1
+    );
+
+    return $updated ?? $html;
 }
 
 /**
