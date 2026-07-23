@@ -281,6 +281,10 @@ function clearResults() {
    ═══════════════════════════════════════════════ */
 
 async function runPublishAll() {
+  if (!canPublish()) {
+    alert('Only approvers and super admins can run bulk operations.');
+    return;
+  }
   const keys = getSelectedKeys();
   if (!keys.length) return;
 
@@ -365,6 +369,10 @@ async function runPublishAll() {
    ═══════════════════════════════════════════════ */
 
 async function runRebuildAll() {
+  if (!canPublish()) {
+    alert('Only approvers and super admins can run bulk operations.');
+    return;
+  }
   const keys = getSelectedKeys();
   if (!keys.length) return;
 
@@ -439,6 +447,10 @@ async function runRebuildAll() {
    ═══════════════════════════════════════════════ */
 
 async function runDiscardAll() {
+  if (!canPublish()) {
+    alert('Only approvers and super admins can run bulk operations.');
+    return;
+  }
   const keys = getSelectedKeys();
   if (!keys.length) return;
 

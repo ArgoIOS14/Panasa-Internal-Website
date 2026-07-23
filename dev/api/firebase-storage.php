@@ -2,13 +2,22 @@
 /**
  * Firebase Storage REST helper — server-side upload/list/delete via a
  * service account (JWT-signed OAuth2), no SDK/Composer dependency.
- * Service-account access bypasses Storage Security Rules (same as the
- * Admin SDK); public reads of uploaded files are governed separately by
- * the Storage Rules configured in the Firebase console.
+ *
+ * Privileged server-side writes/deletes/lists go through the IAM-authenticated
+ * Cloud Storage JSON API (storage.googleapis.com) — this is what the Admin SDK
+ * uses internally, and it bypasses Storage Security Rules entirely because
+ * access is governed by the service account's IAM role, not Rules.
+ *
+ * The Firebase-flavoured REST API (firebasestorage.googleapis.com) is
+ * NOT used for privileged operations here: it enforces Storage Security
+ * Rules for every caller, including service-account bearer tokens, since
+ * it's a rules-gated proxy rather than a raw IAM-authenticated endpoint.
+ * It's only used below to build the public download URL, which is meant
+ * to stay governed by the "public read on uploads/**" Rule.
  */
 
 function fb_storage_bucket() {
-    return 'panasa-cms.firebasestorage.app';
+    return 'panasa-cms-ad3f9.firebasestorage.app';
 }
 
 function fb_storage_config() {
@@ -125,8 +134,8 @@ function fb_storage_download_url($objectPath) {
 
 function fb_storage_upload($objectPath, $fileContents, $contentType) {
     $token = fb_get_access_token();
-    $url = 'https://firebasestorage.googleapis.com/v0/b/' . fb_storage_bucket()
-        . '/o?name=' . rawurlencode($objectPath);
+    $url = 'https://storage.googleapis.com/upload/storage/v1/b/' . rawurlencode(fb_storage_bucket())
+        . '/o?uploadType=media&name=' . rawurlencode($objectPath);
 
     $ch = curl_init($url);
     curl_setopt_array($ch, [
@@ -152,7 +161,7 @@ function fb_storage_upload($objectPath, $fileContents, $contentType) {
 
 function fb_storage_delete($objectPath) {
     $token = fb_get_access_token();
-    $url = 'https://firebasestorage.googleapis.com/v0/b/' . fb_storage_bucket()
+    $url = 'https://storage.googleapis.com/storage/v1/b/' . rawurlencode(fb_storage_bucket())
         . '/o/' . rawurlencode($objectPath);
 
     $ch = curl_init($url);
@@ -165,7 +174,7 @@ function fb_storage_delete($objectPath) {
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if ($httpCode !== 200 && $httpCode !== 404) {
+    if ($httpCode !== 200 && $httpCode !== 204 && $httpCode !== 404) {
         error_log('fb_storage_delete failed (' . $httpCode . '): ' . $response);
         return false;
     }
@@ -173,10 +182,10 @@ function fb_storage_delete($objectPath) {
 }
 
 // Lists objects directly under $prefix (e.g. 'uploads/'). Returns raw
-// Firebase Storage item metadata (name, size, updated, ...).
+// Cloud Storage item metadata (name, size, updated, ...).
 function fb_storage_list($prefix) {
     $token = fb_get_access_token();
-    $url = 'https://firebasestorage.googleapis.com/v0/b/' . fb_storage_bucket()
+    $url = 'https://storage.googleapis.com/storage/v1/b/' . rawurlencode(fb_storage_bucket())
         . '/o?prefix=' . rawurlencode($prefix);
 
     $ch = curl_init($url);

@@ -96,10 +96,10 @@ export const defaults = {
     title: ['Why Fintechs', 'Choose Panasa'],
     summary: 'What sets us apart in the fintech development landscape',
     cards: [
-      { heading: 'Fintech Regulatory Knowledge', body: 'We understand the regulatory environment fintechs operate in. Our frameworks are built around EU AI Act, ISO 42001, NIST AI RMF, and DORA.' },
-      { heading: 'Across the Full Governance Stack', body: 'We cover all seven governance domains, from risk classification to shadow AI detection. One engagement, end-to-end coverage.' },
-      { heading: 'One Team Throughout', body: 'The same team runs your assessment, builds your framework, and supports ongoing reviews. No handoffs between consultants.' },
-      { heading: 'Compliance Built In', body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Audit readiness is part of how we work, not a final step.' },
+      { heading: 'Fintech Regulatory Knowledge', body: 'We understand the regulatory environment fintechs operate in. Our frameworks are built around EU AI Act, ISO 42001, NIST AI RMF, and DORA.', image: 'assets/why-card-2.svg', imageAlt: 'Payment expertise visual' },
+      { heading: 'Across the Full Governance Stack', body: 'We cover all seven governance domains, from risk classification to shadow AI detection. One engagement, end-to-end coverage.', image: 'assets/why-card-1.webp', imageAlt: 'Night city visual representing scale' },
+      { heading: 'One Team Throughout', body: 'The same team runs your assessment, builds your framework, and supports ongoing reviews. No handoffs between consultants.', image: 'assets/why-card-4.webp', imageAlt: 'Panasa team collaborating' },
+      { heading: 'Compliance Built In', body: 'ISO 27001 certified, PCI-DSS aligned, GDPR compliant. Audit readiness is part of how we work, not a final step.', image: 'assets/why-card-3.svg', imageAlt: 'Compliance-first approach visual' },
     ],
   },
   fit: {
@@ -142,7 +142,7 @@ export const sections = [
   { key: 'domains', label: 'What We Cover', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Governance domain cards', type: 'pill-cards' }] },
   { key: 'deliverables', label: 'What We Build', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'items', label: 'Deliverables list', type: 'heading-body-cards' }, { key: 'cadenceKicker', label: 'Delivery cadence kicker', type: 'text' }, { key: 'cadenceCards', label: 'Delivery cadence cards', type: 'heading-body-cards' }] },
   { key: 'howWeBuild', label: 'How We Build', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Roadmap phase cards', type: 'pill-cards' }] },
-  { key: 'why', label: 'Why Panasa', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Reason cards', type: 'heading-body-cards' }] },
+  { key: 'why', label: 'Why Panasa', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'cards', label: 'Reason cards', type: 'heading-body-image-cards' }] },
   { key: 'fit', label: 'Who This Is For', fields: [{ key: 'kicker', label: 'Kicker', type: 'text' }, { key: 'title', label: 'Title (line 1 | line 2)', type: 'title' }, { key: 'summary', label: 'Summary', type: 'textarea' }, { key: 'bullets', label: 'Audience bullets', type: 'string-list' }, { key: 'engageKicker', label: 'Engage kicker', type: 'text' }, { key: 'engageCards', label: 'Engagement models', type: 'heading-body-cards' }] },
   { key: 'testimonial', label: 'Testimonial', fields: [{ key: 'quote', label: 'Quote', type: 'textarea' }, { key: 'name', label: 'Name', type: 'text' }, { key: 'role', label: 'Role / company', type: 'text' }, { key: 'logo', label: 'Logo image', type: 'image' }, { key: 'logoAlt', label: 'Logo alt text', type: 'text' }] },
   { key: 'faq', label: 'FAQ', fields: [{ key: 'title', label: 'Title', type: 'text' }, { key: 'titleEmphasis', label: 'Title (emphasised word)', type: 'text' }, { key: 'subtitle', label: 'Subtitle', type: 'textarea' }, { key: 'items', label: 'FAQ items', type: 'faq-items', help: 'The page only has 5 FAQ slots — only the first 5 items render.' }] },

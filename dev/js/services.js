@@ -1003,6 +1003,11 @@ const applyAIAcceleratedPageCopy = () => {
       if (!card) return;
       setText(card.querySelector('h3'), item.heading);
       setText(card.querySelector('p'), item.body);
+      const cardImage = card.querySelector('.card-image');
+      if (cardImage && item.image) {
+        cardImage.src = item.image;
+        if (item.imageAlt) cardImage.alt = item.imageAlt;
+      }
     });
   }
 
@@ -1283,6 +1288,11 @@ const applyIntelligentOperationsTextOverrides = () => {
       const body = card.querySelector('p');
       if (title) title.textContent = item.heading;
       if (body) body.textContent = item.body;
+      const cardImage = card.querySelector('.card-image');
+      if (cardImage && item.image) {
+        cardImage.src = item.image;
+        if (item.imageAlt) cardImage.alt = item.imageAlt;
+      }
     });
   }
 
@@ -1397,6 +1407,11 @@ const applyLegacyModernisationTextOverrides = () => {
       const body = card.querySelector('p');
       if (title) title.textContent = item.heading;
       if (body) body.textContent = item.body;
+      const cardImage = card.querySelector('.card-image');
+      if (cardImage && item.image) {
+        cardImage.src = item.image;
+        if (item.imageAlt) cardImage.alt = item.imageAlt;
+      }
     });
   }
 
@@ -1496,6 +1511,11 @@ const applyAIGovernancePageCopy = () => {
       if (!card) return;
       setText(card.querySelector('h3'), item.heading);
       setText(card.querySelector('p'), item.body);
+      const cardImage = card.querySelector('.card-image');
+      if (cardImage && item.image) {
+        cardImage.src = item.image;
+        if (item.imageAlt) cardImage.alt = item.imageAlt;
+      }
     });
   }
 

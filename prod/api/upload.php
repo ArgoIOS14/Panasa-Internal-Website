@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/_auth.php';
 $auth = requireActiveUser();
 $idToken = $auth['idToken'];
-$projectId = 'panasa-cms';
 
 // ── Rate limiting (10 uploads per minute per IP) ──
 

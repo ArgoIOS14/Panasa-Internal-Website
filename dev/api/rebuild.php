@@ -95,7 +95,7 @@ require_once __DIR__ . '/rebuild/StructuredDataApplier.php';
  * should not fail just because site SEO isn't configured yet).
  */
 function fetchSiteSEO(string $idToken): array {
-    $url = 'https://panasa-cms-default-rtdb.europe-west1.firebasedatabase.app/pages/siteSEO.json'
+    $url = 'https://panasa-cms-ad3f9-default-rtdb.europe-west1.firebasedatabase.app/pages/siteSEO.json'
          . '?auth=' . urlencode($idToken);
     $ch = curl_init($url);
     curl_setopt_array($ch, [

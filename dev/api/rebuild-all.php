@@ -69,7 +69,7 @@ $prodDir = realpath(__DIR__ . '/../../prod');
 
 /** Fetch a Firebase RTDB node using the caller's ID token. Returns [] on failure. */
 function fbGet(string $path, string $idToken): array {
-    $url = 'https://panasa-cms-default-rtdb.europe-west1.firebasedatabase.app/' . ltrim($path, '/') . '.json'
+    $url = 'https://panasa-cms-ad3f9-default-rtdb.europe-west1.firebasedatabase.app/' . ltrim($path, '/') . '.json'
          . '?auth=' . urlencode($idToken);
     $ch = curl_init($url);
     curl_setopt_array($ch, [

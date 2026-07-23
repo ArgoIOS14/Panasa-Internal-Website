@@ -4,13 +4,13 @@ import { getDatabase } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-
 import { getAuth } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyD4yz8pUs9nnozh61VOWJ9JVP8E1b489eY',
-  authDomain: 'panasa-cms.firebaseapp.com',
-  databaseURL: 'https://panasa-cms-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'panasa-cms',
-  storageBucket: 'panasa-cms.firebasestorage.app',
-  messagingSenderId: '949564552221',
-  appId: '1:949564552221:web:2415535f8f8c367a6ac2f4',
+  apiKey: 'AIzaSyAfbiJQSnvtr066r2aLIF7MXbqRpHVIu-g',
+  authDomain: 'panasa-cms-ad3f9.firebaseapp.com',
+  databaseURL: 'https://panasa-cms-ad3f9-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'panasa-cms-ad3f9',
+  storageBucket: 'panasa-cms-ad3f9.firebasestorage.app',
+  messagingSenderId: '802994559718',
+  appId: '1:802994559718:web:16bef317ccd67ffee3b927',
 };
 
 const app = initializeApp(firebaseConfig);

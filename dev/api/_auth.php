@@ -14,8 +14,8 @@
  * and is exactly as trustworthy as the security rules themselves.
  */
 
-const FB_AUTH_API_KEY = 'AIzaSyD4yz8pUs9nnozh61VOWJ9JVP8E1b489eY';
-const FB_AUTH_DB_URL  = 'https://panasa-cms-default-rtdb.europe-west1.firebasedatabase.app';
+const FB_AUTH_API_KEY = 'AIzaSyAfbiJQSnvtr066r2aLIF7MXbqRpHVIu-g';
+const FB_AUTH_DB_URL  = 'https://panasa-cms-ad3f9-default-rtdb.europe-west1.firebasedatabase.app';
 
 /**
  * Verify the Authorization: Bearer <idToken> header against Firebase.

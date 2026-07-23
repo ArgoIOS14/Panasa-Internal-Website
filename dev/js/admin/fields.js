@@ -839,6 +839,7 @@ export function renderField(sectionKey, field, value, data, onRerender) {
     case 'stages': renderStages(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'columns': renderColumns(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'heading-body-cards': renderHBCards(group, sectionKey, field.key, toArr(value), ctx); break;
+    case 'heading-body-image-cards': renderHBImageCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'pill-cards': renderPillCards(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'string-list': renderStringList(group, sectionKey, field.key, toArr(value), ctx); break;
     case 'link-list': renderLinkList(group, sectionKey, field.key, toArr(value), ctx); break;
@@ -1059,6 +1060,26 @@ function renderHBCards(group, sectionKey, arrayKey, items, ctx) {
   });
   addButton(group, container, '+ Add card', () => {
     ctx.data[sectionKey][arrayKey].push({ heading: '', body: '' });
+    ctx.onRerender();
+  });
+  attachRemove(container, ctx, sectionKey, arrayKey);
+}
+
+/* Same as renderHBCards, plus an image-upload widget per card. Used only for
+   fields where the live page actually displays a per-card image (e.g. the
+   "Why Panasa" reason cards) — kept separate from heading-body-cards so
+   unrelated fields (delivery cards, cadence cards, etc.) don't gain an unused
+   image field. */
+function renderHBImageCards(group, sectionKey, arrayKey, items, ctx) {
+  const container = el('div', 'repeatable-container');
+  items.forEach((c, i) => {
+    const card = el('div', 'nested-card');
+    card.innerHTML = `<div class="card-row"><input type="text" class="hb-heading" value="${esc(c.heading || '')}" placeholder="Heading"><button class="bullet-remove" data-idx="${i}">&times;</button></div><textarea class="hb-body" placeholder="Body">${esc(c.body || '')}</textarea><input type="text" class="hb-imageAlt" value="${esc(c.imageAlt || '')}" placeholder="Image alt text">`;
+    card.appendChild(imageInput(c.image || '', 'hb-image'));
+    container.appendChild(card);
+  });
+  addButton(group, container, '+ Add card', () => {
+    ctx.data[sectionKey][arrayKey].push({ heading: '', body: '', image: '', imageAlt: '' });
     ctx.onRerender();
   });
   attachRemove(container, ctx, sectionKey, arrayKey);
@@ -3439,6 +3460,7 @@ export function readAllForms(editorSections, sections, data) {
         case 'stages': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ heading: c.querySelector('.rep-heading')?.value || '', description: c.querySelector('.rep-description')?.value || '' })); break; }
         case 'columns': { ref[field.key] = Array.from(group.querySelectorAll('.section-card')).map(card => ({ heading: card.querySelector('.col-heading')?.value || '', bullets: Array.from(card.querySelectorAll('.bullet-row')).map(row => ({ icon: row.querySelector('.icon-input')?.value || null, text: row.querySelector('.bullet-text')?.value || '' })) })); break; }
         case 'heading-body-cards': case 'pill-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => { const obj = { heading: c.querySelector('.hb-heading')?.value || '', body: c.querySelector('.hb-body')?.value || '' }; const pill = c.querySelector('.hb-pill'); if (pill) obj.pill = pill.value; return obj; }); break; }
+        case 'heading-body-image-cards': { ref[field.key] = Array.from(group.querySelectorAll('.nested-card')).map(c => ({ heading: c.querySelector('.hb-heading')?.value || '', body: c.querySelector('.hb-body')?.value || '', image: c.querySelector('.hb-image')?.value || '', imageAlt: c.querySelector('.hb-imageAlt')?.value || '' })); break; }
         case 'string-list': { ref[field.key] = Array.from(group.querySelectorAll('.card-row')).map(r => r.querySelector('.str-item')?.value || ''); break; }
         case 'link-list': { ref[field.key] = Array.from(group.querySelectorAll('.link-list-row')).map(r => ({ label: r.querySelector('.ll-label')?.value || '', href: r.querySelector('.ll-href')?.value || '' })); break; }
         case 'image-list': { ref[field.key] = Array.from(group.querySelectorAll('.image-list-card')).map(c => ({ src: c.querySelector('.il-src')?.value || '', alt: c.querySelector('.il-alt')?.value || '' })); break; }
