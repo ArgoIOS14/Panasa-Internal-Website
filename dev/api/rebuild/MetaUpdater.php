@@ -122,21 +122,38 @@ class MetaUpdater {
     }
 
     /**
+     * Build both supported attribute-order patterns for a given meta tag so
+     * existence-checking and replacement always agree on what "found" means.
+     */
+    private static function metaTagPatterns(string $attrType, string $attrValue): array {
+        $escapedAttrValue = preg_quote($attrValue, '#');
+        $escapedAttrType  = preg_quote($attrType,  '#');
+        return [
+            // Order 1: name/property first, then content
+            '#(<meta\s+' . $escapedAttrType . '="' . $escapedAttrValue . '"\s+content=")([^"]*)(")#i',
+            // Order 2: content first, then name/property
+            '#(<meta\s+content=")([^"]*)("\s+' . $escapedAttrType . '="' . $escapedAttrValue . '")#i',
+        ];
+    }
+
+    /** True if a <meta> tag with this name/property already exists, regardless of its current value. */
+    private static function metaExists(string $html, string $attrType, string $attrValue): bool {
+        foreach (self::metaTagPatterns($attrType, $attrValue) as $pattern) {
+            if (preg_match($pattern, $html)) return true;
+        }
+        return false;
+    }
+
+    /**
      * Replace the content="…" attribute in a <meta> tag. Returns $html unchanged
      * if the tag does not exist (use insertOrReplaceMeta to also insert).
      */
     private static function replaceMetaContent(string $html, string $attrType, string $attrValue, string $newContent): string {
-        $escapedAttrValue = preg_quote($attrValue, '#');
-        $escapedAttrType  = preg_quote($attrType,  '#');
+        [$pattern1, $pattern2] = self::metaTagPatterns($attrType, $attrValue);
 
-        // Order 1: name/property first, then content
-        $pattern1 = '#(<meta\s+' . $escapedAttrType . '="' . $escapedAttrValue . '"\s+content=")([^"]*)(")#i';
         if (preg_match($pattern1, $html)) {
             return preg_replace($pattern1, '${1}' . self::escReplace($newContent) . '${3}', $html, 1);
         }
-
-        // Order 2: content first, then name/property
-        $pattern2 = '#(<meta\s+content=")([^"]*)("\s+' . $escapedAttrType . '="' . $escapedAttrValue . '")#i';
         if (preg_match($pattern2, $html)) {
             return preg_replace($pattern2, '${1}' . self::escReplace($newContent) . '${3}', $html, 1);
         }
@@ -148,10 +165,17 @@ class MetaUpdater {
      * Replace the content="…" attribute, OR insert a new <meta> tag right after
      * the existing <meta name="description"> tag if the target doesn't exist.
      * Used for tags that may not be present in the legacy static HTML.
+     *
+     * Existence is checked directly via metaExists() rather than by comparing
+     * replaceMetaContent()'s output to the input — comparing strings conflates
+     * "tag not found" with "tag found but the value happens to be unchanged",
+     * which caused a duplicate tag to be inserted on every rebuild whenever a
+     * field (e.g. robots, twitter:card) stayed the same between publishes.
      */
     private static function insertOrReplaceMeta(string $html, string $attrType, string $attrValue, string $newContent): string {
-        $replaced = self::replaceMetaContent($html, $attrType, $attrValue, $newContent);
-        if ($replaced !== $html) return $replaced;
+        if (self::metaExists($html, $attrType, $attrValue)) {
+            return self::replaceMetaContent($html, $attrType, $attrValue, $newContent);
+        }
 
         // Not present — insert after <meta name="description" content="…" />
         $newTag = sprintf(
@@ -264,9 +288,14 @@ class MetaUpdater {
         $newJson = json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $newJson = preg_replace('/^/m', '    ', $newJson);
 
+        // rtrim the captured opening-tag-plus-whitespace before re-adding a
+        // single normalized newline+indent — without this, the \s* in
+        // $pattern re-captures whatever blank lines a PREVIOUS rebuild left
+        // behind and this concatenation adds yet another on top, so the gap
+        // grows by one line on every republish.
         return preg_replace(
             $pattern,
-            $match[1] . "\n" . $newJson . "\n    " . $match[3],
+            rtrim($match[1]) . "\n    " . $newJson . "\n    " . $match[3],
             $html, 1
         );
     }
