@@ -30,7 +30,7 @@
     },
 
     "pages": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('active').val() === true",
+      ".read": true,
       "$pageKey": {
         ".write": "auth != null && root.child('users').child(auth.uid).child('active').val() === true && (root.child('users').child(auth.uid).child('role').val() === 'superadmin' || root.child('users').child(auth.uid).child('role').val() === 'approver')"
       }

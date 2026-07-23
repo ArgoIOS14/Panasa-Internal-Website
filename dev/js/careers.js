@@ -138,6 +138,15 @@ function applyCareersContent(fb) {
             </article>`;
     }).join('\n            ');
 
+    // The cards just replaced above carry data-animate, but the scroll-reveal
+    // IntersectionObserver (animations.js) already ran its one-time pass over
+    // the original static cards before this async Firebase update landed —
+    // it never sees these new nodes, so without this they'd sit at the
+    // pre-reveal opacity:0 state forever. Mark them revealed immediately:
+    // this is a live data refresh of content that was already visible, not
+    // new content scrolling into view.
+    roleList.querySelectorAll('[data-animate]').forEach((el) => el.classList.add('in-view'));
+
     // Rebuild the Department/Location filter options from the actual job
     // data so the dropdowns always match what's really filterable. The
     // first ("select department" / "select location") placeholder option
