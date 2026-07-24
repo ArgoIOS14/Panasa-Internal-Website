@@ -6,7 +6,11 @@
 #
 # This file ports the relevant behaviour from prod/.htaccess (which Netlify
 # does NOT read — Apache-only). PHP endpoints under /api/ are out of scope
-# on QA (Netlify has no PHP runtime); they 404 with a friendly explanation.
+# on QA (Netlify has no PHP runtime); they 404 with a friendly explanation —
+# EXCEPT /api/upload.php, which is ported to a real Netlify Function
+# (netlify/functions/upload.js) so image uploads work in QA too. See that
+# file's header comment for what it does and doesn't replicate from
+# dev/api/upload.php.
 # =============================================================================
 
 [build]
@@ -17,6 +21,18 @@
   # deployed CDN entirely as defence in depth.
   publish = ".qa-build"
   command = "rm -rf .qa-build && mkdir -p .qa-build && rsync -a --exclude='api/' --exclude='.DS_Store' dev/ .qa-build/"
+
+[functions]
+  # Source lives at the repo root (outside dev/), independent of the
+  # publish-directory rsync above — Netlify builds/bundles functions
+  # separately from the static site.
+  directory = "netlify/functions"
+  # firebase-admin pulls in jwks-rsa -> jose, and jose ships ESM-only —
+  # esbuild's default bundling tries to require() it into one CJS file and
+  # fails at runtime ("ERR_REQUIRE_ESM"). Marking it external skips bundling
+  # and lets Node's own module loader resolve it at runtime instead, which
+  # handles the ESM/CJS boundary correctly.
+  external_node_modules = ["firebase-admin"]
 
 # -----------------------------------------------------------------------------
 # Headers
@@ -68,6 +84,18 @@
 # === 1. PHP endpoints have no runtime on QA -> friendly 404 ===
 # Must come before any clean-URL rule so /api/zoho-proxy.php etc never get
 # rewritten to .html.
+
+# 1a. Upload is ported to a real Netlify Function — rewrite (status 200,
+# not a redirect) so the client-visible URL stays /api/upload.php and
+# fields.js needs no changes. Must come before the catch-all below since
+# first match wins.
+[[redirects]]
+  from = "/api/upload.php"
+  to = "/.netlify/functions/upload"
+  status = 200
+  force = true
+
+# 1b. Everything else under /api/ still has no PHP runtime here.
 [[redirects]]
   from = "/api/*"
   to = "/qa-api-disabled.html"

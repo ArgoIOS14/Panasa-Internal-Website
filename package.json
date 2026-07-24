@@ -18,5 +18,10 @@
     "@playwright/test": "^1.49.0",
     "exceljs": "^4.4.0",
     "netlify-cli": "^26.0.2"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.10.1",
+    "firebase-admin": "^14.2.0",
+    "parse-multipart-data": "^1.5.0"
   }
 }
