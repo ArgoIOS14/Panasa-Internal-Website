@@ -271,11 +271,17 @@ class HtmlRebuilder {
         $cards = $data['testimonials']['cards'] ?? [];
         if (empty($cards)) return $this->html;
 
-        // Pre-render for SEO: show all cards in pairs (desktop layout)
+        // Pre-render for SEO/no-flash: groups of 2 (the desktop default —
+        // matches sharedTestimonials.js's chunkCards(cards, 2) for
+        // non-mobile viewports). Client JS immediately re-chunks per the
+        // real viewport on load, so this only needs to be A reasonable
+        // default, not every responsive variant.
         $chunks = array_chunk($cards, 2);
         $trackHtml = '';
         foreach ($chunks as $group) {
-            $trackHtml .= "\n                <div class=\"split-testimonial-slide\">";
+            $isSingle = count($group) === 1 ? ' is-single' : '';
+            $trackHtml .= "\n                <article class=\"split-testimonial-card\">";
+            $trackHtml .= "\n                  <div class=\"split-testimonial-columns{$isSingle}\">";
             foreach ($group as $card) {
                 $trackHtml .= $this->renderTemplate('testimonial-card', [
                     'text'    => $card['text'] ?? '',
@@ -285,7 +291,8 @@ class HtmlRebuilder {
                     'logoAlt' => $card['logoAlt'] ?? $card['name'] ?? '',
                 ]);
             }
-            $trackHtml .= "\n                </div>";
+            $trackHtml .= "\n                  </div>";
+            $trackHtml .= "\n                </article>";
         }
 
         return $this->replaceContainerInnerHtml('data-testimonials-track', $trackHtml);
@@ -454,11 +461,23 @@ class HtmlRebuilder {
      * to the corresponding closing tag.
      */
     private function replaceContainerInnerHtml(string $dataAttr, string $newInner): string {
+        return self::replaceInHtml($this->html, $dataAttr, $newInner);
+    }
+
+    /**
+     * Locate an element by a data-attribute/class marker and replace its
+     * innerHTML, handling nested same-name tags via depth tracking. Public
+     * + static (takes $html explicitly) so callers outside this class —
+     * e.g. rebuild.php's per-page bake functions for pages that don't go
+     * through HtmlRebuilder at all — can reuse the exact same tested
+     * algorithm instead of re-implementing it.
+     */
+    public static function replaceInHtml(string $html, string $dataAttr, string $newInner): string {
         $escaped = preg_quote($dataAttr, '#');
         // Find the opening tag with this data attribute
         $openPattern = '#<(\w+)\b[^>]*\b' . $escaped . '[^>]*>#s';
-        if (!preg_match($openPattern, $this->html, $openMatch, PREG_OFFSET_CAPTURE)) {
-            return $this->html;
+        if (!preg_match($openPattern, $html, $openMatch, PREG_OFFSET_CAPTURE)) {
+            return $html;
         }
 
         $tagName = $openMatch[1][0];
@@ -468,21 +487,21 @@ class HtmlRebuilder {
         // Walk forward to find the matching closing tag (handle nested same-name tags)
         $depth = 1;
         $pos = $openTagEnd;
-        $len = strlen($this->html);
+        $len = strlen($html);
         $openTag = '<' . $tagName;
         $closeTag = '</' . $tagName . '>';
         $closeTagLen = strlen($closeTag);
 
         while ($depth > 0 && $pos < $len) {
-            $nextOpen = stripos($this->html, $openTag, $pos);
-            $nextClose = stripos($this->html, $closeTag, $pos);
+            $nextOpen = stripos($html, $openTag, $pos);
+            $nextClose = stripos($html, $closeTag, $pos);
 
             if ($nextClose === false) break; // Malformed HTML
 
             // Check if an opening tag comes before the next closing tag
             if ($nextOpen !== false && $nextOpen < $nextClose) {
                 // Verify it's actually an opening tag (not a substring match like <divider>)
-                $charAfter = $this->html[$nextOpen + strlen($openTag)] ?? '';
+                $charAfter = $html[$nextOpen + strlen($openTag)] ?? '';
                 if ($charAfter === ' ' || $charAfter === '>' || $charAfter === '/' || $charAfter === "\n" || $charAfter === "\t") {
                     $depth++;
                 }
@@ -493,10 +512,9 @@ class HtmlRebuilder {
                     // Found the matching close tag
                     $innerStart = $openTagEnd;
                     $innerEnd = $nextClose;
-                    $fullEnd = $nextClose + $closeTagLen;
 
-                    $before = substr($this->html, 0, $innerStart);
-                    $after = substr($this->html, $innerEnd);
+                    $before = substr($html, 0, $innerStart);
+                    $after = substr($html, $innerEnd);
 
                     return $before . $newInner . $after;
                 }
@@ -504,7 +522,7 @@ class HtmlRebuilder {
             }
         }
 
-        return $this->html;
+        return $html;
     }
 
     /**
@@ -525,9 +543,18 @@ class HtmlRebuilder {
      * Render a PHP template file with the given variables.
      */
     private function renderTemplate(string $_templateName, array $vars): string {
+        return self::renderTemplateFile($_templateName, $vars);
+    }
+
+    /**
+     * Static twin of renderTemplate() for callers outside this class (e.g.
+     * rebuild.php's per-page bake functions) that need to reuse the same
+     * template files without going through a full HtmlRebuilder instance.
+     */
+    public static function renderTemplateFile(string $_templateName, array $vars): string {
         extract($vars);
         ob_start();
-        include $this->templateDir . $_templateName . '.php';
+        include __DIR__ . '/templates/' . $_templateName . '.php';
         return ob_get_clean();
     }
 

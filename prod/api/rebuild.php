@@ -186,7 +186,10 @@ try {
             $rebuilder = new HtmlRebuilder($html);
             $html = $rebuilder->rebuildHomepage($data);
         }
-        // About page body rebuild can be added here when needed
+        // About is full-tier but has no rebuildHomepage-style full body
+        // rebuild — only its image fields are baked (see below), same as
+        // the meta-only pages just below. Full body copy still isn't baked
+        // for About.
     }
 
     // Careers is meta-only tier (no full body rebuild), but its hero team
@@ -195,6 +198,25 @@ try {
     // Firebase fetch replaces it a moment later.
     if ($pageKey === 'careers') {
         $html = updateCareersTeamPhoto($html, $data);
+    }
+
+    // Same flash problem on the four service pages' "why choose Panasa"
+    // cards, hero CTA icons, and testimonial logo. These are meta-only
+    // tier too, so Phase 2 above never touches their body content — but
+    // the images (often replaced via the CMS image uploader) still need
+    // baking in place.
+    $whyCardPageKeys = ['aiAcceleratedEngineering', 'aiGovernance', 'legacyModernisation', 'intelligentOperations'];
+    if (in_array($pageKey, $whyCardPageKeys, true)) {
+        $html = updateWhyCardsInPlace($html, $data);
+        $html = updateServicePageImages($html, $data);
+    }
+
+    if ($pageKey === 'about') {
+        $html = updateAboutImages($html, $data);
+    }
+
+    if ($pageKey === 'contact') {
+        $html = updateContactOfficePhotos($html, $data);
     }
 
     // ── Phase 2.5: Validate rebuilt HTML before writing ──
@@ -292,6 +314,231 @@ function updateCareersTeamPhoto(string $html, array $data): string {
     );
 
     return $updated ?? $html;
+}
+
+/**
+ * Patch each existing why-card <article> in place (image src/alt, heading,
+ * body) using data.why.cards, matched by position. Deliberately does NOT
+ * regenerate the cards from the why-card.php template: the admin schema for
+ * these four service pages has no 'style' field, so a full regenerate would
+ * reset every card's light/dark/photo class to the template default and
+ * silently lose the existing visual variety. Leaves any static card beyond
+ * the data array untouched, and ignores any data card beyond the static
+ * markup's count.
+ */
+function updateWhyCardsInPlace(string $html, array $data): string {
+    $cards = $data['why']['cards'] ?? [];
+    if (empty($cards) || !is_array($cards)) return $html;
+
+    if (!preg_match_all('/<article class="feature-card[^"]*">.*?<\/article>/s', $html, $matches, PREG_OFFSET_CAPTURE)) {
+        return $html;
+    }
+
+    $shift = 0;
+    foreach ($matches[0] as $i => [$articleHtml, $offset]) {
+        if (!isset($cards[$i]) || !is_array($cards[$i])) break;
+
+        $card    = $cards[$i];
+        $heading = trim((string)($card['heading'] ?? ''));
+        $body    = trim((string)($card['body'] ?? ''));
+        $image   = trim((string)($card['image'] ?? ''));
+        $imageAlt = trim((string)($card['imageAlt'] ?? $heading));
+
+        $esc = fn($s) => str_replace('$', '\$', htmlspecialchars($s, ENT_QUOTES));
+        $updated = $articleHtml;
+
+        if ($image !== '') {
+            $updated = preg_replace('/(<img\s+class="card-image"\s+src=")[^"]*(")/', '${1}' . $esc($image) . '${2}', $updated, 1);
+        }
+        if ($imageAlt !== '') {
+            $updated = preg_replace('/(<img\s+class="card-image"[^>]*\salt=")[^"]*(")/', '${1}' . $esc($imageAlt) . '${2}', $updated, 1);
+        }
+        if ($heading !== '') {
+            $updated = preg_replace('/(<h3>)[^<]*(<\/h3>)/', '${1}' . $esc($heading) . '${2}', $updated, 1);
+        }
+        if ($body !== '') {
+            $updated = preg_replace('/(<p>)[^<]*(<\/p>)/s', '${1}' . $esc($body) . '${2}', $updated, 1);
+        }
+
+        if ($updated !== null && $updated !== $articleHtml) {
+            $html = substr_replace($html, $updated, $offset + $shift, strlen($articleHtml));
+            $shift += strlen($updated) - strlen($articleHtml);
+        }
+    }
+
+    return $html;
+}
+
+/**
+ * Replace only the $index-th (0-based) match of $pattern, leaving every
+ * other occurrence untouched. $build receives the full preg match array
+ * for that one occurrence and returns its replacement string.
+ */
+function replaceNth(string $html, string $pattern, int $index, callable $build): string {
+    $count = -1;
+    $result = preg_replace_callback($pattern, function ($m) use (&$count, $index, $build) {
+        $count++;
+        return $count === $index ? $build($m) : $m[0];
+    }, $html);
+    return $result ?? $html;
+}
+
+/**
+ * Bake About page image fields in place: hero CTA icons, stat card icons,
+ * global-delivery map images (desktop/tablet/mobile), the partner-logo
+ * marquee, leadership photos, and the testimonials track (also client-
+ * rendered into an empty container). Both the marquee and testimonials
+ * markup are regenerated here to match what dev/js/Home scenes/sections/
+ * logoMarquee.js and sharedTestimonials.js actually produce client-side,
+ * using the same corrected structure as HtmlRebuilder::updateTestimonials().
+ */
+function updateAboutImages(string $html, array $data): string {
+    $esc = fn($s) => str_replace('$', '\$', htmlspecialchars($s, ENT_QUOTES));
+
+    // Hero CTA icons — positional: primary, then secondary.
+    $icons = [$data['hero']['primaryCta']['icon'] ?? '', $data['hero']['secondaryCta']['icon'] ?? ''];
+    foreach ($icons as $i => $icon) {
+        $icon = trim((string)$icon);
+        if ($icon === '') continue;
+        $iconEsc = $esc($icon);
+        $html = replaceNth($html, '/<img\s+class="about-hero-action-icon"\s+src="[^"]*"[^>]*>/', $i, function ($m) use ($iconEsc) {
+            return preg_replace('/src="[^"]*"/', 'src="' . $iconEsc . '"', $m[0], 1);
+        });
+    }
+
+    // Stat card icons — positional, matches data.stats[] order to the
+    // four .stat-card articles.
+    $stats = $data['stats'] ?? [];
+    if (is_array($stats)) {
+        foreach ($stats as $i => $stat) {
+            $icon = trim((string)($stat['icon'] ?? ''));
+            if ($icon === '') continue;
+            $iconEsc = $esc($icon);
+            $html = replaceNth($html, '/<div class="stat-icon"[^>]*>\s*<img\s+src="[^"]*"[^>]*\/>\s*<\/div>/s', $i, function ($m) use ($iconEsc) {
+                return preg_replace('/src="[^"]*"/', 'src="' . $iconEsc . '"', $m[0], 1);
+            });
+        }
+    }
+
+    // Global delivery map — matched by breakpoint, not position.
+    $delivery = $data['delivery'] ?? [];
+    $mapMobile  = trim((string)($delivery['mapImageMobile'] ?? ''));
+    $mapTablet  = trim((string)($delivery['mapImageTablet'] ?? ''));
+    $mapDesktop = trim((string)($delivery['mapImageDesktop'] ?? ''));
+    if ($mapMobile !== '') {
+        $html = preg_replace('/(<source\s+media="\(max-width:\s*600px\)"\s+srcset=")[^"]*(")/', '${1}' . $esc($mapMobile) . '${2}', $html, 1) ?? $html;
+    }
+    if ($mapTablet !== '') {
+        $html = preg_replace('/(<source\s+media="\(max-width:\s*900px\)"\s+srcset=")[^"]*(")/', '${1}' . $esc($mapTablet) . '${2}', $html, 1) ?? $html;
+    }
+    if ($mapDesktop !== '') {
+        $html = preg_replace('/(<picture>.*?<img\s+src=")[^"]*(")/s', '${1}' . $esc($mapDesktop) . '${2}', $html, 1) ?? $html;
+    }
+
+    // Partner-logo marquee — the static file ships an EMPTY container
+    // (client JS builds the whole track), so this regenerates that same
+    // structure server-side rather than patching an existing one.
+    $partnerLogos = $data['partnerLogos'] ?? [];
+    if (!empty($partnerLogos) && is_array($partnerLogos)) {
+        $itemsHtml = '';
+        foreach (array_merge($partnerLogos, $partnerLogos) as $logo) {
+            $src = $esc(is_array($logo) ? (string)($logo['src'] ?? '') : (string)$logo);
+            $alt = $esc(is_array($logo) ? (string)($logo['alt'] ?? '') : '');
+            $itemsHtml .= '<div class="logo-marquee-item"><img src="' . $src . '" alt="' . $alt . '" loading="lazy" decoding="async" /></div>';
+        }
+        $html = HtmlRebuilder::replaceInHtml($html, 'data-partner-logos', '<div class="logo-marquee-track">' . $itemsHtml . '</div>');
+    }
+
+    // Leadership photos — positional, image + alt only (name/role/bio
+    // text isn't touched, matching the narrow image-only scope here).
+    $leadership = $data['leadership'] ?? [];
+    if (is_array($leadership)) {
+        foreach ($leadership as $i => $member) {
+            $image = trim((string)($member['image'] ?? ''));
+            if ($image === '') continue;
+            $imageEsc = $esc($image);
+            $altEsc = $esc(trim((string)($member['name'] ?? '')));
+            $html = replaceNth($html, '/<article class="leader-card"[^>]*>.*?<\/article>/s', $i, function ($m) use ($imageEsc, $altEsc) {
+                return preg_replace('/(<img\s+src=")[^"]*("\s+alt=")[^"]*(")/', '${1}' . $imageEsc . '${2}' . $altEsc . '${3}', $m[0], 1);
+            });
+        }
+    }
+
+    // Testimonials track — same empty-container situation as the partner
+    // marquee, and the same corrected group/column structure as
+    // HtmlRebuilder::updateTestimonials() (see that method's comment for
+    // why groups of 2, matching sharedTestimonials.js's desktop default).
+    $testimonialCards = $data['testimonials']['cards'] ?? [];
+    if (!empty($testimonialCards) && is_array($testimonialCards)) {
+        $trackHtml = '';
+        foreach (array_chunk($testimonialCards, 2) as $group) {
+            $isSingle = count($group) === 1 ? ' is-single' : '';
+            $trackHtml .= '<article class="split-testimonial-card"><div class="split-testimonial-columns' . $isSingle . '">';
+            foreach ($group as $card) {
+                $trackHtml .= HtmlRebuilder::renderTemplateFile('testimonial-card', [
+                    'text'    => $card['text'] ?? '',
+                    'name'    => $card['name'] ?? '',
+                    'role'    => $card['role'] ?? '',
+                    'logo'    => $card['logo'] ?? '',
+                    'logoAlt' => $card['logoAlt'] ?? $card['name'] ?? '',
+                ]);
+            }
+            $trackHtml .= '</div></article>';
+        }
+        $html = HtmlRebuilder::replaceInHtml($html, 'data-testimonial-track', $trackHtml);
+    }
+
+    return $html;
+}
+
+/**
+ * Bake the two remaining image fields on the four service pages that
+ * updateWhyCardsInPlace() doesn't cover: the two hero CTA icons, and the
+ * single testimonial logo.
+ */
+function updateServicePageImages(string $html, array $data): string {
+    $esc = fn($s) => str_replace('$', '\$', htmlspecialchars($s, ENT_QUOTES));
+
+    $icons = [$data['hero']['primaryCta']['icon'] ?? '', $data['hero']['secondaryCta']['icon'] ?? ''];
+    foreach ($icons as $i => $icon) {
+        $icon = trim((string)$icon);
+        if ($icon === '') continue;
+        $iconEsc = $esc($icon);
+        $html = replaceNth($html, '/<img\s+class="hero-action-icon"\s+src="[^"]*"[^>]*>/', $i, function ($m) use ($iconEsc) {
+            return preg_replace('/src="[^"]*"/', 'src="' . $iconEsc . '"', $m[0], 1);
+        });
+    }
+
+    $logo = trim((string)($data['testimonial']['logo'] ?? ''));
+    if ($logo !== '') {
+        $logoEsc = $esc($logo);
+        $altEsc  = $esc(trim((string)($data['testimonial']['logoAlt'] ?? '')));
+        $html = preg_replace_callback('/<article class="service-testimonial-card">.*?<\/article>/s', function ($m) use ($logoEsc, $altEsc) {
+            return preg_replace('/(<img\s+src=")[^"]*("\s+alt=")[^"]*(")/', '${1}' . $logoEsc . '${2}' . $altEsc . '${3}', $m[0], 1);
+        }, $html, 1);
+    }
+
+    return $html;
+}
+
+/**
+ * Bake Contact page office photos in place, positional to data.locations.offices.
+ */
+function updateContactOfficePhotos(string $html, array $data): string {
+    $offices = $data['locations']['offices'] ?? [];
+    if (!is_array($offices)) return $html;
+
+    $esc = fn($s) => str_replace('$', '\$', htmlspecialchars($s, ENT_QUOTES));
+    foreach ($offices as $i => $office) {
+        $photo = trim((string)($office['photo'] ?? ''));
+        if ($photo === '') continue;
+        $photoEsc = $esc($photo);
+        $html = replaceNth($html, '/<article class="office-card"[^>]*>.*?<\/article>/s', $i, function ($m) use ($photoEsc) {
+            return preg_replace('/(<img\s+src=")[^"]*(")/', '${1}' . $photoEsc . '${2}', $m[0], 1);
+        });
+    }
+
+    return $html;
 }
 
 /**
