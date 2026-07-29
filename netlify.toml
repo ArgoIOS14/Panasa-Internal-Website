@@ -55,6 +55,18 @@
     Cache-Control = "public, max-age=0, must-revalidate"
     Netlify-CDN-Cache-Control = "public, durable, s-maxage=86400"
 
+# /api/* responses (upload.php, the rebuild.php stub, etc.) must never be
+# edge-cached — they're POSTs driving admin actions, and a durably-cached
+# error response would keep being served across deploys until it happened
+# to expire (this is exactly how the rebuild.php stub briefly got stuck
+# serving a stale Netlify Forms error after being fixed — the general "/*"
+# durable-cache rule below was still applying to it).
+[[headers]]
+  for = "/api/*"
+    [headers.values]
+    Cache-Control = "no-store"
+    Netlify-CDN-Cache-Control = "no-store"
+
 # Static assets (images, CSS, JS): cache aggressively in both edge AND
 # browser. These rarely change; when they do, `?v=<version>` cache-bust
 # (production) or a fresh Netlify deploy (QA) handles invalidation.
@@ -95,11 +107,15 @@
   status = 200
   force = true
 
-# 1b. Everything else under /api/ still has no PHP runtime here.
+# 1b. Everything else under /api/ still has no PHP runtime here. Routed to
+# a Function (not a static-file redirect) — Netlify's built-in Forms
+# feature intercepts POST requests before a static redirect target is
+# served, returning its own generic "Bad request, missing form" instead of
+# our friendly message. See netlify/functions/api-disabled.js.
 [[redirects]]
   from = "/api/*"
-  to = "/qa-api-disabled.html"
-  status = 404
+  to = "/.netlify/functions/api-disabled"
+  status = 200
   force = true
 
 # === 2. WordPress-era trailing-slash redirects (301) ===
